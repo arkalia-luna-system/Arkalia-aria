@@ -68,7 +68,7 @@ class TestDashboardPages:
         from fastapi import FastAPI
 
         app = FastAPI()
-        dashboard = ARIA_MetricsDashboard(app)
+        _dashboard = ARIA_MetricsDashboard(app)
         return TestClient(app)
 
     def test_dashboard_main_page(self, client):

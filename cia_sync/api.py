@@ -6,7 +6,7 @@ Synchronisation bidirectionnelle optimisée avec Arkalia CIA
 from datetime import datetime
 from typing import Any
 
-import requests  # type: ignore[import-untyped]
+import requests
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 

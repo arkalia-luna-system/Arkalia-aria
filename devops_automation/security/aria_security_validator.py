@@ -14,9 +14,10 @@ Validateur de sécurité DevOps pour ARIA avec :
 import logging
 import re
 import subprocess
+from collections.abc import Sequence
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 logger = logging.getLogger(__name__)
 
@@ -278,7 +279,14 @@ class ARIA_SecurityValidator:
 
         try:
             logger.info(f"Exécution sécurisée: {command} (contexte: {context})")
-            result = subprocess.run(command, **safe_kwargs)
+            # Normaliser le type pour mypy
+            cmd_to_run: Sequence[str] | str = (
+                command if isinstance(command, str) else list(command)
+            )
+            result = subprocess.run(
+                cmd_to_run,
+                **cast(Any, safe_kwargs),
+            )
 
             # Log du résultat
             security_info["execution_result"] = {
@@ -314,12 +322,12 @@ class ARIA_SecurityValidator:
             Résultats de l'audit de sécurité
         """
         file_path = Path(file_path)
-        audit_results = {
+        audit_results: dict[str, Any] = {
             "file_path": str(file_path),
             "timestamp": datetime.now().isoformat(),
-            "issues": [],
+            "issues": [],  # list[dict[str, Any]]
             "risk_score": 0,
-            "recommendations": [],
+            "recommendations": [],  # list[str]
         }
 
         try:
@@ -391,7 +399,12 @@ class ARIA_SecurityValidator:
                     )
 
             # Calcul du score de risque
-            severity_scores = {"critical": 10, "high": 7, "medium": 4, "low": 1}
+            severity_scores: dict[str, int] = {
+                "critical": 10,
+                "high": 7,
+                "medium": 4,
+                "low": 1,
+            }
             audit_results["risk_score"] = sum(
                 severity_scores.get(issue["severity"], 0)
                 for issue in audit_results["issues"]

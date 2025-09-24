@@ -49,9 +49,7 @@ class ARIA_MetricsDashboard:
 
     def _setup_routes(self) -> None:
         """Configure les routes du dashboard."""
-        if self.app is None:
-            # Protection de type pour mypy: app requis pour l'attachement des routes
-            return
+        assert self.app is not None
 
         @self.app.get("/dashboard", response_class=HTMLResponse)
         async def dashboard_home(request: Request):

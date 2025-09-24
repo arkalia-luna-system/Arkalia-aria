@@ -4,7 +4,7 @@ Test d'intégration ARIA - Validation de l'architecture
 """
 
 
-import requests  # type: ignore[import-untyped]
+import requests
 
 
 def test_aria_endpoints():

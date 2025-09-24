@@ -75,14 +75,14 @@ class ARIA_DeploymentManager:
 
         logger.info(f"Déploiement d'ARIA en {environment}...")
 
-        deployment_info = {
+        deployment_info: dict[str, Any] = {
             "id": f"deploy_{environment}_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
             "timestamp": datetime.now().isoformat(),
             "environment": environment,
             "version": version or "latest",
             "status": "in_progress",
-            "steps": [],
-            "errors": [],
+            "steps": [],  # list[str]
+            "errors": [],  # list[str]
             "rollback_available": False,
         }
 
@@ -163,14 +163,14 @@ class ARIA_DeploymentManager:
         """
         logger.info(f"Rollback d'ARIA en {environment}...")
 
-        rollback_info = {
+        rollback_info: dict[str, Any] = {
             "id": f"rollback_{environment}_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
             "timestamp": datetime.now().isoformat(),
             "environment": environment,
             "target_deployment": deployment_id,
             "status": "in_progress",
-            "steps": [],
-            "errors": [],
+            "steps": [],  # list[str]
+            "errors": [],  # list[str]
         }
 
         try:
@@ -191,32 +191,44 @@ class ARIA_DeploymentManager:
             rollback_info["target_deployment"] = deployment_id
 
             # Étape 1: Sauvegarde de l'état actuel
-            rollback_info["steps"].append("Sauvegarde de l'état actuel...")
+            steps_list = rollback_info.get("steps")
+            if isinstance(steps_list, list):
+                steps_list.append("Sauvegarde de l'état actuel...")
             self._backup_current_state(environment)
 
             # Étape 2: Rollback
-            rollback_info["steps"].append(f"Rollback vers {deployment_id}...")
-            rollback_result = self._execute_rollback(environment, deployment_id)
+            steps_list = rollback_info.get("steps")
+            if isinstance(steps_list, list):
+                steps_list.append(f"Rollback vers {deployment_id}...")
+            rollback_result = self._execute_rollback(environment, str(deployment_id))
             if not rollback_result["success"]:
-                rollback_info["errors"].append("Échec du rollback")
+                errors_list = rollback_info.get("errors")
+                if isinstance(errors_list, list):
+                    errors_list.append("Échec du rollback")
                 rollback_info["status"] = "failed"
                 return rollback_info
 
             # Étape 3: Validation
-            rollback_info["steps"].append("Validation du rollback...")
+            steps_list = rollback_info.get("steps")
+            if isinstance(steps_list, list):
+                steps_list.append("Validation du rollback...")
             validation_result = self._validate_deployment(environment)
             if not validation_result["success"]:
-                rollback_info["errors"].append("Échec de la validation du rollback")
+                errors_list = rollback_info.get("errors")
+                if isinstance(errors_list, list):
+                    errors_list.append("Échec de la validation du rollback")
                 rollback_info["status"] = "failed"
                 return rollback_info
 
             # Succès
-            rollback_info["status"] = "success"
-            rollback_info["steps"].append("Rollback terminé avec succès")
+            steps_list = rollback_info.get("steps")
+            if isinstance(steps_list, list):
+                steps_list.append("Rollback terminé avec succès")
 
         except Exception as e:
-            rollback_info["status"] = "error"
-            rollback_info["errors"].append(f"Erreur inattendue: {str(e)}")
+            errors_list = rollback_info.get("errors")
+            if isinstance(errors_list, list):
+                errors_list.append(f"Erreur inattendue: {str(e)}")
             logger.error(f"Erreur lors du rollback: {e}")
 
         return rollback_info

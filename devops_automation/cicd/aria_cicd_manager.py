@@ -477,44 +477,60 @@ http {
         """
         logger.info(f"Déploiement d'ARIA en environnement {environment}...")
 
-        deployment_info = {
+        deployment_info: dict[str, Any] = {
             "timestamp": datetime.now().isoformat(),
             "environment": environment,
             "status": "in_progress",
-            "steps": [],
-            "errors": [],
+            "steps": [],  # list[str]
+            "errors": [],  # list[str]
         }
 
         try:
             # Étape 1: Validation de sécurité
-            deployment_info["steps"].append("Validation de sécurité...")
+            steps_list = deployment_info.get("steps")
+            if isinstance(steps_list, list):
+                steps_list.append("Validation de sécurité...")
             security_check = self._run_security_check()
             if not security_check["passed"]:
-                deployment_info["errors"].append("Échec de la validation de sécurité")
+                errors_list = deployment_info.get("errors")
+                if isinstance(errors_list, list):
+                    errors_list.append("Échec de la validation de sécurité")
                 deployment_info["status"] = "failed"
                 return deployment_info
 
             # Étape 2: Tests
-            deployment_info["steps"].append("Exécution des tests...")
+            steps_list = deployment_info.get("steps")
+            if isinstance(steps_list, list):
+                steps_list.append("Exécution des tests...")
             test_results = self._run_tests()
             if not test_results["passed"]:
-                deployment_info["errors"].append("Échec des tests")
+                errors_list = deployment_info.get("errors")
+                if isinstance(errors_list, list):
+                    errors_list.append("Échec des tests")
                 deployment_info["status"] = "failed"
                 return deployment_info
 
             # Étape 3: Build Docker
-            deployment_info["steps"].append("Construction de l'image Docker...")
+            steps_list = deployment_info.get("steps")
+            if isinstance(steps_list, list):
+                steps_list.append("Construction de l'image Docker...")
             build_result = self._build_docker_image()
             if not build_result["success"]:
-                deployment_info["errors"].append("Échec de la construction Docker")
+                errors_list = deployment_info.get("errors")
+                if isinstance(errors_list, list):
+                    errors_list.append("Échec de la construction Docker")
                 deployment_info["status"] = "failed"
                 return deployment_info
 
             # Étape 4: Déploiement
-            deployment_info["steps"].append(f"Déploiement en {environment}...")
+            steps_list = deployment_info.get("steps")
+            if isinstance(steps_list, list):
+                steps_list.append(f"Déploiement en {environment}...")
             deploy_result = self._deploy_to_environment(environment)
             if not deploy_result["success"]:
-                deployment_info["errors"].append("Échec du déploiement")
+                errors_list = deployment_info.get("errors")
+                if isinstance(errors_list, list):
+                    errors_list.append("Échec du déploiement")
                 deployment_info["status"] = "failed"
                 return deployment_info
 

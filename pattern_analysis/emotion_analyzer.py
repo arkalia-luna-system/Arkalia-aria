@@ -6,6 +6,14 @@ Adapté de BBIA Emotions pour l'analyse des patterns de douleur
 """
 
 from datetime import datetime, timedelta
+from typing import TypedDict
+
+
+class EmotionInfo(TypedDict):
+    description: str
+    color: str
+    pain_correlation: float
+    stress_level: float
 
 
 class ARIAREmotionAnalyzer:
@@ -17,7 +25,7 @@ class ARIAREmotionAnalyzer:
         self.emotion_history = []
 
         # Émotions adaptées pour l'analyse de douleur
-        self.emotions = {
+        self.emotions: dict[str, EmotionInfo] = {
             "neutral": {
                 "description": "État de repos, attention normale",
                 "color": "⚪",
@@ -81,7 +89,7 @@ class ARIAREmotionAnalyzer:
         activity = pain_data.get("activity", "")
 
         # Analyse basée sur les déclencheurs
-        emotion_scores = {}
+        emotion_scores: dict[str, float] = {}
 
         # Analyse des déclencheurs physiques
         if "marche" in trigger.lower():
@@ -182,7 +190,8 @@ class ARIAREmotionAnalyzer:
         for entry in recent_emotions:
             emotion = entry["emotion"]
             emotion_counts[emotion] = emotion_counts.get(emotion, 0) + 1
-            stress_levels.append(self.emotions[emotion]["stress_level"])
+            stress_value = float(self.emotions[emotion]["stress_level"])
+            stress_levels.append(stress_value)
 
         # Émotion dominante
         dominant_emotion = max(emotion_counts.items(), key=lambda x: x[1])[0]
@@ -298,7 +307,13 @@ class ARIAREmotionAnalyzer:
 
     def get_current_emotion(self) -> dict:
         """Retourne l'émotion actuelle avec ses détails"""
-        emotion_data = self.emotions[self.current_emotion].copy()
+        base = self.emotions[self.current_emotion]
+        emotion_data: dict[str, object] = {
+            "description": base["description"],
+            "color": base["color"],
+            "pain_correlation": base["pain_correlation"],
+            "stress_level": base["stress_level"],
+        }
         emotion_data.update(
             {
                 "name": self.current_emotion,

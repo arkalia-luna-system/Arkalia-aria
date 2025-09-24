@@ -102,7 +102,9 @@ class ARIADataCollector:
                 (name, description, hypothesis, methodology),
             )
 
-            experiment_id = int(cursor.lastrowid or -1)
+            experiment_id = (
+                int(cursor.lastrowid) if cursor.lastrowid is not None else -1
+            )
             conn.commit()
             conn.close()
 

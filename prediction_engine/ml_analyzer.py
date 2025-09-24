@@ -228,7 +228,7 @@ class ARIAMLAnalyzer:
 
     def _detect_patterns(self, events: list[tuple]) -> list[dict[str, Any]]:
         """Détecte les patterns dans les événements"""
-        patterns = []
+        patterns: list[dict[str, Any]] = []
 
         if len(events) < 3:
             return patterns
@@ -257,7 +257,7 @@ class ARIAMLAnalyzer:
         # Pattern 2: Déclencheurs fréquents
         triggers = [event[5] for event in events if event[5] is not None]
         if triggers:
-            trigger_counts = {}
+            trigger_counts: dict[str, int] = {}
             for trigger in triggers:
                 trigger_counts[trigger] = trigger_counts.get(trigger, 0) + 1
 
@@ -282,7 +282,7 @@ class ARIAMLAnalyzer:
         if actions:
             effective_actions = [action for action, eff in actions if eff and eff >= 7]
             if effective_actions:
-                action_counts = {}
+                action_counts: dict[str, int] = {}
                 for action in effective_actions:
                     action_counts[action] = action_counts.get(action, 0) + 1
 

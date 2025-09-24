@@ -1,30 +1,30 @@
 {
   "period": {
-    "start_date": "2025-09-17T20:17:07.587010",
-    "end_date": "2025-09-24T20:17:07.587010",
+    "start_date": "2025-09-17T21:13:18.927387",
+    "end_date": "2025-09-24T21:13:18.927387",
     "days": 7
   },
   "activity": {
-    "total_steps": 244708,
-    "total_calories": 10352.400000000003,
-    "total_distance": 193.5,
+    "total_steps": 266489,
+    "total_calories": 11285.8,
+    "total_distance": 209.89999999999998,
     "avg_heart_rate": 85.2,
     "data_points": 24
   },
   "sleep": {
-    "avg_duration_minutes": 460.6,
+    "avg_duration_minutes": 426.7,
     "avg_quality_score": 0.76,
-    "total_awakenings": 45,
+    "total_awakenings": 39,
     "data_points": 24
   },
   "stress": {
-    "avg_stress_level": 51.7,
-    "avg_hrv": 36.6,
+    "avg_stress_level": 46.1,
+    "avg_hrv": 41.9,
     "data_points": 80
   },
   "sources": [
-    "google_fit",
     "samsung_health",
-    "ios_health"
+    "ios_health",
+    "google_fit"
   ]
 }

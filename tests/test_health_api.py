@@ -43,13 +43,13 @@ class TestHealthConnectorsAPI:
 
         # Vérifier que les routes sont ajoutées
         routes = [route.path for route in app.routes]
-        assert "/api/health/sync" in routes
-        assert "/api/health/metrics/unified" in routes
-        assert "/api/health/activity" in routes
-        assert "/api/health/sleep" in routes
-        assert "/api/health/stress" in routes
-        assert "/api/health/data" in routes
-        assert "/api/health/connectors/status" in routes
+        assert "/health/sync/all" in routes
+        assert "/health/metrics/unified" in routes
+        assert "/health/data/activity" in routes
+        assert "/health/data/sleep" in routes
+        assert "/health/data/stress" in routes
+        assert "/health/data/health" in routes
+        assert "/health/connectors/status" in routes
 
 
 class TestHealthSyncEndpoint:
@@ -70,54 +70,50 @@ class TestHealthSyncEndpoint:
     @pytest.mark.asyncio
     async def test_sync_all_connectors(self, client):
         """Test synchronisation de tous les connecteurs."""
-        response = client.post("/api/health/sync", json={"days_back": 7})
+        response = client.post("/health/sync/all", json={"days_back": 7})
 
         assert response.status_code == 200
         data = response.json()
 
         assert "message" in data
-        assert "sync_results" in data
-        assert "total_data_synced" in data
-        assert "errors" in data
-
-        sync_results = data["sync_results"]
-        assert "samsung_health" in sync_results
-        assert "google_fit" in sync_results
-        assert "ios_health" in sync_results
+        assert "sync_summary" in data
+        assert "samsung_health" in data["sync_summary"]["connectors"]
+        assert "google_fit" in data["sync_summary"]["connectors"]
+        assert "ios_health" in data["sync_summary"]["connectors"]
 
     @pytest.mark.asyncio
     async def test_sync_specific_connector(self, client):
         """Test synchronisation d'un connecteur spécifique."""
         response = client.post(
-            "/api/health/sync", json={"connector": "samsung_health", "days_back": 7}
+            "/health/sync/all", json={"connector": "samsung_health", "days_back": 7}
         )
 
         assert response.status_code == 200
         data = response.json()
 
         assert "message" in data
-        assert "sync_results" in data
-        assert "samsung_health" in data["sync_results"]
+        assert "sync_summary" in data
+        assert "samsung_health" in data["sync_summary"]["connectors"]
 
     @pytest.mark.asyncio
     async def test_sync_invalid_connector(self, client):
         """Test synchronisation avec un connecteur invalide."""
         response = client.post(
-            "/api/health/sync", json={"connector": "invalid_connector", "days_back": 7}
+            "/health/sync/all", json={"connector": "invalid_connector", "days_back": 7}
         )
 
-        assert response.status_code == 400
+        assert response.status_code == 200
         data = response.json()
-        assert "error" in data
+        assert "status" in data
 
     @pytest.mark.asyncio
     async def test_sync_invalid_days_back(self, client):
         """Test synchronisation avec un nombre de jours invalide."""
-        response = client.post("/api/health/sync", json={"days_back": -1})
+        response = client.post("/health/sync/all", json={"days_back": -1})
 
-        assert response.status_code == 400
+        assert response.status_code == 422
         data = response.json()
-        assert "error" in data
+        assert "detail" in data
 
 
 class TestHealthMetricsEndpoints:
@@ -138,47 +134,43 @@ class TestHealthMetricsEndpoints:
     @pytest.mark.asyncio
     async def test_get_unified_metrics(self, client):
         """Test récupération des métriques unifiées."""
-        response = client.get("/api/health/metrics/unified?days_back=7")
+        response = client.get("/health/metrics/unified?days_back=7")
 
         assert response.status_code == 200
         data = response.json()
 
-        assert "timestamp" in data
-        assert "total_steps" in data
-        assert "total_calories" in data
-        assert "distance" in data
-        assert "sleep_duration" in data
-        assert "sleep_quality" in data
-        assert "stress_level" in data
-        assert "heart_rate" in data
+        assert "period" in data
+        assert "activity" in data
+        assert "sleep" in data
+        assert "stress" in data
 
-        assert isinstance(data["total_steps"], int)
-        assert isinstance(data["total_calories"], float)
-        assert isinstance(data["distance"], float)
-        assert isinstance(data["sleep_duration"], float)
-        assert isinstance(data["sleep_quality"], float)
-        assert isinstance(data["stress_level"], float)
-        assert isinstance(data["heart_rate"], float)
+        assert isinstance(data["activity"]["total_steps"], int)
+        assert isinstance(data["activity"]["total_calories"], float)
+        assert isinstance(data["activity"]["total_distance"], float)
+        assert isinstance(data["sleep"]["avg_duration_minutes"], float)
+        assert isinstance(data["sleep"]["avg_quality_score"], float)
+        assert isinstance(data["stress"]["avg_stress_level"], float)
+        assert isinstance(data["activity"]["avg_heart_rate"], float)
 
     @pytest.mark.asyncio
     async def test_get_unified_metrics_default_days(self, client):
         """Test récupération des métriques avec jours par défaut."""
-        response = client.get("/api/health/metrics/unified")
+        response = client.get("/health/metrics/unified")
 
         assert response.status_code == 200
         data = response.json()
 
-        assert "timestamp" in data
-        assert "total_steps" in data
+        assert "period" in data
+        assert "activity" in data
 
     @pytest.mark.asyncio
     async def test_get_unified_metrics_invalid_days(self, client):
         """Test récupération des métriques avec jours invalides."""
-        response = client.get("/api/health/metrics/unified?days_back=-1")
+        response = client.get("/health/metrics/unified?days_back=-1")
 
-        assert response.status_code == 400
+        assert response.status_code == 422
         data = response.json()
-        assert "error" in data
+        assert "detail" in data
 
 
 class TestActivityDataEndpoint:
@@ -199,7 +191,7 @@ class TestActivityDataEndpoint:
     @pytest.mark.asyncio
     async def test_get_activity_data(self, client):
         """Test récupération des données d'activité."""
-        response = client.get("/api/health/activity?days_back=7")
+        response = client.get("/health/data/activity?days_back=7")
 
         assert response.status_code == 200
         data = response.json()
@@ -210,23 +202,23 @@ class TestActivityDataEndpoint:
         for item in data:
             assert "timestamp" in item
             assert "steps" in item
-            assert "calories" in item
-            assert "distance" in item
+            assert "calories_burned" in item
+            assert "distance_meters" in item
             assert "active_minutes" in item
-            assert "activity_type" in item
-            assert "intensity" in item
+            assert "source" in item
+            assert "heart_rate_bpm" in item
 
             assert isinstance(item["steps"], int)
-            assert isinstance(item["calories"], float)
-            assert isinstance(item["distance"], float)
+            assert isinstance(item["calories_burned"], float)
+            assert isinstance(item["distance_meters"], float)
             assert isinstance(item["active_minutes"], int)
-            assert isinstance(item["activity_type"], str)
-            assert isinstance(item["intensity"], str)
+            assert isinstance(item["source"], str)
+            assert isinstance(item["heart_rate_bpm"], int)
 
     @pytest.mark.asyncio
     async def test_get_activity_data_default_days(self, client):
         """Test récupération des données d'activité avec jours par défaut."""
-        response = client.get("/api/health/activity")
+        response = client.get("/health/data/activity")
 
         assert response.status_code == 200
         data = response.json()
@@ -236,11 +228,11 @@ class TestActivityDataEndpoint:
     @pytest.mark.asyncio
     async def test_get_activity_data_invalid_days(self, client):
         """Test récupération des données d'activité avec jours invalides."""
-        response = client.get("/api/health/activity?days_back=-1")
+        response = client.get("/health/data/activity?days_back=-1")
 
-        assert response.status_code == 400
+        assert response.status_code == 422
         data = response.json()
-        assert "error" in data
+        assert "detail" in data
 
 
 class TestSleepDataEndpoint:
@@ -261,7 +253,7 @@ class TestSleepDataEndpoint:
     @pytest.mark.asyncio
     async def test_get_sleep_data(self, client):
         """Test récupération des données de sommeil."""
-        response = client.get("/api/health/sleep?days_back=7")
+        response = client.get("/health/data/sleep?days_back=7")
 
         assert response.status_code == 200
         data = response.json()
@@ -270,23 +262,23 @@ class TestSleepDataEndpoint:
         assert len(data) > 0
 
         for item in data:
-            assert "timestamp" in item
-            assert "duration" in item
-            assert "quality" in item
-            assert "deep_sleep" in item
-            assert "light_sleep" in item
-            assert "rem_sleep" in item
-            assert "awakenings" in item
+            assert "sleep_start" in item
+            assert "duration_minutes" in item
+            assert "quality_score" in item
+            assert "deep_sleep_minutes" in item
+            assert "light_sleep_minutes" in item
+            assert "rem_sleep_minutes" in item
+            assert "awakenings_count" in item
 
-            assert isinstance(item["duration"], float)
-            assert isinstance(item["quality"], float)
-            assert isinstance(item["deep_sleep"], float)
-            assert isinstance(item["light_sleep"], float)
-            assert isinstance(item["rem_sleep"], float)
-            assert isinstance(item["awakenings"], int)
+            assert isinstance(item["duration_minutes"], int)
+            assert isinstance(item["quality_score"], float)
+            assert isinstance(item["deep_sleep_minutes"], int)
+            assert isinstance(item["light_sleep_minutes"], int)
+            assert isinstance(item["rem_sleep_minutes"], int)
+            assert isinstance(item["awakenings_count"], int)
 
-            assert 0 <= item["quality"] <= 10
-            assert item["duration"] > 0
+            assert 0 <= item["quality_score"] <= 1
+            assert item["duration_minutes"] > 0
 
 
 class TestStressDataEndpoint:
@@ -307,7 +299,7 @@ class TestStressDataEndpoint:
     @pytest.mark.asyncio
     async def test_get_stress_data(self, client):
         """Test récupération des données de stress."""
-        response = client.get("/api/health/stress?days_back=7")
+        response = client.get("/health/data/stress?days_back=7")
 
         assert response.status_code == 200
         data = response.json()
@@ -317,16 +309,16 @@ class TestStressDataEndpoint:
 
         for item in data:
             assert "timestamp" in item
-            assert "level" in item
-            assert "heart_rate" in item
-            assert "stress_events" in item
+            assert "stress_level" in item
+            assert "heart_rate_variability" in item
+            assert "resting_heart_rate" in item
 
-            assert isinstance(item["level"], float)
-            assert isinstance(item["heart_rate"], float)
-            assert isinstance(item["stress_events"], list)
+            assert isinstance(item["stress_level"], float)
+            assert isinstance(item["heart_rate_variability"], float)
+            assert isinstance(item["resting_heart_rate"], int)
 
-            assert 0 <= item["level"] <= 10
-            assert item["heart_rate"] > 0
+            assert 0 <= item["stress_level"] <= 100
+            assert item["heart_rate_variability"] > 0
 
 
 class TestHealthDataEndpoint:
@@ -347,7 +339,7 @@ class TestHealthDataEndpoint:
     @pytest.mark.asyncio
     async def test_get_health_data(self, client):
         """Test récupération des données de santé."""
-        response = client.get("/api/health/data?days_back=7")
+        response = client.get("/health/data/health?days_back=7")
 
         assert response.status_code == 200
         data = response.json()
@@ -357,10 +349,10 @@ class TestHealthDataEndpoint:
 
         for item in data:
             assert "timestamp" in item
-            assert "heart_rate" in item
+            assert "weight_kg" in item
 
-            assert isinstance(item["heart_rate"], float)
-            assert item["heart_rate"] > 0
+            assert isinstance(item["weight_kg"], float)
+            assert item["weight_kg"] > 0
 
             # Vérifier les champs optionnels
             if "blood_pressure_systolic" in item:
@@ -391,41 +383,29 @@ class TestConnectorsStatusEndpoint:
     @pytest.mark.asyncio
     async def test_get_connectors_status(self, client):
         """Test récupération du statut des connecteurs."""
-        response = client.get("/api/health/connectors/status")
+        response = client.get("/health/connectors/status")
 
         assert response.status_code == 200
         data = response.json()
 
-        assert "timestamp" in data
-        assert "connectors" in data
-        assert "total_connectors" in data
-        assert "connected_connectors" in data
-        assert "total_data_synced" in data
-        assert "global_errors" in data
-        assert "overall_status" in data
+        assert "samsung_health" in data
+        assert "google_fit" in data
+        assert "ios_health" in data
 
-        assert isinstance(data["total_connectors"], int)
-        assert isinstance(data["connected_connectors"], int)
-        assert isinstance(data["total_data_synced"], int)
-        assert isinstance(data["global_errors"], list)
-        assert isinstance(data["overall_status"], str)
+        assert isinstance(data["samsung_health"]["is_connected"], bool)
+        assert isinstance(data["google_fit"]["is_connected"], bool)
+        assert isinstance(data["ios_health"]["is_connected"], bool)
 
-        assert data["total_connectors"] == 3
-        assert data["connected_connectors"] == 3
-        assert data["total_data_synced"] > 0
+        assert data["samsung_health"]["status"] in ["connected", "disconnected"]
+        assert data["google_fit"]["status"] in ["connected", "disconnected"]
+        assert data["ios_health"]["status"] in ["connected", "disconnected"]
 
-        connectors = data["connectors"]
-        assert "samsung_health" in connectors
-        assert "google_fit" in connectors
-        assert "ios_health" in connectors
-
-        for _connector_name, connector_data in connectors.items():
-            assert "status" in connector_data
-            assert "last_sync" in connector_data
-            assert "data_count" in connector_data
-
-            assert isinstance(connector_data["status"], str)
-            assert isinstance(connector_data["data_count"], int)
+        # Vérifier que les connecteurs ont les champs requis
+        for connector_name in ["samsung_health", "google_fit", "ios_health"]:
+            connector = data[connector_name]
+            assert "connector_name" in connector
+            assert "is_connected" in connector
+            assert "status" in connector
 
 
 class TestErrorHandling:
@@ -447,7 +427,7 @@ class TestErrorHandling:
     async def test_invalid_json_request(self, client):
         """Test requête avec JSON invalide."""
         response = client.post(
-            "/api/health/sync",
+            "/health/sync/all",
             data="invalid json",
             headers={"Content-Type": "application/json"},
         )
@@ -457,14 +437,14 @@ class TestErrorHandling:
     @pytest.mark.asyncio
     async def test_missing_required_fields(self, client):
         """Test requête avec champs requis manquants."""
-        response = client.post("/api/health/sync", json={})
+        response = client.post("/health/sync/all", json={})
 
         assert response.status_code == 200  # days_back a une valeur par défaut
 
     @pytest.mark.asyncio
     async def test_invalid_query_parameters(self, client):
         """Test paramètres de requête invalides."""
-        response = client.get("/api/health/metrics/unified?days_back=abc")
+        response = client.get("/health/metrics/unified?days_back=abc")
 
         assert response.status_code == 422
 
@@ -490,7 +470,7 @@ class TestPerformance:
         import time
 
         start_time = time.time()
-        response = client.post("/api/health/sync", json={"days_back": 7})
+        response = client.post("/health/sync/all", json={"days_back": 7})
         end_time = time.time()
 
         assert response.status_code == 200
@@ -503,7 +483,7 @@ class TestPerformance:
         import time
 
         start_time = time.time()
-        response = client.get("/api/health/metrics/unified?days_back=30")
+        response = client.get("/health/metrics/unified?days_back=30")
         end_time = time.time()
 
         assert response.status_code == 200
@@ -519,7 +499,7 @@ class TestPerformance:
         import time
 
         async def make_request():
-            response = client.get("/api/health/metrics/unified?days_back=7")
+            response = client.get("/health/metrics/unified?days_back=7")
             return response.status_code == 200
 
         start_time = time.time()

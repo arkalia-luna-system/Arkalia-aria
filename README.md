@@ -44,6 +44,9 @@ arkalia-aria/
 ├── pain_tracking/     # Module tracking douleur avancé
 ├── pattern_analysis/   # IA découverte de patterns
 ├── prediction_engine/ # Anticiper les crises
+├── health_connectors/ # Connecteurs Samsung/Google/Apple
+├── metrics_collector/ # Dashboard web et métriques
+├── mobile_app/        # Application Flutter native
 ├── research_tools/    # Laboratoire personnel
 ├── cia_sync/         # Sync avec CIA si besoin
 └── docs/             # Documentation complète

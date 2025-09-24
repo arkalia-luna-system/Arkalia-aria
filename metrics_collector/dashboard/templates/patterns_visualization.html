@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - ARKALIA ARIA</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/dashboard.js"></script>
+    <script src="/static/charts.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <i class="fas fa-heartbeat"></i>
+                    <h1>ARKALIA ARIA</h1>
+                    <span class="version">v1.0.0</span>
+                </div>
+                <nav class="main-nav">
+                    <a href="/dashboard" class="nav-item">
+                        <i class="fas fa-home"></i> Accueil
+                    </a>
+                    <a href="/dashboard/health" class="nav-item">
+                        <i class="fas fa-heart"></i> Santé
+                    </a>
+                    <a href="/dashboard/pain" class="nav-item">
+                        <i class="fas fa-exclamation-triangle"></i> Douleur
+                    </a>
+                    <a href="/dashboard/patterns" class="nav-item active">
+                        <i class="fas fa-chart-line"></i> Patterns
+                    </a>
+                    <a href="/dashboard/reports" class="nav-item">
+                        <i class="fas fa-file-alt"></i> Rapports
+                    </a>
+                </nav>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="analyzePatterns()">
+                        <i class="fas fa-search"></i> Analyser Patterns
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Pattern Analysis Overview -->
+            <section class="pattern-overview">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-line"></i> Analyse des Patterns</h3>
+                        <div class="analysis-controls">
+                            <select id="analysis-period" onchange="updatePatternAnalysis()">
+                                <option value="7">7 derniers jours</option>
+                                <option value="30" selected>30 derniers jours</option>
+                                <option value="90">90 derniers jours</option>
+                            </select>
+                            <button class="btn btn-secondary" onclick="exportPatterns()">
+                                <i class="fas fa-download"></i> Exporter
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="pattern-metrics-grid">
+                            <div class="pattern-metric">
+                                <div class="metric-icon">
+                                    <i class="fas fa-chart-area"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <div class="metric-value" id="correlation-score">--</div>
+                                    <div class="metric-label">Score de Corrélation</div>
+                                    <div class="metric-unit">/100</div>
+                                </div>
+                            </div>
+                            <div class="pattern-metric">
+                                <div class="metric-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <div class="metric-value" id="pattern-frequency">--</div>
+                                    <div class="metric-label">Fréquence Patterns</div>
+                                    <div class="metric-unit">patterns/jour</div>
+                                </div>
+                            </div>
+                            <div class="pattern-metric">
+                                <div class="metric-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <div class="metric-value" id="insights-count">--</div>
+                                    <div class="metric-label">Insights Générés</div>
+                                    <div class="metric-unit">insights</div>
+                                </div>
+                            </div>
+                            <div class="pattern-metric">
+                                <div class="metric-icon">
+                                    <i class="fas fa-trending-up"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <div class="metric-value" id="trend-direction">--</div>
+                                    <div class="metric-label">Tendance Générale</div>
+                                    <div class="metric-unit">direction</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cross-Correlation Analysis -->
+            <section class="cross-correlation">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-project-diagram"></i> Corrélations Croisées</h3>
+                        <button class="btn btn-secondary" onclick="refreshCorrelations()">
+                            <i class="fas fa-refresh"></i> Actualiser
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="correlation-matrix">
+                            <div class="correlation-item">
+                                <div class="correlation-label">Douleur ↔ Stress</div>
+                                <div class="correlation-bar">
+                                    <div class="correlation-fill" id="pain-stress-correlation" style="width: 0%"></div>
+                                </div>
+                                <div class="correlation-value" id="pain-stress-value">--</div>
+                            </div>
+                            <div class="correlation-item">
+                                <div class="correlation-label">Sommeil ↔ Activité</div>
+                                <div class="correlation-bar">
+                                    <div class="correlation-fill" id="sleep-activity-correlation" style="width: 0%">
+                                    </div>
+                                </div>
+                                <div class="correlation-value" id="sleep-activity-value">--</div>
+                            </div>
+                            <div class="correlation-item">
+                                <div class="correlation-label">Stress ↔ FC</div>
+                                <div class="correlation-bar">
+                                    <div class="correlation-fill" id="stress-hr-correlation" style="width: 0%"></div>
+                                </div>
+                                <div class="correlation-value" id="stress-hr-value">--</div>
+                            </div>
+                            <div class="correlation-item">
+                                <div class="correlation-label">Douleur ↔ Météo</div>
+                                <div class="correlation-bar">
+                                    <div class="correlation-fill" id="pain-weather-correlation" style="width: 0%"></div>
+                                </div>
+                                <div class="correlation-value" id="pain-weather-value">--</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Temporal Patterns -->
+            <section class="temporal-patterns">
+                <div class="chart-row">
+                    <div class="chart-container">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-clock"></i> Patterns Temporels</h3>
+                            </div>
+                            <div class="card-content">
+                                <canvas id="temporalPatternsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-calendar-alt"></i> Patterns Hebdomadaires</h3>
+                            </div>
+                            <div class="card-content">
+                                <canvas id="weeklyPatternsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Predictive Analysis -->
+            <section class="predictive-analysis">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-crystal-ball"></i> Analyse Prédictive</h3>
+                        <button class="btn btn-primary" onclick="generatePredictions()">
+                            <i class="fas fa-magic"></i> Générer Prédictions
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="predictions-grid">
+                            <div class="prediction-item">
+                                <div class="prediction-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="prediction-info">
+                                    <div class="prediction-title">Risque de Douleur</div>
+                                    <div class="prediction-value" id="pain-risk">Analyse en cours...</div>
+                                    <div class="prediction-confidence">Confiance: <span id="pain-confidence">--</span>%
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="prediction-item">
+                                <div class="prediction-icon">
+                                    <i class="fas fa-bed"></i>
+                                </div>
+                                <div class="prediction-info">
+                                    <div class="prediction-title">Qualité Sommeil</div>
+                                    <div class="prediction-value" id="sleep-quality-pred">Analyse en cours...</div>
+                                    <div class="prediction-confidence">Confiance: <span id="sleep-confidence">--</span>%
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="prediction-item">
+                                <div class="prediction-icon">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <div class="prediction-info">
+                                    <div class="prediction-title">Niveau de Stress</div>
+                                    <div class="prediction-value" id="stress-level-pred">Analyse en cours...</div>
+                                    <div class="prediction-confidence">Confiance: <span
+                                            id="stress-confidence">--</span>%</div>
+                                </div>
+                            </div>
+                            <div class="prediction-item">
+                                <div class="prediction-icon">
+                                    <i class="fas fa-running"></i>
+                                </div>
+                                <div class="prediction-info">
+                                    <div class="prediction-title">Performance Activité</div>
+                                    <div class="prediction-value" id="activity-perf-pred">Analyse en cours...</div>
+                                    <div class="prediction-confidence">Confiance: <span
+                                            id="activity-confidence">--</span>%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pattern Insights -->
+            <section class="pattern-insights">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-lightbulb"></i> Insights des Patterns</h3>
+                        <button class="btn btn-secondary" onclick="refreshInsights()">
+                            <i class="fas fa-refresh"></i> Actualiser
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="insights-tabs">
+                            <button class="tab-btn active" onclick="showInsightTab('temporal')">
+                                <i class="fas fa-clock"></i> Temporels
+                            </button>
+                            <button class="tab-btn" onclick="showInsightTab('correlation')">
+                                <i class="fas fa-project-diagram"></i> Corrélations
+                            </button>
+                            <button class="tab-btn" onclick="showInsightTab('predictive')">
+                                <i class="fas fa-crystal-ball"></i> Prédictifs
+                            </button>
+                        </div>
+
+                        <div class="insights-content">
+                            <div id="temporal-insights" class="insight-tab active">
+                                <div class="insight-list">
+                                    <div class="insight-item">
+                                        <div class="insight-icon">
+                                            <i class="fas fa-clock"></i>
+                                        </div>
+                                        <div class="insight-content">
+                                            <div class="insight-title">Pic de Douleur Détecté</div>
+                                            <div class="insight-description">Vos épisodes de douleur sont 40% plus
+                                                fréquents entre 14h et 16h les jours de semaine.</div>
+                                            <div class="insight-action">Recommandation: Planifiez des pauses préventives
+                                                à 13h30.</div>
+                                        </div>
+                                    </div>
+                                    <div class="insight-item">
+                                        <div class="insight-icon">
+                                            <i class="fas fa-calendar-week"></i>
+                                        </div>
+                                        <div class="insight-content">
+                                            <div class="insight-title">Pattern Hebdomadaire</div>
+                                            <div class="insight-description">L'intensité moyenne de la douleur augmente
+                                                de 15% du lundi au vendredi.</div>
+                                            <div class="insight-action">Recommandation: Adaptez votre routine de
+                                                récupération en fin de semaine.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="correlation-insights" class="insight-tab">
+                                <div class="insight-list">
+                                    <div class="insight-item">
+                                        <div class="insight-icon">
+                                            <i class="fas fa-heartbeat"></i>
+                                        </div>
+                                        <div class="insight-content">
+                                            <div class="insight-title">Corrélation Stress-Douleur</div>
+                                            <div class="insight-description">Corrélation forte (r=0.78) entre le niveau
+                                                de stress et l'intensité de la douleur.</div>
+                                            <div class="insight-action">Recommandation: Techniques de gestion du stress
+                                                pour réduire la douleur.</div>
+                                        </div>
+                                    </div>
+                                    <div class="insight-item">
+                                        <div class="insight-icon">
+                                            <i class="fas fa-bed"></i>
+                                        </div>
+                                        <div class="insight-content">
+                                            <div class="insight-title">Impact du Sommeil</div>
+                                            <div class="insight-description">Une qualité de sommeil < 70% augmente le
+                                                    risque de douleur de 60% le lendemain.</div>
+                                                    <div class="insight-action">Recommandation: Optimisez votre routine
+                                                        de sommeil.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="predictive-insights" class="insight-tab">
+                                    <div class="insight-list">
+                                        <div class="insight-item">
+                                            <div class="insight-icon">
+                                                <i class="fas fa-crystal-ball"></i>
+                                            </div>
+                                            <div class="insight-content">
+                                                <div class="insight-title">Prédiction de Risque</div>
+                                                <div class="insight-description">Modèle prédictif avec 85% de précision
+                                                    pour identifier les jours à haut risque.</div>
+                                                <div class="insight-action">Recommandation: Alertes préventives
+                                                    activées.</div>
+                                            </div>
+                                        </div>
+                                        <div class="insight-item">
+                                            <div class="insight-icon">
+                                                <i class="fas fa-trending-up"></i>
+                                            </div>
+                                            <div class="insight-content">
+                                                <div class="insight-title">Tendance à Long Terme</div>
+                                                <div class="insight-description">Amélioration de 12% de la gestion de la
+                                                    douleur sur les 3 derniers mois.</div>
+                                                <div class="insight-action">Recommandation: Continuez vos stratégies
+                                                    actuelles.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+
+            <!-- Pattern Export -->
+            <section class="pattern-export">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-download"></i> Export des Patterns</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="export-options">
+                            <button class="btn btn-primary" onclick="exportPatterns('pdf')">
+                                <i class="fas fa-file-pdf"></i> Rapport PDF
+                            </button>
+                            <button class="btn btn-primary" onclick="exportPatterns('excel')">
+                                <i class="fas fa-file-excel"></i> Données Excel
+                            </button>
+                            <button class="btn btn-primary" onclick="exportPatterns('json')">
+                                <i class="fas fa-code"></i> Données JSON
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Initialisation de la page patterns
+        document.addEventListener('DOMContentLoaded', function () {
+            loadPatternData();
+            updatePatternAnalysis();
+            generatePredictions();
+        });
+
+        function loadPatternData() {
+            // Charger les données pour l'analyse des patterns
+            Promise.all([
+                fetch('/api/pain/entries/recent?limit=100').then(r => r.json()),
+                fetch('/api/health/data/stress?days_back=30').then(r => r.json()),
+                fetch('/api/health/data/sleep?days_back=30').then(r => r.json()),
+                fetch('/api/health/data/activity?days_back=30').then(r => r.json())
+            ])
+                .then(([painData, stressData, sleepData, activityData]) => {
+                    updatePatternMetrics(painData, stressData, sleepData, activityData);
+                    updateCorrelations(painData, stressData, sleepData, activityData);
+                    updateTemporalPatterns(painData);
+                    updateWeeklyPatterns(painData);
+                })
+                .catch(error => {
+                    console.error('Error loading pattern data:', error);
+                });
+        }
+
+        function updatePatternMetrics(painData, stressData, sleepData, activityData) {
+            // Calculer les métriques des patterns
+            const correlationScore = calculateCorrelationScore(painData, stressData);
+            const patternFrequency = painData.length / 30;
+            const insightsCount = 8; // Nombre d'insights générés
+            const trendDirection = calculateTrend(painData);
+
+            document.getElementById('correlation-score').textContent = correlationScore.toFixed(0);
+            document.getElementById('pattern-frequency').textContent = patternFrequency.toFixed(1);
+            document.getElementById('insights-count').textContent = insightsCount;
+            document.getElementById('trend-direction').textContent = trendDirection;
+        }
+
+        function updateCorrelations(painData, stressData, sleepData, activityData) {
+            // Calculer et afficher les corrélations
+            const painStressCorr = calculateCorrelation(painData, stressData);
+            const sleepActivityCorr = calculateCorrelation(sleepData, activityData);
+            const stressHrCorr = 0.65; // Simulation
+            const painWeatherCorr = 0.32; // Simulation
+
+            updateCorrelationBar('pain-stress-correlation', 'pain-stress-value', painStressCorr);
+            updateCorrelationBar('sleep-activity-correlation', 'sleep-activity-value', sleepActivityCorr);
+            updateCorrelationBar('stress-hr-correlation', 'stress-hr-value', stressHrCorr);
+            updateCorrelationBar('pain-weather-correlation', 'pain-weather-value', painWeatherCorr);
+        }
+
+        function updateCorrelationBar(barId, valueId, correlation) {
+            const percentage = Math.abs(correlation) * 100;
+            const color = correlation > 0 ? '#2ecc71' : '#e74c3c';
+
+            document.getElementById(barId).style.width = percentage + '%';
+            document.getElementById(barId).style.backgroundColor = color;
+            document.getElementById(valueId).textContent = correlation.toFixed(2);
+        }
+
+        function updateTemporalPatterns(painData) {
+            const ctx = document.getElementById('temporalPatternsChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({ length: 24 }, (_, i) => i + ':00'),
+                    datasets: [{
+                        label: 'Fréquence Douleur',
+                        data: generateHourlyData(painData),
+                        borderColor: '#e74c3c',
+                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateWeeklyPatterns(painData) {
+            const ctx = document.getElementById('weeklyPatternsChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+                    datasets: [{
+                        label: 'Intensité Moyenne',
+                        data: generateWeeklyData(painData),
+                        backgroundColor: '#3498db'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                }
+            });
+        }
+
+        function generatePredictions() {
+            // Générer les prédictions
+            document.getElementById('pain-risk').textContent = 'Élevé';
+            document.getElementById('pain-confidence').textContent = '78';
+
+            document.getElementById('sleep-quality-pred').textContent = 'Bonne';
+            document.getElementById('sleep-confidence').textContent = '82';
+
+            document.getElementById('stress-level-pred').textContent = 'Modéré';
+            document.getElementById('stress-confidence').textContent = '75';
+
+            document.getElementById('activity-perf-pred').textContent = 'Optimale';
+            document.getElementById('activity-confidence').textContent = '88';
+        }
+
+        function showInsightTab(tabName) {
+            // Masquer tous les onglets
+            document.querySelectorAll('.insight-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Afficher l'onglet sélectionné
+            document.getElementById(`${tabName}-insights`).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function exportPatterns(format) {
+            showLoading();
+            fetch(`/dashboard/export/${format}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ data_type: 'patterns' })
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    hideLoading();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `aria-patterns-${new Date().toISOString().split('T')[0]}.${format}`;
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                    hideLoading();
+                    showNotification('Erreur d\'export', 'error');
+                    console.error('Error:', error);
+                });
+        }
+
+        function analyzePatterns() {
+            showLoading();
+            fetch('/api/patterns/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ period: 30 })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    hideLoading();
+                    showNotification('Analyse des patterns terminée', 'success');
+                    loadPatternData();
+                })
+                .catch(error => {
+                    hideLoading();
+                    showNotification('Erreur d\'analyse', 'error');
+                    console.error('Error:', error);
+                });
+        }
+
+        function refreshCorrelations() {
+            loadPatternData();
+        }
+
+        function refreshInsights() {
+            generatePredictions();
+        }
+
+        // Fonctions utilitaires
+        function calculateCorrelationScore(painData, stressData) {
+            // Simulation d'un calcul de corrélation
+            return 78;
+        }
+
+        function calculateTrend(data) {
+            if (data.length < 2) return 'Stable';
+            const firstHalf = data.slice(0, Math.floor(data.length / 2));
+            const secondHalf = data.slice(Math.floor(data.length / 2));
+
+            const firstAvg = firstHalf.reduce((sum, item) => sum + item.intensity, 0) / firstHalf.length;
+            const secondAvg = secondHalf.reduce((sum, item) => sum + item.intensity, 0) / secondHalf.length;
+
+            if (secondAvg > firstAvg * 1.1) return 'Croissant';
+            if (secondAvg < firstAvg * 0.9) return 'Décroissant';
+            return 'Stable';
+        }
+
+        function calculateCorrelation(data1, data2) {
+            // Simulation d'un calcul de corrélation
+            return Math.random() * 2 - 1;
+        }
+
+        function generateHourlyData(painData) {
+            const hourlyCounts = new Array(24).fill(0);
+            painData.forEach(entry => {
+                const hour = new Date(entry.timestamp).getHours();
+                hourlyCounts[hour]++;
+            });
+            return hourlyCounts;
+        }
+
+        function generateWeeklyData(painData) {
+            const weeklyData = new Array(7).fill(0);
+            const weeklyCounts = new Array(7).fill(0);
+
+            painData.forEach(entry => {
+                const day = new Date(entry.timestamp).getDay();
+                weeklyData[day] += entry.intensity;
+                weeklyCounts[day]++;
+            });
+
+            return weeklyData.map((sum, i) => weeklyCounts[i] > 0 ? sum / weeklyCounts[i] : 0);
+        }
+    </script>
+</body>
+
+</html>

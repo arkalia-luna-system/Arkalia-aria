@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - ARKALIA ARIA</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/dashboard.js"></script>
+    <script src="/static/charts.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <i class="fas fa-heartbeat"></i>
+                    <h1>ARKALIA ARIA</h1>
+                    <span class="version">v1.0.0</span>
+                </div>
+                <nav class="main-nav">
+                    <a href="/dashboard" class="nav-item">
+                        <i class="fas fa-home"></i> Accueil
+                    </a>
+                    <a href="/dashboard/health" class="nav-item">
+                        <i class="fas fa-heart"></i> Santé
+                    </a>
+                    <a href="/dashboard/pain" class="nav-item active">
+                        <i class="fas fa-exclamation-triangle"></i> Douleur
+                    </a>
+                    <a href="/dashboard/patterns" class="nav-item">
+                        <i class="fas fa-chart-line"></i> Patterns
+                    </a>
+                    <a href="/dashboard/reports" class="nav-item">
+                        <i class="fas fa-file-alt"></i> Rapports
+                    </a>
+                </nav>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="addPainEntry()">
+                        <i class="fas fa-plus"></i> Ajouter Douleur
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Pain Overview -->
+            <section class="pain-overview">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Vue d'ensemble Douleur</h3>
+                        <div class="period-selector">
+                            <select id="pain-period" onchange="updatePainCharts()">
+                                <option value="7">7 derniers jours</option>
+                                <option value="30" selected>30 derniers jours</option>
+                                <option value="90">90 derniers jours</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="pain-metrics-grid">
+                            <div class="pain-metric">
+                                <div class="metric-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <div class="metric-value" id="avg-pain-level">--</div>
+                                    <div class="metric-label">Niveau Moyen</div>
+                                    <div class="metric-unit">/10</div>
+                                </div>
+                            </div>
+                            <div class="pain-metric">
+                                <div class="metric-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <div class="metric-value" id="pain-frequency">--</div>
+                                    <div class="metric-label">Fréquence</div>
+                                    <div class="metric-unit">épisodes/jour</div>
+                                </div>
+                            </div>
+                            <div class="pain-metric">
+                                <div class="metric-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <div class="metric-value" id="avg-duration">--</div>
+                                    <div class="metric-label">Durée Moyenne</div>
+                                    <div class="metric-unit">minutes</div>
+                                </div>
+                            </div>
+                            <div class="pain-metric">
+                                <div class="metric-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <div class="metric-value" id="effectiveness">--</div>
+                                    <div class="metric-label">Efficacité Traitements</div>
+                                    <div class="metric-unit">%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pain Charts -->
+            <section class="pain-charts">
+                <div class="chart-row">
+                    <div class="chart-container">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-line"></i> Évolution de la Douleur</h3>
+                            </div>
+                            <div class="card-content">
+                                <canvas id="painEvolutionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-bar"></i> Répartition par Intensité</h3>
+                            </div>
+                            <div class="card-content">
+                                <canvas id="painIntensityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-row">
+                    <div class="chart-container">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-pie"></i> Déclencheurs Physiques</h3>
+                            </div>
+                            <div class="card-content">
+                                <canvas id="physicalTriggersChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-doughnut"></i> Actions Efficaces</h3>
+                            </div>
+                            <div class="card-content">
+                                <canvas id="effectiveActionsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pain Patterns -->
+            <section class="pain-patterns">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-area"></i> Patterns Temporels</h3>
+                        <button class="btn btn-secondary" onclick="analyzePatterns()">
+                            <i class="fas fa-search"></i> Analyser
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="patterns-grid">
+                            <div class="pattern-item">
+                                <div class="pattern-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="pattern-info">
+                                    <div class="pattern-title">Heures de Pointe</div>
+                                    <div class="pattern-value" id="peak-hours">Analyse en cours...</div>
+                                </div>
+                            </div>
+                            <div class="pattern-item">
+                                <div class="pattern-icon">
+                                    <i class="fas fa-calendar-week"></i>
+                                </div>
+                                <div class="pattern-info">
+                                    <div class="pattern-title">Jours de la Semaine</div>
+                                    <div class="pattern-value" id="weekday-pattern">Analyse en cours...</div>
+                                </div>
+                            </div>
+                            <div class="pattern-item">
+                                <div class="pattern-icon">
+                                    <i class="fas fa-cloud-rain"></i>
+                                </div>
+                                <div class="pattern-info">
+                                    <div class="pattern-title">Corrélation Météo</div>
+                                    <div class="pattern-value" id="weather-correlation">Analyse en cours...</div>
+                                </div>
+                            </div>
+                            <div class="pattern-item">
+                                <div class="pattern-icon">
+                                    <i class="fas fa-moon"></i>
+                                </div>
+                                <div class="pattern-info">
+                                    <div class="pattern-title">Corrélation Sommeil</div>
+                                    <div class="pattern-value" id="sleep-correlation">Analyse en cours...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pain Entries Table -->
+            <section class="pain-entries-table">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-table"></i> Entrées de Douleur</h3>
+                        <div class="table-controls">
+                            <button class="btn btn-secondary" onclick="exportPainData()">
+                                <i class="fas fa-download"></i> Exporter
+                            </button>
+                            <button class="btn btn-primary" onclick="addPainEntry()">
+                                <i class="fas fa-plus"></i> Nouvelle Entrée
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="table-filters">
+                            <select id="pain-filter-intensity" onchange="filterPainEntries()">
+                                <option value="">Toutes les intensités</option>
+                                <option value="0-3">Faible (0-3)</option>
+                                <option value="4-6">Modérée (4-6)</option>
+                                <option value="7-10">Forte (7-10)</option>
+                            </select>
+                            <select id="pain-filter-trigger" onchange="filterPainEntries()">
+                                <option value="">Tous les déclencheurs</option>
+                                <option value="stress">Stress</option>
+                                <option value="fatigue">Fatigue</option>
+                                <option value="activité">Activité</option>
+                            </select>
+                        </div>
+
+                        <div class="table-content">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date/Heure</th>
+                                        <th>Intensité</th>
+                                        <th>Déclencheur Physique</th>
+                                        <th>Déclencheur Mental</th>
+                                        <th>Activité</th>
+                                        <th>Localisation</th>
+                                        <th>Action</th>
+                                        <th>Efficacité</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pain-entries-body">
+                                    <tr>
+                                        <td colspan="9" class="loading">Chargement des données...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pain Insights -->
+            <section class="pain-insights">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-lightbulb"></i> Insights et Recommandations</h3>
+                        <button class="btn btn-secondary" onclick="generateInsights()">
+                            <i class="fas fa-magic"></i> Générer
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="insights-list" id="pain-insights-list">
+                            <div class="insight-item">
+                                <div class="insight-icon">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <div class="insight-content">
+                                    <div class="insight-title">Analyse en cours...</div>
+                                    <div class="insight-description">Les insights seront générés après l'analyse des
+                                        données</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Pain Entry Modal -->
+    <div class="modal" id="pain-entry-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus"></i> Nouvelle Entrée de Douleur</h3>
+                <button class="modal-close" onclick="closePainModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="pain-entry-form">
+                    <div class="form-group">
+                        <label for="pain-intensity">Intensité (0-10)</label>
+                        <input type="range" id="pain-intensity" min="0" max="10" value="5"
+                            oninput="updateIntensityDisplay(this.value)">
+                        <div class="intensity-display">
+                            <span id="intensity-value">5</span>/10
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="physical-trigger">Déclencheur Physique</label>
+                        <select id="physical-trigger">
+                            <option value="">Sélectionner...</option>
+                            <option value="stress">Stress</option>
+                            <option value="fatigue">Fatigue</option>
+                            <option value="activité">Activité physique</option>
+                            <option value="position">Position</option>
+                            <option value="météo">Météo</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mental-trigger">Déclencheur Mental</label>
+                        <input type="text" id="mental-trigger" placeholder="Stress, anxiété, etc.">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="activity">Activité</label>
+                        <input type="text" id="activity" placeholder="Travail, repos, etc.">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Localisation</label>
+                        <input type="text" id="location" placeholder="Tête, dos, etc.">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="action-taken">Action Entreprise</label>
+                        <input type="text" id="action-taken" placeholder="Médication, respiration, etc.">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="effectiveness">Efficacité (0-10)</label>
+                        <input type="range" id="effectiveness" min="0" max="10" value="5"
+                            oninput="updateEffectivenessDisplay(this.value)">
+                        <div class="effectiveness-display">
+                            <span id="effectiveness-value">5</span>/10
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <textarea id="notes" rows="3" placeholder="Notes supplémentaires..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closePainModal()">Annuler</button>
+                <button class="btn btn-primary" onclick="submitPainEntry()">
+                    <i class="fas fa-save"></i> Enregistrer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Initialisation de la page douleur
+        document.addEventListener('DOMContentLoaded', function () {
+            loadPainData();
+            updatePainCharts();
+            loadPainEntries();
+            analyzePatterns();
+        });
+
+        function loadPainData() {
+            fetch('/api/pain/entries/recent?limit=100')
+                .then(response => response.json())
+                .then(data => {
+                    updatePainMetrics(data);
+                })
+                .catch(error => {
+                    console.error('Error loading pain data:', error);
+                });
+        }
+
+        function updatePainMetrics(data) {
+            if (data.length === 0) return;
+
+            // Calculer les métriques
+            const avgIntensity = data.reduce((sum, entry) => sum + entry.intensity, 0) / data.length;
+            const frequency = data.length / 30; // Entrées par jour sur 30 jours
+            const avgEffectiveness = data
+                .filter(entry => entry.effectiveness !== null)
+                .reduce((sum, entry) => sum + entry.effectiveness, 0) /
+                data.filter(entry => entry.effectiveness !== null).length;
+
+            document.getElementById('avg-pain-level').textContent = avgIntensity.toFixed(1);
+            document.getElementById('pain-frequency').textContent = frequency.toFixed(1);
+            document.getElementById('effectiveness').textContent =
+                avgEffectiveness ? avgEffectiveness.toFixed(0) + '%' : '--';
+        }
+
+        function updatePainCharts() {
+            const period = document.getElementById('pain-period').value;
+
+            fetch(`/api/pain/entries/recent?limit=${period * 10}`)
+                .then(response => response.json())
+                .then(data => {
+                    updatePainEvolutionChart(data);
+                    updatePainIntensityChart(data);
+                    updatePhysicalTriggersChart(data);
+                    updateEffectiveActionsChart(data);
+                })
+                .catch(error => {
+                    console.error('Error loading pain chart data:', error);
+                });
+        }
+
+        function updatePainEvolutionChart(data) {
+            const ctx = document.getElementById('painEvolutionChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.map(d => new Date(d.timestamp).toLocaleDateString()),
+                    datasets: [{
+                        label: 'Intensité de la Douleur',
+                        data: data.map(d => d.intensity),
+                        borderColor: '#e74c3c',
+                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                }
+            });
+        }
+
+        function updatePainIntensityChart(data) {
+            const intensityCounts = {};
+            data.forEach(entry => {
+                const intensity = entry.intensity;
+                intensityCounts[intensity] = (intensityCounts[intensity] || 0) + 1;
+            });
+
+            const ctx = document.getElementById('painIntensityChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(intensityCounts),
+                    datasets: [{
+                        label: 'Nombre d\'épisodes',
+                        data: Object.values(intensityCounts),
+                        backgroundColor: '#3498db'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function updatePhysicalTriggersChart(data) {
+            const triggerCounts = {};
+            data.forEach(entry => {
+                if (entry.physical_trigger) {
+                    triggerCounts[entry.physical_trigger] = (triggerCounts[entry.physical_trigger] || 0) + 1;
+                }
+            });
+
+            const ctx = document.getElementById('physicalTriggersChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(triggerCounts),
+                    datasets: [{
+                        data: Object.values(triggerCounts),
+                        backgroundColor: [
+                            '#e74c3c',
+                            '#3498db',
+                            '#2ecc71',
+                            '#f39c12',
+                            '#9b59b6',
+                            '#1abc9c'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        function updateEffectiveActionsChart(data) {
+            const actionCounts = {};
+            data.forEach(entry => {
+                if (entry.action_taken && entry.effectiveness > 5) {
+                    actionCounts[entry.action_taken] = (actionCounts[entry.action_taken] || 0) + 1;
+                }
+            });
+
+            const ctx = document.getElementById('effectiveActionsChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(actionCounts),
+                    datasets: [{
+                        data: Object.values(actionCounts),
+                        backgroundColor: [
+                            '#2ecc71',
+                            '#3498db',
+                            '#f39c12',
+                            '#e74c3c'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        function loadPainEntries() {
+            fetch('/api/pain/entries/recent?limit=100')
+                .then(response => response.json())
+                .then(data => {
+                    updatePainEntriesTable(data);
+                })
+                .catch(error => {
+                    console.error('Error loading pain entries:', error);
+                });
+        }
+
+        function updatePainEntriesTable(data) {
+            const tbody = document.getElementById('pain-entries-body');
+            tbody.innerHTML = '';
+
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" class="no-data">Aucune entrée de douleur</td></tr>';
+                return;
+            }
+
+            data.forEach(entry => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${new Date(entry.timestamp).toLocaleString()}</td>
+                    <td><span class="intensity-badge intensity-${entry.intensity}">${entry.intensity}</span></td>
+                    <td>${entry.physical_trigger || '--'}</td>
+                    <td>${entry.mental_trigger || '--'}</td>
+                    <td>${entry.activity || '--'}</td>
+                    <td>${entry.location || '--'}</td>
+                    <td>${entry.action_taken || '--'}</td>
+                    <td>${entry.effectiveness ? entry.effectiveness + '/10' : '--'}</td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary" onclick="editPainEntry(${entry.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="deletePainEntry(${entry.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function addPainEntry() {
+            document.getElementById('pain-entry-modal').style.display = 'flex';
+        }
+
+        function closePainModal() {
+            document.getElementById('pain-entry-modal').style.display = 'none';
+            document.getElementById('pain-entry-form').reset();
+        }
+
+        function updateIntensityDisplay(value) {
+            document.getElementById('intensity-value').textContent = value;
+        }
+
+        function updateEffectivenessDisplay(value) {
+            document.getElementById('effectiveness-value').textContent = value;
+        }
+
+        function submitPainEntry() {
+            const formData = {
+                intensity: parseInt(document.getElementById('pain-intensity').value),
+                physical_trigger: document.getElementById('physical-trigger').value,
+                mental_trigger: document.getElementById('mental-trigger').value,
+                activity: document.getElementById('activity').value,
+                location: document.getElementById('location').value,
+                action_taken: document.getElementById('action-taken').value,
+                effectiveness: parseInt(document.getElementById('effectiveness').value),
+                notes: document.getElementById('notes').value
+            };
+
+            fetch('/api/pain/entry', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    closePainModal();
+                    showNotification('Entrée de douleur enregistrée', 'success');
+                    loadPainData();
+                    updatePainCharts();
+                    loadPainEntries();
+                })
+                .catch(error => {
+                    showNotification('Erreur lors de l\'enregistrement', 'error');
+                    console.error('Error:', error);
+                });
+        }
+
+        function analyzePatterns() {
+            // Implémenter l'analyse des patterns
+            document.getElementById('peak-hours').textContent = '14h-16h';
+            document.getElementById('weekday-pattern').textContent = 'Lundi-Vendredi';
+            document.getElementById('weather-correlation').textContent = 'Corrélation faible';
+            document.getElementById('sleep-correlation').textContent = 'Corrélation forte';
+        }
+
+        function generateInsights() {
+            // Implémenter la génération d'insights
+            const insightsList = document.getElementById('pain-insights-list');
+            insightsList.innerHTML = `
+                <div class="insight-item">
+                    <div class="insight-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="insight-content">
+                        <div class="insight-title">Pattern Temporel Détecté</div>
+                        <div class="insight-description">Vos épisodes de douleur sont plus fréquents entre 14h et 16h. Considérez des pauses préventives.</div>
+                    </div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="insight-content">
+                        <div class="insight-title">Traitement Efficace</div>
+                        <div class="insight-description">La respiration profonde est votre traitement le plus efficace (8.2/10).</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function exportPainData() {
+            showLoading();
+            fetch('/dashboard/export/excel', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ data_type: 'pain' })
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    hideLoading();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `aria-pain-data-${new Date().toISOString().split('T')[0]}.xlsx`;
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                    hideLoading();
+                    showNotification('Erreur d\'export', 'error');
+                    console.error('Error:', error);
+                });
+        }
+
+        function filterPainEntries() {
+            // Implémenter le filtrage des entrées
+            console.log('Filtering pain entries...');
+        }
+    </script>
+</body>
+
+</html>

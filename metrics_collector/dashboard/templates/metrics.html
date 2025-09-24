@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - ARKALIA ARIA</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/dashboard.js"></script>
+    <script src="/static/charts.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <i class="fas fa-heartbeat"></i>
+                    <h1>ARKALIA ARIA</h1>
+                    <span class="version">v1.0.0</span>
+                </div>
+                <nav class="main-nav">
+                    <a href="/dashboard" class="nav-item">
+                        <i class="fas fa-home"></i> Accueil
+                    </a>
+                    <a href="/dashboard/health" class="nav-item">
+                        <i class="fas fa-heart"></i> Santé
+                    </a>
+                    <a href="/dashboard/pain" class="nav-item">
+                        <i class="fas fa-exclamation-triangle"></i> Douleur
+                    </a>
+                    <a href="/dashboard/patterns" class="nav-item">
+                        <i class="fas fa-chart-line"></i> Patterns
+                    </a>
+                    <a href="/dashboard/reports" class="nav-item">
+                        <i class="fas fa-file-alt"></i> Rapports
+                    </a>
+                </nav>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="refreshMetrics()">
+                        <i class="fas fa-refresh"></i> Actualiser
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- System Metrics Overview -->
+            <section class="metrics-overview">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-bar"></i> Métriques Système</h3>
+                        <div class="metrics-controls">
+                            <select id="metrics-period" onchange="updateMetrics()">
+                                <option value="1">Dernière heure</option>
+                                <option value="24" selected>24 dernières heures</option>
+                                <option value="168">7 derniers jours</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <div class="metric-icon">
+                                    <i class="fas fa-server"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <div class="metric-value" id="cpu-usage">--</div>
+                                    <div class="metric-label">Utilisation CPU</div>
+                                    <div class="metric-unit">%</div>
+                                </div>
+                            </div>
+
+                            <div class="metric-card">
+                                <div class="metric-icon">
+                                    <i class="fas fa-memory"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <div class="metric-value" id="memory-usage">--</div>
+                                    <div class="metric-label">Utilisation Mémoire</div>
+                                    <div class="metric-unit">%</div>
+                                </div>
+                            </div>
+
+                            <div class="metric-card">
+                                <div class="metric-icon">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <div class="metric-value" id="db-size">--</div>
+                                    <div class="metric-label">Taille Base de Données</div>
+                                    <div class="metric-unit">MB</div>
+                                </div>
+                            </div>
+
+                            <div class="metric-card">
+                                <div class="metric-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <div class="metric-value" id="uptime">--</div>
+                                    <div class="metric-label">Temps de Fonctionnement</div>
+                                    <div class="metric-unit">heures</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Performance Charts -->
+            <section class="performance-charts">
+                <div class="chart-row">
+                    <div class="chart-container">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-line"></i> Performance CPU</h3>
+                            </div>
+                            <div class="card-content">
+                                <canvas id="cpuChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-area"></i> Utilisation Mémoire</h3>
+                            </div>
+                            <div class="card-content">
+                                <canvas id="memoryChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- API Metrics -->
+            <section class="api-metrics">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-network-wired"></i> Métriques API</h3>
+                        <button class="btn btn-secondary" onclick="refreshApiMetrics()">
+                            <i class="fas fa-refresh"></i> Actualiser
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="api-metrics-grid">
+                            <div class="api-metric">
+                                <div class="metric-label">Requêtes Total</div>
+                                <div class="metric-value" id="total-requests">--</div>
+                            </div>
+                            <div class="api-metric">
+                                <div class="metric-label">Requêtes/Minute</div>
+                                <div class="metric-value" id="requests-per-minute">--</div>
+                            </div>
+                            <div class="api-metric">
+                                <div class="metric-label">Temps de Réponse Moyen</div>
+                                <div class="metric-value" id="avg-response-time">--</div>
+                            </div>
+                            <div class="api-metric">
+                                <div class="metric-label">Taux d'Erreur</div>
+                                <div class="metric-value" id="error-rate">--</div>
+                            </div>
+                        </div>
+
+                        <div class="api-endpoints-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Endpoint</th>
+                                        <th>Requêtes</th>
+                                        <th>Temps Moyen</th>
+                                        <th>Erreurs</th>
+                                        <th>Statut</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="api-endpoints-body">
+                                    <tr>
+                                        <td colspan="5" class="loading">Chargement des données...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Health Connectors Status -->
+            <section class="connectors-status">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-plug"></i> Statut des Connecteurs</h3>
+                        <button class="btn btn-secondary" onclick="checkConnectorsStatus()">
+                            <i class="fas fa-check-circle"></i> Vérifier
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="connectors-grid" id="connectors-grid">
+                            <div class="connector-item">
+                                <div class="connector-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div class="connector-info">
+                                    <div class="connector-name">Samsung Health</div>
+                                    <div class="connector-status" id="samsung-status">Vérification...</div>
+                                    <div class="connector-last-sync" id="samsung-last-sync">--</div>
+                                </div>
+                            </div>
+                            <div class="connector-item">
+                                <div class="connector-icon">
+                                    <i class="fab fa-google"></i>
+                                </div>
+                                <div class="connector-info">
+                                    <div class="connector-name">Google Fit</div>
+                                    <div class="connector-status" id="google-status">Vérification...</div>
+                                    <div class="connector-last-sync" id="google-last-sync">--</div>
+                                </div>
+                            </div>
+                            <div class="connector-item">
+                                <div class="connector-icon">
+                                    <i class="fab fa-apple"></i>
+                                </div>
+                                <div class="connector-info">
+                                    <div class="connector-name">iOS Health</div>
+                                    <div class="connector-status" id="ios-status">Vérification...</div>
+                                    <div class="connector-last-sync" id="ios-last-sync">--</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Data Statistics -->
+            <section class="data-statistics">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-database"></i> Statistiques des Données</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="data-stats-grid">
+                            <div class="data-stat">
+                                <div class="stat-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="pain-entries-count">--</div>
+                                    <div class="stat-label">Entrées Douleur</div>
+                                </div>
+                            </div>
+
+                            <div class="data-stat">
+                                <div class="stat-icon">
+                                    <i class="fas fa-heartbeat"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="health-data-count">--</div>
+                                    <div class="stat-label">Données Santé</div>
+                                </div>
+                            </div>
+
+                            <div class="data-stat">
+                                <div class="stat-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="patterns-analyzed">--</div>
+                                    <div class="stat-label">Patterns Analysés</div>
+                                </div>
+                            </div>
+
+                            <div class="data-stat">
+                                <div class="stat-icon">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="reports-generated">--</div>
+                                    <div class="stat-label">Rapports Générés</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Initialisation de la page métriques
+        document.addEventListener('DOMContentLoaded', function () {
+            loadSystemMetrics();
+            updateMetrics();
+            checkConnectorsStatus();
+            loadDataStatistics();
+        });
+
+        function loadSystemMetrics() {
+            // Simuler les métriques système
+            document.getElementById('cpu-usage').textContent = '23';
+            document.getElementById('memory-usage').textContent = '67';
+            document.getElementById('db-size').textContent = '45.2';
+            document.getElementById('uptime').textContent = '72.5';
+        }
+
+        function updateMetrics() {
+            const period = document.getElementById('metrics-period').value;
+
+            // Mettre à jour les graphiques de performance
+            updateCpuChart(period);
+            updateMemoryChart(period);
+        }
+
+        function updateCpuChart(period) {
+            const ctx = document.getElementById('cpuChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: generateTimeLabels(period),
+                    datasets: [{
+                        label: 'CPU Usage (%)',
+                        data: generateRandomData(period, 0, 100),
+                        borderColor: '#e74c3c',
+                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateMemoryChart(period) {
+            const ctx = document.getElementById('memoryChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: generateTimeLabels(period),
+                    datasets: [{
+                        label: 'Memory Usage (%)',
+                        data: generateRandomData(period, 0, 100),
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+
+        function refreshApiMetrics() {
+            // Simuler les métriques API
+            document.getElementById('total-requests').textContent = '1,247';
+            document.getElementById('requests-per-minute').textContent = '12.3';
+            document.getElementById('avg-response-time').textContent = '145ms';
+            document.getElementById('error-rate').textContent = '0.2%';
+
+            // Mettre à jour le tableau des endpoints
+            updateApiEndpointsTable();
+        }
+
+        function updateApiEndpointsTable() {
+            const endpoints = [
+                { endpoint: '/api/pain/entries', requests: 456, avgTime: '120ms', errors: 2, status: 'OK' },
+                { endpoint: '/api/health/data/activity', requests: 234, avgTime: '180ms', errors: 1, status: 'OK' },
+                { endpoint: '/api/patterns/analyze', requests: 89, avgTime: '320ms', errors: 0, status: 'OK' },
+                { endpoint: '/api/sync/push-data', requests: 67, avgTime: '95ms', errors: 3, status: 'OK' }
+            ];
+
+            const tbody = document.getElementById('api-endpoints-body');
+            tbody.innerHTML = '';
+
+            endpoints.forEach(endpoint => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${endpoint.endpoint}</td>
+                    <td>${endpoint.requests}</td>
+                    <td>${endpoint.avgTime}</td>
+                    <td>${endpoint.errors}</td>
+                    <td><span class="status-badge status-${endpoint.status.toLowerCase()}">${endpoint.status}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function checkConnectorsStatus() {
+            fetch('/api/health/connectors/status')
+                .then(response => response.json())
+                .then(data => {
+                    updateConnectorsStatus(data);
+                })
+                .catch(error => {
+                    console.error('Error checking connectors status:', error);
+                    // Statut par défaut en cas d'erreur
+                    updateConnectorsStatus({
+                        samsung_health: { status: 'error', last_sync: null },
+                        google_fit: { status: 'error', last_sync: null },
+                        ios_health: { status: 'error', last_sync: null }
+                    });
+                });
+        }
+
+        function updateConnectorsStatus(data) {
+            Object.keys(data).forEach(connector => {
+                const statusElement = document.getElementById(`${connector.replace('_', '-')}-status`);
+                const lastSyncElement = document.getElementById(`${connector.replace('_', '-')}-last-sync`);
+
+                if (statusElement && lastSyncElement) {
+                    const connectorData = data[connector];
+                    statusElement.textContent = connectorData.status === 'connected' ? 'Connecté' : 'Déconnecté';
+                    statusElement.className = `connector-status ${connectorData.status}`;
+
+                    if (connectorData.last_sync) {
+                        const lastSync = new Date(connectorData.last_sync);
+                        lastSyncElement.textContent = `Dernière sync: ${lastSync.toLocaleString()}`;
+                    } else {
+                        lastSyncElement.textContent = 'Jamais synchronisé';
+                    }
+                }
+            });
+        }
+
+        function loadDataStatistics() {
+            // Simuler les statistiques des données
+            document.getElementById('pain-entries-count').textContent = '1,247';
+            document.getElementById('health-data-count').textContent = '3,456';
+            document.getElementById('patterns-analyzed').textContent = '89';
+            document.getElementById('reports-generated').textContent = '12';
+        }
+
+        function refreshMetrics() {
+            loadSystemMetrics();
+            updateMetrics();
+            refreshApiMetrics();
+            loadDataStatistics();
+            showNotification('Métriques actualisées', 'success');
+        }
+
+        // Fonctions utilitaires
+        function generateTimeLabels(period) {
+            const labels = [];
+            const now = new Date();
+
+            if (period === '1') {
+                // Dernière heure - labels toutes les 10 minutes
+                for (let i = 6; i >= 0; i--) {
+                    const time = new Date(now.getTime() - i * 10 * 60000);
+                    labels.push(time.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }));
+                }
+            } else if (period === '24') {
+                // 24 dernières heures - labels toutes les 2 heures
+                for (let i = 12; i >= 0; i--) {
+                    const time = new Date(now.getTime() - i * 2 * 60 * 60000);
+                    labels.push(time.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }));
+                }
+            } else {
+                // 7 derniers jours - labels par jour
+                for (let i = 7; i >= 0; i--) {
+                    const time = new Date(now.getTime() - i * 24 * 60 * 60000);
+                    labels.push(time.toLocaleDateString('fr-FR', { month: 'short', day: 'numeric' }));
+                }
+            }
+
+            return labels;
+        }
+
+        function generateRandomData(period, min, max) {
+            const data = [];
+            const count = period === '1' ? 7 : period === '24' ? 13 : 8;
+
+            for (let i = 0; i < count; i++) {
+                data.push(Math.floor(Math.random() * (max - min + 1)) + min);
+            }
+
+            return data;
+        }
+    </script>
+</body>
+
+</html>

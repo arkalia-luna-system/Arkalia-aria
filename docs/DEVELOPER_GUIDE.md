@@ -11,6 +11,21 @@ source arkalia_aria_venv/bin/activate
 pip install -r requirements.txt
 ```
 
+### App Mobile Flutter
+```bash
+# Aller dans le dossier mobile
+cd mobile_app
+
+# Installer les dépendances Flutter
+flutter pub get
+
+# Lancer l'app (iOS)
+flutter run -d ios
+
+# Lancer l'app (Android)
+flutter run -d android
+```
+
 ### Tests
 ```bash
 # Tests complets (recommandé pour CI/CD)
@@ -84,6 +99,13 @@ cd arkalia-aria && python main.py  # port 8001
 - `metrics_collector/cli.py` : dashboard intégré
 - `cia_sync/api.py` : import requests robuste
 - Tests d'intégration : mode rapide pour développement
+
+### Nouvelles Fonctionnalités (Décembre 2024)
+- `health_connectors/` : Connecteurs Samsung Health, Google Fit, Apple HealthKit
+- `mobile_app/lib/screens/` : 4 écrans Flutter (santé, dashboard, analytics, settings)
+- `metrics_collector/dashboard/templates/` : Templates HTML avec Chart.js
+- `health_connectors/api.py` : Endpoints REST complets pour connecteurs santé
+- `mobile_app/lib/services/aria_api_service.dart` : Service Dart pour API
 
 ---
 

@@ -19,6 +19,9 @@ from cia_sync.api import router as sync_router
 # Import du système DevOps
 from devops_automation.api import ARIA_DevOpsAPI
 
+# Import des connecteurs santé
+from health_connectors.api import HealthConnectorsAPI
+
 # Import du système de métriques
 from metrics_collector.api import ARIA_MetricsAPI
 
@@ -65,6 +68,14 @@ app.include_router(sync_router, prefix="/api/sync", tags=["CIA Sync"])
 app.include_router(audio_router, prefix="/api/audio", tags=["Audio/Voice"])
 app.include_router(watch_router, prefix="/api/watch", tags=["Watch Integration"])
 
+# Intégration des connecteurs santé
+try:
+    health_api = HealthConnectorsAPI()
+    health_api.integrate_with_app(app)
+    print("✅ Connecteurs santé intégrés")
+except Exception as e:
+    print(f"⚠️ Connecteurs santé désactivés: {e}")
+
 # Intégration du système de métriques
 try:
     metrics_api = ARIA_MetricsAPI(".")
@@ -97,6 +108,7 @@ async def root():
             "cia_sync",
             "audio_voice",
             "watch_integration",
+            "health_connectors",
         ],
     }
 

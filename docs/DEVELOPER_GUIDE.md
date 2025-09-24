@@ -1,19 +1,123 @@
 # Guide Développeur ARKALIA ARIA
 *Documentation technique complète pour les développeurs*
 
+**Dernière mise à jour : 23 Septembre 2025**
+
 ## 📋 Table des Matières
 
 1. [Architecture Générale](#architecture-générale)
-2. [Installation et Configuration](#installation-et-configuration)
-3. [Structure du Projet](#structure-du-projet)
-4. [API Documentation](#api-documentation)
-5. [Connecteurs de Santé](#connecteurs-de-santé)
-6. [Dashboard Web](#dashboard-web)
-7. [Application Mobile](#application-mobile)
-8. [Base de Données](#base-de-données)
-9. [Tests et Qualité](#tests-et-qualité)
-10. [Déploiement](#déploiement)
-11. [Contributions](#contributions)
+2. [🆕 Module Core](#module-core)
+3. [🆕 BaseAPI](#baseapi)
+4. [Installation et Configuration](#installation-et-configuration)
+5. [Structure du Projet](#structure-du-projet)
+6. [API Documentation](#api-documentation)
+7. [Connecteurs de Santé](#connecteurs-de-santé)
+8. [Dashboard Web](#dashboard-web)
+9. [Application Mobile](#application-mobile)
+10. [Base de Données](#base-de-données)
+11. [Tests et Qualité](#tests-et-qualité)
+12. [Déploiement](#déploiement)
+13. [Contributions](#contributions)
+
+---
+
+## 🆕 Module Core
+
+### Vue d'Ensemble
+Le module `core/` centralise toutes les fonctionnalités communes d'ARKALIA ARIA :
+
+```
+core/
+├── __init__.py          # Exports principaux
+├── api_base.py          # BaseAPI pour standardiser les APIs
+├── database.py          # DatabaseManager centralisé
+├── cache.py             # CacheManager intelligent
+├── config.py            # Configuration centralisée
+├── logging.py           # Logging unifié
+└── exceptions.py        # Exceptions personnalisées
+```
+
+### DatabaseManager
+Gestionnaire de base de données centralisé avec pattern Singleton :
+
+```python
+from core import DatabaseManager
+
+db = DatabaseManager()
+
+# Requêtes
+rows = db.execute_query("SELECT * FROM pain_entries")
+count = db.get_count("pain_entries")
+db.execute_update("INSERT INTO pain_entries ...")
+```
+
+### CacheManager
+Système de cache intelligent avec TTL et invalidation :
+
+```python
+from core import CacheManager
+
+cache = CacheManager()
+
+# Cache simple
+cache.set("key", value, ttl=300)
+value = cache.get("key")
+
+# Cache avec fonction
+value = cache.get_or_set("key", expensive_function, ttl=300)
+```
+
+### Configuration
+Configuration centralisée avec validation :
+
+```python
+from core import config
+
+# Accès aux valeurs
+db_path = config.get_db_path()
+log_level = config.get_log_level()
+api_port = config["api_port"]
+```
+
+---
+
+## 🆕 BaseAPI
+
+### Vue d'Ensemble
+BaseAPI standardise toutes les APIs ARIA avec des endpoints communs :
+
+```python
+from core import BaseAPI
+
+api = BaseAPI(
+    prefix="/api/pain",
+    tags=["Pain Tracking"],
+    description="API de suivi de la douleur"
+)
+
+router = api.get_router()
+```
+
+### Endpoints Standardisés
+Toutes les APIs héritent automatiquement de :
+
+- `GET /health` - Vérification de santé
+- `GET /status` - Statut de l'API
+- `GET /metrics` - Métriques de performance
+
+### Utilisation
+```python
+# Dans pain_tracking/api.py
+from core import BaseAPI
+
+api = BaseAPI("/api/pain", ["Pain Tracking"])
+router = api.get_router()
+
+@router.post("/entries")
+async def create_entry(entry: PainEntry):
+    # Logique métier
+    return api.db.execute_update(...)
+```
 
 ---
 

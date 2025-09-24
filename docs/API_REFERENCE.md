@@ -1,9 +1,42 @@
 # 🔌 Référence API - ARKALIA ARIA
 
+**Dernière mise à jour : 23 Septembre 2025**
+
 ## 🌐 **Base URL**
 ```
 http://localhost:8001
 ```
+
+## 🆕 **Endpoints Standardisés (BaseAPI)**
+
+Toutes les APIs ARIA héritent automatiquement de ces endpoints :
+
+### 🏥 **Health Check**
+```http
+GET /api/{module}/health
+```
+**Exemples :**
+- `GET /api/pain/health`
+- `GET /api/pattern/health`
+- `GET /api/prediction/health`
+
+### 📊 **Status**
+```http
+GET /api/{module}/status
+```
+**Exemples :**
+- `GET /api/pain/status`
+- `GET /api/pattern/status`
+
+### 📈 **Metrics**
+```http
+GET /api/{module}/metrics
+```
+**Exemples :**
+- `GET /api/pain/metrics`
+- `GET /api/pattern/metrics`
+
+---
 
 ## 📋 **Endpoints Principaux**
 

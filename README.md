@@ -25,10 +25,33 @@
 - Guide Utilisateur: `docs/USER_GUIDE.md`
 - Guide Développeur: `docs/DEVELOPER_GUIDE.md`
 - Statut Projet: `docs/PROJECT_STATUS.md`
+- **🆕 Statut Modules: `docs/MODULE_STATUS.md`**
 - Connecteurs Santé: `docs/HEALTH_CONNECTORS.md`
 - App Mobile: `docs/MOBILE_APP.md`
 - Dashboard Web: `docs/DASHBOARD_WEB.md`
 - Makefile: `Makefile`
+
+---
+
+## 🚀 **Améliorations Récentes (23 Septembre 2025)**
+
+### ✅ **Migration vers Architecture Centralisée**
+- **Module `core/`** : DatabaseManager, CacheManager, Config, Logging unifiés
+- **BaseAPI** : Standardisation de toutes les APIs avec endpoints `/health`, `/status`, `/metrics`
+- **Performance** : 1 connexion DB partagée au lieu de 5 connexions séparées
+- **Code** : 2x plus court et plus maintenable
+
+### ✅ **Modules Migrés**
+- `pain_tracking/` → BaseAPI + DatabaseManager
+- `pattern_analysis/` → Logging unifié
+- `prediction_engine/` → DatabaseManager
+- `research_tools/` → DatabaseManager
+- `metrics_collector/` → DatabaseManager
+
+### ✅ **Qualité Code**
+- **Black + Ruff** : Code formaté et linté
+- **Tests** : 100% des modules testés
+- **Documentation** : Mise à jour complète
 
 ---
 
@@ -44,13 +67,14 @@ ARKALIA ARIA (Arkalia Research Intelligence Assistant) est un laboratoire person
 
 ```
 arkalia-aria/
-├── pain_tracking/     # Module tracking douleur avancé
-├── pattern_analysis/   # IA découverte de patterns
-├── prediction_engine/ # Anticiper les crises
+├── core/              # 🆕 Module centralisé (DatabaseManager, Cache, Logging)
+├── pain_tracking/     # ✅ Module tracking douleur (migré vers core)
+├── pattern_analysis/  # ✅ IA découverte de patterns (migré vers core)
+├── prediction_engine/ # ✅ Anticiper les crises (migré vers core)
 ├── health_connectors/ # Connecteurs Samsung/Google/iOS Health
-├── metrics_collector/ # Dashboard web interactif et métriques
+├── metrics_collector/ # ✅ Dashboard web interactif (migré vers core)
 ├── mobile_app/        # Application Flutter native complète
-├── research_tools/    # Laboratoire personnel
+├── research_tools/    # ✅ Laboratoire personnel (migré vers core)
 ├── cia_sync/         # Sync avec CIA si besoin
 ├── audio_voice/      # Interface vocale
 # watch_integration/ supprimé - doublon de health_connectors

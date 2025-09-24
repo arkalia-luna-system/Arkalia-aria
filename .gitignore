@@ -243,6 +243,8 @@ archive/
 uploads/
 temp/
 tmp/
+deployments/
+dacc/audio_notes/
 
 # Security reports
 bandit-report.json

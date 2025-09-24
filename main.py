@@ -14,26 +14,20 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# Configuration du logger
-logger = logging.getLogger(__name__)
-
+# Imports des modules
 from audio_voice.api import router as audio_router
 from cia_sync.api import router as sync_router
-
-# Import du système DevOps
 from devops_automation.api import ARIA_DevOpsAPI
-
-# Import des connecteurs santé
 from health_connectors.api import HealthConnectorsAPI
-
-# Import du système de métriques
 from metrics_collector.api import ARIA_MetricsAPI
-
-# Import des modules ARIA
 from pain_tracking.api import router as pain_router
 from pattern_analysis.api import router as pattern_router
 from prediction_engine.api import router as prediction_router
 from research_tools.api import router as research_router
+
+# Configuration du logger
+logger = logging.getLogger(__name__)
+
 # watch_integration supprimé - doublon de health_connectors
 
 # Application FastAPI

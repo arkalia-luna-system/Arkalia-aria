@@ -265,6 +265,7 @@ class ARIA_MetricsCollector:
         """Compte les entrées de douleur dans la base de données."""
         try:
             import sqlite3
+
             db_path = self.project_root / "aria_pain.db"
             if not db_path.exists():
                 return 0
@@ -281,13 +282,16 @@ class ARIA_MetricsCollector:
         """Compte les patterns analysés."""
         try:
             import sqlite3
+
             db_path = self.project_root / "aria_pain.db"
             if not db_path.exists():
                 return 0
             conn = sqlite3.connect(db_path)
             cursor = conn.cursor()
             # Compter les patterns dans la table patterns ou pain_entries avec patterns
-            cursor.execute("SELECT COUNT(*) FROM pain_entries WHERE pattern_analysis IS NOT NULL")
+            cursor.execute(
+                "SELECT COUNT(*) FROM pain_entries WHERE pattern_analysis IS NOT NULL"
+            )
             count = cursor.fetchone()[0]
             conn.close()
             return count
@@ -298,13 +302,16 @@ class ARIA_MetricsCollector:
         """Compte les prédictions générées."""
         try:
             import sqlite3
+
             db_path = self.project_root / "aria_pain.db"
             if not db_path.exists():
                 return 0
             conn = sqlite3.connect(db_path)
             cursor = conn.cursor()
             # Compter les prédictions dans la table predictions ou pain_entries avec predictions
-            cursor.execute("SELECT COUNT(*) FROM pain_entries WHERE prediction_confidence IS NOT NULL")
+            cursor.execute(
+                "SELECT COUNT(*) FROM pain_entries WHERE prediction_confidence IS NOT NULL"
+            )
             count = cursor.fetchone()[0]
             conn.close()
             return count

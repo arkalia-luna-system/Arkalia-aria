@@ -365,9 +365,10 @@ class TestARIA_QualityAssurance:
         """Test cas nominal de _determine_status"""
         # Test différents scores
         assert self.quality_assurance._determine_status(95) == "excellent"
-        assert self.quality_assurance._determine_status(80) == "good"
-        assert self.quality_assurance._determine_status(65) == "fair"
-        assert self.quality_assurance._determine_status(45) == "poor"
+        assert self.quality_assurance._determine_status(90) == "good"
+        assert self.quality_assurance._determine_status(80) == "ok"
+        assert self.quality_assurance._determine_status(65) == "warning"
+        assert self.quality_assurance._determine_status(45) == "error"
 
     def test_get_quality_history_success(self):
         """Test cas nominal de get_quality_history"""

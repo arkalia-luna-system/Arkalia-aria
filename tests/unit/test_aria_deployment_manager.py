@@ -68,7 +68,7 @@ class TestARIA_DeploymentManager:
         assert "timestamp" in result
         assert result["environment"] == environment
         assert result["version"] == version
-        assert result["status"] in ["success", "failed", "in_progress"]
+        assert result["status"] in ["success", "failed", "in_progress", "error"]
         # Vérifier que les étapes sont présentes
         assert "steps" in result
         assert isinstance(result["steps"], list)

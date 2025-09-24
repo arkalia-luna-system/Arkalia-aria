@@ -472,7 +472,7 @@ class TestMobileAppIntegration:
         # Vérifier l'existence des fichiers
         assert (
             health_service_file.exists()
-        ), f"Fichier {health_service_file} introuvable"
+        ), f"Fichier {health_service_file} introuvable. Chemin absolu: {health_service_file.absolute()}"
         assert (
             notification_service_file.exists()
         ), f"Fichier {notification_service_file} introuvable"

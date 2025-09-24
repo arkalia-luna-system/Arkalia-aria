@@ -517,8 +517,10 @@ class ARIA_QualityAssurance:
 
     def _determine_status(self, score: int) -> str:
         """Détermine le statut basé sur le score."""
-        if score >= 90:
-            return "ok"
+        if score >= 95:
+            return "excellent"
+        elif score >= 90:
+            return "good"
         elif score >= 75:
             return "ok"
         elif score >= 60:

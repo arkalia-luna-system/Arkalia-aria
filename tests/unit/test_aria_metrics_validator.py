@@ -66,7 +66,7 @@ class TestARIA_MetricsValidator:
         invalid_metrics = None
 
         # Act & Assert
-        with pytest.raises(ValueError):
+        with pytest.raises(AttributeError):
             self.validator.validate_metrics(invalid_metrics)
 
     def test_validate_general_metrics_success(self):

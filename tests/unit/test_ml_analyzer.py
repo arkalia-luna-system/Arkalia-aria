@@ -388,7 +388,7 @@ class TestARIAMLAnalyzer:
         """Test calcul de confiance"""
         # Arrange
         # Ajouter plusieurs événements similaires
-        for i in range(10):
+        for _ in range(10):
             event = PainEvent(
                 event_type=PainEventType.PAIN_ENTRY,
                 timestamp=datetime.now(),

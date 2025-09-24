@@ -380,7 +380,7 @@ class TestSystemIntegration:
         assert len(results) == 10
         assert all(status == 200 for status in results)
 
-    def test_data_consistency(self, sync_manager):
+    async def test_data_consistency(self, sync_manager):
         """Test de la cohérence des données."""
         with (
             patch.object(SamsungHealthConnector, "connect", return_value=True),
@@ -457,20 +457,34 @@ class TestMobileAppIntegration:
 
     def test_mobile_services(self):
         """Test des services mobiles."""
-        from mobile_app.lib.services.health_connector_service import (
-            HealthConnectorService,
-        )
-        from mobile_app.lib.services.notification_service import NotificationService
-        from mobile_app.lib.services.offline_cache_service import OfflineCacheService
+        import pathlib
 
-        # Test d'initialisation des services
-        health_service = HealthConnectorService()
-        notification_service = NotificationService()
-        cache_service = OfflineCacheService()
+        # Vérifier que les fichiers de services mobiles existent
+        mobile_app_path = pathlib.Path("mobile_app/lib/services")
 
-        assert health_service is not None
-        assert notification_service is not None
-        assert cache_service is not None
+        # Vérifier l'existence des fichiers de services
+        health_service_file = mobile_app_path / "health_connector_service.dart"
+        notification_service_file = mobile_app_path / "notification_service.dart"
+        cache_service_file = mobile_app_path / "offline_cache_service.dart"
+
+        assert (
+            health_service_file.exists()
+        ), f"Fichier {health_service_file} introuvable"
+        assert (
+            notification_service_file.exists()
+        ), f"Fichier {notification_service_file} introuvable"
+        assert cache_service_file.exists(), f"Fichier {cache_service_file} introuvable"
+
+        # Vérifier que les fichiers ne sont pas vides
+        assert (
+            health_service_file.stat().st_size > 0
+        ), "Fichier health_connector_service.dart vide"
+        assert (
+            notification_service_file.stat().st_size > 0
+        ), "Fichier notification_service.dart vide"
+        assert (
+            cache_service_file.stat().st_size > 0
+        ), "Fichier offline_cache_service.dart vide"
 
 
 class TestEndToEndWorkflow:

@@ -335,3 +335,6 @@ app = FastAPI(
 # Créer l'instance de l'API et l'intégrer
 health_api = HealthConnectorsAPI()
 health_api.integrate_with_app(app)
+
+# Exporter le router pour l'intégration
+router = health_api.get_router()

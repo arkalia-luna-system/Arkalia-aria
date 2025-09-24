@@ -6,6 +6,7 @@ Tests unitaires pour ARIADataCollector
 Tests complets pour le collecteur de données ARIA.
 """
 
+import sqlite3
 import tempfile
 from pathlib import Path
 
@@ -313,7 +314,7 @@ class TestARIADataCollector:
         invalid_db_path = "/invalid/path/aria.db"
 
         # Act & Assert
-        with pytest.raises(Exception):
+        with pytest.raises((OSError, sqlite3.Error)):
             ARIADataCollector(invalid_db_path)
 
     def test_pain_data_collection_with_all_fields(self):

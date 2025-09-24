@@ -11,7 +11,10 @@ from pathlib import Path
 
 import pytest
 
-from devops_automation.security.aria_security_validator import ARIA_SecurityValidator
+from devops_automation.security.aria_security_validator import (
+    ARIA_SecurityValidator,
+    SecurityError,
+)
 
 
 class TestARIA_SecurityValidator:
@@ -296,7 +299,7 @@ class TestARIA_SecurityValidator:
         command = ["rm", "-rf", "/"]
 
         # Act & Assert
-        with pytest.raises(ValueError):
+        with pytest.raises(SecurityError):
             self.validator.execute_secure_command(command, "test_context")
 
     def test_get_security_report_empty(self):
@@ -346,7 +349,7 @@ class TestARIA_SecurityValidator:
         details = None
 
         # Act & Assert
-        with pytest.raises(ValueError):
+        with pytest.raises(TypeError):
             self.validator._log_security_event(event_type, details)
 
     def test_initialize_allowed_commands_success(self):

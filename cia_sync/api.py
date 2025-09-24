@@ -6,11 +6,13 @@ Synchronisation bidirectionnelle optimisée avec Arkalia CIA
 from datetime import datetime
 from typing import Any
 
-import requests  # type: ignore[import-not-found]
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 router = APIRouter()
+
+# Charger requests dynamiquement pour éviter les stubs mypy requis
+requests: Any = importlib.import_module("requests")
 
 # Configuration CIA
 CIA_BASE_URL = "http://127.0.0.1:8000"
@@ -36,13 +38,13 @@ def _check_cia_connection() -> bool:
         return False
 
 
-def _make_cia_request(method: str, endpoint: str, **kwargs) -> requests.Response:
+def _make_cia_request(method: str, endpoint: str, **kwargs) -> Any:
     """Effectue une requête vers CIA avec gestion d'erreurs"""
     try:
         url = f"{CIA_BASE_URL}{endpoint}"
         response = requests.request(method, url, timeout=CIA_TIMEOUT, **kwargs)
         return response
-    except requests.RequestException as e:
+    except Exception as e:
         # Créer une réponse mock simple
         response = requests.Response()
         response.status_code = 503

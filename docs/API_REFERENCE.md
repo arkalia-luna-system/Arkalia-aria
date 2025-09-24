@@ -21,7 +21,11 @@ GET /health
     "pain_tracking": "active",
     "pattern_analysis": "active",
     "prediction_engine": "active",
-    "health_connectors": "active"
+    "health_connectors": "active",
+    "metrics_collector": "active",
+    "research_tools": "active",
+    "cia_sync": "active",
+    "audio_voice": "active"
   }
 }
 ```

@@ -13,6 +13,7 @@ from typing import Any
 psutil: Any  # sera défini ci-dessous
 try:  # pragma: no cover - l'environnement peut ne pas avoir psutil
     import psutil as _psutil
+
     psutil = _psutil
 except Exception:  # pragma: no cover
     psutil = None

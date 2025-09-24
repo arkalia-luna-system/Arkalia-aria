@@ -264,24 +264,50 @@ class ARIA_MetricsCollector:
     def _count_pain_entries(self) -> int:
         """Compte les entrées de douleur dans la base de données."""
         try:
-            # Simulation - en réalité on interrogerait la DB
-            return 0  # À implémenter avec la vraie DB
+            import sqlite3
+            db_path = self.project_root / "aria_pain.db"
+            if not db_path.exists():
+                return 0
+            conn = sqlite3.connect(db_path)
+            cursor = conn.cursor()
+            cursor.execute("SELECT COUNT(*) FROM pain_entries")
+            count = cursor.fetchone()[0]
+            conn.close()
+            return count
         except Exception:
             return 0
 
     def _count_patterns(self) -> int:
         """Compte les patterns analysés."""
         try:
-            # Simulation - en réalité on interrogerait la DB
-            return 0  # À implémenter avec la vraie DB
+            import sqlite3
+            db_path = self.project_root / "aria_pain.db"
+            if not db_path.exists():
+                return 0
+            conn = sqlite3.connect(db_path)
+            cursor = conn.cursor()
+            # Compter les patterns dans la table patterns ou pain_entries avec patterns
+            cursor.execute("SELECT COUNT(*) FROM pain_entries WHERE pattern_analysis IS NOT NULL")
+            count = cursor.fetchone()[0]
+            conn.close()
+            return count
         except Exception:
             return 0
 
     def _count_predictions(self) -> int:
         """Compte les prédictions générées."""
         try:
-            # Simulation - en réalité on interrogerait la DB
-            return 0  # À implémenter avec la vraie DB
+            import sqlite3
+            db_path = self.project_root / "aria_pain.db"
+            if not db_path.exists():
+                return 0
+            conn = sqlite3.connect(db_path)
+            cursor = conn.cursor()
+            # Compter les prédictions dans la table predictions ou pain_entries avec predictions
+            cursor.execute("SELECT COUNT(*) FROM pain_entries WHERE prediction_confidence IS NOT NULL")
+            count = cursor.fetchone()[0]
+            conn.close()
+            return count
         except Exception:
             return 0
 

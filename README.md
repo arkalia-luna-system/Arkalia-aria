@@ -53,7 +53,7 @@ arkalia-aria/
 ├── research_tools/    # Laboratoire personnel
 ├── cia_sync/         # Sync avec CIA si besoin
 ├── audio_voice/      # Interface vocale
-├── watch_integration/ # Intégration montres connectées
+# watch_integration/ supprimé - doublon de health_connectors
 └── docs/             # Documentation complète
 ```
 
@@ -70,7 +70,7 @@ flowchart LR
     A --> H[health_connectors]
     A --> M[metrics_collector]
     A --> V[audio_voice]
-    A --> W[watch_integration]
+    # W[watch_integration] supprimé - doublon de health_connectors
   end
   
   subgraph Mobile

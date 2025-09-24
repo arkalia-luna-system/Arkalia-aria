@@ -44,8 +44,11 @@ class SamsungHealthConnector(BaseHealthConnector):
             # En production, ceci utiliserait l'API Samsung Health
             self.is_connected = True
             return True
-        except Exception as e:
+        except (ConnectionError, TimeoutError) as e:
             self.sync_errors.append(f"Erreur de connexion Samsung Health: {str(e)}")
+            return False
+        except Exception as e:
+            self.sync_errors.append(f"Erreur inattendue Samsung Health: {str(e)}")
             return False
 
     async def disconnect(self) -> None:

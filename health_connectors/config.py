@@ -5,7 +5,6 @@ Gestion des clés API, URLs et paramètres de connexion
 
 from typing import Any
 
-from pydantic import Field
 from pydantic_settings import BaseSettings
 
 
@@ -13,92 +12,73 @@ class HealthConnectorConfig(BaseSettings):
     """Configuration des connecteurs de santé."""
 
     # Configuration générale
-    environment: str = Field(default="development", env="ENVIRONMENT")
-    debug: bool = Field(default=False, env="DEBUG")
-    log_level: str = Field(default="INFO", env="LOG_LEVEL")
+    environment: str = "development"
+    debug: bool = False
+    log_level: str = "INFO"
 
     # Samsung Health API
-    samsung_health_enabled: bool = Field(default=True, env="SAMSUNG_HEALTH_ENABLED")
-    samsung_health_api_key: str | None = Field(
-        default=None, env="SAMSUNG_HEALTH_API_KEY"
-    )
-    samsung_health_api_secret: str | None = Field(
-        default=None, env="SAMSUNG_HEALTH_API_SECRET"
-    )
-    samsung_health_base_url: str = Field(
-        default="https://api.samsunghealth.com", env="SAMSUNG_HEALTH_BASE_URL"
-    )
-    samsung_health_timeout: int = Field(default=30, env="SAMSUNG_HEALTH_TIMEOUT")
+    samsung_health_enabled: bool = True
+    samsung_health_api_key: str | None = None
+    samsung_health_api_secret: str | None = None
+    samsung_health_base_url: str = "https://api.samsunghealth.com"
+    samsung_health_timeout: int = 30
 
     # Google Fit API
-    google_fit_enabled: bool = Field(default=True, env="GOOGLE_FIT_ENABLED")
-    google_fit_client_id: str | None = Field(default=None, env="GOOGLE_FIT_CLIENT_ID")
-    google_fit_client_secret: str | None = Field(
-        default=None, env="GOOGLE_FIT_CLIENT_SECRET"
-    )
-    google_fit_redirect_uri: str = Field(
-        default="http://localhost:8000/auth/google/callback",
-        env="GOOGLE_FIT_REDIRECT_URI",
-    )
-    google_fit_scopes: list = Field(
-        default=[
-            "https://www.googleapis.com/auth/fitness.activity.read",
-            "https://www.googleapis.com/auth/fitness.body.read",
-            "https://www.googleapis.com/auth/fitness.sleep.read",
-        ],
-        env="GOOGLE_FIT_SCOPES",
-    )
+    google_fit_enabled: bool = True
+    google_fit_client_id: str | None = None
+    google_fit_client_secret: str | None = None
+    google_fit_redirect_uri: str = "http://localhost:8000/auth/google/callback"
+    google_fit_scopes: list[str] = [
+        "https://www.googleapis.com/auth/fitness.activity.read",
+        "https://www.googleapis.com/auth/fitness.body.read",
+        "https://www.googleapis.com/auth/fitness.sleep.read",
+    ]
 
     # Apple HealthKit (iOS Health)
-    ios_health_enabled: bool = Field(default=True, env="IOS_HEALTH_ENABLED")
-    apple_healthkit_enabled: bool = Field(default=True, env="APPLE_HEALTHKIT_ENABLED")
-    ios_health_team_id: str | None = Field(default=None, env="IOS_HEALTH_TEAM_ID")
-    ios_health_key_id: str | None = Field(default=None, env="IOS_HEALTH_KEY_ID")
-    ios_health_private_key: str | None = Field(
-        default=None, env="IOS_HEALTH_PRIVATE_KEY"
-    )
-    ios_health_bundle_id: str = Field(
-        default="com.arkalia.aria", env="IOS_HEALTH_BUNDLE_ID"
-    )
+    ios_health_enabled: bool = True
+    apple_healthkit_enabled: bool = True
+    ios_health_team_id: str | None = None
+    ios_health_key_id: str | None = None
+    ios_health_private_key: str | None = None
+    ios_health_bundle_id: str = "com.arkalia.aria"
 
     # Configuration de synchronisation
-    sync_interval_hours: int = Field(default=6, env="SYNC_INTERVAL_HOURS")
-    max_days_back: int = Field(default=30, env="MAX_DAYS_BACK")
-    auto_sync_enabled: bool = Field(default=True, env="AUTO_SYNC_ENABLED")
-    batch_size: int = Field(default=100, env="BATCH_SIZE")
+    sync_interval_hours: int = 6
+    max_days_back: int = 30
+    auto_sync_enabled: bool = True
+    batch_size: int = 100
 
     # Configuration de sécurité
-    encryption_key: str | None = Field(default=None, env="ENCRYPTION_KEY")
-    jwt_secret: str | None = Field(default=None, env="JWT_SECRET")
-    jwt_expiration_hours: int = Field(default=24, env="JWT_EXPIRATION_HOURS")
+    encryption_key: str | None = None
+    jwt_secret: str | None = None
+    jwt_expiration_hours: int = 24
 
     # Configuration de la base de données
-    database_url: str = Field(
-        default="postgresql://user:pass@localhost/arkalia", env="DATABASE_URL"
-    )
-    redis_url: str = Field(default="redis://localhost:6379", env="REDIS_URL")
+    database_url: str = "postgresql://user:pass@localhost/arkalia"
+    redis_url: str = "redis://localhost:6379"
 
     # Configuration des logs
-    log_file: str = Field(default="logs/health_connectors.log", env="LOG_FILE")
-    log_rotation: str = Field(default="daily", env="LOG_ROTATION")
-    log_retention_days: int = Field(default=30, env="LOG_RETENTION_DAYS")
+    log_file: str = "logs/health_connectors.log"
+    log_rotation: str = "daily"
+    log_retention_days: int = 30
 
     # Configuration des notifications
-    notification_enabled: bool = Field(default=True, env="NOTIFICATION_ENABLED")
-    email_smtp_host: str | None = Field(default=None, env="EMAIL_SMTP_HOST")
-    email_smtp_port: int = Field(default=587, env="EMAIL_SMTP_PORT")
-    email_username: str | None = Field(default=None, env="EMAIL_USERNAME")
-    email_password: str | None = Field(default=None, env="EMAIL_PASSWORD")
+    notification_enabled: bool = True
+    email_smtp_host: str | None = None
+    email_smtp_port: int = 587
+    email_username: str | None = None
+    email_password: str | None = None
 
     # Configuration des webhooks
-    webhook_enabled: bool = Field(default=False, env="WEBHOOK_ENABLED")
-    webhook_url: str | None = Field(default=None, env="WEBHOOK_URL")
-    webhook_secret: str | None = Field(default=None, env="WEBHOOK_SECRET")
+    webhook_enabled: bool = False
+    webhook_url: str | None = None
+    webhook_secret: str | None = None
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-        case_sensitive = False
+    model_config = {
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "case_sensitive": False,
+    }
 
 
 class SamsungHealthConfig:

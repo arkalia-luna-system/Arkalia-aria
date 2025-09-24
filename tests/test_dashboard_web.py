@@ -69,7 +69,7 @@ class TestDashboardPages:
 
         app = FastAPI()
         dashboard = ARIA_MetricsDashboard(app)
-        return TestClient(dashboard.app)
+        return TestClient(app)
 
     def test_dashboard_main_page(self, client):
         """Test page principale du dashboard."""

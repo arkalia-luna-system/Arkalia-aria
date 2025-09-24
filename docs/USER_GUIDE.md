@@ -78,20 +78,18 @@ ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intell
 - **Exports** : PDF, Excel, HTML
 - **Temps Réel** : Mise à jour automatique
 
-### Application Mobile
+### Application Mobile (En Développement)
 
-#### Navigation par Onglets
-- **Accueil** : Dashboard principal
-- **Santé** : Synchronisation et suivi
-- **Analyses** : Graphiques et tendances
-- **Alertes** : Notifications et rappels
-- **Paramètres** : Configuration personnelle
+#### Architecture Actuelle
+- **Services** : Communication API, notifications, cache offline
+- **Modèles** : Gestion des données de santé
+- **Configuration** : Support Android et iOS
 
-#### Gestes et Interactions
-- **Pull-to-Refresh** : Actualisation des données
-- **Swipe** : Navigation entre les sections
-- **Tap** : Accès aux détails
-- **Long Press** : Actions contextuelles
+#### Fonctionnalités Prévues
+- **Interface utilisateur** : Écrans spécialisés (en développement)
+- **Synchronisation** : Bidirectionnelle avec l'API ARIA
+- **Mode hors ligne** : Cache intelligent local
+- **Notifications** : Push personnalisées
 
 ---
 

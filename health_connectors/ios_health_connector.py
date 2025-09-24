@@ -44,8 +44,11 @@ class IOSHealthConnector(BaseHealthConnector):
             # En production, ceci utiliserait l'API HealthKit
             self.is_connected = True
             return True
-        except Exception as e:
+        except (ConnectionError, TimeoutError) as e:
             self.sync_errors.append(f"Erreur de connexion iOS Health: {str(e)}")
+            return False
+        except Exception as e:
+            self.sync_errors.append(f"Erreur inattendue iOS Health: {str(e)}")
             return False
 
     async def disconnect(self) -> None:

@@ -146,7 +146,7 @@ class ARIA_MetricsCollector:
                     python_files.append(file_info)
 
             except Exception as e:
-                print(f"Erreur lecture {py_file}: {e}")
+                logger.warning(f"Erreur lecture {py_file}: {e}")
 
         return {
             "count": len(python_files),

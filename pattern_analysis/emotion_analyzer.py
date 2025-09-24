@@ -5,8 +5,12 @@ ARIA Emotion Analyzer - Module d'analyse émotionnelle pour ARIA
 Adapté de BBIA Emotions pour l'analyse des patterns de douleur
 """
 
+import logging
 from datetime import datetime, timedelta
 from typing import TypedDict
+
+# Configuration du logging
+logger = logging.getLogger(__name__)
 
 
 class EmotionInfo(TypedDict):
@@ -76,10 +80,10 @@ class ARIAREmotionAnalyzer:
             },
         }
 
-        print("🧠 ARIA Emotion Analyzer initialisé")
-        print(f"   • Émotion actuelle : {self.current_emotion}")
-        print(f"   • Intensité : {self.emotion_intensity}")
-        print(f"   • Émotions disponibles : {len(self.emotions)}")
+        logger.info("🧠 ARIA Emotion Analyzer initialisé")
+        logger.info(f"   • Émotion actuelle : {self.current_emotion}")
+        logger.info(f"   • Intensité : {self.emotion_intensity}")
+        logger.info(f"   • Émotions disponibles : {len(self.emotions)}")
 
     def analyze_pain_context(self, pain_data: dict) -> dict:
         """Analyse le contexte émotionnel d'une entrée de douleur"""
@@ -147,7 +151,7 @@ class ARIAREmotionAnalyzer:
     def set_emotion(self, emotion: str, intensity: float = 0.5) -> bool:
         """Change l'émotion analysée"""
         if emotion not in self.emotions:
-            print(f"❌ Émotion inconnue : {emotion}")
+            logger.warning(f"❌ Émotion inconnue : {emotion}")
             return False
 
         old_emotion = self.current_emotion
@@ -344,21 +348,21 @@ class ARIAREmotionAnalyzer:
 
     def reset_emotions(self):
         """Remet l'analyseur en état neutre"""
-        print("🔄 Remise à zéro de l'analyseur émotionnel")
+        logger.info("🔄 Remise à zéro de l'analyseur émotionnel")
         self.set_emotion("neutral", 0.5)
         self.emotion_history.clear()
 
 
 def main():
     """Test du module ARIA Emotion Analyzer"""
-    print("🧪 Test du module ARIA Emotion Analyzer")
-    print("=" * 50)
+    logger.info("🧪 Test du module ARIA Emotion Analyzer")
+    logger.info("=" * 50)
 
     # Créer l'instance
     analyzer = ARIAREmotionAnalyzer()
 
     # Test d'analyse de contexte de douleur
-    print("\n1️⃣ Test analyse contexte douleur")
+    logger.info("\n1️⃣ Test analyse contexte douleur")
     pain_data = {
         "intensity": 7,
         "physical_trigger": "marche prolongée",
@@ -366,24 +370,24 @@ def main():
         "activity": "travail sur Mac",
     }
     analysis = analyzer.analyze_pain_context(pain_data)
-    print(f"Analyse: {analysis}")
+    logger.info(f"Analyse: {analysis}")
 
     # Test de patterns émotionnels
-    print("\n2️⃣ Test patterns émotionnels")
+    logger.info("\n2️⃣ Test patterns émotionnels")
     patterns = analyzer.get_emotion_patterns(days=7)
-    print(f"Patterns: {patterns}")
+    logger.info(f"Patterns: {patterns}")
 
     # Test de prédiction
-    print("\n3️⃣ Test prédiction émotionnelle")
+    logger.info("\n3️⃣ Test prédiction émotionnelle")
     prediction = analyzer.predict_emotional_state({})
-    print(f"Prédiction: {prediction}")
+    logger.info(f"Prédiction: {prediction}")
 
     # Test statistiques
-    print("\n4️⃣ Test statistiques")
+    logger.info("\n4️⃣ Test statistiques")
     stats = analyzer.get_emotion_stats()
-    print(f"Statistiques: {stats}")
+    logger.info(f"Statistiques: {stats}")
 
-    print("\n✅ Test ARIA Emotion Analyzer terminé")
+    logger.info("\n✅ Test ARIA Emotion Analyzer terminé")
 
 
 if __name__ == "__main__":

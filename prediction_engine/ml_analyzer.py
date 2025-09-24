@@ -521,14 +521,14 @@ class ARIAMLAnalyzer:
 
 def main():
     """Test du module ARIA ML Analyzer"""
-    print("🧪 Test du module ARIA ML Analyzer")
-    print("=" * 50)
+    logger.info("🧪 Test du module ARIA ML Analyzer")
+    logger.info("=" * 50)
 
     # Créer l'instance
     analyzer = ARIAMLAnalyzer()
 
     # Test d'enregistrement d'événements
-    print("\n1️⃣ Test enregistrement événements")
+    logger.info("\n1️⃣ Test enregistrement événements")
     events = [
         PainEvent(
             PainEventType.PAIN_ENTRY,
@@ -557,23 +557,23 @@ def main():
         analyzer.track_pain_event(event)
 
     # Test d'analyse de patterns
-    print("\n2️⃣ Test analyse patterns")
+    logger.info("\n2️⃣ Test analyse patterns")
     patterns = analyzer.analyze_pain_patterns(days=7)
-    print(f"Patterns détectés: {len(patterns.get('patterns', []))}")
-    print(f"Recommandations: {patterns.get('recommendations', [])}")
+    logger.info(f"Patterns détectés: {len(patterns.get('patterns', []))}")
+    logger.info(f"Recommandations: {patterns.get('recommendations', [])}")
 
     # Test de prédiction
-    print("\n3️⃣ Test prédiction")
+    logger.info("\n3️⃣ Test prédiction")
     context = {"stress_level": 0.8, "fatigue_level": 0.6, "activity_intensity": 0.4}
     prediction = analyzer.predict_pain_episode(context)
-    print(f"Prédiction: {prediction}")
+    logger.info(f"Prédiction: {prediction}")
 
     # Test résumé analytics
-    print("\n4️⃣ Test résumé analytics")
+    logger.info("\n4️⃣ Test résumé analytics")
     summary = analyzer.get_analytics_summary()
-    print(f"Résumé: {summary}")
+    logger.info(f"Résumé: {summary}")
 
-    print("\n✅ Test ARIA ML Analyzer terminé")
+    logger.info("\n✅ Test ARIA ML Analyzer terminé")
 
 
 if __name__ == "__main__":

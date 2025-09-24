@@ -44,8 +44,11 @@ class GoogleFitConnector(BaseHealthConnector):
             # En production, ceci utiliserait l'API Google Fit
             self.is_connected = True
             return True
-        except Exception as e:
+        except (ConnectionError, TimeoutError) as e:
             self.sync_errors.append(f"Erreur de connexion Google Fit: {str(e)}")
+            return False
+        except Exception as e:
+            self.sync_errors.append(f"Erreur inattendue Google Fit: {str(e)}")
             return False
 
     async def disconnect(self) -> None:

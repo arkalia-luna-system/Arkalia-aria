@@ -93,16 +93,37 @@ graph TB
 **Route** : `/dashboard`
 
 **Fonctionnalités** :
-- Vue d'ensemble des métriques santé
-- Graphiques de tendances en temps réel
-- Accès rapide aux analyses spécialisées
-- Notifications et alertes
+- Vue d'ensemble des métriques ARIA
+- Accès rapide aux fonctionnalités principales
+- Métriques de sécurité et performance
+- Actions rapides
 
-**Composants** :
-- **Métriques clés** : Pas, calories, distance, sommeil
-- **Graphiques temps réel** : Tendances des 7 derniers jours
-- **Alertes santé** : Notifications importantes
-- **Actions rapides** : Liens vers analyses et rapports
+### **📊 Métriques Générales**
+
+**Route** : `/dashboard/metrics`
+
+**Fonctionnalités** :
+- Métriques système générales
+- Performance de l'application
+- Statistiques d'utilisation
+
+### **🔒 Sécurité**
+
+**Route** : `/dashboard/security`
+
+**Fonctionnalités** :
+- Métriques de sécurité
+- Alertes de sécurité
+- Audit des accès
+
+### **⚡ Performance**
+
+**Route** : `/dashboard/performance`
+
+**Fonctionnalités** :
+- Métriques de performance
+- Temps de réponse
+- Utilisation des ressources
 
 ### **🏥 Métriques Santé**
 

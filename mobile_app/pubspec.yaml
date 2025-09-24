@@ -34,7 +34,7 @@ dependencies:
   sqflite: ^2.3.0
 
   # Utils
-  intl: ^0.19.0
+  intl: ^0.18.1
   equatable: ^2.0.5
   json_annotation: ^4.8.1
 
@@ -51,7 +51,7 @@ dependencies:
 
   # Health & Sensors
   health: ^10.0.0
-  pedometer: ^3.0.1
+  pedometer: ^3.0.0
   device_info_plus: ^9.1.1
 
   # Charts & Visualization

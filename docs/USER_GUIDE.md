@@ -39,24 +39,25 @@ ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intell
 
 ### Installation Web
 
-1. Accédez à `https://dashboard.arkalia-aria.com`
-2. Créez votre compte utilisateur
-3. Configurez vos connecteurs de santé
-4. Commencez le suivi de vos données
+1. Clonez le repository : `git clone https://github.com/arkalia-luna-system/arkalia-aria.git`
+2. Installez les dépendances : `pip install -r requirements.txt`
+3. Lancez l'application : `python main.py`
+4. Accédez à `http://localhost:8000/dashboard`
+5. Configurez vos connecteurs de santé
 
 ### Installation Mobile
 
-#### iOS (App Store)
-1. Recherchez "ARKALIA ARIA" dans l'App Store
-2. Téléchargez et installez l'application
-3. Ouvrez l'app et connectez-vous
-4. Autorisez l'accès aux données de santé
+#### iOS (En Développement)
+1. Naviguez vers `arkalia-aria/mobile_app/`
+2. Installez Flutter SDK
+3. Exécutez `flutter pub get`
+4. Lancez `flutter run` (simulateur iOS requis)
 
-#### Android (Google Play)
-1. Recherchez "ARKALIA ARIA" dans Google Play
-2. Téléchargez et installez l'application
-3. Ouvrez l'app et connectez-vous
-4. Configurez la synchronisation avec Google Fit
+#### Android (En Développement)
+1. Naviguez vers `arkalia-aria/mobile_app/`
+2. Installez Flutter SDK
+3. Exécutez `flutter pub get`
+4. Lancez `flutter run` (émulateur Android requis)
 
 ---
 

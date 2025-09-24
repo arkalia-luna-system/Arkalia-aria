@@ -26,23 +26,16 @@ L'application mobile ARKALIA ARIA est une application Flutter native qui offre u
 mobile_app/
 ├── lib/
 │   ├── models/                    # Modèles de données
-│   │   ├── health_data.dart
-│   │   ├── pain_entry.dart
-│   │   ├── analytics_data.dart
-│   │   └── sync_status.dart
+│   │   └── health_data.dart       # Modèle principal de données santé
 │   ├── services/                  # Services métier
 │   │   ├── health_connector_service.dart
 │   │   ├── notification_service.dart
-│   │   ├── offline_cache_service.dart
-│   │   └── export_service.dart
-│   ├── screens/                   # Écrans de l'application
-│   │   ├── health_sync_screen.dart
-│   │   ├── dashboard_screen.dart
-│   │   ├── analytics_screen.dart
-│   │   ├── settings_screen.dart
-│   │   ├── notifications_screen.dart
-│   │   └── reports_screen.dart
-│   └── main.dart                  # Point d'entrée
+│   │   └── offline_cache_service.dart
+│   ├── screens/                   # Écrans (vide - en développement)
+│   ├── utils/                     # Utilitaires (vide - en développement)
+│   ├── android/                   # Configuration Android
+│   ├── ios/                       # Configuration iOS
+│   └── pubspec.yaml               # Dépendances Flutter
 ├── android/                       # Configuration Android
 ├── ios/                          # Configuration iOS
 └── pubspec.yaml                  # Dépendances Flutter
@@ -92,103 +85,40 @@ graph TB
 
 ---
 
-## 📱 **Écrans de l'Application**
+## 📱 **Architecture de l'Application**
 
-### **🏠 Dashboard Principal**
+### **🏗️ Structure Actuelle**
 
-**Fichier** : `lib/screens/dashboard_screen.dart`
+L'application mobile Flutter est actuellement en phase de développement avec une architecture modulaire :
 
-**Fonctionnalités** :
-- Vue d'ensemble des métriques santé
-- Accès rapide aux fonctionnalités principales
-- Synchronisation en temps réel
-- Actions rapides (ajouter douleur, synchroniser)
+**Composants Implémentés** :
+- **Modèles de données** : `HealthData` pour la gestion des données santé
+- **Services métier** : Communication API, notifications, cache offline
+- **Configuration** : Support Android et iOS
 
-**Composants** :
-- Carte de bienvenue personnalisée
-- Grille des métriques santé (pas, calories, distance, sommeil)
-- Liste des douleurs récentes
-- Actions rapides (analyses, rapports, paramètres)
-- Statut de synchronisation
+**Fonctionnalités Prévues** :
+- Interface utilisateur complète avec écrans spécialisés
+- Synchronisation bidirectionnelle avec l'API ARIA
+- Mode hors ligne avec cache intelligent
+- Notifications push personnalisées
+- Export de rapports multiples
 
-### **🔄 Synchronisation Santé**
+### **🔧 Services Disponibles**
 
-**Fichier** : `lib/screens/health_sync_screen.dart`
+**HealthConnectorService** :
+- Communication avec l'API ARIA
+- Gestion des connecteurs santé (Samsung, Google Fit, iOS Health)
+- Synchronisation des données
 
-**Fonctionnalités** :
-- Gestion des connecteurs santé
-- Synchronisation manuelle et automatique
-- Statut de connexion en temps réel
-- Historique des synchronisations
+**NotificationService** :
+- Gestion des notifications push
+- Configuration des rappels
+- Permissions système
 
-**Connecteurs** :
-- Samsung Health (montres Samsung)
-- Google Fit (Android S24)
-- iOS Health (iPad)
-
-### **📊 Analyses Avancées**
-
-**Fichier** : `lib/screens/analytics_screen.dart`
-
-**Fonctionnalités** :
-- Analyses de douleur avec tendances
-- Visualisations d'activité physique
-- Analyses de sommeil et stress
-- Filtres temporels personnalisables
-
-**Onglets** :
-- **Douleur** : Tendances, déclencheurs, localisations
-- **Activité** : Pas, calories, distance
-- **Sommeil** : Durée, qualité, patterns
-- **Stress** : Niveaux, fréquence cardiaque
-
-### **⚙️ Paramètres**
-
-**Fichier** : `lib/screens/settings_screen.dart`
-
-**Fonctionnalités** :
-- Configuration des notifications
-- Paramètres de synchronisation
-- Préférences d'apparence
-- Gestion des données et cache
-
-**Sections** :
-- **Notifications** : Activation, test
-- **Synchronisation** : Intervalle, mode automatique
-- **Apparence** : Langue, thème
-- **Données** : Cache, export, suppression
-
-### **🔔 Notifications**
-
-**Fichier** : `lib/screens/notifications_screen.dart`
-
-**Fonctionnalités** :
-- Configuration des rappels de douleur
-- Notifications de synchronisation
-- Alertes santé personnalisées
-- Rapports quotidiens
-
-**Types de Notifications** :
-- Rappels de douleur (2h, 4h, 6h, 8h, 12h)
-- Notifications de sync (succès/échec)
-- Alertes santé (seuils dépassés)
-- Rapports quotidiens (heure personnalisable)
-
-### **📄 Rapports**
-
-**Fichier** : `lib/screens/reports_screen.dart`
-
-**Fonctionnalités** :
-- Génération de rapports personnalisés
-- Rapports rapides (semaine, mois, trimestre, année)
-- Export multiple (PDF, Excel, HTML)
-- Historique des rapports
-
-**Options de Rapport** :
-- Période personnalisable
-- Types de données sélectionnables
-- Inclusion graphiques/résumé/recommandations
-- Formats d'export multiples
+**OfflineCacheService** :
+- Cache local des données
+- Synchronisation hors ligne
+- Gestion de la cohérence
 
 ---
 
@@ -269,35 +199,21 @@ Future<DateTime?> getLastSyncTimestamp()
 Future<void> markCacheAsStale()
 ```
 
-### **ExportService**
+### **Services en Développement**
 
-**Fichier** : `lib/services/export_service.dart`
-
-**Responsabilités** :
+**ExportService** (prévu) :
 - Génération de rapports
 - Export PDF/Excel/HTML
 - Partage de fichiers
 - Sauvegarde locale
 
-**Méthodes principales** :
-```dart
-// Génération de rapports
-Future<Map<String, dynamic>> generateReport({
-  required DateTime startDate,
-  required DateTime endDate,
-  required String format,
-  required List<String> dataTypes,
-  required bool includeCharts,
-  required bool includeSummary,
-  required bool includeRecommendations,
-  required Map<String, dynamic> data,
-})
-
-// Export et partage
-Future<void> saveReport(Map<String, dynamic> reportData)
-Future<void> shareReport(String filePath)
-Future<List<Map<String, dynamic>>> getReportHistory()
-```
+**Écrans Utilisateur** (prévus) :
+- Dashboard principal
+- Synchronisation santé
+- Analyses avancées
+- Paramètres
+- Notifications
+- Rapports
 
 ---
 
@@ -307,81 +223,41 @@ Future<List<Map<String, dynamic>>> getReportHistory()
 
 ```dart
 class HealthData {
+  final String id;
   final DateTime timestamp;
-  final double heartRate;
-  final int? bloodPressureSystolic;
-  final int? bloodPressureDiastolic;
+  final String source;
+  final double? heartRate;
+  final double? bloodPressure;
+  final double? bloodGlucose;
+  final double? bodyTemperature;
   final double? weight;
+  final double? height;
   final double? bmi;
-  final double? bodyFat;
-  final double? temperature;
+  final Map<String, dynamic>? rawData;
   
-  // Méthodes utilitaires
-  String get heartRateFormatted;
-  String get bloodPressureFormatted;
-  String get weightFormatted;
+  // Constructeur et méthodes
+  const HealthData({...});
+  factory HealthData.fromJson(Map<String, dynamic> json);
+  Map<String, dynamic> toJson();
 }
 ```
 
-### **PainEntry**
+### **Modèles en Développement**
 
-```dart
-class PainEntry {
-  final DateTime timestamp;
-  final int intensity;
-  final String? physicalTrigger;
-  final String? mentalTrigger;
-  final String? activity;
-  final String? location;
-  final String? actionTaken;
-  final int? effectiveness;
-  final String? notes;
-  
-  // Méthodes utilitaires
-  String get intensityCategory;
-  String get effectivenessCategory;
-  String get timeSinceFormatted;
-}
-```
+**PainEntry** (prévu) :
+- Gestion des entrées de douleur
+- Intensité, déclencheurs, localisation
+- Actions prises et efficacité
 
-### **AnalyticsData**
+**AnalyticsData** (prévu) :
+- Données d'analyse avancées
+- Corrélations et tendances
+- Métriques de performance
 
-```dart
-class AnalyticsData {
-  final DateTime startDate;
-  final DateTime endDate;
-  final List<PainEntry> painEntries;
-  final List<ActivityData> activityData;
-  final List<SleepData> sleepData;
-  final List<StressData> stressData;
-  
-  // Méthodes d'analyse
-  Map<String, int> getPainTriggers();
-  Map<String, int> getPainLocations();
-  Map<String, int> getPainActions();
-  double getAveragePainIntensity();
-  List<Map<String, dynamic>> getDailyTrends();
-}
-```
-
-### **SyncStatus**
-
-```dart
-class SyncStatus {
-  final DateTime timestamp;
-  final Map<String, ConnectorStatus> connectors;
-  final int totalConnectors;
-  final int connectedConnectors;
-  final int totalDataSynced;
-  final List<String> globalErrors;
-  final String overallStatus;
-  
-  // Méthodes utilitaires
-  bool get isFullyConnected;
-  bool get hasErrors;
-  String get statusDescription;
-}
-```
+**SyncStatus** (prévu) :
+- Statut de synchronisation
+- Gestion des connecteurs
+- Suivi des erreurs
 
 ---
 

@@ -183,29 +183,39 @@ class HealthData(BaseModel):
 ### **Synchronisation**
 
 ```http
-POST /api/health/sync
+POST /health/samsung/sync
+POST /health/google/sync
+POST /health/ios/sync
+POST /health/sync/all
 Content-Type: application/json
 
 {
-  "connector": "samsung_health",
-  "days_back": 7
+  "days_back": 30,
+  "connector_name": "samsung_health"
 }
 ```
 
 ### **Récupération des Données**
 
 ```http
-GET /api/health/metrics/unified?days_back=7
-GET /api/health/activity?days_back=7
-GET /api/health/sleep?days_back=7
-GET /api/health/stress?days_back=7
-GET /api/health/data?days_back=7
+GET /health/data/activity?days_back=30
+GET /health/data/sleep?days_back=30
+GET /health/data/stress?days_back=30
+GET /health/data/health?days_back=30
+GET /health/metrics/unified?days_back=30
 ```
 
 ### **Statut des Connecteurs**
 
 ```http
-GET /api/health/connectors/status
+GET /health/connectors/status
+```
+
+### **Configuration**
+
+```http
+GET /health/config
+PUT /health/config
 ```
 
 **Réponse :**

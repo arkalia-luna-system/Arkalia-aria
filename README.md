@@ -105,12 +105,11 @@ flowchart LR
 - **Sync Manager** : Gestionnaire de synchronisation unifié
 - **Data Models** : Modèles de données standardisés
 
-### 📱 **Mobile App Flutter** ✅ **OPÉRATIONNEL**
-- **4 écrans principaux** : Santé, Dashboard, Analytics, Settings
-- **Services complets** : Notifications, Cache offline, Export
-- **API Dart** : Service de communication avec ARIA
-- **Mode hors ligne** : Cache intelligent local
-- **Notifications push** : Rappels personnalisés
+### 📱 **Mobile App Flutter** 🚧 **EN DÉVELOPPEMENT**
+- **Architecture modulaire** : Services et modèles de données
+- **Services implémentés** : Notifications, Cache offline, API
+- **Configuration** : Support Android et iOS
+- **Fonctionnalités prévues** : Interface complète, synchronisation bidirectionnelle
 
 ### 🌐 **Dashboard Web** ✅ **OPÉRATIONNEL**
 - **6 templates HTML** : Dashboard, santé, métriques, analytics, patterns, rapports
@@ -207,7 +206,7 @@ make workspace-health
 - [x] Phase 2: Pain tracking (endpoints principaux)
 - [x] Phase 3: Health connectors (Samsung/Google/iOS) ✅ **TERMINÉ**
 - [x] Phase 4: Dashboard web interactif ✅ **TERMINÉ**
-- [x] Phase 5: Application mobile Flutter complète ✅ **TERMINÉ**
+- [x] Phase 5: Application mobile Flutter (architecture) 🚧 **EN DÉVELOPPEMENT**
 - [x] Phase 6: Tests unitaires complets ✅ **TERMINÉ**
 - [x] Phase 7: Documentation complète ✅ **TERMINÉ**
 - [ ] Phase 8: Pattern analysis (itératif)

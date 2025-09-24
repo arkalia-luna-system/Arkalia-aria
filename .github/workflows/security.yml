@@ -1,25 +1,14 @@
-{
-  "name": "Security Audit",
-  "on": {
-    "schedule": [
-      {
-        "cron": "0 2 * * *"
-      }
-    ],
-    "workflow_dispatch": {}
-  },
-  "jobs": {
-    "security-audit": {
-      "runs-on": "ubuntu-latest",
-      "steps": [
-        {
-          "uses": "actions/checkout@v4"
-        },
-        {
-          "name": "Run comprehensive security audit",
-          "run": "python -m devops_automation.security.aria_security_validator --audit-all"
-        }
-      ]
-    }
-  }
-}
+name: Security Audit
+
+on:
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run comprehensive security audit
+        run: python -m devops_automation.security.aria_security_validator --audit-all

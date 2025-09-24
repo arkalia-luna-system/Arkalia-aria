@@ -1,0 +1,132 @@
+{
+  "project_info": {
+    "name": "ARKALIA ARIA",
+    "version": "1.0.0",
+    "root_path": "/Volumes/T7/arkalia-aria",
+    "python_version": "3.10.14 (main, Jun 17 2025, 15:39:18) [Clang 17.0.0 (clang-1700.0.13.5)]",
+    "platform": "darwin"
+  },
+  "python_files": {
+    "count": 32,
+    "core_files": 28,
+    "test_files": 4,
+    "total_lines": 5430,
+    "files": [
+      {
+        "path": "main.py",
+        "lines": 102,
+        "size_kb": 2.7236328125,
+        "type": "core"
+      },
+      {
+        "path": "test_integration.py",
+        "lines": 102,
+        "size_kb": 3.244140625,
+        "type": "test"
+      },
+      {
+        "path": "test_metrics_system.py",
+        "lines": 164,
+        "size_kb": 5.564453125,
+        "type": "test"
+      },
+      {
+        "path": "pain_tracking/__init__.py",
+        "lines": 7,
+        "size_kb": 0.1513671875,
+        "type": "core"
+      },
+      {
+        "path": "pain_tracking/api.py",
+        "lines": 220,
+        "size_kb": 6.41796875,
+        "type": "core"
+      },
+      {
+        "path": "pattern_analysis/__init__.py",
+        "lines": 7,
+        "size_kb": 0.16796875,
+        "type": "core"
+      },
+      {
+        "path": "pattern_analysis/api.py",
+        "lines": 47,
+        "size_kb": 1.1591796875,
+        "type": "core"
+      },
+      {
+        "path": "pattern_analysis/emotion_analyzer.py",
+        "lines": 377,
+        "size_kb": 13.03515625,
+        "type": "core"
+      },
+      {
+        "path": "prediction_engine/__init__.py",
+        "lines": 7,
+        "size_kb": 0.1611328125,
+        "type": "core"
+      },
+      {
+        "path": "prediction_engine/ml_analyzer.py",
+        "lines": 519,
+        "size_kb": 19.71484375,
+        "type": "core"
+      }
+    ]
+  },
+  "aria_specific": {
+    "pain_tracking": 0,
+    "pattern_analysis": 0,
+    "predictions": 0,
+    "cia_integration": {
+      "cia_sync_exists": true,
+      "integration_endpoints": 5
+    }
+  },
+  "ml_models": {
+    "ml_files_count": 116,
+    "model_files_count": 86,
+    "prediction_engine_status": true,
+    "emotion_analyzer_status": true
+  },
+  "api_endpoints": {
+    "api_files_count": 145,
+    "endpoints_count": 725,
+    "cia_sync_endpoints": 5,
+    "pain_api_endpoints": 8
+  },
+  "tests": {
+    "test_files_count": 2100,
+    "test_directories_count": 99,
+    "coverage_percentage": 0.0,
+    "integration_tests": 0
+  },
+  "security": {
+    "bandit_scan": {
+      "status": "failed",
+      "error": "Bandit not available"
+    },
+    "safety_scan": {
+      "status": "completed",
+      "vulnerabilities_found": 0
+    },
+    "dependencies_count": 20,
+    "vulnerabilities": {
+      "known_vulnerabilities": 0,
+      "last_check": "2025-09-23T22:27:00.730451"
+    }
+  },
+  "performance": {
+    "memory_usage_mb": 5486.59375,
+    "cpu_percent": 46.3,
+    "disk_usage_percent": 28.3,
+    "process_count": 437
+  },
+  "documentation": {
+    "markdown_files": 61,
+    "rst_files": 31,
+    "documentation_directories": 1,
+    "mkdocs_status": true
+  },
+  "timestamp": "2025-09-23T22:27:05.374989"
+}

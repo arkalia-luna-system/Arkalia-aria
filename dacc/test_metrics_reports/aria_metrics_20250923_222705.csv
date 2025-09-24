@@ -1,0 +1,7 @@
+category,metric,value,timestamp
+general,python_files_count,32,2025-09-23T22:27:05.374989
+general,total_lines,5430,2025-09-23T22:27:05.374989
+aria_specific,pain_tracking,0,2025-09-23T22:27:05.374989
+aria_specific,pattern_analysis,0,2025-09-23T22:27:05.374989
+security,bandit_issues,0,2025-09-23T22:27:05.374989
+security,safety_vulnerabilities,0,2025-09-23T22:27:05.374989

@@ -1,0 +1,107 @@
+# Configuration Pre-commit pour Arkalia-ARIA
+# Basée sur les meilleures pratiques des projets Arkalia
+
+repos:
+  # Hooks de base
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: check-json
+      - id: check-toml
+      - id: check-xml
+      - id: debug-statements
+      - id: check-docstring-first
+      - id: requirements-txt-fixer
+
+  # Formatage avec Black
+  - repo: https://github.com/psf/black
+    rev: 23.12.1
+    hooks:
+      - id: black
+        language_version: python3
+        args: [--line-length=88]
+
+  # Import sorting avec isort
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: [--profile=black, --line-length=88]
+
+  # Linting avec Ruff
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.8
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+      - id: ruff-format
+
+  # Type checking avec MyPy
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-requests, types-PyYAML]
+        args: [--ignore-missing-imports]
+
+  # Sécurité avec Bandit
+  - repo: https://github.com/pycqa/bandit
+    rev: 1.7.5
+    hooks:
+      - id: bandit
+        args: [-r, ., -f, json, -o, bandit-report.json]
+        exclude: ^tests/
+
+  # Vérification des dépendances avec Safety
+  - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
+    rev: v1.3.2
+    hooks:
+      - id: python-safety-dependencies-check
+        args: [--full-report]
+
+  # Documentation avec MkDocs
+  - repo: https://github.com/mkdocs/mkdocs
+    rev: v1.5.3
+    hooks:
+      - id: mkdocs-build
+        additional_dependencies: [mkdocs-material, mkdocs-mermaid2-plugin]
+
+  # Tests avec pytest
+  - repo: https://github.com/pre-commit/mirrors-pytest
+    rev: v7.4.4
+    hooks:
+      - id: pytest
+        args: [-v, --tb=short]
+        additional_dependencies: [pytest-cov, pytest-mock]
+
+  # Validation des fichiers de configuration
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        args: [-c=.yamllint.yml]
+
+  # Validation des fichiers TOML
+  - repo: https://github.com/pre-commit/mirrors-toml-sort
+    rev: v0.22.5
+    hooks:
+      - id: toml-sort
+        args: [--in-place]
+
+  # Validation des fichiers JSON
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
+    hooks:
+      - id: prettier
+        types_or: [json, yaml, markdown]
+        exclude: ^(mkdocs\.yml|\.pre-commit-config\.yaml)$
+
+# Configuration globale
+default_stages: [commit, push]
+fail_fast: false
+minimum_pre_commit_version: 3.0.0

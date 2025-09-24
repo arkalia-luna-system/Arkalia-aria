@@ -1,0 +1,58 @@
+# Configuration YAML Lint pour Arkalia-ARIA
+
+extends: default
+
+rules:
+  # Règles de formatage
+  line-length:
+    max: 120
+    level: warning
+
+  indentation:
+    spaces: 2
+    indent-sequences: true
+    check-multi-line-strings: false
+
+  # Règles de contenu
+  comments:
+    min-spaces-from-content: 1
+
+  # Règles de structure
+  brackets:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+
+  braces:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+
+  # Règles de sécurité
+  truthy:
+    allowed-values: ["true", "false", "on", "off"]
+
+  # Règles de documentation
+  document-start:
+    present: false
+
+  # Règles de clés
+  key-duplicates:
+    check-in-mappings: true
+    check-in-block-mappings: true
+
+  # Règles de valeurs
+  empty-values:
+    forbid-in-block-mappings: true
+    forbid-in-flow-mappings: true
+
+# Exclusions
+ignore: |
+  .github/
+  .venv/
+  venv/
+  arkalia_aria_venv/
+  __pycache__/
+  .pytest_cache/
+  htmlcov/
+  dist/
+  build/
+  *.egg-info/

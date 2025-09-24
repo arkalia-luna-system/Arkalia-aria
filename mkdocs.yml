@@ -1,0 +1,93 @@
+site_name: ARKALIA ARIA Documentation
+site_description: Research Intelligence Assistant - Laboratoire de recherche santé personnel
+site_author: Arkalia Luna System
+site_url: https://arkalia-luna-system.github.io/arkalia-aria/
+
+repo_name: arkalia-luna-system/arkalia-aria
+repo_url: https://github.com/arkalia-luna-system/arkalia-aria
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search:
+      lang: fr
+  - mermaid2:
+      arguments:
+        theme: base
+        themeVariables:
+          primaryColor: "#3f51b5"
+          primaryTextColor: "#fff"
+          primaryBorderColor: "#1a237e"
+          lineColor: "#666"
+          secondaryColor: "#e8eaf6"
+          tertiaryColor: "#fff"
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.snippets
+  - pymdownx.emoji
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+nav:
+  - Accueil: index.md
+  - Guide Utilisateur: USER_GUIDE.md
+  - Référence API: API_REFERENCE.md
+  - Exemples: EXAMPLES.md
+  - Guide Développeur: DEVELOPER_GUIDE.md
+  - Statut Projet: PROJECT_STATUS.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/arkalia-luna-system
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/arkalia-aria/
+
+  version:
+    provider: mike

@@ -1,0 +1,16 @@
+{
+  "staging": {
+    "environment": "staging",
+    "url": "https://aria-staging.arkalia-luna.com",
+    "database": "sqlite:///./staging.db",
+    "debug": true,
+    "log_level": "INFO"
+  },
+  "production": {
+    "environment": "production",
+    "url": "https://aria.arkalia-luna.com",
+    "database": "sqlite:///./production.db",
+    "debug": false,
+    "log_level": "WARNING"
+  }
+}

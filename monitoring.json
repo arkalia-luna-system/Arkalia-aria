@@ -1,0 +1,24 @@
+{
+  "health_checks": {
+    "endpoint": "/health",
+    "interval": 30,
+    "timeout": 10
+  },
+  "metrics": {
+    "endpoint": "/metrics",
+    "collection_interval": 60
+  },
+  "alerts": {
+    "cpu_threshold": 80,
+    "memory_threshold": 85,
+    "disk_threshold": 90,
+    "response_time_threshold": 5000
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "file": "/app/logs/aria.log",
+    "max_size": "10MB",
+    "backup_count": 5
+  }
+}

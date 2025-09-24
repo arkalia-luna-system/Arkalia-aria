@@ -40,7 +40,14 @@ class HealthSyncManager:
         Args:
             config: Configuration des connecteurs (optionnel)
         """
-        self.config = config or HealthConnectorConfig()
+        self.config = config or HealthConnectorConfig(
+            samsung_health_enabled=True,
+            google_fit_enabled=True,
+            apple_healthkit_enabled=True,
+            sync_interval_hours=6,
+            max_days_back=30,
+            auto_sync_enabled=True,
+        )
         self.connectors: dict[str, BaseHealthConnector] = {}
         self.sync_history: list[dict[str, Any]] = []
         self.unified_data_dir = Path("dacc/unified_health_data")
@@ -100,7 +107,7 @@ class HealthSyncManager:
         days_back = days_back or self.config.max_days_back
         sync_start = datetime.now()
 
-        sync_summary = {
+        sync_summary: dict[str, Any] = {
             "sync_start": sync_start.isoformat(),
             "days_back": days_back,
             "connectors": {},

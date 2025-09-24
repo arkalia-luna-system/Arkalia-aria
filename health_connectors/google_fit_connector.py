@@ -237,6 +237,7 @@ class GoogleFitConnector(BaseHealthConnector):
                 blood_pressure_systolic=blood_pressure_sys,
                 blood_pressure_diastolic=blood_pressure_dia,
                 blood_glucose=blood_glucose,
+                body_temperature=None,
                 source="google_fit",
                 raw_data={
                     "platform": "Android",

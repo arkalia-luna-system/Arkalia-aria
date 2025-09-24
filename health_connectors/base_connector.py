@@ -128,7 +128,7 @@ class BaseHealthConnector(ABC):
         end_date = datetime.now()
         start_date = end_date - timedelta(days=days_back)
 
-        sync_summary = {
+        sync_summary: dict[str, Any] = {
             "connector": self.connector_name,
             "start_date": start_date.isoformat(),
             "end_date": end_date.isoformat(),

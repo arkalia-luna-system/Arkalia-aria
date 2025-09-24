@@ -47,10 +47,9 @@ class SamsungHealthConnector(BaseHealthConnector):
             self.sync_errors.append(f"Erreur de connexion Samsung Health: {str(e)}")
             return False
 
-    async def disconnect(self) -> bool:
+    async def disconnect(self) -> None:
         """Ferme la connexion avec Samsung Health."""
         self.is_connected = False
-        return True
 
     async def get_activity_data(
         self, start_date: datetime, end_date: datetime
@@ -229,6 +228,8 @@ class SamsungHealthConnector(BaseHealthConnector):
                 bmi=round(bmi, 1),
                 blood_pressure_systolic=blood_pressure_sys,
                 blood_pressure_diastolic=blood_pressure_dia,
+                blood_glucose=None,
+                body_temperature=None,
                 source="samsung_health",
                 raw_data={
                     "device": "Galaxy Watch",

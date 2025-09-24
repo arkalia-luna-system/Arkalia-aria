@@ -17,18 +17,20 @@
 - ✅ Apple HealthKit (support iOS natif)
 - ✅ Sync Manager (gestionnaire de synchronisation unifié)
 - ✅ Data Models (modèles de données standardisés)
+- ✅ API FastAPI dédiée (16 endpoints santé)
 
 ### Interface Utilisateur
 - ✅ Dashboard Web (interface complète avec graphiques Chart.js)
-- ✅ Templates HTML (pages santé, métriques et analytics)
+- ✅ Templates HTML (6 pages : dashboard, santé, métriques, analytics, patterns, rapports)
 - ✅ App Mobile Flutter (4 écrans principaux : santé, dashboard, analytics, settings)
 - ✅ API Service Dart (service complet pour communication API)
+- ✅ Services Flutter (notifications, cache offline, export)
 
 ### Infrastructure
-- ✅ Tests d'intégration (60 tests, mode rapide disponible)
-- ✅ Documentation MkDocs
+- ✅ Tests d'intégration (295 tests unitaires, mode rapide disponible)
+- ✅ Documentation MkDocs complète
 - ✅ Pipeline CI/CD GitHub Actions (workflows YAML corrigés)
-- ✅ Qualité du code : Ruff, Black, MyPy (0 erreur)
+- ✅ Qualité du code : Ruff, Black, MyPy (erreurs corrigées)
 - ✅ Sécurité : Bandit, Safety (CI corrigée)
 - ✅ Monitoring système et métriques
 - ✅ DevOps automation (CI/CD, déploiement, sécurité)

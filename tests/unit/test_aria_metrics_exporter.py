@@ -228,7 +228,7 @@ class TestARIA_MetricsExporter:
         invalid_metrics = None
 
         # Act & Assert
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             self.exporter.export_all_formats(invalid_metrics)
 
     def test_generate_markdown_report_success(self):

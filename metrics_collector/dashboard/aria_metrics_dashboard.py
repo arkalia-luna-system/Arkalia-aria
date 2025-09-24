@@ -167,7 +167,9 @@ class ARIA_MetricsDashboard:
             except Exception as e:
                 from fastapi import HTTPException
 
-                raise HTTPException(status_code=500, detail=f"Erreur aperçu: {str(e)}") from e
+                raise HTTPException(
+                    status_code=500, detail=f"Erreur aperçu: {str(e)}"
+                ) from e
 
     def generate_dashboard_html(self, metrics: dict[str, Any]) -> str:  # noqa: W293
         """

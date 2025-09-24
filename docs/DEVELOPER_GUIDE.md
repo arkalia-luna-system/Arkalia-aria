@@ -24,6 +24,34 @@ flutter run -d ios
 
 # Lancer l'app (Android)
 flutter run -d android
+
+# Analyser le code Flutter
+flutter analyze
+```
+
+### Connecteurs Santé
+```bash
+# Tester les connecteurs santé
+python -c "from health_connectors.api import app; print('Connecteurs OK')"
+
+# Tester l'API santé
+python -m pytest tests/test_health_connectors.py -v
+
+# Tester l'API endpoints
+python -m pytest tests/test_health_api.py -v
+```
+
+### Dashboard Web
+```bash
+# Tester le dashboard web
+python -c "from metrics_collector.dashboard.aria_metrics_dashboard import ARIA_MetricsDashboard; print('Dashboard OK')"
+
+# Tester les templates HTML
+python -m pytest tests/test_dashboard_web.py -v
+
+# Lancer le serveur avec dashboard
+python main.py
+# Puis aller sur http://localhost:8000/dashboard
 ```
 
 ### Tests

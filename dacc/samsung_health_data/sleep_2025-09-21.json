@@ -1,0 +1,16 @@
+{
+  "sleep_start": "2025-09-21 23:30:00.259149",
+  "sleep_end": "2025-09-22 07:39:00.259149",
+  "duration_minutes": 489,
+  "quality_score": 0.7,
+  "deep_sleep_minutes": 97,
+  "light_sleep_minutes": 293,
+  "rem_sleep_minutes": 97,
+  "awakenings_count": 1,
+  "source": "samsung_health",
+  "raw_data": {
+    "device": "Galaxy Watch",
+    "sleep_tracking_method": "heart_rate_variability",
+    "confidence": 0.88
+  }
+}

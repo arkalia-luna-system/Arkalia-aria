@@ -82,7 +82,7 @@ class TestARIAMLAnalyzer:
         invalid_event = None
 
         # Act & Assert
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             self.ml_analyzer.track_pain_event(invalid_event)
 
     def test_track_pain_event_edge_cases(self):
@@ -244,7 +244,7 @@ class TestARIAMLAnalyzer:
         invalid_context = None
 
         # Act & Assert
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             self.ml_analyzer.predict_pain_episode(invalid_context)
 
     def test_predict_pain_episode_edge_cases(self):

@@ -110,7 +110,7 @@ class TestARIAREmotionAnalyzer:
         invalid_data = None
 
         # Act & Assert
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             self.analyzer.analyze_emotion(invalid_data)
 
     def test_analyze_emotion_edge_cases(self):
@@ -304,7 +304,7 @@ class TestARIAREmotionAnalyzer:
         pain_data = None
 
         # Act & Assert
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             self.analyzer.get_recommendations(current_emotion, pain_data)
 
     def test_calculate_emotion_score_success(self):
@@ -398,7 +398,7 @@ class TestARIAREmotionAnalyzer:
         invalid_data = None
 
         # Act & Assert
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             self.analyzer._update_emotion_history(invalid_data)
 
     def test_get_emotion_info_success(self):

@@ -100,7 +100,7 @@ class TestARIA_SecurityValidator:
         command = None
 
         # Act & Assert
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             self.validator.validate_command(command)
 
     def test_audit_code_success(self):
@@ -288,7 +288,7 @@ def another_dangerous_function():
         details = None
 
         # Act & Assert
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             self.validator._log_security_event(event_type, details)
 
     def test_get_security_report_success(self):

@@ -326,9 +326,9 @@ class HealthSyncManager:
                 "avg_hrv": self._calculate_average_hrv(stress_data),
                 "data_points": len(stress_data),
             },
-            "sources": list({
-                d.source for d in activity_data + sleep_data + stress_data
-            }),
+            "sources": list(
+                {d.source for d in activity_data + sleep_data + stress_data}
+            ),
         }
 
         # Sauvegarder les métriques unifiées

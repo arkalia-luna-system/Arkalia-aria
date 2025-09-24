@@ -1,0 +1,15 @@
+{
+  "timestamp": "2025-09-21 19:04:30.251974",
+  "steps": 10275,
+  "calories_burned": 462.4,
+  "distance_meters": 7.7,
+  "active_minutes": 85,
+  "heart_rate_bpm": 75,
+  "source": "google_fit",
+  "raw_data": {
+    "platform": "Android",
+    "sensor_type": "accelerometer",
+    "confidence": 0.92,
+    "google_fit_session_id": "session_20250921"
+  }
+}

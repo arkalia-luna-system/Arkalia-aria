@@ -105,6 +105,7 @@ markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
     "integration: marks tests as integration tests",
     "unit: marks tests as unit tests",
+    "asyncio: marks tests as asyncio tests",
     "security: marks tests as security tests",
     "timeout: marks tests with timeout",
     "no_cov: marks tests that should not use coverage",

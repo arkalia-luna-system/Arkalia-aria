@@ -25,6 +25,9 @@
 - Guide Utilisateur: `docs/USER_GUIDE.md`
 - Guide Développeur: `docs/DEVELOPER_GUIDE.md`
 - Statut Projet: `docs/PROJECT_STATUS.md`
+- Connecteurs Santé: `docs/HEALTH_CONNECTORS.md`
+- App Mobile: `docs/MOBILE_APP.md`
+- Dashboard Web: `docs/DASHBOARD_WEB.md`
 - Makefile: `Makefile`
 
 ---
@@ -44,15 +47,17 @@ arkalia-aria/
 ├── pain_tracking/     # Module tracking douleur avancé
 ├── pattern_analysis/   # IA découverte de patterns
 ├── prediction_engine/ # Anticiper les crises
-├── health_connectors/ # Connecteurs Samsung/Google/Apple
-├── metrics_collector/ # Dashboard web et métriques
-├── mobile_app/        # Application Flutter native
+├── health_connectors/ # Connecteurs Samsung/Google/iOS Health
+├── metrics_collector/ # Dashboard web interactif et métriques
+├── mobile_app/        # Application Flutter native complète
 ├── research_tools/    # Laboratoire personnel
 ├── cia_sync/         # Sync avec CIA si besoin
+├── audio_voice/      # Interface vocale
+├── watch_integration/ # Intégration montres connectées
 └── docs/             # Documentation complète
 ```
 
-Diagramme d’architecture (simplifié)
+Diagramme d'architecture (simplifié)
 
 ```mermaid
 flowchart LR
@@ -62,7 +67,22 @@ flowchart LR
     A --> PR[prediction_engine]
     A --> R[research_tools]
     A --> S[cia_sync]
+    A --> H[health_connectors]
+    A --> M[metrics_collector]
+    A --> V[audio_voice]
+    A --> W[watch_integration]
   end
+  
+  subgraph Mobile
+    F[Flutter App] --> A
+  end
+  
+  subgraph Health
+    SH[Samsung Health] --> H
+    GF[Google Fit] --> H
+    IH[iOS Health] --> H
+  end
+  
   S <--> CIA[(Arkalia CIA API 8000)]
 ```
 
@@ -77,6 +97,28 @@ flowchart LR
 - Intégration capteurs (optionnel)
 - **Modèles corrigés** : `physical_trigger` et `action_taken`
 
+### 🏥 **Health Connectors** ✅ **OPÉRATIONNEL**
+- **Samsung Health** : Synchronisation montres Samsung
+- **Google Fit** : Intégration Android (S24)
+- **iOS Health** : Connexion iPad Apple Health
+- **API FastAPI** : 16 endpoints santé complets
+- **Sync Manager** : Gestionnaire de synchronisation unifié
+- **Data Models** : Modèles de données standardisés
+
+### 📱 **Mobile App Flutter** ✅ **OPÉRATIONNEL**
+- **4 écrans principaux** : Santé, Dashboard, Analytics, Settings
+- **Services complets** : Notifications, Cache offline, Export
+- **API Dart** : Service de communication avec ARIA
+- **Mode hors ligne** : Cache intelligent local
+- **Notifications push** : Rappels personnalisés
+
+### 🌐 **Dashboard Web** ✅ **OPÉRATIONNEL**
+- **6 templates HTML** : Dashboard, santé, métriques, analytics, patterns, rapports
+- **Graphiques interactifs** : Chart.js temps réel
+- **Exports multiples** : PDF, Excel, HTML
+- **Interface responsive** : Design moderne et intuitif
+- **Analyses avancées** : Patterns et corrélations
+
 ### 🧠 **Pattern Analysis** 
 - Détection automatique de corrélations
 - Analyse temporelle des crises
@@ -88,6 +130,14 @@ flowchart LR
 - Alertes préventives
 - Recommandations personnalisées
 - Apprentissage continu
+
+### 📊 **Dashboard Web Interactif** ✅ **NOUVEAU**
+- **Métriques santé** : Visualisation temps réel
+- **Analyse douleur** : Patterns et corrélations
+- **Graphiques interactifs** : Chart.js/D3.js
+- **Exports avancés** : PDF, Excel, HTML
+- **Aperçu rapports** : Prévisualisation
+- **Interface responsive** : Desktop et mobile
 
 ### 🧪 **Research Tools**
 - Laboratoire de données
@@ -155,10 +205,15 @@ make workspace-health
 
 - [x] Phase 1: Structure modulaire
 - [x] Phase 2: Pain tracking (endpoints principaux)
-- [ ] Phase 3: Pattern analysis (itératif)
-- [ ] Phase 4: Prediction engine (améliorations)
-- [ ] Phase 5: Research tools (laboratoire)
-- [ ] Phase 6: Intégrations écosystème
+- [x] Phase 3: Health connectors (Samsung/Google/iOS) ✅ **TERMINÉ**
+- [x] Phase 4: Dashboard web interactif ✅ **TERMINÉ**
+- [x] Phase 5: Application mobile Flutter complète ✅ **TERMINÉ**
+- [x] Phase 6: Tests unitaires complets ✅ **TERMINÉ**
+- [x] Phase 7: Documentation complète ✅ **TERMINÉ**
+- [ ] Phase 8: Pattern analysis (itératif)
+- [ ] Phase 9: Prediction engine (améliorations)
+- [ ] Phase 10: Research tools (laboratoire)
+- [ ] Phase 11: Intégrations écosystème avancées
 
 ---
 

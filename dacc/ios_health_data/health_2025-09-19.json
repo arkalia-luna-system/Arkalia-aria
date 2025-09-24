@@ -1,0 +1,18 @@
+{
+  "timestamp": "2025-09-19 08:15:00.290317",
+  "weight_kg": 78.4,
+  "height_cm": 175.0,
+  "bmi": 25.6,
+  "blood_pressure_systolic": 129,
+  "blood_pressure_diastolic": 78,
+  "blood_glucose": 5.2,
+  "body_temperature": 37.1,
+  "source": "ios_health",
+  "raw_data": {
+    "device": "iPad",
+    "platform": "iOS",
+    "measurement_type": "manual_input",
+    "confidence": 1.0,
+    "healthkit_session_id": "health_20250919"
+  }
+}

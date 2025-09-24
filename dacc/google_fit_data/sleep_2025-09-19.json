@@ -1,0 +1,17 @@
+{
+  "sleep_start": "2025-09-19 22:45:00.272282",
+  "sleep_end": "2025-09-20 05:52:00.272282",
+  "duration_minutes": 427,
+  "quality_score": 0.82,
+  "deep_sleep_minutes": 106,
+  "light_sleep_minutes": 234,
+  "rem_sleep_minutes": 85,
+  "awakenings_count": 2,
+  "source": "google_fit",
+  "raw_data": {
+    "platform": "Android",
+    "sleep_tracking_method": "motion_detection",
+    "confidence": 0.85,
+    "google_fit_session_id": "sleep_20250919"
+  }
+}

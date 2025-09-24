@@ -36,6 +36,7 @@ class TestARIADataCollector:
         # Assert
         assert data_collector.db_path == "test.db"
         from pathlib import Path
+
         assert isinstance(data_collector.project_root, Path)
         assert data_collector.project_root.exists()
 
@@ -87,7 +88,7 @@ class TestARIADataCollector:
         invalid_data = None
 
         # Act & Assert
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             self.data_collector.create_experiment(invalid_data)
 
     def test_create_experiment_edge_cases(self):
@@ -135,7 +136,7 @@ class TestARIADataCollector:
         invalid_data = None
 
         # Act & Assert
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             self.data_collector.collect_pain_data(invalid_data)
 
     def test_collect_pain_data_edge_cases(self):
@@ -182,7 +183,7 @@ class TestARIADataCollector:
         invalid_data = None
 
         # Act & Assert
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             self.data_collector.collect_emotion_data(invalid_data)
 
     def test_collect_emotion_data_edge_cases(self):
@@ -323,7 +324,7 @@ class TestARIADataCollector:
         invalid_id = None
 
         # Act & Assert
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             self.data_collector.get_experiment_data(invalid_id)
 
     def test_export_data_success(self):
@@ -397,7 +398,7 @@ class TestARIADataCollector:
         invalid_format = None
 
         # Act & Assert
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             self.data_collector.export_data(invalid_id, invalid_format)
 
     def test_export_data_edge_cases(self):
@@ -492,7 +493,7 @@ class TestARIADataCollector:
         invalid_id = None
 
         # Act & Assert
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             self.data_collector.validate_data_quality(invalid_id)
 
     def test_get_data_statistics_success(self):
@@ -670,7 +671,7 @@ class TestARIADataCollector:
         invalid_threshold = None
 
         # Act & Assert
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             self.data_collector.cleanup_old_data(invalid_threshold)
 
     def test_cleanup_old_data_edge_cases(self):

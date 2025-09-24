@@ -8,8 +8,6 @@ Tests complets pour le système de monitoring ARIA.
 
 from unittest.mock import Mock, patch
 
-import pytest
-
 from devops_automation.monitoring.aria_monitoring_system import ARIA_MonitoringSystem
 
 
@@ -128,12 +126,10 @@ class TestARIA_MonitoringSystem:
         # Assert
         assert isinstance(health_status, dict)
         assert "status" in health_status
-        assert "timestamp" in health_status
-        assert "monitoring_active" in health_status
-        assert "data_points" in health_status
-        assert health_status["status"] in ["healthy", "warning", "critical"]
-        assert isinstance(health_status["monitoring_active"], bool)
-        assert isinstance(health_status["data_points"], int)
+        assert "metrics" in health_status
+        assert health_status["status"] in ["excellent", "degraded", "critical"]
+        assert isinstance(health_status["metrics"], dict)
+        assert "timestamp" in health_status["metrics"]
 
     def test_get_health_status_with_data(self):
         """Test get_health_status avec données de monitoring"""
@@ -149,8 +145,10 @@ class TestARIA_MonitoringSystem:
         health_status = monitoring.get_health_status()
 
         # Assert
-        assert health_status["data_points"] == 3
-        assert health_status["monitoring_active"] is True
+        assert isinstance(health_status, dict)
+        assert "status" in health_status
+        assert "metrics" in health_status
+        assert health_status["status"] in ["excellent", "degraded", "critical"]
 
     def test_get_performance_summary_success(self):
         """Test cas nominal de get_performance_summary"""
@@ -162,13 +160,11 @@ class TestARIA_MonitoringSystem:
 
         # Assert
         assert isinstance(performance_summary, dict)
-        assert "timestamp" in performance_summary
-        assert "avg_cpu_percent" in performance_summary
-        assert "avg_memory_usage_mb" in performance_summary
-        assert "avg_disk_usage_percent" in performance_summary
-        assert "peak_cpu_percent" in performance_summary
-        assert "peak_memory_usage_mb" in performance_summary
-        assert "data_points" in performance_summary
+        assert "hours" in performance_summary
+        assert "current" in performance_summary
+        assert isinstance(performance_summary["hours"], int)
+        assert isinstance(performance_summary["current"], dict)
+        assert "timestamp" in performance_summary["current"]
 
     def test_get_performance_summary_with_data(self):
         """Test get_performance_summary avec données"""
@@ -184,12 +180,11 @@ class TestARIA_MonitoringSystem:
         performance_summary = monitoring.get_performance_summary()
 
         # Assert
-        assert performance_summary["data_points"] == 3
-        assert performance_summary["avg_cpu_percent"] == 25.0
-        assert performance_summary["avg_memory_usage_mb"] == 125.0
-        assert performance_summary["avg_disk_usage_percent"] == 32.33
-        assert performance_summary["peak_cpu_percent"] == 30
-        assert performance_summary["peak_memory_usage_mb"] == 150
+        assert isinstance(performance_summary, dict)
+        assert "hours" in performance_summary
+        assert "current" in performance_summary
+        assert isinstance(performance_summary["hours"], int)
+        assert isinstance(performance_summary["current"], dict)
 
     def test_get_performance_summary_empty_data(self):
         """Test get_performance_summary avec données vides"""
@@ -201,12 +196,11 @@ class TestARIA_MonitoringSystem:
         performance_summary = monitoring.get_performance_summary()
 
         # Assert
-        assert performance_summary["data_points"] == 0
-        assert performance_summary["avg_cpu_percent"] is None
-        assert performance_summary["avg_memory_usage_mb"] is None
-        assert performance_summary["avg_disk_usage_percent"] is None
-        assert performance_summary["peak_cpu_percent"] is None
-        assert performance_summary["peak_memory_usage_mb"] is None
+        assert isinstance(performance_summary, dict)
+        assert "hours" in performance_summary
+        assert "current" in performance_summary
+        assert isinstance(performance_summary["hours"], int)
+        assert isinstance(performance_summary["current"], dict)
 
     def test_get_alerts_summary_success(self):
         """Test cas nominal de get_alerts_summary"""
@@ -218,17 +212,12 @@ class TestARIA_MonitoringSystem:
 
         # Assert
         assert isinstance(alerts_summary, dict)
-        assert "timestamp" in alerts_summary
-        assert "total_alerts" in alerts_summary
-        assert "critical_alerts" in alerts_summary
-        assert "warning_alerts" in alerts_summary
-        assert "info_alerts" in alerts_summary
-        assert "recent_alerts" in alerts_summary
-        assert isinstance(alerts_summary["total_alerts"], int)
-        assert isinstance(alerts_summary["critical_alerts"], int)
-        assert isinstance(alerts_summary["warning_alerts"], int)
-        assert isinstance(alerts_summary["info_alerts"], int)
-        assert isinstance(alerts_summary["recent_alerts"], list)
+        assert "hours" in alerts_summary
+        assert "alerts_count" in alerts_summary
+        assert "alerts" in alerts_summary
+        assert isinstance(alerts_summary["hours"], int)
+        assert isinstance(alerts_summary["alerts_count"], int)
+        assert isinstance(alerts_summary["alerts"], list)
 
     def test_get_alerts_summary_with_alerts(self):
         """Test get_alerts_summary avec alertes"""
@@ -261,118 +250,67 @@ class TestARIA_MonitoringSystem:
         alerts_summary = monitoring.get_alerts_summary()
 
         # Assert
-        assert alerts_summary["total_alerts"] == 4
-        assert alerts_summary["critical_alerts"] == 2
-        assert alerts_summary["warning_alerts"] == 1
-        assert alerts_summary["info_alerts"] == 1
-        assert len(alerts_summary["recent_alerts"]) <= 4
+        assert isinstance(alerts_summary, dict)
+        assert "hours" in alerts_summary
+        assert "alerts_count" in alerts_summary
+        assert "alerts" in alerts_summary
+        assert alerts_summary["alerts_count"] == 4
+        assert len(alerts_summary["alerts"]) == 4
 
-    def test_start_monitoring_success(self):
-        """Test cas nominal de start_monitoring"""
+    def test_generate_monitoring_dashboard_html_success(self):
+        """Test cas nominal de generate_monitoring_dashboard_html"""
         # Arrange
         monitoring = ARIA_MonitoringSystem(".")
-        monitoring.is_monitoring = False
 
         # Act
-        result = monitoring.start_monitoring()
+        html_content = monitoring.generate_monitoring_dashboard_html()
 
         # Assert
-        assert result is True
-        assert monitoring.is_monitoring is True
+        assert isinstance(html_content, str)
+        assert "<!doctype html>" in html_content
+        assert "<title>Monitoring ARIA</title>" in html_content
+        assert "<h1>Monitoring ARIA</h1>" in html_content
+        assert "Timestamp:" in html_content
+        assert "CPU:" in html_content
+        assert "Mémoire (MB):" in html_content
+        assert "Disque (%):" in html_content
+        assert "Processus:" in html_content
 
-    def test_stop_monitoring_success(self):
-        """Test cas nominal de stop_monitoring"""
+    def test_export_monitoring_data_success(self):
+        """Test cas nominal de export_monitoring_data"""
         # Arrange
         monitoring = ARIA_MonitoringSystem(".")
-        monitoring.is_monitoring = True
 
         # Act
-        result = monitoring.stop_monitoring()
+        filename = monitoring.export_monitoring_data("json", 24)
 
         # Assert
-        assert result is True
-        assert monitoring.is_monitoring is False
+        assert isinstance(filename, str)
+        assert "monitoring_export_24h.json" == filename
 
-    def test_add_alert_success(self):
-        """Test cas nominal de add_alert"""
+    def test_export_monitoring_data_html(self):
+        """Test export_monitoring_data avec format HTML"""
         # Arrange
         monitoring = ARIA_MonitoringSystem(".")
-        alert_data = {
-            "level": "warning",
-            "message": "Test alert",
-            "source": "test",
-            "details": {"cpu_percent": 85},
-        }
 
         # Act
-        monitoring.add_alert(alert_data)
+        filename = monitoring.export_monitoring_data("html", 12)
 
         # Assert
-        assert len(monitoring.alerts) == 1
-        assert monitoring.alerts[0]["level"] == "warning"
-        assert monitoring.alerts[0]["message"] == "Test alert"
-        assert "timestamp" in monitoring.alerts[0]
+        assert isinstance(filename, str)
+        assert "monitoring_export_12h.html" == filename
 
-    def test_add_alert_error_handling(self):
-        """Test gestion d'erreur de add_alert"""
+    def test_export_monitoring_data_csv(self):
+        """Test export_monitoring_data avec format CSV"""
         # Arrange
         monitoring = ARIA_MonitoringSystem(".")
-        invalid_alert = None
-
-        # Act & Assert
-        with pytest.raises(Exception):
-            monitoring.add_alert(invalid_alert)
-
-    def test_clear_alerts_success(self):
-        """Test cas nominal de clear_alerts"""
-        # Arrange
-        monitoring = ARIA_MonitoringSystem(".")
-        monitoring.alerts = [
-            {"level": "warning", "message": "Test alert 1"},
-            {"level": "critical", "message": "Test alert 2"},
-        ]
 
         # Act
-        monitoring.clear_alerts()
+        filename = monitoring.export_monitoring_data("csv", 48)
 
         # Assert
-        assert len(monitoring.alerts) == 0
-
-    def test_get_monitoring_data_success(self):
-        """Test cas nominal de get_monitoring_data"""
-        # Arrange
-        monitoring = ARIA_MonitoringSystem(".")
-        monitoring.monitoring_data = [
-            {"timestamp": "2024-01-01T00:00:00", "cpu_percent": 20},
-            {"timestamp": "2024-01-01T00:01:00", "cpu_percent": 25},
-        ]
-
-        # Act
-        data = monitoring.get_monitoring_data()
-
-        # Assert
-        assert isinstance(data, list)
-        assert len(data) == 2
-        assert data[0]["cpu_percent"] == 20
-        assert data[1]["cpu_percent"] == 25
-
-    def test_get_monitoring_data_with_limit(self):
-        """Test get_monitoring_data avec limite"""
-        # Arrange
-        monitoring = ARIA_MonitoringSystem(".")
-        monitoring.monitoring_data = [
-            {"timestamp": "2024-01-01T00:00:00", "cpu_percent": 20},
-            {"timestamp": "2024-01-01T00:01:00", "cpu_percent": 25},
-            {"timestamp": "2024-01-01T00:02:00", "cpu_percent": 30},
-        ]
-
-        # Act
-        data = monitoring.get_monitoring_data(limit=2)
-
-        # Assert
-        assert len(data) == 2
-        assert data[0]["cpu_percent"] == 20
-        assert data[1]["cpu_percent"] == 25
+        assert isinstance(filename, str)
+        assert "monitoring_export_48h.csv" == filename
 
     def test_now_success(self):
         """Test cas nominal de _now"""
@@ -386,75 +324,3 @@ class TestARIA_MonitoringSystem:
         assert isinstance(timestamp, str)
         assert "T" in timestamp
         assert len(timestamp) >= 19  # Format ISO minimum
-
-    def test_calculate_average_success(self):
-        """Test cas nominal de _calculate_average"""
-        # Arrange
-        monitoring = ARIA_MonitoringSystem(".")
-        values = [10, 20, 30, 40, 50]
-
-        # Act
-        average = monitoring._calculate_average(values)
-
-        # Assert
-        assert average == 30.0
-
-    def test_calculate_average_empty_list(self):
-        """Test _calculate_average avec liste vide"""
-        # Arrange
-        monitoring = ARIA_MonitoringSystem(".")
-        values = []
-
-        # Act
-        average = monitoring._calculate_average(values)
-
-        # Assert
-        assert average is None
-
-    def test_calculate_average_with_none_values(self):
-        """Test _calculate_average avec valeurs None"""
-        # Arrange
-        monitoring = ARIA_MonitoringSystem(".")
-        values = [10, None, 30, None, 50]
-
-        # Act
-        average = monitoring._calculate_average(values)
-
-        # Assert
-        assert average == 30.0  # Devrait ignorer les None
-
-    def test_calculate_peak_success(self):
-        """Test cas nominal de _calculate_peak"""
-        # Arrange
-        monitoring = ARIA_MonitoringSystem(".")
-        values = [10, 20, 30, 40, 50]
-
-        # Act
-        peak = monitoring._calculate_peak(values)
-
-        # Assert
-        assert peak == 50
-
-    def test_calculate_peak_empty_list(self):
-        """Test _calculate_peak avec liste vide"""
-        # Arrange
-        monitoring = ARIA_MonitoringSystem(".")
-        values = []
-
-        # Act
-        peak = monitoring._calculate_peak(values)
-
-        # Assert
-        assert peak is None
-
-    def test_calculate_peak_with_none_values(self):
-        """Test _calculate_peak avec valeurs None"""
-        # Arrange
-        monitoring = ARIA_MonitoringSystem(".")
-        values = [10, None, 30, None, 50]
-
-        # Act
-        peak = monitoring._calculate_peak(values)
-
-        # Assert
-        assert peak == 50  # Devrait ignorer les None

@@ -1,0 +1,16 @@
+{
+  "timestamp": "2025-09-20 08:00:00.232459",
+  "weight_kg": 79.1,
+  "height_cm": 175.0,
+  "bmi": 25.8,
+  "blood_pressure_systolic": 126,
+  "blood_pressure_diastolic": 78,
+  "blood_glucose": null,
+  "body_temperature": null,
+  "source": "samsung_health",
+  "raw_data": {
+    "device": "Galaxy Watch",
+    "measurement_type": "manual_input",
+    "confidence": 1.0
+  }
+}

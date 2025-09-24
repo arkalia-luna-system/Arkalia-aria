@@ -47,9 +47,10 @@ class SamsungHealthConnector(BaseHealthConnector):
             self.sync_errors.append(f"Erreur de connexion Samsung Health: {str(e)}")
             return False
 
-    async def disconnect(self) -> None:
+    async def disconnect(self) -> bool:
         """Ferme la connexion avec Samsung Health."""
         self.is_connected = False
+        return True
 
     async def get_activity_data(
         self, start_date: datetime, end_date: datetime

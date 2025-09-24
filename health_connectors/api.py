@@ -11,7 +11,7 @@ API FastAPI pour les connecteurs santé permettant :
 from datetime import datetime, timedelta
 from typing import Any
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 
 from .data_models import (
@@ -323,3 +323,15 @@ class HealthConnectorsAPI:
     def integrate_with_app(self, app) -> None:
         """Intègre l'API des connecteurs santé avec une application FastAPI."""
         app.include_router(self.router)
+
+
+# Instance FastAPI pour les connecteurs santé
+app = FastAPI(
+    title="ARKALIA ARIA - Connecteurs Santé",
+    description="API pour la synchronisation des données santé",
+    version="1.0.0",
+)
+
+# Créer l'instance de l'API et l'intégrer
+health_api = HealthConnectorsAPI()
+health_api.integrate_with_app(app)

@@ -9,10 +9,13 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-try:
-    import psutil
+# Import psutil de façon sûre et typée
+psutil: Any  # sera défini ci-dessous
+try:  # pragma: no cover - l'environnement peut ne pas avoir psutil
+    import psutil as _psutil
+    psutil = _psutil
 except Exception:  # pragma: no cover
-    psutil = None  # type: ignore[assignment]
+    psutil = None
 
 
 class ARIA_MonitoringSystem:
@@ -34,7 +37,7 @@ class ARIA_MonitoringSystem:
             "disk_usage_percent": None,
         }
         if psutil is None:
-            metrics["note"] = "psutil non installé - métriques système désactivées"  # type: ignore[unreachable]
+            metrics["note"] = "psutil non installé - métriques système désactivées"
             return metrics
         try:
             metrics["process_count"] = len(psutil.pids())

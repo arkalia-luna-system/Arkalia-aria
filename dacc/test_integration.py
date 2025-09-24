@@ -3,8 +3,10 @@
 Test d'intégration ARIA - Validation de l'architecture
 """
 
+import importlib
+from typing import Any
 
-import requests
+requests: Any = importlib.import_module("requests")
 
 
 def test_aria_endpoints():

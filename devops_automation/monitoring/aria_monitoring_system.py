@@ -34,7 +34,7 @@ class ARIA_MonitoringSystem:
             "disk_usage_percent": None,
         }
         if psutil is None:
-            metrics["note"] = "psutil non installé - métriques système désactivées"
+            metrics["note"] = "psutil non installé - métriques système désactivées"  # type: ignore[unreachable]
             return metrics
         try:
             metrics["process_count"] = len(psutil.pids())

@@ -63,7 +63,7 @@ def test_quality_basic():
             ARIA_QualityAssurance,
         )
 
-        quality = ARIA_QualityAssurance(".")
+        _quality = ARIA_QualityAssurance(".")
 
         # Test simple sans outils externes
         print("✅ Qualité: Module chargé")
@@ -83,7 +83,7 @@ def test_deployment_basic():
             ARIA_DeploymentManager,
         )
 
-        deployment = ARIA_DeploymentManager(".")
+        _deployment = ARIA_DeploymentManager(".")
 
         # Test simple
         print("✅ Déploiement: Module chargé")
@@ -103,7 +103,7 @@ def test_monitoring_basic():
             ARIA_MonitoringSystem,
         )
 
-        monitoring = ARIA_MonitoringSystem(".")
+        _monitoring = ARIA_MonitoringSystem(".")
 
         # Test simple
         print("✅ Monitoring: Module chargé")

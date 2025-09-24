@@ -160,16 +160,16 @@ def test_integration():
     )
 
     print("2. Configuration CI/CD...")
-    cicd_results = cicd_manager.setup_cicd()
+    _cicd_results = cicd_manager.setup_cicd()
 
     print("3. Vérification qualité...")
-    quality_report = quality_assurance.run_full_quality_check()
+    _quality_report = quality_assurance.run_full_quality_check()
 
     print("4. Déploiement...")
-    deployment_result = deployment_manager.deploy("staging")
+    _deployment_result = deployment_manager.deploy("staging")
 
     print("5. Monitoring...")
-    metrics = monitoring_system.collect_metrics()
+    _metrics = monitoring_system.collect_metrics()
 
     print("✅ Intégration complète réussie")
 

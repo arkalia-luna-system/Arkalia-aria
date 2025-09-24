@@ -1,25 +1,25 @@
 {
   "period": {
-    "start_date": "2025-09-17T21:13:18.927387",
-    "end_date": "2025-09-24T21:13:18.927387",
+    "start_date": "2025-09-17T22:15:19.974790",
+    "end_date": "2025-09-24T22:15:19.974790",
     "days": 7
   },
   "activity": {
-    "total_steps": 266489,
-    "total_calories": 11285.8,
-    "total_distance": 209.89999999999998,
-    "avg_heart_rate": 85.2,
+    "total_steps": 272039,
+    "total_calories": 11591.400000000001,
+    "total_distance": 213.99999999999997,
+    "avg_heart_rate": 80.8,
     "data_points": 24
   },
   "sleep": {
-    "avg_duration_minutes": 426.7,
-    "avg_quality_score": 0.76,
-    "total_awakenings": 39,
+    "avg_duration_minutes": 437.1,
+    "avg_quality_score": 0.78,
+    "total_awakenings": 35,
     "data_points": 24
   },
   "stress": {
-    "avg_stress_level": 46.1,
-    "avg_hrv": 41.9,
+    "avg_stress_level": 50.7,
+    "avg_hrv": 39.6,
     "data_points": 80
   },
   "sources": [

@@ -133,18 +133,4 @@ class HealthSyncStatus(BaseModel):
     status: str = Field(..., description="Statut du connecteur")
 
 
-class HealthConnectorConfig(BaseModel):
-    """Configuration des connecteurs santé."""
-
-    samsung_health_enabled: bool = Field(False, description="Activer Samsung Health")
-    google_fit_enabled: bool = Field(False, description="Activer Google Fit")
-    apple_healthkit_enabled: bool = Field(False, description="Activer Apple HealthKit")
-    sync_interval_hours: int = Field(
-        6, ge=1, le=24, description="Intervalle de synchronisation en heures"
-    )
-    max_days_back: int = Field(
-        30, ge=1, le=365, description="Nombre maximum de jours à synchroniser"
-    )
-    auto_sync_enabled: bool = Field(
-        True, description="Synchronisation automatique activée"
-    )
+# HealthConnectorConfig est définie dans config.py

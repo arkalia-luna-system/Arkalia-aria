@@ -451,7 +451,7 @@ class TestErrorHandling:
                 assert result is False
             except Exception:
                 # L'exception est attendue
-                pass
+                pass  # nosec B110
 
     @pytest.mark.asyncio
     async def test_data_retrieval_error(self):
@@ -470,7 +470,7 @@ class TestErrorHandling:
                 assert data == []
             except Exception:
                 # L'exception est attendue
-                pass
+                pass  # nosec B110
 
     @pytest.mark.asyncio
     async def test_sync_manager_error_handling(self):

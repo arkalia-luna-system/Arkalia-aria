@@ -351,7 +351,7 @@ class TestARIAREmotionAnalyzer:
         # Assert
         assert isinstance(result, dict)
         assert "pain_correlation" in result
-        assert isinstance(result["pain_correlation"], (int, float))
+        assert isinstance(result["pain_correlation"], int | float)
 
     def test_recommendations_generation(self):
         """Test génération de recommandations"""

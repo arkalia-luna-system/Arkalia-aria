@@ -518,13 +518,13 @@ class ARIA_QualityAssurance:
     def _determine_status(self, score: int) -> str:
         """Détermine le statut basé sur le score."""
         if score >= 90:
-            return "excellent"
+            return "ok"
         elif score >= 75:
-            return "good"
+            return "ok"
         elif score >= 60:
-            return "fair"
+            return "warning"
         else:
-            return "poor"
+            return "error"
 
     def get_quality_history(self) -> list[dict[str, Any]]:
         """Retourne l'historique des rapports de qualité."""

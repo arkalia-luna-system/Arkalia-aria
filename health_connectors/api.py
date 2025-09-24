@@ -14,9 +14,9 @@ from typing import Any
 from fastapi import APIRouter, FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 
+from .config import HealthConnectorConfig
 from .data_models import (
     ActivityData,
-    HealthConnectorConfig,
     HealthData,
     HealthSyncStatus,
     SleepData,

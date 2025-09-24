@@ -11,9 +11,9 @@ from pathlib import Path
 from typing import Any
 
 from .base_connector import BaseHealthConnector
+from .config import HealthConnectorConfig
 from .data_models import (
     ActivityData,
-    HealthConnectorConfig,
     HealthSyncStatus,
     SleepData,
     StressData,

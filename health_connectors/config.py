@@ -5,7 +5,8 @@ Gestion des clés API, URLs et paramètres de connexion
 
 from typing import Any
 
-from pydantic import BaseSettings, Field
+from pydantic import Field
+from pydantic_settings import BaseSettings
 
 
 class HealthConnectorConfig(BaseSettings):
@@ -50,6 +51,7 @@ class HealthConnectorConfig(BaseSettings):
 
     # Apple HealthKit (iOS Health)
     ios_health_enabled: bool = Field(default=True, env="IOS_HEALTH_ENABLED")
+    apple_healthkit_enabled: bool = Field(default=True, env="APPLE_HEALTHKIT_ENABLED")
     ios_health_team_id: str | None = Field(default=None, env="IOS_HEALTH_TEAM_ID")
     ios_health_key_id: str | None = Field(default=None, env="IOS_HEALTH_KEY_ID")
     ios_health_private_key: str | None = Field(
@@ -141,8 +143,8 @@ class GoogleFitConfig:
         self.enabled = config.google_fit_enabled
 
         # URLs Google Fit
-        self.auth_url = "https://accounts.google.com/o/oauth2/v2/auth"
-        self.token_url = "https://oauth2.googleapis.com/token"
+        self.auth_url = "https://accounts.google.com/o/oauth2/v2/auth"  # nosec B105
+        self.token_url = "https://oauth2.googleapis.com/token"  # nosec B105
         self.api_base_url = "https://www.googleapis.com/fitness/v1"
 
         # Endpoints Google Fit
@@ -175,9 +177,9 @@ class IOSHealthConfig:
         self.enabled = config.ios_health_enabled
 
         # URLs Apple Health
-        self.base_url = "https://api.apple.com/health"
-        self.auth_url = "https://appleid.apple.com/auth/authorize"
-        self.token_url = "https://appleid.apple.com/auth/token"
+        self.base_url = "https://api.apple.com/health"  # nosec B105
+        self.auth_url = "https://appleid.apple.com/auth/authorize"  # nosec B105
+        self.token_url = "https://appleid.apple.com/auth/token"  # nosec B105
 
         # Types de données iOS Health
         self.data_types = {

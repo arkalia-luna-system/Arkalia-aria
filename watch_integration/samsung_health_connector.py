@@ -10,6 +10,7 @@ Connecteur pour Samsung Health permettant la synchronisation des données :
 """
 
 import json
+import random
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -249,69 +250,47 @@ class SamsungHealthConnector(BaseHealthConnector):
     # Méthodes utilitaires pour générer des données réalistes
     def _generate_realistic_steps(self) -> int:
         """Génère un nombre de pas réaliste."""
-        import random
-
-        return random.randint(5000, 15000)
+        return random.randint(5000, 15000)  # nosec B311
 
     def _generate_realistic_heart_rate(self) -> int:
         """Génère une fréquence cardiaque réaliste."""
-        import random
-
-        return random.randint(60, 100)
+        return random.randint(60, 100)  # nosec B311
 
     def _generate_realistic_sleep_duration(self) -> int:
         """Génère une durée de sommeil réaliste."""
-        import random
-
-        return random.randint(360, 540)  # 6h à 9h
+        return random.randint(360, 540)  # nosec B311
 
     def _generate_realistic_sleep_quality(self) -> float:
         """Génère un score de qualité de sommeil réaliste."""
-        import random
-
-        return round(random.uniform(0.6, 0.95), 2)
+        return round(random.uniform(0.6, 0.95), 2)  # nosec B311
 
     def _generate_realistic_awakenings(self) -> int:
         """Génère un nombre de réveils réaliste."""
-        import random
-
-        return random.randint(0, 3)
+        return random.randint(0, 3)  # nosec B311
 
     def _generate_realistic_stress_level(self) -> float:
         """Génère un niveau de stress réaliste."""
-        import random
-
-        return round(random.uniform(20, 80), 1)
+        return round(random.uniform(20, 80), 1)  # nosec B311
 
     def _generate_realistic_hrv(self) -> float:
         """Génère une variabilité cardiaque réaliste."""
-        import random
-
-        return round(random.uniform(20, 60), 1)
+        return round(random.uniform(20, 60), 1)  # nosec B311
 
     def _generate_realistic_resting_hr(self) -> int:
         """Génère une fréquence cardiaque au repos réaliste."""
-        import random
-
-        return random.randint(55, 75)
+        return random.randint(55, 75)  # nosec B311
 
     def _generate_realistic_weight(self) -> float:
         """Génère un poids réaliste."""
-        import random
-
-        return round(random.uniform(60, 90), 1)
+        return round(random.uniform(60, 90), 1)  # nosec B311
 
     def _generate_realistic_bp_systolic(self) -> int:
         """Génère une pression systolique réaliste."""
-        import random
-
-        return random.randint(110, 140)
+        return random.randint(110, 140)  # nosec B311
 
     def _generate_realistic_bp_diastolic(self) -> int:
         """Génère une pression diastolique réaliste."""
-        import random
-
-        return random.randint(70, 90)
+        return random.randint(70, 90)  # nosec B311
 
     # Méthodes de sauvegarde des données
     async def _save_activity_data(self, activity: ActivityData) -> None:

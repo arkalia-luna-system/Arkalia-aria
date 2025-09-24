@@ -469,6 +469,7 @@ class TestMobileAppIntegration:
         notification_service_file = mobile_app_path / "notification_service.dart"
         cache_service_file = mobile_app_path / "offline_cache_service.dart"
 
+        # Vérifier l'existence des fichiers
         assert (
             health_service_file.exists()
         ), f"Fichier {health_service_file} introuvable"
@@ -487,6 +488,31 @@ class TestMobileAppIntegration:
         assert (
             cache_service_file.stat().st_size > 0
         ), "Fichier offline_cache_service.dart vide"
+
+        # Vérifier le contenu des fichiers (qu'ils contiennent du code Dart valide)
+        health_content = health_service_file.read_text(encoding="utf-8")
+        assert (
+            "class" in health_content
+        ), "Fichier health_connector_service.dart ne contient pas de classe"
+        assert (
+            "HealthConnectorService" in health_content
+        ), "Classe HealthConnectorService introuvable"
+
+        notification_content = notification_service_file.read_text(encoding="utf-8")
+        assert (
+            "class" in notification_content
+        ), "Fichier notification_service.dart ne contient pas de classe"
+        assert (
+            "NotificationService" in notification_content
+        ), "Classe NotificationService introuvable"
+
+        cache_content = cache_service_file.read_text(encoding="utf-8")
+        assert (
+            "class" in cache_content
+        ), "Fichier offline_cache_service.dart ne contient pas de classe"
+        assert (
+            "OfflineCacheService" in cache_content
+        ), "Classe OfflineCacheService introuvable"
 
 
 class TestEndToEndWorkflow:

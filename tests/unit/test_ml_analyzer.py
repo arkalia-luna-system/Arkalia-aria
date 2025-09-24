@@ -403,7 +403,7 @@ class TestARIAMLAnalyzer:
         # Assert
         assert isinstance(patterns, dict)
         assert "confidence" in patterns
-        assert isinstance(patterns["confidence"], (int, float))
+        assert isinstance(patterns["confidence"], int | float)
         assert 0 <= patterns["confidence"] <= 1
 
     def test_database_initialization(self):

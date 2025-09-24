@@ -7,17 +7,21 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any, TypedDict
 
-from fastapi import APIRouter, HTTPException
+from fastapi import HTTPException
 from pydantic import BaseModel, Field
 
-from core import DatabaseManager
-from core.logging import get_logger
+from core import BaseAPI
 
-router = APIRouter()
-logger = get_logger("pain_tracking")
+# Créer l'API de base
+api = BaseAPI(
+    prefix="/api/pain",
+    tags=["Pain Tracking"],
+    description="API de suivi de la douleur ARIA",
+)
 
-# Utiliser le gestionnaire de base de données centralisé
-db = DatabaseManager()
+router = api.get_router()
+logger = api.logger
+db = api.db
 
 
 def _init_tables() -> None:
@@ -66,7 +70,7 @@ class ActionEff(TypedDict):
     samples: int
 
 
-def _compute_basic_stats(rows: list[sqlite3.Row]) -> dict[str, Any]:
+def _compute_basic_stats(rows: list[dict]) -> dict[str, Any]:
     """Calcule des statistiques simples utiles pour rapport et suggestions."""
     if not rows:
         return {
@@ -200,14 +204,14 @@ async def create_quick_entry(entry: QuickEntry) -> PainEntryOut:
             """,
             (ts, int(entry.intensity), entry.physical_trigger, entry.action_taken),
         )
-        
+
         # Récupérer l'entrée créée
-        rows = db.execute_query(
-            "SELECT * FROM pain_entries ORDER BY id DESC LIMIT 1"
-        )
+        rows = db.execute_query("SELECT * FROM pain_entries ORDER BY id DESC LIMIT 1")
         if not rows:
-            raise HTTPException(status_code=500, detail="Erreur lors de la création de l'entrée")
-        
+            raise HTTPException(
+                status_code=500, detail="Erreur lors de la création de l'entrée"
+            )
+
         logger.info(f"✅ Entrée rapide créée: intensité {entry.intensity}")
         return PainEntryOut(**dict(rows[0]))
     except Exception as e:
@@ -242,14 +246,14 @@ async def create_pain_entry(entry: PainEntryIn) -> PainEntryOut:
                 entry.notes,
             ),
         )
-        
+
         # Récupérer l'entrée créée
-        rows = db.execute_query(
-            "SELECT * FROM pain_entries ORDER BY id DESC LIMIT 1"
-        )
+        rows = db.execute_query("SELECT * FROM pain_entries ORDER BY id DESC LIMIT 1")
         if not rows:
-            raise HTTPException(status_code=500, detail="Erreur lors de la création de l'entrée")
-        
+            raise HTTPException(
+                status_code=500, detail="Erreur lors de la création de l'entrée"
+            )
+
         logger.info(f"✅ Entrée détaillée créée: intensité {entry.intensity}")
         return PainEntryOut(**dict(rows[0]))
     except Exception as e:
@@ -279,7 +283,7 @@ async def list_recent(limit: int = 20) -> list[PainEntryOut]:
     try:
         rows = db.execute_query(
             "SELECT * FROM pain_entries ORDER BY timestamp DESC, id DESC LIMIT ?",
-            (limit,)
+            (limit,),
         )
         logger.info(f"📋 {len(rows)} entrées récentes récupérées")
         return [PainEntryOut(**dict(row)) for row in rows]
@@ -495,9 +499,7 @@ async def export_csv():
     """Export CSV pour professionnels de santé"""
     _init_tables()
     try:
-        rows = db.execute_query(
-            "SELECT * FROM pain_entries ORDER BY timestamp DESC"
-        )
+        rows = db.execute_query("SELECT * FROM pain_entries ORDER BY timestamp DESC")
 
         # Génération CSV simple
         csv_content = "Date,Heure,Intensité,Déclencheur Physique,Déclencheur Mental,Activité,Localisation,Action,Efficacité,Notes\n"

@@ -6,18 +6,16 @@ Adapté de Arkalia Quest Analytics Engine pour la prédiction de douleur
 """
 
 import json
-import logging
-import os
-import sqlite3
 import threading
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any
 
-# Configuration du logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+from core import DatabaseManager
+from core.logging import get_logger
+
+logger = get_logger("ml_analyzer")
 
 
 class PainEventType(Enum):
@@ -52,9 +50,8 @@ class ARIAMLAnalyzer:
     """Analyseur ML pour ARIA - adapté de Quest Analytics Engine"""
 
     def __init__(self, db_path: str = "aria_pain.db"):
-        # Priorité à la variable d'environnement dédiée puis fallback global puis argument
-        env_db = os.getenv("ARIA_ANALYTICS_DB") or os.getenv("ARIA_DB_PATH")
-        self.db_path = env_db or db_path
+        # Utiliser le gestionnaire de base de données centralisé
+        self.db = DatabaseManager(db_path)
         self.lock = threading.Lock()
         self._init_database()
 
@@ -68,11 +65,8 @@ class ARIAMLAnalyzer:
     def _init_database(self):
         """Initialise la base de données analytics"""
         with self.lock:
-            conn = sqlite3.connect(self.db_path)
-            cursor = conn.cursor()
-
             # Table des événements de douleur
-            cursor.execute(
+            self.db.execute_update(
                 """
                 CREATE TABLE IF NOT EXISTS pain_events (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -91,7 +85,7 @@ class ARIAMLAnalyzer:
             )
 
             # Table des patterns détectés
-            cursor.execute(
+            self.db.execute_update(
                 """
                 CREATE TABLE IF NOT EXISTS pain_patterns (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -102,11 +96,11 @@ class ARIAMLAnalyzer:
                     recommendations TEXT,
                     detected_at TEXT DEFAULT CURRENT_TIMESTAMP
                 )
-            """
+                """
             )
 
             # Table des prédictions
-            cursor.execute(
+            self.db.execute_update(
                 """
                 CREATE TABLE IF NOT EXISTS pain_predictions (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -118,26 +112,22 @@ class ARIAMLAnalyzer:
                     accuracy REAL,
                     predicted_at TEXT DEFAULT CURRENT_TIMESTAMP
                 )
-            """
+                """
             )
 
-            conn.commit()
-            conn.close()
+            logger.info("✅ Tables ML analytics initialisées")
 
     def track_pain_event(self, event: PainEvent) -> bool:
         """Enregistre un événement de douleur"""
         try:
             with self.lock:
-                conn = sqlite3.connect(self.db_path)
-                cursor = conn.cursor()
-
-                cursor.execute(
+                self.db.execute_update(
                     """
                     INSERT INTO pain_events
                     (event_type, timestamp, user_id, intensity, trigger, action,
                      effectiveness, emotion, metadata)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                """,
+                    """,
                     (
                         event.event_type.value,
                         event.timestamp.isoformat(),
@@ -151,9 +141,6 @@ class ARIAMLAnalyzer:
                     ),
                 )
 
-                conn.commit()
-                conn.close()
-
                 self.total_events += 1
                 logger.debug(f"Événement enregistré: {event.event_type.value}")
                 return True
@@ -166,21 +153,16 @@ class ARIAMLAnalyzer:
         """Analyse les patterns de douleur sur une période"""
         try:
             with self.lock:
-                conn = sqlite3.connect(self.db_path)
-                cursor = conn.cursor()
-
                 # Récupérer les événements récents
                 cutoff_date = (datetime.now() - timedelta(days=days)).isoformat()
-                cursor.execute(
+                events = self.db.execute_query(
                     """
                     SELECT * FROM pain_events
                     WHERE timestamp > ? AND event_type = 'pain_entry'
                     ORDER BY timestamp DESC
-                """,
+                    """,
                     (cutoff_date,),
                 )
-
-                events = cursor.fetchall()
 
                 if not events:
                     return {
@@ -196,12 +178,12 @@ class ARIAMLAnalyzer:
 
                 # Sauvegarder les patterns détectés
                 for pattern in patterns:
-                    cursor.execute(
+                    self.db.execute_update(
                         """
                         INSERT INTO pain_patterns
                         (pattern_type, confidence, description, triggers, recommendations)
                         VALUES (?, ?, ?, ?, ?)
-                    """,
+                        """,
                         (
                             pattern["type"],
                             pattern["confidence"],
@@ -210,9 +192,6 @@ class ARIAMLAnalyzer:
                             json.dumps(pattern["recommendations"]),
                         ),
                     )
-
-                conn.commit()
-                conn.close()
 
                 return {
                     "total_events": len(events),
@@ -430,20 +409,14 @@ class ARIAMLAnalyzer:
         """Sauvegarde une prédiction"""
         try:
             with self.lock:
-                conn = sqlite3.connect(self.db_path)
-                cursor = conn.cursor()
-
-                cursor.execute(
+                self.db.execute_update(
                     """
                     INSERT INTO pain_predictions
                     (predicted_intensity, predicted_trigger, confidence, time_horizon)
                     VALUES (?, ?, ?, ?)
-                """,
+                    """,
                     (intensity, trigger, confidence, "2-4 heures"),
                 )
-
-                conn.commit()
-                conn.close()
 
         except Exception as e:
             logger.error(f"Erreur sauvegarde prédiction: {e}")
@@ -480,26 +453,20 @@ class ARIAMLAnalyzer:
         """Retourne un résumé des analytics"""
         try:
             with self.lock:
-                conn = sqlite3.connect(self.db_path)
-                cursor = conn.cursor()
-
                 # Statistiques générales
-                cursor.execute("SELECT COUNT(*) FROM pain_events")
-                total_events = cursor.fetchone()[0]
-
-                cursor.execute("SELECT COUNT(*) FROM pain_patterns")
-                total_patterns = cursor.fetchone()[0]
-
-                cursor.execute("SELECT COUNT(*) FROM pain_predictions")
-                total_predictions = cursor.fetchone()[0]
+                total_events = self.db.get_count("pain_events")
+                total_patterns = self.db.get_count("pain_patterns")
+                total_predictions = self.db.get_count("pain_predictions")
 
                 # Précision des prédictions
-                cursor.execute(
+                accuracy_rows = self.db.execute_query(
                     "SELECT AVG(accuracy) FROM pain_predictions WHERE accuracy IS NOT NULL"
                 )
-                avg_accuracy = cursor.fetchone()[0] or 0.0
-
-                conn.close()
+                avg_accuracy = (
+                    accuracy_rows[0][0]
+                    if accuracy_rows and accuracy_rows[0][0]
+                    else 0.0
+                )
 
                 return {
                     "total_events": total_events,

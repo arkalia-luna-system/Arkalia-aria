@@ -192,7 +192,7 @@ class DatabaseManager:
             True si la table existe, False sinon
         """
         query = """
-        SELECT name FROM sqlite_master 
+        SELECT name FROM sqlite_master
         WHERE type='table' AND name=?
         """
         try:

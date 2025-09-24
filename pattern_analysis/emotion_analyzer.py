@@ -5,12 +5,12 @@ ARIA Emotion Analyzer - Module d'analyse émotionnelle pour ARIA
 Adapté de BBIA Emotions pour l'analyse des patterns de douleur
 """
 
-import logging
 from datetime import datetime, timedelta
 from typing import TypedDict
 
-# Configuration du logging
-logger = logging.getLogger(__name__)
+from core.logging import get_logger
+
+logger = get_logger("emotion_analyzer")
 
 
 class EmotionInfo(TypedDict):

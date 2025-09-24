@@ -81,7 +81,7 @@ def test_quality_assurance():
     print("\n🔍 Test de l'assurance qualité...")
 
     # Accélération optionnelle
-    if os.getenv("ARIA_FAST_TEST", "1") == "1":
+    if os.getenv("ARIA_FAST_TEST", "0") == "1":
         from devops_automation.quality.aria_quality_assurance import (
             ARIA_QualityAssurance as _QA,
         )
@@ -167,7 +167,7 @@ def test_integration():
     monitoring_system = ARIA_MonitoringSystem(".")
 
     # Mode rapide optionnel pour accélérer les tests d'intégration locaux
-    if os.getenv("ARIA_FAST_TEST", "1") == "1":
+    if os.getenv("ARIA_FAST_TEST", "0") == "1":
         from devops_automation.cicd.aria_cicd_manager import ARIA_CICDManager as _CICD
         from devops_automation.deployment.aria_deployment_manager import (
             ARIA_DeploymentManager as _DEP,

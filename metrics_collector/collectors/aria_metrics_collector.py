@@ -11,7 +11,6 @@ Collecteur de métriques spécialisé pour ARIA avec focus sur :
 - Tests d'intégration CIA-ARIA
 """
 
-import logging
 import os
 import shutil
 import subprocess  # nosec B404
@@ -22,7 +21,10 @@ from typing import Any
 
 import psutil
 
-logger = logging.getLogger(__name__)
+from core import DatabaseManager
+from core.logging import get_logger
+
+logger = get_logger("aria_metrics_collector")
 
 
 class ARIA_MetricsCollector:
@@ -45,6 +47,7 @@ class ARIA_MetricsCollector:
             project_root: Chemin racine du projet ARIA
         """
         self.project_root = Path(project_root).resolve()
+        self.db = DatabaseManager()
         self.exclude_patterns: set[str] = {
             "__pycache__",
             ".venv",
@@ -264,57 +267,23 @@ class ARIA_MetricsCollector:
     def _count_pain_entries(self) -> int:
         """Compte les entrées de douleur dans la base de données."""
         try:
-            import sqlite3
-
-            db_path = self.project_root / "aria_pain.db"
-            if not db_path.exists():
-                return 0
-            conn = sqlite3.connect(db_path)
-            cursor = conn.cursor()
-            cursor.execute("SELECT COUNT(*) FROM pain_entries")
-            count = cursor.fetchone()[0]
-            conn.close()
-            return count
+            return self.db.get_count("pain_entries")
         except Exception:
             return 0
 
     def _count_patterns(self) -> int:
         """Compte les patterns analysés."""
         try:
-            import sqlite3
-
-            db_path = self.project_root / "aria_pain.db"
-            if not db_path.exists():
-                return 0
-            conn = sqlite3.connect(db_path)
-            cursor = conn.cursor()
-            # Compter les patterns dans la table patterns ou pain_entries avec patterns
-            cursor.execute(
-                "SELECT COUNT(*) FROM pain_entries WHERE pattern_analysis IS NOT NULL"
-            )
-            count = cursor.fetchone()[0]
-            conn.close()
-            return count
+            return self.db.get_count("pain_entries", "pattern_analysis IS NOT NULL")
         except Exception:
             return 0
 
     def _count_predictions(self) -> int:
         """Compte les prédictions générées."""
         try:
-            import sqlite3
-
-            db_path = self.project_root / "aria_pain.db"
-            if not db_path.exists():
-                return 0
-            conn = sqlite3.connect(db_path)
-            cursor = conn.cursor()
-            # Compter les prédictions dans la table predictions ou pain_entries avec predictions
-            cursor.execute(
-                "SELECT COUNT(*) FROM pain_entries WHERE prediction_confidence IS NOT NULL"
+            return self.db.get_count(
+                "pain_entries", "prediction_confidence IS NOT NULL"
             )
-            count = cursor.fetchone()[0]
-            conn.close()
-            return count
         except Exception:
             return 0
 

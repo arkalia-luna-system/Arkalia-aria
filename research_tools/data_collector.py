@@ -6,24 +6,23 @@ Adapté de Arkalia Metrics Collector pour la recherche médicale
 """
 
 import json
-import logging
-import os
 import sqlite3
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 
-# Configuration du logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+from core import DatabaseManager
+from core.logging import get_logger
+
+logger = get_logger("data_collector")
 
 
 class ARIADataCollector:
     """Collecteur de données pour ARIA - adapté de Metrics Collector"""
 
     def __init__(self, db_path: str = "aria_research.db"):
-        env_db = os.getenv("ARIA_RESEARCH_DB") or os.getenv("ARIA_DB_PATH")
-        self.db_path = env_db or db_path
+        # Utiliser le gestionnaire de base de données centralisé
+        self.db = DatabaseManager(db_path)
         self.project_root = Path(".").resolve()
         self._init_database()
 
@@ -31,11 +30,8 @@ class ARIADataCollector:
 
     def _init_database(self):
         """Initialise la base de données de recherche"""
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-
         # Table des expérimentations
-        cursor.execute(
+        self.db.execute_update(
             """
             CREATE TABLE IF NOT EXISTS experiments (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -50,11 +46,11 @@ class ARIADataCollector:
                 conclusions TEXT,
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP
             )
-        """
+            """
         )
 
         # Table des données collectées
-        cursor.execute(
+        self.db.execute_update(
             """
             CREATE TABLE IF NOT EXISTS collected_data (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -66,11 +62,11 @@ class ARIADataCollector:
                 timestamp TEXT DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (experiment_id) REFERENCES experiments (id)
             )
-        """
+            """
         )
 
         # Table des métriques système
-        cursor.execute(
+        self.db.execute_update(
             """
             CREATE TABLE IF NOT EXISTS system_metrics (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -80,33 +76,27 @@ class ARIADataCollector:
                 category TEXT,
                 timestamp TEXT DEFAULT CURRENT_TIMESTAMP
             )
-        """
+            """
         )
 
-        conn.commit()
-        conn.close()
+        logger.info("✅ Tables research initialisées")
 
     def create_experiment(
         self, name: str, description: str, hypothesis: str, methodology: str
     ) -> int:
         """Crée une nouvelle expérimentation"""
         try:
-            conn = sqlite3.connect(self.db_path)
-            cursor = conn.cursor()
-
-            cursor.execute(
+            self.db.execute_update(
                 """
                 INSERT INTO experiments (name, description, hypothesis, methodology)
                 VALUES (?, ?, ?, ?)
-            """,
+                """,
                 (name, description, hypothesis, methodology),
             )
 
-            experiment_id = (
-                int(cursor.lastrowid) if cursor.lastrowid is not None else -1
-            )
-            conn.commit()
-            conn.close()
+            # Récupérer l'ID de l'expérimentation créée
+            rows = self.db.execute_query("SELECT last_insert_rowid()")
+            experiment_id = rows[0][0] if rows else -1
 
             logger.info(f"Expérimentation créée: {name} (ID: {experiment_id})")
             return experiment_id
@@ -118,16 +108,13 @@ class ARIADataCollector:
     def collect_pain_data(self, experiment_id: int, pain_entry: dict[str, Any]) -> bool:
         """Collecte des données de douleur pour une expérimentation"""
         try:
-            conn = sqlite3.connect(self.db_path)
-            cursor = conn.cursor()
-
             # Enregistrer l'intensité
-            cursor.execute(
+            self.db.execute_update(
                 """
                 INSERT INTO collected_data
                 (experiment_id, data_type, data_value, metadata)
                 VALUES (?, ?, ?, ?)
-            """,
+                """,
                 (
                     experiment_id,
                     "pain_intensity",
@@ -138,12 +125,12 @@ class ARIADataCollector:
 
             # Enregistrer les déclencheurs
             if pain_entry.get("physical_trigger"):
-                cursor.execute(
+                self.db.execute_update(
                     """
                     INSERT INTO collected_data
                     (experiment_id, data_type, data_text, metadata)
                     VALUES (?, ?, ?, ?)
-                """,
+                    """,
                     (
                         experiment_id,
                         "physical_trigger",
@@ -153,12 +140,12 @@ class ARIADataCollector:
                 )
 
             if pain_entry.get("mental_trigger"):
-                cursor.execute(
+                self.db.execute_update(
                     """
                     INSERT INTO collected_data
                     (experiment_id, data_type, data_text, metadata)
                     VALUES (?, ?, ?, ?)
-                """,
+                    """,
                     (
                         experiment_id,
                         "mental_trigger",
@@ -169,12 +156,12 @@ class ARIADataCollector:
 
             # Enregistrer l'action
             if pain_entry.get("action_taken"):
-                cursor.execute(
+                self.db.execute_update(
                     """
                     INSERT INTO collected_data
                     (experiment_id, data_type, data_text, metadata)
                     VALUES (?, ?, ?, ?)
-                """,
+                    """,
                     (
                         experiment_id,
                         "action_taken",
@@ -182,9 +169,6 @@ class ARIADataCollector:
                         json.dumps(pain_entry),
                     ),
                 )
-
-            conn.commit()
-            conn.close()
 
             logger.debug(
                 f"Données de douleur collectées pour expérimentation {experiment_id}"
@@ -200,16 +184,13 @@ class ARIADataCollector:
     ) -> bool:
         """Collecte des données émotionnelles pour une expérimentation"""
         try:
-            conn = sqlite3.connect(self.db_path)
-            cursor = conn.cursor()
-
             # Enregistrer l'émotion
-            cursor.execute(
+            self.db.execute_update(
                 """
                 INSERT INTO collected_data
                 (experiment_id, data_type, data_text, data_value, metadata)
                 VALUES (?, ?, ?, ?, ?)
-            """,
+                """,
                 (
                     experiment_id,
                     "emotion",
@@ -221,12 +202,12 @@ class ARIADataCollector:
 
             # Enregistrer le niveau de stress
             if emotion_data.get("stress_level") is not None:
-                cursor.execute(
+                self.db.execute_update(
                     """
                     INSERT INTO collected_data
                     (experiment_id, data_type, data_value, metadata)
                     VALUES (?, ?, ?, ?)
-                """,
+                    """,
                     (
                         experiment_id,
                         "stress_level",
@@ -234,9 +215,6 @@ class ARIADataCollector:
                         json.dumps(emotion_data),
                     ),
                 )
-
-            conn.commit()
-            conn.close()
 
             logger.debug(
                 f"Données émotionnelles collectées pour expérimentation {experiment_id}"
@@ -431,21 +409,15 @@ class ARIADataCollector:
     def _save_system_metrics(self, metrics: dict[str, Any]):
         """Sauvegarde les métriques système"""
         try:
-            conn = sqlite3.connect(self.db_path)
-            cursor = conn.cursor()
-
             for metric_name, metric_value in metrics.items():
                 if isinstance(metric_value, int | float):
-                    cursor.execute(
+                    self.db.execute_update(
                         """
                         INSERT INTO system_metrics (metric_name, metric_value, category)
                         VALUES (?, ?, 'system')
-                    """,
+                        """,
                         (metric_name, metric_value),
                     )
-
-            conn.commit()
-            conn.close()
 
         except Exception as e:
             logger.error(f"Erreur sauvegarde métriques: {e}")
@@ -453,21 +425,16 @@ class ARIADataCollector:
     def analyze_experiment(self, experiment_id: int) -> dict[str, Any]:
         """Analyse les résultats d'une expérimentation"""
         try:
-            conn = sqlite3.connect(self.db_path)
-            cursor = conn.cursor()
-
             # Récupérer les données de l'expérimentation
-            cursor.execute(
+            data = self.db.execute_query(
                 """
                 SELECT data_type, data_value, data_text, timestamp
                 FROM collected_data
                 WHERE experiment_id = ?
                 ORDER BY timestamp
-            """,
+                """,
                 (experiment_id,),
             )
-
-            data = cursor.fetchall()
 
             if not data:
                 return {
@@ -480,18 +447,16 @@ class ARIADataCollector:
             analysis = self._analyze_data(data)
 
             # Récupérer les infos de l'expérimentation
-            cursor.execute(
+            exp_info_rows = self.db.execute_query(
                 """
                 SELECT name, description, hypothesis, methodology
                 FROM experiments
                 WHERE id = ?
-            """,
+                """,
                 (experiment_id,),
             )
 
-            exp_info = cursor.fetchone()
-
-            conn.close()
+            exp_info = exp_info_rows[0] if exp_info_rows else None
 
             return {
                 "experiment_id": experiment_id,
@@ -569,23 +534,13 @@ class ARIADataCollector:
     def get_research_summary(self) -> dict[str, Any]:
         """Retourne un résumé de la recherche"""
         try:
-            conn = sqlite3.connect(self.db_path)
-            cursor = conn.cursor()
-
             # Statistiques générales
-            cursor.execute("SELECT COUNT(*) FROM experiments")
-            total_experiments = cursor.fetchone()[0]
-
-            cursor.execute("SELECT COUNT(*) FROM experiments WHERE status = 'active'")
-            active_experiments = cursor.fetchone()[0]
-
-            cursor.execute("SELECT COUNT(*) FROM collected_data")
-            total_data_points = cursor.fetchone()[0]
+            total_experiments = self.db.get_count("experiments")
+            active_experiments = self.db.get_count("experiments", "status = 'active'")
+            total_data_points = self.db.get_count("collected_data")
 
             # Métriques système
             system_metrics = self.collect_system_metrics()
-
-            conn.close()
 
             return {
                 "total_experiments": total_experiments,

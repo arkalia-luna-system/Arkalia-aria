@@ -20,6 +20,8 @@ class TestARIA_DeploymentManager:
         """Setup avant chaque test"""
         self.temp_dir = tempfile.mkdtemp()
         self.deployment_manager = ARIA_DeploymentManager(self.temp_dir)
+        # Réinitialiser l'historique des déploiements
+        self.deployment_manager.deployment_history = []
 
     def teardown_method(self):
         """Cleanup après chaque test"""
@@ -72,6 +74,11 @@ class TestARIA_DeploymentManager:
         # Vérifier que les étapes sont présentes
         assert "steps" in result
         assert isinstance(result["steps"], list)
+
+        # Debug: afficher le résultat si les assertions échouent
+        if "environment" not in result:
+            print(f"DEBUG: result keys = {list(result.keys())}")
+            print(f"DEBUG: result = {result}")
 
     def test_deploy_invalid_environment(self):
         """Test deploy avec environnement invalide"""

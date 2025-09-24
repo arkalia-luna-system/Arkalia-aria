@@ -3,11 +3,10 @@ CIA Sync API - Module de synchronisation ARIA
 Synchronisation bidirectionnelle optimisée avec Arkalia CIA
 """
 
-import importlib
 from datetime import datetime
 from typing import Any
 
-requests: Any = importlib.import_module("requests")
+import requests  # type: ignore[import-not-found]
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 

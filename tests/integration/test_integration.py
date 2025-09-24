@@ -17,7 +17,7 @@ def test_aria_endpoints():
 
     # Test 1: Status général
     try:
-        response = requests.get(f"{base_url}/")
+        response = requests.get(f"{base_url}/", timeout=10)
         print(f"✅ Root endpoint: {response.status_code}")
         print(f"   Response: {response.json()}")
     except Exception as e:
@@ -25,7 +25,7 @@ def test_aria_endpoints():
 
     # Test 2: Status pain tracking
     try:
-        response = requests.get(f"{base_url}/api/pain/status")
+        response = requests.get(f"{base_url}/api/pain/status", timeout=10)
         print(f"✅ Pain tracking status: {response.status_code}")
         print(f"   Response: {response.json()}")
     except Exception as e:
@@ -34,7 +34,9 @@ def test_aria_endpoints():
     # Test 3: Saisie rapide
     try:
         data = {"intensity": 6, "trigger": "stress", "action": "respiration"}
-        response = requests.post(f"{base_url}/api/pain/quick-entry", json=data)
+        response = requests.post(
+            f"{base_url}/api/pain/quick-entry", json=data, timeout=10
+        )
         print(f"✅ Quick entry: {response.status_code}")
         print(f"   Response: {response.json()}")
     except Exception as e:
@@ -42,7 +44,7 @@ def test_aria_endpoints():
 
     # Test 4: Historique
     try:
-        response = requests.get(f"{base_url}/api/pain/entries/recent")
+        response = requests.get(f"{base_url}/api/pain/entries/recent", timeout=10)
         print(f"✅ Recent entries: {response.status_code}")
         entries = response.json()
         print(f"   Found {len(entries)} entries")
@@ -53,7 +55,7 @@ def test_aria_endpoints():
 
     # Test 5: Export CSV
     try:
-        response = requests.get(f"{base_url}/api/pain/export/csv")
+        response = requests.get(f"{base_url}/api/pain/export/csv", timeout=10)
         print(f"✅ CSV export: {response.status_code}")
         export_data = response.json()
         print(f"   Filename: {export_data['filename']}")
@@ -77,7 +79,7 @@ def test_other_modules():
 
     for module_name, endpoint in modules:
         try:
-            response = requests.get(f"{base_url}{endpoint}")
+            response = requests.get(f"{base_url}{endpoint}", timeout=10)
             print(f"✅ {module_name}: {response.status_code}")
             print(f"   Response: {response.json()}")
         except Exception as e:

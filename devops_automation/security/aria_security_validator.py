@@ -13,7 +13,7 @@ Validateur de sécurité DevOps pour ARIA avec :
 
 import logging
 import re
-import subprocess
+import subprocess  # nosec B404 - Module subprocess utilisé de manière sécurisée avec validation
 from collections.abc import Sequence
 from datetime import datetime
 from pathlib import Path

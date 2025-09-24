@@ -11,6 +11,7 @@ Collecteur de métriques spécialisé pour ARIA avec focus sur :
 - Tests d'intégration CIA-ARIA
 """
 
+import logging
 import os
 import shutil
 import subprocess  # nosec B404
@@ -20,6 +21,8 @@ from pathlib import Path
 from typing import Any
 
 import psutil
+
+logger = logging.getLogger(__name__)
 
 
 class ARIA_MetricsCollector:
@@ -83,8 +86,9 @@ class ARIA_MetricsCollector:
         if os.getenv("ARIA_METRICS_NICE") == "1":
             try:
                 os.nice(5)
-            except Exception:
-                pass
+            except Exception as e:
+                # Log l'erreur mais continue l'exécution
+                logger.warning(f"Impossible de modifier la priorité CPU: {e}")
         self.metrics_data = {
             "project_info": self._collect_project_info(),
             "python_files": self._collect_python_metrics(),

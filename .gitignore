@@ -297,3 +297,14 @@ backups/
 *.tar.gz
 *.rar
 archive/
+
+# ARIA Data Collection - Performance optimized
+# Ignore all data files but keep important configs
+dacc/google_fit_data/*.json
+dacc/ios_health_data/*.json  
+dacc/samsung_health_data/*.json
+dacc/unified_health_data/sync_history_*.json
+
+# Keep important files
+!dacc/deployment.json
+!dacc/unified_health_data/unified_metrics_*.json

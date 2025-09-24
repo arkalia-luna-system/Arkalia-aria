@@ -1,0 +1,14 @@
+{
+  "timestamp": "2025-08-31 19:00:00.573234",
+  "stress_level": 43.7,
+  "heart_rate_variability": 47.9,
+  "resting_heart_rate": 63,
+  "source": "ios_health",
+  "raw_data": {
+    "device": "iPad",
+    "platform": "iOS",
+    "measurement_method": "heart_rate_analysis",
+    "confidence": 0.81,
+    "healthkit_session_id": "stress_20250831_19"
+  }
+}

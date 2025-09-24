@@ -1,0 +1,18 @@
+{
+  "sleep_start": "2025-09-03 23:15:00.573234",
+  "sleep_end": "2025-09-04 07:31:00.573234",
+  "duration_minutes": 496,
+  "quality_score": 0.9,
+  "deep_sleep_minutes": 109,
+  "light_sleep_minutes": 287,
+  "rem_sleep_minutes": 99,
+  "awakenings_count": 2,
+  "source": "ios_health",
+  "raw_data": {
+    "device": "iPad",
+    "platform": "iOS",
+    "sleep_tracking_method": "motion_detection",
+    "confidence": 0.87,
+    "healthkit_session_id": "sleep_20250903"
+  }
+}

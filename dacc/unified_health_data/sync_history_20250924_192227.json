@@ -1,0 +1,82 @@
+{
+  "sync_start": "2025-09-24T19:22:27.288437",
+  "days_back": 7,
+  "connectors": {
+    "samsung_health": {
+      "connector": "samsung_health",
+      "start_date": "2025-09-17T19:22:27.288440",
+      "end_date": "2025-09-24T19:22:27.288440",
+      "sync_timestamp": "2025-09-24T19:22:27.288442",
+      "data_counts": {
+        "activity": 8,
+        "sleep": 8,
+        "stress": 32,
+        "health": 8
+      },
+      "errors": [],
+      "status": "success"
+    },
+    "google_fit": {
+      "connector": "google_fit",
+      "start_date": "2025-09-17T19:22:27.310291",
+      "end_date": "2025-09-24T19:22:27.310291",
+      "sync_timestamp": "2025-09-24T19:22:27.310294",
+      "data_counts": {
+        "activity": 8,
+        "sleep": 8,
+        "stress": 24,
+        "health": 8
+      },
+      "errors": [],
+      "status": "success"
+    },
+    "ios_health": {
+      "connector": "ios_health",
+      "start_date": "2025-09-17T19:22:27.327941",
+      "end_date": "2025-09-24T19:22:27.327941",
+      "sync_timestamp": "2025-09-24T19:22:27.327944",
+      "data_counts": {
+        "activity": 8,
+        "sleep": 8,
+        "stress": 24,
+        "health": 8
+      },
+      "errors": [],
+      "status": "success"
+    }
+  },
+  "unified_metrics": {
+    "period": {
+      "start_date": "2025-09-17T19:22:27.345488",
+      "end_date": "2025-09-24T19:22:27.345488",
+      "days": 7
+    },
+    "activity": {
+      "total_steps": 255059,
+      "total_calories": 10843.9,
+      "total_distance": 201.49999999999997,
+      "avg_heart_rate": 80.8,
+      "data_points": 24
+    },
+    "sleep": {
+      "avg_duration_minutes": 430.3,
+      "avg_quality_score": 0.74,
+      "total_awakenings": 40,
+      "data_points": 24
+    },
+    "stress": {
+      "avg_stress_level": 48.2,
+      "avg_hrv": 43.0,
+      "data_points": 80
+    },
+    "sources": [
+      "ios_health",
+      "samsung_health",
+      "google_fit"
+    ]
+  },
+  "errors": [],
+  "status": "success",
+  "sync_end": "2025-09-24T19:22:27.399811",
+  "duration_seconds": 0.111376
+}

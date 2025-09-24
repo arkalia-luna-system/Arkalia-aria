@@ -1,10 +1,10 @@
 {
-  "timestamp": "2025-09-18 19:05:13.245289",
-  "steps": 6969,
-  "calories_burned": 278.8,
-  "distance_meters": 5.6,
-  "active_minutes": 69,
-  "heart_rate_bpm": 99,
+  "timestamp": "2025-09-18 19:33:44.573234",
+  "steps": 12370,
+  "calories_burned": 494.8,
+  "distance_meters": 9.9,
+  "active_minutes": 120,
+  "heart_rate_bpm": 98,
   "source": "samsung_health",
   "raw_data": {
     "device": "Galaxy Watch",

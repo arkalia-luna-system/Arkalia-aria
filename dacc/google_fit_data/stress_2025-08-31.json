@@ -1,0 +1,13 @@
+{
+  "timestamp": "2025-08-31 20:00:00.573234",
+  "stress_level": 51.7,
+  "heart_rate_variability": 35.6,
+  "resting_heart_rate": 66,
+  "source": "google_fit",
+  "raw_data": {
+    "platform": "Android",
+    "measurement_method": "heart_rate_analysis",
+    "confidence": 0.78,
+    "google_fit_session_id": "stress_20250831_20"
+  }
+}

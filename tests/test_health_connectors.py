@@ -373,8 +373,9 @@ class TestHealthSyncManager:
         result = await sync_manager.sync_single_connector("samsung_health", days_back=7)
 
         assert isinstance(result, dict)
-        # Le résultat peut contenir une erreur si le connecteur n'est pas configuré
-        assert "error" in result or "success" in result
+        # Le résultat doit contenir des informations de synchronisation
+        assert "connector" in result
+        assert "data_counts" in result
 
     @pytest.mark.asyncio
     async def test_get_unified_metrics(self, sync_manager):
@@ -485,8 +486,9 @@ class TestErrorHandling:
             result = await sync_manager.sync_all_connectors(days_back=7)
 
             # Le gestionnaire doit continuer avec les autres connecteurs
-            assert "google_fit" in result
-            assert "ios_health" in result
+            assert "connectors" in result
+            assert "google_fit" in result["connectors"]
+            assert "ios_health" in result["connectors"]
 
 
 class TestPerformance:

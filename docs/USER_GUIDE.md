@@ -1,277 +1,404 @@
-# 👤 Guide Utilisateur - ARKALIA ARIA
+# Guide Utilisateur ARKALIA ARIA
+*Guide complet pour psychologues, patients et utilisateurs*
 
-## 🎯 **Qu'est-ce qu'ARKALIA ARIA ?**
+## 📋 Table des Matières
 
-ARKALIA ARIA (Arkalia Research Intelligence Assistant) est votre assistant personnel de recherche santé qui transforme vos données médicales en insights actionables, tout en gardant un contrôle total sur vos informations sensibles.
-
-**Philosophie** : Vos données médicales vous appartiennent. ARIA travaille exclusivement pour vous, localement, sans jamais partager vos informations sans votre consentement explicite.
-
----
-
-## 🚀 **Démarrage Rapide**
-
-### 1. Installation
-```bash
-# Cloner le repository
-git clone https://github.com/arkalia-luna-system/arkalia-aria.git
-cd arkalia-aria
-
-# Créer l'environnement virtuel
-python -m venv arkalia_aria_venv
-source arkalia_aria_venv/bin/activate  # Linux/Mac
-# ou
-arkalia_aria_venv\Scripts\activate  # Windows
-
-# Installer les dépendances
-pip install -r requirements.txt
-```
-
-### 2. Lancement
-```bash
-# Démarrer l'API
-python main.py
-
-# L'API sera disponible sur http://localhost:8001
-# Dashboard web : http://localhost:8001/dashboard
-# Documentation API : http://localhost:8001/docs
-```
+1. [Introduction](#introduction)
+2. [Installation et Configuration](#installation-et-configuration)
+3. [Interface Utilisateur](#interface-utilisateur)
+4. [Gestion des Données de Santé](#gestion-des-données-de-santé)
+5. [Suivi de la Douleur](#suivi-de-la-douleur)
+6. [Analyses et Rapports](#analyses-et-rapports)
+7. [Synchronisation Multi-Plateforme](#synchronisation-multi-plateforme)
+8. [Paramètres et Personnalisation](#paramètres-et-personnalisation)
+9. [Résolution de Problèmes](#résolution-de-problèmes)
+10. [FAQ](#faq)
 
 ---
 
-## 📱 **Utilisation**
+## 🎯 Introduction
 
-### 🌐 **Dashboard Web**
+ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intelligence artificielle pour le suivi de la santé mentale et physique. Cette solution intègre des connecteurs de santé multi-plateforme, un dashboard web interactif et une application mobile native.
 
-Accédez au dashboard via `http://localhost:8001/dashboard` pour :
+### Pour qui est ARKALIA ARIA ?
 
-- **Vue d'ensemble** : Résumé de vos données de santé
-- **Graphiques temps réel** : Visualisation des tendances
-- **Métriques santé** : Données Samsung Health, Google Fit, Apple Health
-- **Analytics** : Patterns détectés et prédictions
-- **Export** : Téléchargement CSV pour professionnels
-
-### 📱 **App Mobile Flutter**
-
-#### Installation
-```bash
-cd mobile_app
-flutter pub get
-flutter run -d ios    # iOS
-flutter run -d android # Android
-```
-
-#### Écrans Disponibles
-
-1. **Synchronisation Santé** (`/health-sync`)
-   - Statut des connecteurs (Samsung Health, Google Fit, Apple Health)
-   - Synchronisation manuelle ou automatique
-   - Visualisation des données de santé
-
-2. **Dashboard** (`/dashboard`)
-   - Résumé général de vos données
-   - Métriques de santé récentes
-   - Dernières entrées de douleur
-   - Statut des modules système
-
-3. **Analytics** (`/analytics`)
-   - Patterns détectés par l'IA
-   - Prédictions d'épisodes de douleur
-   - Recommandations personnalisées
-   - Analyse de corrélations
-
-4. **Paramètres** (`/settings`)
-   - Configuration des notifications
-   - Fréquence de synchronisation
-   - Mode sombre/clair
-   - Export des données
-   - Configuration santé
+- **Psychologues** : Outils d'analyse avancés et rapports détaillés
+- **Patients** : Suivi personnel de la santé et de la douleur
+- **Chercheurs** : Données anonymisées et analyses statistiques
+- **Médecins** : Intégration avec les systèmes de santé existants
 
 ---
 
-## 🏥 **Connecteurs Santé**
+## 🚀 Installation et Configuration
 
-### Samsung Health
-- **Authentification** : OAuth 2.0 sécurisé
-- **Données** : Pas, fréquence cardiaque, sommeil, stress, calories
-- **Synchronisation** : Automatique ou manuelle
-- **Privacité** : Données stockées localement uniquement
+### Prérequis
 
-### Google Fit
-- **Authentification** : Google OAuth
-- **Données** : Activité physique, métriques de santé
-- **Intégration** : Compatible avec tous les appareils Android
-- **API** : Google Fit REST API
+- **Web Dashboard** : Navigateur moderne (Chrome, Firefox, Safari, Edge)
+- **Application Mobile** : iOS 14+ ou Android 8+
+- **Connecteurs Santé** : Montre Samsung, Google Fit, ou Apple Health
 
-### Apple HealthKit
-- **Support iOS** : Natif iOS/macOS
-- **Données** : Santé complète iOS
-- **Synchronisation** : Via HealthKit framework
-- **Sécurité** : Chiffrement end-to-end Apple
+### Installation Web
 
----
+1. Accédez à `https://dashboard.arkalia-aria.com`
+2. Créez votre compte utilisateur
+3. Configurez vos connecteurs de santé
+4. Commencez le suivi de vos données
 
-## 📊 **Suivi de Douleur**
+### Installation Mobile
 
-### Enregistrement Rapide
-```bash
-# Via API
-curl -X POST "http://localhost:8001/api/pain/quick" \
-  -H "Content-Type: application/json" \
-  -d '{"intensity": 7, "location": "dos", "trigger": "stress"}'
-```
+#### iOS (App Store)
+1. Recherchez "ARKALIA ARIA" dans l'App Store
+2. Téléchargez et installez l'application
+3. Ouvrez l'app et connectez-vous
+4. Autorisez l'accès aux données de santé
 
-### Enregistrement Détaillé
-```bash
-# Via API
-curl -X POST "http://localhost:8001/api/pain/detailed" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "intensity": 7,
-    "location": "dos",
-    "trigger": "stress",
-    "duration": 30,
-    "medication": "paracetamol",
-    "notes": "Douleur après travail"
-  }'
-```
-
-### Via Interface Web
-1. Allez sur `http://localhost:8001/dashboard`
-2. Cliquez sur "Nouvelle entrée douleur"
-3. Remplissez le formulaire
-4. Sauvegardez
+#### Android (Google Play)
+1. Recherchez "ARKALIA ARIA" dans Google Play
+2. Téléchargez et installez l'application
+3. Ouvrez l'app et connectez-vous
+4. Configurez la synchronisation avec Google Fit
 
 ---
 
-## 🔬 **Analytics et Prédictions**
+## 🖥️ Interface Utilisateur
 
-### Patterns Détectés
-ARIA analyse automatiquement vos données pour détecter :
-- **Corrélations** : Entre douleur et facteurs externes
-- **Tendances** : Évolution dans le temps
-- **Déclencheurs** : Facteurs qui précipitent la douleur
+### Dashboard Web
+
+#### Navigation Principale
+- **Accueil** : Vue d'ensemble des métriques
+- **Santé** : Données de santé détaillées
+- **Douleur** : Suivi et analyse de la douleur
+- **Patterns** : Visualisation des tendances
+- **Rapports** : Génération de rapports
+
+#### Fonctionnalités Clés
+- **Thème Sombre/Clair** : Basculement en un clic
+- **Synchronisation** : Mise à jour automatique des données
+- **Exports** : PDF, Excel, HTML
+- **Temps Réel** : Mise à jour automatique
+
+### Application Mobile
+
+#### Navigation par Onglets
+- **Accueil** : Dashboard principal
+- **Santé** : Synchronisation et suivi
+- **Analyses** : Graphiques et tendances
+- **Alertes** : Notifications et rappels
+- **Paramètres** : Configuration personnelle
+
+#### Gestes et Interactions
+- **Pull-to-Refresh** : Actualisation des données
+- **Swipe** : Navigation entre les sections
+- **Tap** : Accès aux détails
+- **Long Press** : Actions contextuelles
+
+---
+
+## 💊 Gestion des Données de Santé
+
+### Connecteurs Disponibles
+
+#### Samsung Health (Montres Samsung)
+- **Fréquence cardiaque** : Mesures continues
+- **Activité physique** : Pas, distance, calories
+- **Sommeil** : Durée et qualité
+- **Stress** : Niveaux de stress détectés
+
+#### Google Fit (Android)
+- **Activité** : Exercices et mouvements
+- **Santé** : Poids, taille, IMC
+- **Sommeil** : Données de repos
+- **Nutrition** : Apport calorique
+
+#### iOS Health (iPad/iPhone)
+- **Santé générale** : Métriques complètes
+- **Activité** : Exercices et objectifs
+- **Sommeil** : Analyse du sommeil
+- **Médicaments** : Rappels et suivi
+
+### Synchronisation des Données
+
+#### Configuration Initiale
+1. Sélectionnez vos connecteurs
+2. Autorisez l'accès aux données
+3. Configurez la fréquence de sync
+4. Testez la connexion
+
+#### Synchronisation Automatique
+- **Fréquence** : Toutes les 6 heures
+- **Conditions** : Connexion réseau disponible
+- **Batterie** : Niveau suffisant
+- **Données** : Nouvelles données disponibles
+
+#### Synchronisation Manuelle
+- **Web** : Bouton "Synchroniser" dans l'en-tête
+- **Mobile** : Pull-to-refresh ou bouton FAB
+- **API** : Endpoints de synchronisation
+
+---
+
+## 🩹 Suivi de la Douleur
+
+### Saisie des Données
+
+#### Niveaux de Douleur (0-6)
+- **0** : Aucune douleur
+- **1** : Très légère
+- **2** : Légère
+- **3** : Modérée
+- **4** : Intense
+- **5** : Très intense
+- **6** : Insupportable
+
+#### Types de Douleur
+- **Musculaire** : Tensions, courbatures
+- **Articulaire** : Rhumatismes, arthrose
+- **Nerveuse** : Sciatique, névralgie
+- **Migraine** : Maux de tête sévères
+- **Crampe** : Contractions musculaires
+- **Brûlure** : Sensation de brûlure
+- **Pression** : Sensation de pression
+- **Autre** : Douleur non classée
+
+#### Localisations
+- **Tête** : Crâne, visage, mâchoire
+- **Cou** : Cervicales, trapèzes
+- **Épaules** : Articulations, muscles
+- **Dos** : Dorsales, lombaires
+- **Poitrine** : Côtes, sternum
+- **Abdomen** : Viscères, muscles
+- **Membres** : Bras, jambes, mains, pieds
+
+### Facteurs Déclencheurs
+
+#### Facteurs Physiques
+- **Mouvement** : Certains gestes
+- **Position** : Assis, debout, couché
+- **Temps** : Heures, saisons
+- **Météo** : Pression, humidité
+
+#### Facteurs Psychologiques
+- **Stress** : Tension, anxiété
+- **Fatigue** : Manque de sommeil
+- **Émotions** : Tristesse, colère
+- **Concentration** : Effort mental
+
+#### Facteurs Environnementaux
+- **Alimentation** : Certains aliments
+- **Médicaments** : Effets secondaires
+- **Sommeil** : Qualité du repos
+- **Activité** : Exercice, travail
+
+---
+
+## 📊 Analyses et Rapports
+
+### Types d'Analyses
+
+#### Analyses Temporelles
+- **Tendances** : Évolution sur le temps
 - **Cycles** : Patterns récurrents
+- **Corrélations** : Liens entre facteurs
+- **Prédictions** : Anticipation des crises
 
-### Prédictions
-- **Épisodes futurs** : Probabilité d'épisodes de douleur
-- **Intensité** : Estimation de l'intensité
-- **Timing** : Quand l'épisode pourrait survenir
-- **Confiance** : Niveau de confiance de la prédiction
+#### Analyses Comparatives
+- **Avant/Après** : Efficacité des traitements
+- **Périodes** : Comparaison temporelle
+- **Groupes** : Comparaison avec d'autres patients
+- **Objectifs** : Progression vers les buts
 
-### Recommandations
-Basées sur vos données, ARIA suggère :
-- **Modifications comportementales**
-- **Moments optimaux** pour certaines activités
-- **Alertes préventives**
-- **Stratégies de gestion**
+#### Analyses Statistiques
+- **Moyennes** : Valeurs centrales
+- **Médianes** : Valeurs typiques
+- **Écarts-types** : Variabilité
+- **Percentiles** : Distribution des données
 
----
+### Génération de Rapports
 
-## 📈 **Export et Partage**
+#### Formats Disponibles
+- **PDF** : Rapports professionnels
+- **Excel** : Données tabulaires
+- **HTML** : Rapports interactifs
+- **CSV** : Données brutes
 
-### Export CSV
-```bash
-# Via API
-curl -X GET "http://localhost:8001/api/export/csv" \
-  -H "Accept: text/csv" \
-  -o "aria_data.csv"
-```
+#### Types de Rapports
+- **Rapport Hebdomadaire** : Synthèse de la semaine
+- **Rapport Mensuel** : Bilan du mois
+- **Rapport de Traitement** : Efficacité thérapeutique
+- **Rapport Personnalisé** : Selon vos besoins
 
-### Données Incluses
-- Historique complet de douleur
-- Métriques de santé synchronisées
-- Patterns détectés
-- Prédictions générées
-- Corrélations identifiées
-
-### Partage avec Professionnels
-- **Format CSV** : Compatible Excel, Google Sheets
-- **Anonymisation** : Option de masquage des identifiants
-- **Filtres** : Par période, type de données
-- **Résumé** : Rapport automatique généré
+#### Personnalisation
+- **Période** : Dates de début et fin
+- **Métriques** : Données à inclure
+- **Format** : Style et présentation
+- **Destinataires** : Partage avec professionnels
 
 ---
 
-## 🔒 **Sécurité et Confidentialité**
+## 🔄 Synchronisation Multi-Plateforme
 
-### Stockage Local
-- **Base de données SQLite** : Stockage local uniquement
-- **Chiffrement** : Données sensibles chiffrées
-- **Accès** : Contrôle total sur vos données
-- **Pas de cloud** : Aucune transmission externe
+### Architecture de Synchronisation
 
-### Authentification
-- **OAuth 2.0** : Pour connecteurs santé
-- **Tokens sécurisés** : Renouvellement automatique
-- **Permissions minimales** : Accès limité aux données nécessaires
-- **Révocation** : Possibilité de retirer l'accès
+#### Sources de Données
+- **Montres Samsung** : Samsung Health
+- **Android** : Google Fit
+- **iOS** : Apple Health
+- **Saisie Manuelle** : Interface utilisateur
 
-### Conformité
-- **RGPD** : Respect des réglementations européennes
-- **Consentement** : Contrôle explicite des données
-- **Transparence** : Accès complet à vos données
-- **Suppression** : Possibilité de supprimer toutes les données
+#### Processus de Sync
+1. **Collecte** : Récupération des données
+2. **Validation** : Vérification de la qualité
+3. **Normalisation** : Format unifié
+4. **Stockage** : Sauvegarde sécurisée
+5. **Synchronisation** : Mise à jour des plateformes
+
+### Gestion des Conflits
+
+#### Types de Conflits
+- **Données Dupliquées** : Même période, sources différentes
+- **Données Incohérentes** : Valeurs contradictoires
+- **Données Manquantes** : Périodes non couvertes
+- **Données Corrompues** : Erreurs de transmission
+
+#### Résolution Automatique
+- **Priorité** : Source la plus fiable
+- **Validation** : Vérification de cohérence
+- **Fusion** : Combinaison intelligente
+- **Notification** : Alerte en cas de problème
 
 ---
 
-## 🛠️ **Dépannage**
+## ⚙️ Paramètres et Personnalisation
+
+### Paramètres Généraux
+
+#### Interface
+- **Thème** : Clair, sombre, automatique
+- **Langue** : Français, Anglais, autres
+- **Taille de Police** : Petite, normale, grande
+- **Animations** : Activées, désactivées
+
+#### Notifications
+- **Synchronisation** : Alertes de sync
+- **Rappels** : Saisie de données
+- **Alertes** : Niveaux critiques
+- **Mises à jour** : Nouvelles fonctionnalités
+
+#### Confidentialité
+- **Données Anonymes** : Partage anonyme
+- **Chiffrement** : Protection des données
+- **Rétention** : Durée de conservation
+- **Suppression** : Droit à l'oubli
+
+### Paramètres de Santé
+
+#### Connecteurs
+- **Activation** : Connecteurs actifs
+- **Fréquence** : Intervalle de synchronisation
+- **Données** : Types de données collectées
+- **Seuils** : Valeurs d'alerte
+
+#### Douleur
+- **Échelle** : 0-6, 0-10, visuelle
+- **Types** : Types de douleur suivis
+- **Fréquence** : Saisie quotidienne, hebdomadaire
+- **Rappels** : Notifications de saisie
+
+---
+
+## 🔧 Résolution de Problèmes
 
 ### Problèmes Courants
 
-#### API ne démarre pas
-```bash
-# Vérifier les dépendances
-pip install -r requirements.txt
+#### Synchronisation
+- **Pas de données** : Vérifiez la connexion
+- **Données anciennes** : Forcez la synchronisation
+- **Erreurs de connexion** : Redémarrez l'application
+- **Permissions** : Vérifiez les autorisations
 
-# Vérifier le port
-netstat -an | grep 8001
-```
+#### Performance
+- **Lenteur** : Vérifiez la connexion réseau
+- **Plantages** : Redémarrez l'application
+- **Batterie** : Optimisez les paramètres
+- **Espace** : Libérez de l'espace de stockage
 
-#### Connecteurs santé ne fonctionnent pas
-```bash
-# Vérifier les credentials
-cat health_connectors/config.json
+#### Données
+- **Données manquantes** : Vérifiez les connecteurs
+- **Données incorrectes** : Vérifiez la saisie
+- **Données dupliquées** : Contactez le support
+- **Données perdues** : Vérifiez la sauvegarde
 
-# Tester la connexion
-curl http://localhost:8001/health/connectors/status
-```
+### Support Technique
 
-#### App mobile ne se connecte pas
-```bash
-# Vérifier l'URL dans le service
-cat mobile_app/lib/services/aria_api_service.dart | grep baseUrl
+#### Ressources
+- **Documentation** : Guides détaillés
+- **FAQ** : Questions fréquentes
+- **Tutoriels** : Vidéos explicatives
+- **Communauté** : Forum utilisateurs
 
-# Tester l'API
-curl http://localhost:8001/health
-```
-
-### Logs et Debug
-```bash
-# Logs API
-tail -f logs/aria.log
-
-# Logs connecteurs
-tail -f logs/health_connectors.log
-
-# Mode debug
-export ARIA_DEBUG=1
-python main.py
-```
+#### Contact
+- **Email** : support@arkalia-aria.com
+- **Téléphone** : +33 1 23 45 67 89
+- **Chat** : Support en ligne
+- **Ticket** : Système de tickets
 
 ---
 
-## 📞 **Support**
+## ❓ FAQ
 
-### Documentation
-- **Guide Développeur** : `docs/DEVELOPER_GUIDE.md`
-- **API Reference** : `docs/API_REFERENCE.md`
-- **Statut Projet** : `docs/PROJECT_STATUS.md`
+### Questions Générales
 
-### Issues GitHub
-- **Bugs** : [GitHub Issues](https://github.com/arkalia-luna-system/arkalia-aria/issues)
-- **Feature Requests** : [GitHub Discussions](https://github.com/arkalia-luna-system/arkalia-aria/discussions)
-- **Documentation** : [GitHub Wiki](https://github.com/arkalia-luna-system/arkalia-aria/wiki)
+**Q : ARKALIA ARIA est-il gratuit ?**
+R : Oui, la version de base est gratuite. Des fonctionnalités avancées sont disponibles avec un abonnement premium.
+
+**Q : Mes données sont-elles sécurisées ?**
+R : Oui, toutes les données sont chiffrées et stockées de manière sécurisée conformément au RGPD.
+
+**Q : Puis-je utiliser ARKALIA ARIA sans connecteur de santé ?**
+R : Oui, vous pouvez saisir vos données manuellement via l'interface web ou mobile.
+
+### Questions Techniques
+
+**Q : Quels appareils sont compatibles ?**
+R : ARKALIA ARIA fonctionne sur tous les navigateurs modernes, iOS 14+, et Android 8+.
+
+**Q : La synchronisation fonctionne-t-elle hors ligne ?**
+R : Les données sont mises en cache localement et synchronisées dès que la connexion est rétablie.
+
+**Q : Puis-je exporter mes données ?**
+R : Oui, vous pouvez exporter vos données en PDF, Excel, ou CSV à tout moment.
+
+### Questions Médicales
+
+**Q : ARKALIA ARIA remplace-t-il un médecin ?**
+R : Non, ARKALIA ARIA est un outil de suivi qui complète mais ne remplace pas les soins médicaux.
+
+**Q : Les données peuvent-elles être partagées avec mon médecin ?**
+R : Oui, vous pouvez générer des rapports à partager avec vos professionnels de santé.
+
+**Q : Que faire en cas d'urgence médicale ?**
+R : En cas d'urgence, contactez immédiatement les services d'urgence (15 en France).
 
 ---
 
-**ARKALIA ARIA** - Votre assistant santé personnel ! 🧠❤️🔬
+## 📞 Contact et Support
+
+### Support Utilisateur
+- **Email** : support@arkalia-aria.com
+- **Téléphone** : +33 1 23 45 67 89
+- **Horaires** : Lundi-Vendredi 9h-18h
+
+### Support Technique
+- **Email** : tech@arkalia-aria.com
+- **Documentation** : https://docs.arkalia-aria.com
+- **GitHub** : https://github.com/arkalia-aria
+
+### Communauté
+- **Forum** : https://community.arkalia-aria.com
+- **Discord** : https://discord.gg/arkalia-aria
+- **Twitter** : @ARKALIA_ARIA
+
+---
+
+*Dernière mise à jour : Septembre 2024*
+*Version du guide : 1.0.0*

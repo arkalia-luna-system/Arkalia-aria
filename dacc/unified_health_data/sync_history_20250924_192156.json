@@ -1,0 +1,70 @@
+{
+  "sync_start": "2025-09-24T19:21:56.223054",
+  "days_back": 7,
+  "connectors": {
+    "google_fit": {
+      "connector": "google_fit",
+      "start_date": "2025-09-17T19:21:56.223079",
+      "end_date": "2025-09-24T19:21:56.223079",
+      "sync_timestamp": "2025-09-24T19:21:56.223083",
+      "data_counts": {
+        "activity": 8,
+        "sleep": 8,
+        "stress": 24,
+        "health": 8
+      },
+      "errors": [],
+      "status": "success"
+    },
+    "ios_health": {
+      "connector": "ios_health",
+      "start_date": "2025-09-17T19:21:56.267893",
+      "end_date": "2025-09-24T19:21:56.267893",
+      "sync_timestamp": "2025-09-24T19:21:56.267896",
+      "data_counts": {
+        "activity": 8,
+        "sleep": 8,
+        "stress": 24,
+        "health": 8
+      },
+      "errors": [],
+      "status": "success"
+    }
+  },
+  "unified_metrics": {
+    "period": {
+      "start_date": "2025-09-17T19:21:56.314714",
+      "end_date": "2025-09-24T19:21:56.314714",
+      "days": 7
+    },
+    "activity": {
+      "total_steps": 240424,
+      "total_calories": 10256.7,
+      "total_distance": 188.49999999999994,
+      "avg_heart_rate": 80.7,
+      "data_points": 24
+    },
+    "sleep": {
+      "avg_duration_minutes": 432.7,
+      "avg_quality_score": 0.75,
+      "total_awakenings": 42,
+      "data_points": 24
+    },
+    "stress": {
+      "avg_stress_level": 48.3,
+      "avg_hrv": 42.9,
+      "data_points": 80
+    },
+    "sources": [
+      "google_fit",
+      "ios_health",
+      "samsung_health"
+    ]
+  },
+  "errors": [
+    "Erreur synchronisation samsung_health: Sync failed"
+  ],
+  "status": "partial_success",
+  "sync_end": "2025-09-24T19:21:56.397927",
+  "duration_seconds": 0.174874
+}

@@ -1,0 +1,82 @@
+{
+  "sync_start": "2025-09-24T19:18:21.095491",
+  "days_back": 7,
+  "connectors": {
+    "samsung_health": {
+      "connector": "samsung_health",
+      "start_date": "2025-09-17T19:18:21.095493",
+      "end_date": "2025-09-24T19:18:21.095493",
+      "sync_timestamp": "2025-09-24T19:18:21.095496",
+      "data_counts": {
+        "activity": 8,
+        "sleep": 8,
+        "stress": 32,
+        "health": 8
+      },
+      "errors": [],
+      "status": "success"
+    },
+    "google_fit": {
+      "connector": "google_fit",
+      "start_date": "2025-09-17T19:18:21.117374",
+      "end_date": "2025-09-24T19:18:21.117374",
+      "sync_timestamp": "2025-09-24T19:18:21.117377",
+      "data_counts": {
+        "activity": 8,
+        "sleep": 8,
+        "stress": 24,
+        "health": 8
+      },
+      "errors": [],
+      "status": "success"
+    },
+    "ios_health": {
+      "connector": "ios_health",
+      "start_date": "2025-09-17T19:18:21.137689",
+      "end_date": "2025-09-24T19:18:21.137689",
+      "sync_timestamp": "2025-09-24T19:18:21.137692",
+      "data_counts": {
+        "activity": 8,
+        "sleep": 8,
+        "stress": 24,
+        "health": 8
+      },
+      "errors": [],
+      "status": "success"
+    }
+  },
+  "unified_metrics": {
+    "period": {
+      "start_date": "2025-09-17T19:18:21.163279",
+      "end_date": "2025-09-24T19:18:21.163279",
+      "days": 7
+    },
+    "activity": {
+      "total_steps": 257069,
+      "total_calories": 10965.999999999998,
+      "total_distance": 201.99999999999994,
+      "avg_heart_rate": 80.8,
+      "data_points": 24
+    },
+    "sleep": {
+      "avg_duration_minutes": 441.2,
+      "avg_quality_score": 0.79,
+      "total_awakenings": 36,
+      "data_points": 24
+    },
+    "stress": {
+      "avg_stress_level": 49.4,
+      "avg_hrv": 41.8,
+      "data_points": 80
+    },
+    "sources": [
+      "google_fit",
+      "samsung_health",
+      "ios_health"
+    ]
+  },
+  "errors": [],
+  "status": "success",
+  "sync_end": "2025-09-24T19:18:21.221988",
+  "duration_seconds": 0.1265
+}

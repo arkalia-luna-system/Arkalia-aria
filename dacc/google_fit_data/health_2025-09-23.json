@@ -1,0 +1,17 @@
+{
+  "timestamp": "2025-09-23 07:30:00.487160",
+  "weight_kg": 73.6,
+  "height_cm": 175.0,
+  "bmi": 24.0,
+  "blood_pressure_systolic": 120,
+  "blood_pressure_diastolic": 75,
+  "blood_glucose": 5.7,
+  "body_temperature": null,
+  "source": "google_fit",
+  "raw_data": {
+    "platform": "Android",
+    "measurement_type": "manual_input",
+    "confidence": 1.0,
+    "google_fit_session_id": "health_20250923"
+  }
+}

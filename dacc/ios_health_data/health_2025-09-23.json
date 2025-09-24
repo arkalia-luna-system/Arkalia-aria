@@ -1,12 +1,12 @@
 {
-  "timestamp": "2025-09-23 08:15:00.290317",
-  "weight_kg": 68.7,
+  "timestamp": "2025-09-23 08:15:00.504729",
+  "weight_kg": 77.3,
   "height_cm": 175.0,
-  "bmi": 22.4,
+  "bmi": 25.2,
   "blood_pressure_systolic": 123,
-  "blood_pressure_diastolic": 68,
+  "blood_pressure_diastolic": 79,
   "blood_glucose": 5.8,
-  "body_temperature": 36.3,
+  "body_temperature": 37.0,
   "source": "ios_health",
   "raw_data": {
     "device": "iPad",

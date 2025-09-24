@@ -1,10 +1,10 @@
 {
-  "timestamp": "2025-09-18 19:04:30.251974",
-  "steps": 9942,
-  "calories_burned": 447.4,
-  "distance_meters": 7.5,
-  "active_minutes": 82,
-  "heart_rate_bpm": 67,
+  "timestamp": "2025-09-18 19:33:44.573234",
+  "steps": 11828,
+  "calories_burned": 532.3,
+  "distance_meters": 8.9,
+  "active_minutes": 98,
+  "heart_rate_bpm": 90,
   "source": "google_fit",
   "raw_data": {
     "platform": "Android",

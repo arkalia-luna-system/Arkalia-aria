@@ -1,0 +1,14 @@
+{
+  "timestamp": "2025-08-30 19:33:44.573234",
+  "steps": 9371,
+  "calories_burned": 374.8,
+  "distance_meters": 7.5,
+  "active_minutes": 93,
+  "heart_rate_bpm": 67,
+  "source": "samsung_health",
+  "raw_data": {
+    "device": "Galaxy Watch",
+    "sensor_type": "accelerometer_gyroscope",
+    "confidence": 0.95
+  }
+}

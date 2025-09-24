@@ -296,7 +296,7 @@ class TestARIA_SecurityValidator:
         command = ["rm", "-rf", "/"]
 
         # Act & Assert
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             self.validator.execute_secure_command(command, "test_context")
 
     def test_get_security_report_empty(self):
@@ -346,17 +346,7 @@ class TestARIA_SecurityValidator:
         details = None
 
         # Act & Assert
-        with pytest.raises(Exception):
-            self.validator._log_security_event(event_type, details)
-
-    def test_log_security_event_none_input(self):
-        """Test _log_security_event avec entrée None"""
-        # Arrange
-        event_type = None
-        details = None
-
-        # Act & Assert
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             self.validator._log_security_event(event_type, details)
 
     def test_initialize_allowed_commands_success(self):

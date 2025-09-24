@@ -1,0 +1,16 @@
+{
+  "timestamp": "2025-08-26 19:33:44.573234",
+  "steps": 6472,
+  "calories_burned": 271.8,
+  "distance_meters": 5.3,
+  "active_minutes": 58,
+  "heart_rate_bpm": 94,
+  "source": "ios_health",
+  "raw_data": {
+    "device": "iPad",
+    "platform": "iOS",
+    "sensor_type": "accelerometer_gyroscope",
+    "confidence": 0.94,
+    "healthkit_session_id": "session_20250826"
+  }
+}

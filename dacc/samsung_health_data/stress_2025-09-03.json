@@ -1,0 +1,12 @@
+{
+  "timestamp": "2025-09-03 21:00:00.573234",
+  "stress_level": 57.8,
+  "heart_rate_variability": 29.1,
+  "resting_heart_rate": 74,
+  "source": "samsung_health",
+  "raw_data": {
+    "device": "Galaxy Watch",
+    "measurement_method": "heart_rate_variability",
+    "confidence": 0.82
+  }
+}

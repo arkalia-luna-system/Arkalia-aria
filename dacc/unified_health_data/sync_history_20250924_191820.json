@@ -1,0 +1,82 @@
+{
+  "sync_start": "2025-09-24T19:18:20.358488",
+  "days_back": 7,
+  "connectors": {
+    "samsung_health": {
+      "connector": "samsung_health",
+      "start_date": "2025-09-17T19:18:20.358492",
+      "end_date": "2025-09-24T19:18:20.358492",
+      "sync_timestamp": "2025-09-24T19:18:20.358495",
+      "data_counts": {
+        "activity": 8,
+        "sleep": 8,
+        "stress": 32,
+        "health": 8
+      },
+      "errors": [],
+      "status": "success"
+    },
+    "google_fit": {
+      "connector": "google_fit",
+      "start_date": "2025-09-17T19:18:20.384467",
+      "end_date": "2025-09-24T19:18:20.384467",
+      "sync_timestamp": "2025-09-24T19:18:20.384469",
+      "data_counts": {
+        "activity": 8,
+        "sleep": 8,
+        "stress": 24,
+        "health": 8
+      },
+      "errors": [],
+      "status": "success"
+    },
+    "ios_health": {
+      "connector": "ios_health",
+      "start_date": "2025-09-17T19:18:20.412137",
+      "end_date": "2025-09-24T19:18:20.412137",
+      "sync_timestamp": "2025-09-24T19:18:20.412140",
+      "data_counts": {
+        "activity": 8,
+        "sleep": 8,
+        "stress": 24,
+        "health": 8
+      },
+      "errors": [],
+      "status": "success"
+    }
+  },
+  "unified_metrics": {
+    "period": {
+      "start_date": "2025-09-17T19:18:20.448691",
+      "end_date": "2025-09-24T19:18:20.448691",
+      "days": 7
+    },
+    "activity": {
+      "total_steps": 258333,
+      "total_calories": 11010.2,
+      "total_distance": 203.0,
+      "avg_heart_rate": 81.4,
+      "data_points": 24
+    },
+    "sleep": {
+      "avg_duration_minutes": 445.5,
+      "avg_quality_score": 0.76,
+      "total_awakenings": 36,
+      "data_points": 24
+    },
+    "stress": {
+      "avg_stress_level": 53.2,
+      "avg_hrv": 42.4,
+      "data_points": 80
+    },
+    "sources": [
+      "google_fit",
+      "samsung_health",
+      "ios_health"
+    ]
+  },
+  "errors": [],
+  "status": "success",
+  "sync_end": "2025-09-24T19:18:20.500309",
+  "duration_seconds": 0.141823
+}

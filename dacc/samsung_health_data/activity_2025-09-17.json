@@ -1,9 +1,9 @@
 {
-  "timestamp": "2025-09-17 19:05:13.245289",
-  "steps": 13984,
-  "calories_burned": 559.4,
-  "distance_meters": 11.2,
-  "active_minutes": 120,
+  "timestamp": "2025-09-17 19:33:44.573234",
+  "steps": 6262,
+  "calories_burned": 250.5,
+  "distance_meters": 5.0,
+  "active_minutes": 62,
   "heart_rate_bpm": 90,
   "source": "samsung_health",
   "raw_data": {

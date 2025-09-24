@@ -297,6 +297,9 @@ class GoogleFitConnector(BaseHealthConnector):
 
     def _generate_realistic_weight(self) -> float:
         """Génère un poids réaliste."""
+        import random
+
+        return round(random.uniform(50.0, 120.0), 1)  # nosec B311
 
     def _generate_realistic_bp_systolic(self) -> int:
         """Génère une pression systolique réaliste."""

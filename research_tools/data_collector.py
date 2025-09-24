@@ -7,6 +7,7 @@ Adapté de Arkalia Metrics Collector pour la recherche médicale
 
 import json
 import logging
+import os
 import sqlite3
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -21,7 +22,8 @@ class ARIADataCollector:
     """Collecteur de données pour ARIA - adapté de Metrics Collector"""
 
     def __init__(self, db_path: str = "aria_research.db"):
-        self.db_path = db_path
+        env_db = os.getenv("ARIA_RESEARCH_DB") or os.getenv("ARIA_DB_PATH")
+        self.db_path = env_db or db_path
         self.project_root = Path(".").resolve()
         self._init_database()
 
@@ -100,7 +102,7 @@ class ARIADataCollector:
                 (name, description, hypothesis, methodology),
             )
 
-            experiment_id = cursor.lastrowid
+            experiment_id = int(cursor.lastrowid or -1)
             conn.commit()
             conn.close()
 
@@ -529,7 +531,7 @@ class ARIADataCollector:
         # Analyse des émotions
         if emotion_data:
             emotions = [d[2] for d in emotion_data if d[2]]
-            emotion_counts = {}
+            emotion_counts: dict[str, int] = {}
             for emotion in emotions:
                 emotion_counts[emotion] = emotion_counts.get(emotion, 0) + 1
 
@@ -546,7 +548,7 @@ class ARIADataCollector:
         # Analyse des déclencheurs
         if trigger_data:
             triggers = [d[2] for d in trigger_data if d[2]]
-            trigger_counts = {}
+            trigger_counts: dict[str, int] = {}
             for trigger in triggers:
                 trigger_counts[trigger] = trigger_counts.get(trigger, 0) + 1
 

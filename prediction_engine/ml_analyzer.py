@@ -7,6 +7,7 @@ Adapté de Arkalia Quest Analytics Engine pour la prédiction de douleur
 
 import json
 import logging
+import os
 import sqlite3
 import threading
 from dataclasses import dataclass
@@ -51,7 +52,9 @@ class ARIAMLAnalyzer:
     """Analyseur ML pour ARIA - adapté de Quest Analytics Engine"""
 
     def __init__(self, db_path: str = "aria_pain.db"):
-        self.db_path = db_path
+        # Priorité à la variable d'environnement dédiée puis fallback global puis argument
+        env_db = os.getenv("ARIA_ANALYTICS_DB") or os.getenv("ARIA_DB_PATH")
+        self.db_path = env_db or db_path
         self.lock = threading.Lock()
         self._init_database()
 

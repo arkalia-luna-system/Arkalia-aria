@@ -176,8 +176,8 @@ class ARIAREmotionAnalyzer:
             }
 
         # Calcul des patterns
-        emotion_counts = {}
-        stress_levels = []
+        emotion_counts: dict[str, int] = {}
+        stress_levels: list[float] = []
 
         for entry in recent_emotions:
             emotion = entry["emotion"]
@@ -188,7 +188,7 @@ class ARIAREmotionAnalyzer:
         dominant_emotion = max(emotion_counts.items(), key=lambda x: x[1])[0]
 
         # Tendance de stress
-        avg_stress = sum(stress_levels) / len(stress_levels)
+        avg_stress: float = sum(stress_levels) / len(stress_levels)
         if avg_stress > 0.7:
             stress_trend = "élevé"
         elif avg_stress > 0.4:
@@ -314,7 +314,7 @@ class ARIAREmotionAnalyzer:
 
     def get_emotion_stats(self) -> dict:
         """Retourne les statistiques des émotions"""
-        emotion_counts = {}
+        emotion_counts: dict[str, int] = {}
         for entry in self.emotion_history:
             emotion = entry["emotion"]
             emotion_counts[emotion] = emotion_counts.get(emotion, 0) + 1

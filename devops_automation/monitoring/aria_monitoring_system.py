@@ -10,7 +10,7 @@ from datetime import datetime
 from typing import Any
 
 try:
-    import psutil  # type: ignore
+    import psutil
 except Exception:  # pragma: no cover
     psutil = None  # fallback minimal si non installé
 

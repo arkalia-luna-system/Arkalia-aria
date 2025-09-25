@@ -116,10 +116,8 @@ deployments/
 uploads/
 
 # Security Reports
-bandit-report.json
-safety-report.json
-pip-audit-report.json
-semgrep-report.json
+reports/
+*.report.json
 
 # Flutter/Dart
 mobile_app/.dart_tool/
@@ -137,5 +135,4 @@ dacc/unified_health_data/unified_metrics_*.json
 dacc/audio_notes/
 
 # Keep important configs
-!dacc/deployment.json
-!dacc/monitoring.json
+!config/

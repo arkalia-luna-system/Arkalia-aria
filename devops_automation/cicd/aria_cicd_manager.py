@@ -451,17 +451,19 @@ http {
         results["created_files"].append(str(docker_compose))
 
         # Sauvegarder la configuration Nginx
-        nginx_config = self.project_root / "nginx.conf"
+        nginx_config = self.project_root / "config" / "nginx.conf"
+        nginx_config.parent.mkdir(exist_ok=True)
         nginx_config.write_text(results["docker_config"]["nginx.conf"])
         results["created_files"].append(str(nginx_config))
 
         # Sauvegarder la configuration de déploiement
-        deployment_config = self.project_root / "deployment.json"
+        deployment_config = self.project_root / "config" / "deployment.json"
+        deployment_config.parent.mkdir(exist_ok=True)
         deployment_config.write_text(json.dumps(results["deployment_config"], indent=2))
         results["created_files"].append(str(deployment_config))
 
         # Sauvegarder la configuration de monitoring
-        monitoring_config = self.project_root / "monitoring.json"
+        monitoring_config = self.project_root / "config" / "monitoring.json"
         monitoring_config.write_text(json.dumps(results["monitoring_config"], indent=2))
         results["created_files"].append(str(monitoring_config))
 

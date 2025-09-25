@@ -13,10 +13,15 @@ import base64
 from datetime import datetime
 from pathlib import Path
 
-from fastapi import APIRouter, HTTPException
+from fastapi import HTTPException
 from pydantic import BaseModel, Field
 
-router = APIRouter()
+from core import BaseAPI, get_logger
+
+# Créer l'API avec BaseAPI
+api = BaseAPI("/audio", ["Audio/Voice"])
+router = api.get_router()
+logger = get_logger("audio_voice")
 
 
 class TTSRequest(BaseModel):
@@ -31,6 +36,7 @@ class AudioNoteRequest(BaseModel):
 
 @router.get("/status")
 async def audio_status() -> dict:
+    logger.info("Statut audio demandé")
     return {
         "module": "audio_voice",
         "status": "ready",
@@ -48,7 +54,10 @@ async def synthesize_speech(req: TTSRequest) -> dict:
     """
     text = req.text.strip()
     if not text:
+        logger.warning("Tentative TTS avec texte vide")
         raise HTTPException(status_code=400, detail="Texte requis")
+
+    logger.info(f"TTS demandée: {len(text)} caractères, voix: {req.voice}")
     return {
         "status": "ok",
         "voice": req.voice or "amelie",
@@ -62,7 +71,9 @@ async def save_audio_note(req: AudioNoteRequest) -> dict:
     """Enregistre une note audio encodée en base64 dans `dacc/audio_notes/`"""
     try:
         data = base64.b64decode(req.content_base64)
+        logger.info(f"Audio décodé: {len(data)} bytes")
     except Exception as e:
+        logger.error(f"Erreur décodage base64: {e}")
         raise HTTPException(
             status_code=400, detail=f"Audio base64 invalide: {e}"
         ) from e
@@ -73,8 +84,14 @@ async def save_audio_note(req: AudioNoteRequest) -> dict:
         req.filename or f"audio_note_{datetime.now().strftime('%Y%m%d_%H%M%S')}.wav"
     )
     out_path = out_dir / filename
-    with open(out_path, "wb") as f:
-        f.write(data)
+
+    try:
+        with open(out_path, "wb") as f:
+            f.write(data)
+        logger.info(f"Note audio sauvegardée: {out_path}")
+    except Exception as e:
+        logger.error(f"Erreur sauvegarde audio: {e}")
+        raise HTTPException(status_code=500, detail=f"Erreur sauvegarde: {e}") from e
 
     return {
         "status": "saved",

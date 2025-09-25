@@ -7,10 +7,15 @@ import importlib
 from datetime import datetime
 from typing import Any
 
-from fastapi import APIRouter, HTTPException
+from fastapi import HTTPException
 from pydantic import BaseModel
 
-router = APIRouter()
+from core import BaseAPI, get_logger
+
+# Créer l'API avec BaseAPI
+api = BaseAPI("/sync", ["CIA Sync"])
+router = api.get_router()
+logger = get_logger("cia_sync")
 
 # Charger requests dynamiquement pour éviter les stubs mypy requis
 requests: Any = importlib.import_module("requests")
@@ -34,8 +39,11 @@ def _check_cia_connection() -> bool:
     """Vérifie si CIA est accessible"""
     try:
         response = requests.get(f"{CIA_BASE_URL}/health", timeout=CIA_TIMEOUT)
-        return response.status_code == 200
-    except Exception:
+        is_connected = response.status_code == 200
+        logger.debug(f"Vérification CIA: {is_connected}")
+        return is_connected
+    except Exception as e:
+        logger.warning(f"CIA non accessible: {e}")
         return False
 
 
@@ -59,6 +67,7 @@ def _make_cia_request(method: str, endpoint: str, **kwargs) -> Any:
 async def cia_sync_status() -> dict:
     """Statut du module CIA sync"""
     cia_connected = _check_cia_connection()
+    logger.info(f"Statut CIA sync demandé - Connecté: {cia_connected}")
 
     return {
         "module": "cia_sync",

@@ -14,6 +14,8 @@ from typing import Any
 from fastapi import APIRouter, FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 
+from core import BaseAPI, get_logger
+
 from .config import HealthConnectorConfig
 from .data_models import (
     ActivityData,
@@ -23,6 +25,8 @@ from .data_models import (
     StressData,
 )
 from .sync_manager import HealthSyncManager
+
+logger = get_logger("health_connectors")
 
 
 class SyncRequest(BaseModel):
@@ -47,7 +51,7 @@ class SyncResponse(BaseModel):
     timestamp: str = Field(..., description="Horodatage de la réponse")
 
 
-class HealthConnectorsAPI:
+class HealthConnectorsAPI(BaseAPI):
     """
     API REST pour les connecteurs santé ARKALIA ARIA.
 
@@ -65,7 +69,7 @@ class HealthConnectorsAPI:
 
     def __init__(self) -> None:
         """Initialise l'API des connecteurs santé."""
-        self.router = APIRouter(prefix="/health", tags=["Health Connectors"])
+        super().__init__("/health", ["Health Connectors"])
         self.sync_manager = HealthSyncManager()
         self._setup_routes()
 

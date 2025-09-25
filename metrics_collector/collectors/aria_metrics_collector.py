@@ -19,8 +19,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-import psutil
-
 from core import DatabaseManager
 from core.logging import get_logger
 
@@ -76,6 +74,9 @@ class ARIA_MetricsCollector:
         self.metrics_data: dict[str, Any] = {}
         # Cache simple pour métriques de performance afin de réduire la charge
         self._perf_cache: dict[str, Any] = {"ts": 0.0, "data": {}}
+        # Cache pour les fichiers Python (optimisation rglob)
+        self._python_files_cache: list[Path] | None = None
+        self._python_files_timestamp: float = 0.0
 
     def collect_all_metrics(self) -> dict[str, Any]:
         """
@@ -116,6 +117,20 @@ class ARIA_MetricsCollector:
             "platform": sys.platform,
         }
 
+    def _get_python_files(self) -> list[Path]:
+        """Récupère les fichiers Python avec cache pour optimiser rglob()."""
+        import time
+
+        now = time.time()
+        # Cache valide pendant 60 secondes
+        if self._python_files_cache is None or now - self._python_files_timestamp > 60:
+            logger.debug("Scan des fichiers Python...")
+            self._python_files_cache = list(self.project_root.rglob("*.py"))
+            self._python_files_timestamp = now
+            logger.debug(f"Trouvé {len(self._python_files_cache)} fichiers Python")
+
+        return self._python_files_cache
+
     def _collect_python_metrics(self) -> dict[str, Any]:
         """Collecte les métriques des fichiers Python."""
         python_files = []
@@ -123,7 +138,7 @@ class ARIA_MetricsCollector:
         core_files = 0
         test_files = 0
 
-        for py_file in self.project_root.rglob("*.py"):
+        for py_file in self._get_python_files():
             if self._should_exclude_file(py_file):
                 continue
 
@@ -220,7 +235,7 @@ class ARIA_MetricsCollector:
         }
 
     def _collect_performance_metrics(self) -> dict[str, Any]:
-        """Collecte les métriques de performance."""
+        """Collecte les métriques de performance avec lazy loading."""
         import time
 
         try:
@@ -233,6 +248,19 @@ class ARIA_MetricsCollector:
             cached = self._perf_cache.get("data", {})
             if cached:
                 return cached  # Retour rapide
+
+        # Lazy loading de psutil
+        try:
+            import psutil
+        except ImportError:
+            logger.warning("psutil non disponible - métriques de performance limitées")
+            return {
+                "memory_usage_mb": 0,
+                "cpu_percent": 0,
+                "disk_usage_percent": 0,
+                "process_count": 0,
+                "error": "psutil not available",
+            }
 
         data = {
             "memory_usage_mb": psutil.virtual_memory().used / 1024 / 1024,

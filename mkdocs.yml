@@ -90,6 +90,8 @@ nav:
   - Résumé Projet: PROJECT_SUMMARY.md
   - Commandes Rapides: QUICK_COMMANDS.md
   - Guide Configuration: CONFIGURATION_GUIDE.md
+  - Plan d'Action: ACTION_PLAN.md
+  - Guide Migration IA: AI_MIGRATION_GUIDE.md
 
 extra:
   social:

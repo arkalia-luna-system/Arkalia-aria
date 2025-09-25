@@ -19,7 +19,7 @@ from pydantic import BaseModel, Field
 from core import BaseAPI, get_logger
 
 # Créer l'API avec BaseAPI
-api = BaseAPI("/audio", ["Audio/Voice"])
+api = BaseAPI("", ["Audio/Voice"])  # Pas de préfixe ici, il sera ajouté dans main.py
 router = api.get_router()
 logger = get_logger("audio_voice")
 

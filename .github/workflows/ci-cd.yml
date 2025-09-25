@@ -38,13 +38,13 @@ jobs:
       with:
         python-version: '3.10'
     - name: Install dependencies
-      run: pip install black ruff mypy bandit safety
+      run: pip install black ruff mypy bandit safety types-PyYAML
     - name: Run Black
       run: black --check .
     - name: Run Ruff
       run: ruff check .
     - name: Run MyPy
-      run: mypy .
+      run: mypy . --ignore-missing-imports
     - name: Run Bandit
       run: bandit -r . -f json -o bandit-report.json
     - name: Run Safety

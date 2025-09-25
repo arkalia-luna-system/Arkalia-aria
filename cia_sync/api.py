@@ -13,7 +13,7 @@ from pydantic import BaseModel
 from core import BaseAPI, get_logger
 
 # Créer l'API avec BaseAPI
-api = BaseAPI("/sync", ["CIA Sync"])
+api = BaseAPI("", ["CIA Sync"])  # Pas de préfixe ici, il sera ajouté dans main.py
 router = api.get_router()
 logger = get_logger("cia_sync")
 

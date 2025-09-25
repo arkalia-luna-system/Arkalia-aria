@@ -196,7 +196,7 @@
 
 ## 🔗 **Liens Utiles**
 
-- [README.md](../README.md) - Vue d'ensemble
+- [README.md](../README.md) - Vue d'ensemble du projet
 - [PROJECT_STATUS.md](PROJECT_STATUS.md) - Statut global
 - [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) - Guide technique
 - [API_REFERENCE.md](API_REFERENCE.md) - Référence API

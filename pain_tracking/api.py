@@ -14,7 +14,7 @@ from core import BaseAPI
 
 # Créer l'API de base
 api = BaseAPI(
-    prefix="/api/pain",
+    prefix="",  # Pas de préfixe ici, il sera ajouté dans main.py
     tags=["Pain Tracking"],
     description="API de suivi de la douleur ARIA",
 )

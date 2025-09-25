@@ -82,6 +82,14 @@ nav:
   - Connecteurs Santé: HEALTH_CONNECTORS.md
   - Dashboard Web: DASHBOARD_WEB.md
   - Checklist RGPD: SECURITY_RGPD_CHECKLIST.md
+  - Plan d'Amélioration: PLAN_AMELIORATION_ARKALIA_ARIA.md
+  - Mission Accomplie: MISSION_ACCOMPLISHED.md
+  - Documentation Complète: DOCUMENTATION_COMPLETE.md
+  - Résumé Final: FINAL_SUMMARY.md
+  - Résumé Accomplissements: ACCOMPLISHMENTS_SUMMARY.md
+  - Résumé Projet: PROJECT_SUMMARY.md
+  - Commandes Rapides: QUICK_COMMANDS.md
+  - Guide Configuration: CONFIGURATION_GUIDE.md
 
 extra:
   social:

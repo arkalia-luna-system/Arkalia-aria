@@ -21,8 +21,15 @@ class ARIADataCollector:
     """Collecteur de données pour ARIA - adapté de Metrics Collector"""
 
     def __init__(self, db_path: str = "aria_research.db"):
+        # Exposer le chemin et s'assurer de la création du fichier
+        self.db_path = str(db_path)
+        Path(self.db_path).parent.mkdir(parents=True, exist_ok=True)
+        # Création du fichier (permet aussi de lever des erreurs sur chemin invalide)
+        conn = sqlite3.connect(self.db_path)
+        conn.close()
+
         # Utiliser le gestionnaire de base de données centralisé
-        self.db = DatabaseManager(db_path)
+        self.db = DatabaseManager(self.db_path)
         self.project_root = Path(".").resolve()
         self._init_database()
 
@@ -426,7 +433,7 @@ class ARIADataCollector:
         """Analyse les résultats d'une expérimentation"""
         try:
             # Récupérer les données de l'expérimentation
-            data = self.db.execute_query(
+            rows = self.db.execute_query(
                 """
                 SELECT data_type, data_value, data_text, timestamp
                 FROM collected_data
@@ -435,6 +442,9 @@ class ARIADataCollector:
                 """,
                 (experiment_id,),
             )
+
+            # Convertir sqlite3.Row en tuples pour mypy
+            data = [tuple(r) for r in rows]
 
             if not data:
                 return {

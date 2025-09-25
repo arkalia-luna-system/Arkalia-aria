@@ -6,7 +6,9 @@ ARKALIA ARIA - Base API
 Classe de base pour toutes les APIs ARIA avec fonctionnalités communes.
 """
 
+from collections.abc import Sequence
 from datetime import datetime
+from enum import Enum
 from typing import Any
 
 from fastapi import APIRouter, HTTPException
@@ -27,7 +29,7 @@ class BaseAPI:
     - Endpoints standardisés
     """
 
-    def __init__(self, prefix: str, tags: list[str], description: str = ""):
+    def __init__(self, prefix: str, tags: Sequence[str], description: str = ""):
         """
         Initialise l'API de base.
 
@@ -37,7 +39,7 @@ class BaseAPI:
             description: Description de l'API
         """
         self.prefix = prefix
-        self.tags = tags
+        self.tags = list(tags)
         self.description = description
 
         # Composants communs
@@ -46,9 +48,10 @@ class BaseAPI:
         self.logger = get_logger(f"api.{prefix.replace('/api/', '')}")
 
         # Router FastAPI
+        tags_list: list[str | Enum] = list(tags)
         self.router = APIRouter(
             prefix=prefix,
-            tags=tags,
+            tags=tags_list,
             responses={
                 404: {"description": "Not found"},
                 500: {"description": "Internal server error"},
@@ -92,7 +95,9 @@ class BaseAPI:
                 }
             except Exception as e:
                 self.logger.error(f"Erreur health check: {e}")
-                raise HTTPException(status_code=500, detail="Health check failed")
+                raise HTTPException(
+                    status_code=500, detail="Health check failed"
+                ) from e
 
         @self.router.get("/status")
         async def get_status():
@@ -107,7 +112,9 @@ class BaseAPI:
                 }
             except Exception as e:
                 self.logger.error(f"Erreur status: {e}")
-                raise HTTPException(status_code=500, detail="Status check failed")
+                raise HTTPException(
+                    status_code=500, detail="Status check failed"
+                ) from e
 
         @self.router.get("/metrics")
         async def get_metrics():
@@ -129,7 +136,7 @@ class BaseAPI:
                 self.logger.error(f"Erreur métriques: {e}")
                 raise HTTPException(
                     status_code=500, detail="Metrics calculation failed"
-                )
+                ) from e
 
     async def _calculate_metrics(self) -> dict[str, Any]:
         """

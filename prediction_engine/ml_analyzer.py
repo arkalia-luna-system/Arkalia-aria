@@ -10,6 +10,7 @@ import threading
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
+from pathlib import Path
 from typing import Any
 
 from core import DatabaseManager
@@ -50,8 +51,23 @@ class ARIAMLAnalyzer:
     """Analyseur ML pour ARIA - adapté de Quest Analytics Engine"""
 
     def __init__(self, db_path: str = "aria_pain.db"):
+        # Exposer le chemin DB pour les tests et assurer la création du fichier
+        self.db_path = str(db_path)
+        Path(self.db_path).parent.mkdir(parents=True, exist_ok=True)
+        # Crée le fichier si nécessaire
+        import sqlite3 as _sqlite3
+
+        _sqlite3.connect(self.db_path).close()
+
         # Utiliser le gestionnaire de base de données centralisé
-        self.db = DatabaseManager(db_path)
+        self.db = DatabaseManager(self.db_path)
+        # Exposer le chemin pour compatibilité tests (garder le chemin tel que fourni)
+        self.db_path = str(db_path)
+        # S'assurer que le fichier DB existe
+        Path(self.db_path).parent.mkdir(parents=True, exist_ok=True)
+        import sqlite3 as _sqlite3
+
+        _sqlite3.connect(self.db_path).close()
         self.lock = threading.Lock()
         self._init_database()
 
@@ -155,7 +171,7 @@ class ARIAMLAnalyzer:
             with self.lock:
                 # Récupérer les événements récents
                 cutoff_date = (datetime.now() - timedelta(days=days)).isoformat()
-                events = self.db.execute_query(
+                rows = self.db.execute_query(
                     """
                     SELECT * FROM pain_events
                     WHERE timestamp > ? AND event_type = 'pain_entry'
@@ -163,6 +179,9 @@ class ARIAMLAnalyzer:
                     """,
                     (cutoff_date,),
                 )
+
+                # Convertir sqlite3.Row en tuples pour mypy
+                events = [tuple(r) for r in rows]
 
                 if not events:
                     return {

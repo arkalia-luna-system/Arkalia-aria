@@ -11,7 +11,6 @@ import logging
 import sqlite3
 import threading
 from pathlib import Path
-from typing import Optional
 
 from .exceptions import DatabaseError
 
@@ -26,21 +25,25 @@ class DatabaseManager:
     avec gestion automatique des connexions et des transactions.
     """
 
-    _instance: Optional["DatabaseManager"] = None
+    _instances: dict[str, "DatabaseManager"] = {}
     _lock = threading.Lock()
 
     def __new__(cls, db_path: str = "aria_pain.db") -> "DatabaseManager":
-        """Pattern Singleton pour éviter les connexions multiples."""
-        if cls._instance is None:
+        """Pattern Singleton par chemin pour éviter les connexions multiples."""
+        resolved_path = str(Path(db_path).resolve())
+        if resolved_path not in cls._instances:
             with cls._lock:
-                if cls._instance is None:
-                    cls._instance = super().__new__(cls)
-                    cls._instance._initialized = False
-        return cls._instance
+                if resolved_path not in cls._instances:
+                    instance = super().__new__(cls)
+                    instance._initialized = False
+                    instance._connection = None
+                    instance.db_path = Path(resolved_path)
+                    cls._instances[resolved_path] = instance
+        return cls._instances[resolved_path]
 
     def __init__(self, db_path: str = "aria_pain.db") -> None:
         """Initialise le gestionnaire de base de données."""
-        if self._initialized:
+        if getattr(self, "_initialized", False):
             return
 
         self.db_path = Path(db_path).resolve()
@@ -76,7 +79,7 @@ class DatabaseManager:
                         logger.error(f"Erreur connexion SQLite: {e}")
                         raise DatabaseError(
                             f"Impossible de se connecter à la base: {e}"
-                        )
+                        ) from e
 
         return self._connection
 
@@ -101,7 +104,7 @@ class DatabaseManager:
             return cursor.fetchall()
         except sqlite3.Error as e:
             logger.error(f"Erreur requête SELECT: {e}")
-            raise DatabaseError(f"Erreur lors de l'exécution de la requête: {e}")
+            raise DatabaseError(f"Erreur lors de l'exécution de la requête: {e}") from e
 
     def execute_update(self, query: str, params: tuple = ()) -> int:
         """
@@ -126,7 +129,7 @@ class DatabaseManager:
         except sqlite3.Error as e:
             conn.rollback()
             logger.error(f"Erreur requête UPDATE: {e}")
-            raise DatabaseError(f"Erreur lors de l'exécution de la requête: {e}")
+            raise DatabaseError(f"Erreur lors de l'exécution de la requête: {e}") from e
 
     def execute_many(self, query: str, params_list: list[tuple]) -> int:
         """
@@ -151,7 +154,7 @@ class DatabaseManager:
         except sqlite3.Error as e:
             conn.rollback()
             logger.error(f"Erreur requête executemany: {e}")
-            raise DatabaseError(f"Erreur lors de l'exécution de la requête: {e}")
+            raise DatabaseError(f"Erreur lors de l'exécution de la requête: {e}") from e
 
     def get_count(self, table: str, where_clause: str = "", params: tuple = ()) -> int:
         """
@@ -179,7 +182,7 @@ class DatabaseManager:
             return cursor.fetchone()[0]
         except sqlite3.Error as e:
             logger.error(f"Erreur requête COUNT: {e}")
-            raise DatabaseError(f"Erreur lors du comptage: {e}")
+            raise DatabaseError(f"Erreur lors du comptage: {e}") from e
 
     def table_exists(self, table_name: str) -> bool:
         """

@@ -1,0 +1,90 @@
+# ARKALIA ARIA - Docker ignore file
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+docs/
+README.md
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+arkalia_aria_venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# Reports
+reports/
+bandit-report.json
+safety-report.json
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Mobile app (si pas nécessaire dans le container)
+mobile_app/
+
+# Data files (seront montés en volume)
+data/
+*.db
+*.sqlite
+
+# Config files (seront montés en volume)
+config/
+deployment.json
+monitoring.json
+nginx.conf
+
+# Cache
+.cache/
+.pytest_cache/

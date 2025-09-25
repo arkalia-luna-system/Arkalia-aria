@@ -17,6 +17,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+import yaml
+
 from ..security.aria_security_validator import ARIA_SecurityValidator
 
 logger = logging.getLogger(__name__)
@@ -205,6 +207,15 @@ class ARIA_CICDManager:
                     "runs-on": "ubuntu-latest",
                     "steps": [
                         {"uses": "actions/checkout@v4"},
+                        {
+                            "name": "Set up Python",
+                            "uses": "actions/setup-python@v4",
+                            "with": {"python-version": "3.10"},
+                        },
+                        {
+                            "name": "Install dependencies",
+                            "run": "pip install -r requirements.txt",
+                        },
                         {
                             "name": "Run comprehensive security audit",
                             "run": (
@@ -438,7 +449,9 @@ http {
         # Sauvegarder les workflows GitHub Actions
         for filename, workflow in results["github_actions"].items():
             workflow_file = workflows_dir / filename
-            workflow_file.write_text(json.dumps(workflow, indent=2))
+            workflow_file.write_text(
+                yaml.dump(workflow, default_flow_style=False, sort_keys=False)
+            )
             results["created_files"].append(str(workflow_file))
 
         # Sauvegarder la configuration Docker

@@ -16,6 +16,7 @@
 - ✅ **RGPD** : Validé en test avec endpoints fonctionnels
 - ✅ **Mobile** : Code corrigé et prêt pour compilation
 - ✅ **Production** : Prêt pour déploiement
+- ✅ **Nettoyage** : Doublons supprimés, gain de 1.5 GB
 
 ---
 

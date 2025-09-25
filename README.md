@@ -56,6 +56,7 @@
 - **RGPD complet** : Endpoints de suppression (droit à l'oubli) implémentés
 - **Documentation légale** : Mentions, CGU, privacy policy, cookies, DPO
 - **Mobile corrigé** : Erreurs Flutter résolues, prêt pour compilation
+- **Nettoyage projet** : Doublons supprimés, gain de 1.5 GB, structure optimisée
 
 ### ✅ **Qualité Code**
 - **Black + Ruff** : Code formaté et linté

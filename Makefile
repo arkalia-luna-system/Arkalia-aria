@@ -69,16 +69,7 @@ security: ## Lancer les vérifications de sécurité
 
 clean: ## Nettoyer les fichiers temporaires
 	@echo "$(GREEN)Nettoyage...$(NC)"
-	find . -type f -name "*.pyc" -delete
-	find . -type d -name "__pycache__" -delete
-	find . -type d -name "*.egg-info" -exec rm -rf {} +
-	find . -type d -name ".pytest_cache" -exec rm -rf {} +
-	find . -type d -name "htmlcov" -exec rm -rf {} +
-	find . -type f -name ".coverage" -delete
-	find . -type f -name "bandit-report.json" -delete
-	find . -type f -name "safety-report.json" -delete
-	find . -name "._*" -delete
-	find . -name ".DS_Store" -delete
+	./devops_automation/scripts/cleanup_heavy_processes.sh
 
 clean-cache: ## Nettoyage caches Python et rapports
 	@echo "$(GREEN)Nettoyage des caches Python et rapports...$(NC)"
@@ -94,6 +85,10 @@ clean-macos: ## Supprimer les fichiers cachés macOS (._*, .DS_Store)
 	@echo "$(GREEN)Nettoyage fichiers macOS...$(NC)"
 	find . -name "._*" -type f -delete || true
 	find . -name ".DS_Store" -type f -delete || true
+
+clean-heavy: ## Nettoyer les processus lourds (bandit, safety, pytest)
+	@echo "$(GREEN)Nettoyage des processus lourds...$(NC)"
+	./devops_automation/scripts/cleanup_heavy_processes.sh
 
 workspace-health: ## Vérification santé rapide du workspace
 	@echo "$(GREEN)Vérification santé du workspace...$(NC)"

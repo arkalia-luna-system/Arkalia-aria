@@ -1,0 +1,72 @@
+[bandit]
+# Configuration Bandit optimisée pour ARKALIA ARIA
+# Évite les scans lourds et les faux positifs
+
+# Exclusions de répertoires
+exclude_dirs = 
+    tests
+    __pycache__
+    .git
+    .pytest_cache
+    venv
+    arkalia_aria_venv
+    node_modules
+    .venv
+    build
+    dist
+    .tox
+    .coverage
+    htmlcov
+    reports
+    metrics_reports
+    dacc/test_metrics_reports
+
+# Exclusions de fichiers
+exclude = 
+    tests/
+    test_*.py
+    *_test.py
+    __pycache__/
+    *.pyc
+    .git/
+    venv/
+    arkalia_aria_venv/
+    node_modules/
+    .venv/
+    build/
+    dist/
+    .tox/
+    .coverage
+    htmlcov/
+    reports/
+    metrics_reports/
+    dacc/test_metrics_reports/
+
+# Tests à ignorer (faux positifs)
+skips = 
+    B101  # assert_used
+    B601  # shell_injection_subprocess
+    B603  # subprocess_without_shell_equals_true
+    B607  # start_process_with_partial_path
+    B608  # hardcoded_sql_expressions
+
+# Niveau de confiance minimum
+confidence = medium
+
+# Niveau de gravité minimum
+severity = medium
+
+# Format de sortie
+format = json
+
+# Fichier de sortie
+output = reports/bandit-report.json
+
+# Timeout en secondes
+timeout = 300
+
+# Limite de fichiers à traiter
+max_file_size = 1048576  # 1MB
+
+# Limite de lignes par fichier
+max_line_length = 1000

@@ -75,7 +75,7 @@
 - ✅ Lazy loading des imports lourds
 - ✅ Cache intelligent dans toutes les APIs
 
-### 🎯 **Priorité 3 - Interface**
+### 🎯 **Priorité 3 - Interface & Fonctionnalités**
 - [ ] Interface web dashboard (métriques et analyses)
 - [ ] Application mobile Flutter (intégration ARIA)
 - [ ] Modèles ML avancés (amélioration du moteur de prédiction)
@@ -83,6 +83,33 @@
 - [ ] Analytics et métriques (dashboard et exports)
 - [ ] Tests unitaires par module (pyramide de tests)
 - [ ] Connecteurs santé (Samsung Health, Google Fit, Apple HealthKit)
+
+### 🔒 **Priorité 4 - Sécurité & Conformité**
+- [ ] Validation RGPD end-to-end (test sur instance démo)
+- [ ] Tests sur device mobile réel (notifications, app)
+- [ ] Plan de gestion d'incidents (72h notification)
+- [ ] Mentions légales et politique de confidentialité
+- [ ] Audit de sécurité complet (penetration testing)
+- [ ] Sauvegardes chiffrées et test de restauration
+- [ ] Rotation automatique des tokens API
+
+### 🚀 **Priorité 5 - Production & Déploiement**
+- [ ] PR release candidate finale
+- [ ] Déploiement en préproduction
+- [ ] Tests de charge et performance
+- [ ] Monitoring en production (alertes, métriques)
+- [ ] Documentation de déploiement
+- [ ] Formation équipe sur le système
+- [ ] Procédures de maintenance
+
+### 📊 **Priorité 6 - Améliorations & Optimisations**
+- [ ] Cache Redis pour les sessions
+- [ ] CDN pour les assets statiques
+- [ ] Compression gzip/brotli
+- [ ] Optimisation des requêtes DB
+- [ ] Mise en cache des calculs ML
+- [ ] Monitoring des performances
+- [ ] Alertes automatiques
 
 ---
 

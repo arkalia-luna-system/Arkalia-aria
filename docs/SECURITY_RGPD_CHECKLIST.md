@@ -62,3 +62,26 @@ Dernière mise à jour: 2025-09-25
 - [ ] Tests unitaires critiques OK (pain, analytics)
 - [ ] Bandit/Safety OK (hors venv)
 - [ ] Lint docs: endpoints à jour (pain: quick-entry, entry, entries, recent, suggestions, exports)
+
+## 11) Tests de Validation
+- [ ] Test end-to-end sur instance démo
+- [ ] Test des notifications mobile (iOS/Android)
+- [ ] Test des connecteurs santé (Samsung/Google/Apple)
+- [ ] Test des exports de données (CSV/PDF/Excel)
+- [ ] Test de la suppression des données (droit à l'oubli)
+- [ ] Test de la portabilité des données (export complet)
+
+## 12) Documentation Légale
+- [ ] Mentions légales complètes
+- [ ] Politique de confidentialité détaillée
+- [ ] Conditions d'utilisation
+- [ ] Politique de cookies
+- [ ] Informations sur les cookies tiers
+- [ ] Contact DPO (Délégué à la Protection des Données)
+
+## 13) Monitoring & Alertes
+- [ ] Monitoring des accès aux données sensibles
+- [ ] Alertes en cas de violation de données
+- [ ] Logs d'audit des actions utilisateurs
+- [ ] Monitoring des performances de sécurité
+- [ ] Alertes de sécurité automatiques

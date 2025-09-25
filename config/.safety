@@ -10,6 +10,9 @@ output = json
 # Fichier de sortie
 output_file = reports/safety-report.json
 
+# Créer le répertoire reports s'il n'existe pas
+ensure_output_dir = true
+
 # Ignorer les avertissements mineurs
 ignore = 
     51457  # pyyaml < 6.0

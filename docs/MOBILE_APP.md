@@ -453,4 +453,39 @@ void main() {
 
 ---
 
+## 🚧 **Fonctionnalités Manquantes**
+
+### **Interface Utilisateur**
+- [ ] Écrans UI complets (screens/)
+- [ ] Navigation entre écrans
+- [ ] Thème sombre/clair
+- [ ] Responsive design
+- [ ] Accessibilité (a11y)
+- [ ] Internationalisation (i18n)
+
+### **Fonctionnalités Avancées**
+- [ ] Notifications push (iOS/Android)
+- [ ] Mode hors ligne complet
+- [ ] Synchronisation bidirectionnelle
+- [ ] Export PDF/Excel depuis mobile
+- [ ] Graphiques interactifs
+- [ ] Géolocalisation
+- [ ] Biométrie (Touch ID/Face ID)
+
+### **Tests & Qualité**
+- [ ] Tests unitaires Flutter
+- [ ] Tests d'intégration mobile
+- [ ] Tests de performance
+- [ ] Tests d'accessibilité
+- [ ] Tests de compatibilité
+
+### **Déploiement**
+- [ ] Configuration App Store
+- [ ] Configuration Google Play
+- [ ] Certificats de signature
+- [ ] Métadonnées d'application
+- [ ] Screenshots et descriptions
+
+---
+
 > **"Votre santé dans votre poche. ARIA mobile vous accompagne partout."**

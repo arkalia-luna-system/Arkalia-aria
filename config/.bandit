@@ -62,6 +62,9 @@ format = json
 # Fichier de sortie
 output = reports/bandit-report.json
 
+# Créer le répertoire reports s'il n'existe pas
+ensure_reports_dir = true
+
 # Timeout en secondes
 timeout = 300
 

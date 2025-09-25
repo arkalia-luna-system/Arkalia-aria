@@ -18,6 +18,10 @@
 11. [Tests et Qualité](#tests-et-qualité)
 12. [Déploiement](#déploiement)
 13. [Contributions](#contributions)
+14. [Troubleshooting](#troubleshooting)
+15. [Performance](#performance)
+16. [Sécurité](#sécurité)
+17. [Monitoring](#monitoring)
 
 ---
 
@@ -886,5 +890,132 @@ test: add unit tests for sync manager
 
 ---
 
-*Dernière mise à jour : Septembre 2024*
-*Version du guide : 1.0.0*
+## 🔧 Troubleshooting
+
+### Problèmes Courants
+
+#### Erreur de connexion à la base de données
+```bash
+# Vérifier les permissions
+ls -la aria_pain.db
+
+# Recréer la base si nécessaire
+rm aria_pain.db
+python -c "from core.database import DatabaseManager; DatabaseManager().init_database()"
+```
+
+#### Tests qui échouent
+```bash
+# Nettoyer le cache
+rm -rf .pytest_cache
+rm -rf __pycache__
+
+# Relancer les tests
+pytest tests/ -v
+```
+
+#### Problèmes de performance
+```bash
+# Vérifier les processus lourds
+ps aux | grep python
+
+# Nettoyer les caches
+make clean-cache
+```
+
+### Logs et Debug
+
+#### Activer les logs détaillés
+```python
+import logging
+logging.basicConfig(level=logging.DEBUG)
+```
+
+#### Vérifier les métriques
+```bash
+curl http://localhost:8001/metrics
+```
+
+---
+
+## ⚡ Performance
+
+### Optimisations Implémentées
+- **Cache intelligent** : TTL 60s pour les requêtes fréquentes
+- **Lazy loading** : Import des modules lourds à la demande
+- **Connexion DB unique** : Singleton pattern pour éviter les doublons
+- **Compression** : Gzip pour les réponses API
+
+### Monitoring des Performances
+```bash
+# Métriques système
+curl http://localhost:8001/api/metrics/system
+
+# Métriques applicatives
+curl http://localhost:8001/api/metrics/app
+
+# Métriques de base de données
+curl http://localhost:8001/api/metrics/database
+```
+
+### Optimisations Recommandées
+- [ ] Cache Redis pour les sessions
+- [ ] CDN pour les assets statiques
+- [ ] Compression brotli
+- [ ] Mise en cache des calculs ML
+- [ ] Indexation des requêtes DB fréquentes
+
+---
+
+## 🔒 Sécurité
+
+### Bonnes Pratiques
+- **Secrets** : Toujours utiliser des variables d'environnement
+- **HTTPS** : Obligatoire en production
+- **Validation** : Toutes les entrées utilisateur
+- **Logs** : Ne jamais logger de données sensibles
+
+### Audit de Sécurité
+```bash
+# Scan de sécurité complet
+bandit -r . -f json -o reports/bandit-report.json
+
+# Vérification des dépendances
+safety check --json --output reports/safety-report.json
+
+# Audit personnalisé
+python -m devops_automation.security.aria_security_validator
+```
+
+### Configuration Sécurisée
+- [ ] Chiffrement des données au repos
+- [ ] Rotation automatique des tokens
+- [ ] Limitation des tentatives de connexion
+- [ ] Audit des accès aux données sensibles
+
+---
+
+## 📊 Monitoring
+
+### Métriques Disponibles
+- **Système** : CPU, RAM, disque, réseau
+- **Application** : Requêtes, erreurs, temps de réponse
+- **Base de données** : Connexions, requêtes, taille
+- **Sécurité** : Tentatives d'intrusion, accès suspects
+
+### Alertes Configurées
+- [ ] CPU > 80% pendant 5 minutes
+- [ ] RAM > 90% pendant 2 minutes
+- [ ] Erreurs > 10% des requêtes
+- [ ] Temps de réponse > 5 secondes
+- [ ] Tentatives de connexion suspectes
+
+### Dashboards
+- **Grafana** : Métriques système et application
+- **Prometheus** : Collecte des métriques
+- **ELK Stack** : Logs et analyses
+
+---
+
+*Dernière mise à jour : Janvier 2025*
+*Version du guide : 2.0.0*

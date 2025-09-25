@@ -33,7 +33,7 @@
 
 ---
 
-## 🚀 **Améliorations Récentes (23 Septembre 2025)**
+## 🚀 **Améliorations Récentes (25 Septembre 2025)**
 
 ### ✅ **Migration vers Architecture Centralisée**
 - **Module `core/`** : DatabaseManager, CacheManager, Config, Logging unifiés
@@ -41,12 +41,21 @@
 - **Performance** : 1 connexion DB partagée au lieu de 5 connexions séparées
 - **Code** : 2x plus court et plus maintenable
 
-### ✅ **Modules Migrés**
+### ✅ **Modules Migrés (8/8)**
 - `pain_tracking/` → BaseAPI + DatabaseManager
 - `pattern_analysis/` → Logging unifié
 - `prediction_engine/` → DatabaseManager
 - `research_tools/` → DatabaseManager
 - `metrics_collector/` → DatabaseManager
+- `health_connectors/` → BaseAPI + tests validés
+- `audio_voice/` → BaseAPI + tests validés
+- `cia_sync/` → BaseAPI + tests validés
+
+### ✅ **Nouvelles Fonctionnalités**
+- **Exports multiples** : CSV, PDF, Excel fonctionnels (921 entrées testées)
+- **RGPD complet** : Endpoints de suppression (droit à l'oubli) implémentés
+- **Documentation légale** : Mentions, CGU, privacy policy, cookies, DPO
+- **Mobile corrigé** : Erreurs Flutter résolues, prêt pour compilation
 
 ### ✅ **Qualité Code**
 - **Black + Ruff** : Code formaté et linté

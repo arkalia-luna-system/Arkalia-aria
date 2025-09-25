@@ -1,36 +1,8 @@
 [bandit]
-# Configuration Bandit optimisée pour ARKALIA ARIA
-# Évite les scans lourds et les faux positifs
-
-# Exclusions de répertoires
-exclude_dirs = tests,__pycache__,.git,.pytest_cache,venv,arkalia_aria_venv,node_modules,.venv,build,dist,.tox,.coverage,htmlcov,reports,metrics_reports,dacc/test_metrics_reports
-
-# Exclusions de fichiers
-exclude = tests/,test_*.py,*_test.py,__pycache__/,*.pyc,.git/,venv/,arkalia_aria_venv/,node_modules/,.venv/,build/,dist/,.tox/,.coverage,htmlcov/,reports/,metrics_reports/,dacc/test_metrics_reports/
-
-# Tests à ignorer (faux positifs)
+exclude_dirs = tests,__pycache__,.git,venv,arkalia_aria_venv,node_modules,.venv,build,dist,.tox,htmlcov,reports,metrics_reports
+exclude = tests/,test_*.py,*_test.py,__pycache__/,*.pyc,.git/,venv/,arkalia_aria_venv/,node_modules/,.venv/,build/,dist/,.tox/,htmlcov/,reports/,metrics_reports/
 skips = B101,B601,B603,B607,B608
-
-# Niveau de confiance minimum
 confidence = medium
-
-# Niveau de gravité minimum
 severity = medium
-
-# Format de sortie
 format = json
-
-# Fichier de sortie
 output = reports/bandit-report.json
-
-# Créer le répertoire reports s'il n'existe pas
-ensure_reports_dir = true
-
-# Timeout en secondes
-timeout = 300
-
-# Limite de fichiers à traiter
-max_file_size = 1048576
-
-# Limite de lignes par fichier
-max_line_length = 1000

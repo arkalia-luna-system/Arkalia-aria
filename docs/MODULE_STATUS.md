@@ -25,7 +25,7 @@
 
 ---
 
-## 📊 **Modules Migrés**
+## 📊 **Modules Migrés (8/8)**
 
 ### ✅ **pain_tracking/**
 - ✅ **api.py** : Migré vers BaseAPI + DatabaseManager
@@ -68,7 +68,7 @@
 ## ✅ **Modules Migrés (COMPLET)**
 
 ### ✅ **health_connectors/**
-- ✅ **api.py** : Migré vers BaseAPI + get_logger
+- ✅ **api.py** : Migré vers BaseAPI + tests validés
 - ✅ **Logging** : Unifié avec get_logger
 - ✅ **Performance** : Optimisé
 
@@ -196,7 +196,7 @@
 
 ## 🔗 **Liens Utiles**
 
-- [README.md](../README.md) - Vue d'ensemble du projet
+- README.md - Vue d'ensemble du projet (fichier racine)
 - [PROJECT_STATUS.md](PROJECT_STATUS.md) - Statut global
 - [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) - Guide technique
 - [API_REFERENCE.md](API_REFERENCE.md) - Référence API

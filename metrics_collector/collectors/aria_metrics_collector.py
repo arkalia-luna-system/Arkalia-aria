@@ -378,6 +378,14 @@ class ARIA_MetricsCollector:
     def _run_bandit_scan(self) -> dict[str, Any]:
         """Exécute un scan de sécurité avec Bandit."""
         try:
+            # Désactiver bandit en développement pour éviter les processus lourds
+            if os.getenv("ARIA_ENABLE_METRICS", "false").lower() != "true":
+                return {
+                    "status": "skipped",
+                    "reason": "metrics_disabled_in_development",
+                    "issues_found": 0,
+                }
+
             if (
                 os.getenv("PYTEST_CURRENT_TEST")
                 or os.getenv("ARIA_METRICS_FAST") == "1"

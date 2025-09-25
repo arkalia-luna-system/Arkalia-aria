@@ -167,6 +167,30 @@ mkdocs gh-deploy
 - [Guide Développeur](DEVELOPER_GUIDE.md) - Guide pour développeurs
 - [Référence API](API_REFERENCE.md) - Documentation API complète
 
+### ✅ **Validation & Qualité**
+- [Checklist de Validation](VALIDATION_CHECKLIST.md) - Validation complète
+- [Statut Modules](MODULE_STATUS.md) - État des modules
+- [Guide Mobile](MOBILE_APP.md) - Documentation mobile
+
+### 🤖 **Migration & Support**
+- [Guide Migration IA](AI_MIGRATION_GUIDE.md) - Guide pour nouvelles IA
+- [Guide Utilisateur](USER_GUIDE.md) - Guide utilisateur final
+- [Exemples](EXAMPLES.md) - Exemples d'utilisation
+
+### 📋 **Résumé & Vue d'Ensemble**
+- [Documentation Complète](DOCUMENTATION_COMPLETE.md) - Guide complet pour IA
+- [Résumé Final](FINAL_SUMMARY.md) - Résumé complet de la mission
+- [Résumé Accomplissements](ACCOMPLISHMENTS_SUMMARY.md) - Ce qui a été fait
+- [Résumé Projet](PROJECT_SUMMARY.md) - Vue d'ensemble complète
+- [Statut Projet](PROJECT_STATUS.md) - État actuel et priorités
+- [Plan d'Amélioration](PLAN_AMELIORATION_ARKALIA_ARIA.md) - Plan d'amélioration
+
+### ⚡ **Commandes & Références**
+- [Commandes Rapides](QUICK_COMMANDS.md) - Commandes essentielles
+- [Guide Configuration](CONFIGURATION_GUIDE.md) - Configuration complète
+- [Référence API](API_REFERENCE.md) - Documentation API complète
+- [Guide Utilisateur](USER_GUIDE.md) - Guide utilisateur final
+
 ## 🤝 Contribution
 
 ARKALIA ARIA est un projet open source. Nous accueillons les contributions !

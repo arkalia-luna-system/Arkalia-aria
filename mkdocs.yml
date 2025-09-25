@@ -42,7 +42,6 @@ theme:
 plugins:
   - search:
       lang: fr
-  - mkdocs-mermaid2-plugin
 
 # Configuration pour éviter les erreurs de liens
 strict: false

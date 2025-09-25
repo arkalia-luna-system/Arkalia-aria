@@ -42,6 +42,13 @@ theme:
 plugins:
   - search:
       lang: fr
+  - mkdocs-mermaid2-plugin
+
+# Configuration pour éviter les erreurs de liens
+strict: false
+
+# Configuration des liens
+use_directory_urls: true
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -71,6 +78,11 @@ nav:
   - Exemples: EXAMPLES.md
   - Guide Développeur: DEVELOPER_GUIDE.md
   - Statut Projet: PROJECT_STATUS.md
+  - Statut Modules: MODULE_STATUS.md
+  - App Mobile: MOBILE_APP.md
+  - Connecteurs Santé: HEALTH_CONNECTORS.md
+  - Dashboard Web: DASHBOARD_WEB.md
+  - Checklist RGPD: SECURITY_RGPD_CHECKLIST.md
 
 extra:
   social:

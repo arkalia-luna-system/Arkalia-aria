@@ -45,6 +45,7 @@ mkdocs-mermaid2-plugin==1.1.1
 
 # Typing stubs
 types-requests==2.31.0.20240218
+types-PyYAML>=6.0.0
 
 # Additional security tools
 bandit>=1.7.0,<2.0.0

@@ -155,6 +155,18 @@ mkdocs gh-deploy
 - [ ] **Intégrations** : Connexion avec d'autres outils de santé
 - [ ] **Analytics** : Métriques de performance et d'usage
 
+### 🎯 **Plan d'Action Détaillé**
+- [Plan d'Action Complet](ACTION_PLAN.md) - Roadmap détaillée avec échéances
+- [Workflow Solo](SOLO_WORKFLOW.md) - Guide pour travailler seul
+- [TODO Simple](TODO_SIMPLE.md) - Liste des tâches à faire
+- [Statut Projet](PROJECT_STATUS.md) - État actuel et priorités
+- [Checklist RGPD](SECURITY_RGPD_CHECKLIST.md) - Conformité et sécurité
+
+### 🔧 **Référence Technique**
+- [Référence Technique](TECHNICAL_REFERENCE.md) - Guide technique complet
+- [Guide Développeur](DEVELOPER_GUIDE.md) - Guide pour développeurs
+- [Référence API](API_REFERENCE.md) - Documentation API complète
+
 ## 🤝 Contribution
 
 ARKALIA ARIA est un projet open source. Nous accueillons les contributions !

@@ -174,7 +174,7 @@ class CacheManager:
             logger.error(
                 f"❌ Erreur lors de l'exécution de la fonction pour {key}: {e}"
             )
-            raise CacheError(f"Erreur lors de l'exécution de la fonction: {e}")
+            raise CacheError(f"Erreur lors de l'exécution de la fonction: {e}") from e
 
     def delete(self, key: str) -> bool:
         """

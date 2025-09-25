@@ -226,88 +226,71 @@ Content-Type: application/json
 
 ### ⚡ **Enregistrement Rapide**
 ```http
-POST /api/pain/quick
+POST /api/pain/quick-entry
 Content-Type: application/json
 
 {
   "intensity": 7,
-  "location": "dos",
-  "trigger": "stress"
+  "physical_trigger": "stress",
+  "action_taken": "respiration"
 }
 ```
-**Réponse :**
+**Réponse (PainEntryOut)** :
 ```json
 {
-  "success": true,
-  "id": "pain_12345",
-  "timestamp": "2024-12-24T18:00:00Z",
-  "message": "Entrée douleur enregistrée"
+  "id": 1,
+  "timestamp": "2025-09-25T14:00:00",
+  "intensity": 7,
+  "physical_trigger": "stress",
+  "mental_trigger": null,
+  "activity": null,
+  "location": null,
+  "action_taken": "respiration",
+  "effectiveness": null,
+  "notes": null,
+  "created_at": "2025-09-25T14:00:00"
 }
 ```
 
 ### 📝 **Enregistrement Détaillé**
 ```http
-POST /api/pain/detailed
+POST /api/pain/entry
 Content-Type: application/json
 
 {
   "intensity": 7,
+  "physical_trigger": "stress",
+  "mental_trigger": "anxiété",
+  "activity": "sitting",
   "location": "dos",
-  "trigger": "stress",
-  "duration": 30,
-  "medication": "paracetamol",
+  "action_taken": "respiration",
+  "effectiveness": 6,
   "notes": "Douleur après travail",
-  "emotions": ["anxiety", "frustration"],
-  "weather": "rainy",
-  "activity": "sitting"
+  "timestamp": "2025-09-25T13:59:00"
 }
 ```
 
-### 📊 **Historique Douleur**
+### 📋 **Liste des Entrées**
 ```http
-GET /api/pain/history?limit=10&offset=0&start_date=2024-12-01&end_date=2024-12-24
+GET /api/pain/entries
+GET /api/pain/entries/recent?limit=20
 ```
-**Réponse :**
-```json
-{
-  "total": 156,
-  "entries": [
-    {
-      "id": "pain_12345",
-      "intensity": 7,
-      "location": "dos",
-      "trigger": "stress",
-      "timestamp": "2024-12-24T18:00:00Z",
-      "duration": 30,
-      "medication": "paracetamol",
-      "notes": "Douleur après travail"
-    }
-  ],
-  "pagination": {
-    "limit": 10,
-    "offset": 0,
-    "has_more": true
-  }
-}
-```
+**Réponse (liste de PainEntryOut)** : `200 OK` avec tableau d’entrées triées par date (récentes d'abord)
 
-### 📈 **Statistiques Douleur**
+### 🧠 **Suggestions**
 ```http
-GET /api/pain/stats?period=30_days
+GET /api/pain/suggestions?window=30
 ```
-**Réponse :**
-```json
-{
-  "period": "30_days",
-  "total_entries": 45,
-  "avg_intensity": 5.2,
-  "max_intensity": 9,
-  "min_intensity": 2,
-  "most_common_location": "dos",
-  "most_common_trigger": "stress",
-  "trend": "decreasing"
-}
+Retourne des recommandations et questions de suivi basées sur les données récentes.
+
+### 📤 **Exports**
+```http
+GET /api/pain/export/csv
+GET /api/pain/export/psy-report
 ```
+CSV: contenu et nom de fichier; Psy-report: HTML imprimable et métadonnées.
+
+> Note: l’endpoint de statistiques dédié n’est pas exposé; utiliser `/api/pain/suggestions` et les exports pour des synthèses.
 
 ---
 

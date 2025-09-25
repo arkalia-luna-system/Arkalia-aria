@@ -123,7 +123,7 @@ class Config:
             except OSError as e:
                 raise ConfigurationError(
                     f"Impossible de créer le répertoire de la base: {e}"
-                )
+                ) from e
         return db_path
 
     def get_log_level(self) -> str:

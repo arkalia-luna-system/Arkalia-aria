@@ -59,7 +59,7 @@ graph TB
     end
     
     subgraph "Backend ARIA"
-        API[FastAPI Backend]
+    API[FastAPI Backend (/api/pain,...)]
         DB[(SQLite Database)]
     end
     
@@ -293,8 +293,15 @@ flutter build ios --release
    ```dart
    // lib/config/api_config.dart
    class ApiConfig {
-     static const String baseUrl = 'http://localhost:8000';
-     static const String apiKey = 'your-api-key';
+     static const String baseUrl = 'http://localhost:8001';
+     // Endpoints ARIA Pain
+     static const String painQuick = '/api/pain/quick-entry';
+     static const String painEntry = '/api/pain/entry';
+     static const String painEntries = '/api/pain/entries';
+     static const String painRecent = '/api/pain/entries/recent';
+     static const String painSuggestions = '/api/pain/suggestions';
+     static const String painExportCsv = '/api/pain/export/csv';
+     static const String painExportPsy = '/api/pain/export/psy-report';
    }
    ```
 

@@ -216,7 +216,7 @@ async def create_quick_entry(entry: QuickEntry) -> PainEntryOut:
         return PainEntryOut(**dict(rows[0]))
     except Exception as e:
         logger.error(f"❌ Erreur création entrée rapide: {e}")
-        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
 
 
 @router.post("/entry", response_model=PainEntryOut)
@@ -258,7 +258,7 @@ async def create_pain_entry(entry: PainEntryIn) -> PainEntryOut:
         return PainEntryOut(**dict(rows[0]))
     except Exception as e:
         logger.error(f"❌ Erreur création entrée détaillée: {e}")
-        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
 
 
 @router.get("/entries", response_model=list[PainEntryOut])
@@ -273,7 +273,7 @@ async def list_pain_entries() -> list[PainEntryOut]:
         return [PainEntryOut(**dict(row)) for row in rows]
     except Exception as e:
         logger.error(f"❌ Erreur récupération entrées: {e}")
-        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
 
 
 @router.get("/entries/recent", response_model=list[PainEntryOut])
@@ -289,7 +289,7 @@ async def list_recent(limit: int = 20) -> list[PainEntryOut]:
         return [PainEntryOut(**dict(row)) for row in rows]
     except Exception as e:
         logger.error(f"❌ Erreur récupération entrées récentes: {e}")
-        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
 
 
 @router.get("/export/psy-report")
@@ -517,4 +517,4 @@ async def export_csv():
         }
     except Exception as e:
         logger.error(f"❌ Erreur export CSV: {e}")
-        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e

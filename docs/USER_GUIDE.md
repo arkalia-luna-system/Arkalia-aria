@@ -140,14 +140,12 @@ ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intell
 
 ### Saisie des Données
 
-#### Niveaux de Douleur (0-6)
+#### Niveaux de Douleur (0-10)
 - **0** : Aucune douleur
-- **1** : Très légère
-- **2** : Légère
-- **3** : Modérée
-- **4** : Intense
-- **5** : Très intense
-- **6** : Insupportable
+- **1-3** : Légère
+- **4-6** : Modérée
+- **7-8** : Intense
+- **9-10** : Très intense à insupportable
 
 #### Types de Douleur
 - **Musculaire** : Tensions, courbatures
@@ -169,6 +167,10 @@ ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intell
 - **Membres** : Bras, jambes, mains, pieds
 
 ### Facteurs Déclencheurs
+
+#### Saisie Rapide vs Détaillée
+- **Rapide**: Intensité, déclencheur physique, action immédiate
+- **Détaillée**: Déclencheurs physiques/mentaux, activité, localisation, efficacité, notes
 
 #### Facteurs Physiques
 - **Mouvement** : Certains gestes

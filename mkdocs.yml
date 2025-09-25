@@ -92,6 +92,17 @@ nav:
   - Guide Configuration: CONFIGURATION_GUIDE.md
   - Plan d'Action: ACTION_PLAN.md
   - Guide Migration IA: AI_MIGRATION_GUIDE.md
+  - Audit Réponse CEO: AUDIT_RESPONSE_CEO.md
+  - CI/CD Auto Génération: CI_CD_AUTO_GENERATION.md
+  - Workflow Solo: SOLO_WORKFLOW.md
+  - Référence Technique: TECHNICAL_REFERENCE.md
+  - TODO Simple: TODO_SIMPLE.md
+  - Checklist Validation: VALIDATION_CHECKLIST.md
+  - Contact DPO: DPO_CONTACT.md
+  - Politique Cookies: COOKIES_POLICY.md
+  - Conditions d'Utilisation: TERMS_OF_USE.md
+  - Politique de Confidentialité: PRIVACY_POLICY.md
+  - Mentions Légales: LEGAL_MENTIONS.md
 
 extra:
   social:

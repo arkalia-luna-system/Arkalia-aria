@@ -161,6 +161,11 @@ mkdocs gh-deploy
 - [TODO Simple](TODO_SIMPLE.md) - Liste des tâches à faire
 - [Statut Projet](PROJECT_STATUS.md) - État actuel et priorités
 - [Checklist RGPD](SECURITY_RGPD_CHECKLIST.md) - Conformité et sécurité
+- [📄 Mentions Légales](LEGAL_MENTIONS.md) - Informations légales de l'entreprise
+- [🔒 Politique de Confidentialité](PRIVACY_POLICY.md) - Protection des données personnelles
+- [📋 Conditions d'Utilisation](TERMS_OF_USE.md) - CGU de l'application
+- [🍪 Politique de Cookies](COOKIES_POLICY.md) - Gestion des cookies
+- [👤 Contact DPO](DPO_CONTACT.md) - Délégué à la Protection des Données
 
 ### 🔧 **Référence Technique**
 - [Référence Technique](TECHNICAL_REFERENCE.md) - Guide technique complet

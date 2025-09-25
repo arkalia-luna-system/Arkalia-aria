@@ -16,7 +16,7 @@
 - ✅ Moteur de prédiction ML - **MIGRÉ vers DatabaseManager**
 - ✅ Outils de recherche et expérimentation - **MIGRÉ vers DatabaseManager**
 - ✅ Intégration bidirectionnelle CIA
-- ✅ Export CSV pour professionnels
+- ✅ Export CSV/PDF/Excel pour professionnels
 - ✅ API REST complète - **STANDARDISÉE avec BaseAPI**
 
 ### Connecteurs Santé
@@ -26,7 +26,7 @@
 - ✅ Sync Manager (gestionnaire de synchronisation unifié)
 - ✅ Data Models (modèles de données standardisés)
 - ✅ API FastAPI dédiée (16 endpoints santé)
-- 🔄 **À migrer** vers BaseAPI (prochaine étape)
+- ✅ **MIGRÉ** vers BaseAPI avec tests validés
 
 ### Interface Utilisateur
 - ✅ Dashboard Web (interface complète avec graphiques Chart.js)
@@ -34,6 +34,7 @@
 - ✅ App Mobile Flutter (4 écrans principaux : santé, dashboard, analytics, settings)
 - ✅ API Service Dart (service complet pour communication API)
 - ✅ Services Flutter (notifications, cache offline, export)
+- ✅ **CORRIGÉ** : Erreurs MdiIcons et const résolues
 
 ### Infrastructure
 - ✅ Tests d'intégration (295 tests unitaires, mode rapide disponible)
@@ -41,6 +42,7 @@
 - ✅ Pipeline CI/CD GitHub Actions (workflows YAML corrigés + optimisés)
 - ✅ Qualité du code : Ruff, Black, MyPy (erreurs corrigées)
 - ✅ Sécurité : Bandit, Safety (CI corrigée + timeouts optimisés)
+- ✅ **RGPD** : Endpoints de suppression (droit à l'oubli) implémentés
 - ✅ Monitoring système et métriques - **MIGRÉ vers core**
 - ✅ DevOps automation (CI/CD, déploiement, sécurité)
 - 🆕 **Optimisations Performance** : Timeouts, cache, limites de ressources

@@ -3,52 +3,13 @@
 # Évite les scans lourds et les faux positifs
 
 # Exclusions de répertoires
-exclude_dirs = 
-    tests
-    __pycache__
-    .git
-    .pytest_cache
-    venv
-    arkalia_aria_venv
-    node_modules
-    .venv
-    build
-    dist
-    .tox
-    .coverage
-    htmlcov
-    reports
-    metrics_reports
-    dacc/test_metrics_reports
+exclude_dirs = tests,__pycache__,.git,.pytest_cache,venv,arkalia_aria_venv,node_modules,.venv,build,dist,.tox,.coverage,htmlcov,reports,metrics_reports,dacc/test_metrics_reports
 
 # Exclusions de fichiers
-exclude = 
-    tests/
-    test_*.py
-    *_test.py
-    __pycache__/
-    *.pyc
-    .git/
-    venv/
-    arkalia_aria_venv/
-    node_modules/
-    .venv/
-    build/
-    dist/
-    .tox/
-    .coverage
-    htmlcov/
-    reports/
-    metrics_reports/
-    dacc/test_metrics_reports/
+exclude = tests/,test_*.py,*_test.py,__pycache__/,*.pyc,.git/,venv/,arkalia_aria_venv/,node_modules/,.venv/,build/,dist/,.tox/,.coverage,htmlcov/,reports/,metrics_reports/,dacc/test_metrics_reports/
 
 # Tests à ignorer (faux positifs)
-skips = 
-    B101  # assert_used
-    B601  # shell_injection_subprocess
-    B603  # subprocess_without_shell_equals_true
-    B607  # start_process_with_partial_path
-    B608  # hardcoded_sql_expressions
+skips = B101,B601,B603,B607,B608
 
 # Niveau de confiance minimum
 confidence = medium
@@ -69,7 +30,7 @@ ensure_reports_dir = true
 timeout = 300
 
 # Limite de fichiers à traiter
-max_file_size = 1048576  # 1MB
+max_file_size = 1048576
 
 # Limite de lignes par fichier
 max_line_length = 1000

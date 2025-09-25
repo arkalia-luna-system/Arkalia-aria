@@ -4,6 +4,7 @@ Point d'entrée principal pour le laboratoire de recherche santé personnel
 """
 
 import logging
+import os
 import sys
 from pathlib import Path
 
@@ -74,13 +75,16 @@ try:
 except Exception as e:
     logger.warning(f"⚠️ Connecteurs santé désactivés: {e}")
 
-# Intégration du système de métriques
-try:
-    metrics_api = ARIA_MetricsAPI(".")
-    metrics_api.integrate_with_app(app)
-    logger.info("✅ Système de métriques intégré")
-except Exception as e:
-    logger.warning(f"⚠️ Métriques désactivées: {e}")
+# Intégration du système de métriques (désactivé en développement pour éviter les processus lourds)
+if os.getenv("ARIA_ENABLE_METRICS", "false").lower() == "true":
+    try:
+        metrics_api = ARIA_MetricsAPI(".")
+        metrics_api.integrate_with_app(app)
+        logger.info("✅ Système de métriques intégré")
+    except Exception as e:
+        logger.warning(f"⚠️ Métriques désactivées: {e}")
+else:
+    logger.info("ℹ️ Système de métriques désactivé (ARIA_ENABLE_METRICS=false)")
 
 # Intégration du système DevOps
 try:

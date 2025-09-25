@@ -518,3 +518,113 @@ async def export_csv():
     except Exception as e:
         logger.error(f"❌ Erreur export CSV: {e}")
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
+
+
+@router.get("/export/pdf")
+async def export_pdf():
+    """Export PDF pour professionnels de santé"""
+    _init_tables()
+    try:
+        rows = db.execute_query("SELECT * FROM pain_entries ORDER BY timestamp DESC")
+
+        # Génération PDF simple (format texte)
+        pdf_content = f"""RAPPORT DE DOULEUR - ARKALIA ARIA
+Date d'export: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}
+Nombre d'entrées: {len(rows)}
+
+"""
+
+        # En-têtes
+        pdf_content += "DATE\tHEURE\tINTENSITÉ\tDÉCLENCHEUR PHYSIQUE\tDÉCLENCHEUR MENTAL\tACTIVITÉ\tLOCALISATION\tACTION\tEFFICACITÉ\tNOTES\n"
+        pdf_content += "-" * 120 + "\n"
+
+        # Données
+        for row in rows:
+            timestamp = row["timestamp"]
+            date, time = timestamp.split("T") if "T" in timestamp else (timestamp, "")
+            pdf_content += f"{date}\t{time}\t{row['intensity']}\t{row['physical_trigger'] or ''}\t{row['mental_trigger'] or ''}\t{row['activity'] or ''}\t{row['location'] or ''}\t{row['action_taken'] or ''}\t{row['effectiveness'] or ''}\t{row['notes'] or ''}\n"
+
+        logger.info(f"📄 Export PDF généré: {len(rows)} entrées")
+        return {
+            "content": pdf_content,
+            "filename": f"pain_export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf",
+            "entries_count": len(rows),
+        }
+    except Exception as e:
+        logger.error(f"❌ Erreur export PDF: {e}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
+
+
+@router.get("/export/excel")
+async def export_excel():
+    """Export Excel pour professionnels de santé"""
+    _init_tables()
+    try:
+        rows = db.execute_query("SELECT * FROM pain_entries ORDER BY timestamp DESC")
+
+        # Génération Excel (format CSV avec séparateur tab)
+        excel_content = "Date\tHeure\tIntensité\tDéclencheur Physique\tDéclencheur Mental\tActivité\tLocalisation\tAction\tEfficacité\tNotes\n"
+
+        for row in rows:
+            timestamp = row["timestamp"]
+            date, time = timestamp.split("T") if "T" in timestamp else (timestamp, "")
+            excel_content += f"{date}\t{time}\t{row['intensity']}\t{row['physical_trigger'] or ''}\t{row['mental_trigger'] or ''}\t{row['activity'] or ''}\t{row['location'] or ''}\t{row['action_taken'] or ''}\t{row['effectiveness'] or ''}\t{row['notes'] or ''}\n"
+
+        logger.info(f"📊 Export Excel généré: {len(rows)} entrées")
+        return {
+            "content": excel_content,
+            "filename": f"pain_export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
+            "entries_count": len(rows),
+        }
+    except Exception as e:
+        logger.error(f"❌ Erreur export Excel: {e}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
+
+
+@router.delete("/entries/{entry_id}")
+async def delete_pain_entry(entry_id: int):
+    """Supprime une entrée de douleur (RGPD - Droit à l'oubli)"""
+    _init_tables()
+    try:
+        # Vérifier que l'entrée existe
+        existing = db.execute_query(
+            "SELECT id FROM pain_entries WHERE id = ?", (entry_id,)
+        )
+        if not existing:
+            raise HTTPException(status_code=404, detail="Entrée non trouvée")
+
+        # Supprimer l'entrée
+        db.execute_query("DELETE FROM pain_entries WHERE id = ?", (entry_id,))
+
+        logger.info(f"🗑️ Entrée {entry_id} supprimée (RGPD)")
+        return {
+            "message": f"Entrée {entry_id} supprimée avec succès",
+            "entry_id": entry_id,
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"❌ Erreur suppression entrée {entry_id}: {e}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
+
+
+@router.delete("/entries")
+async def delete_all_pain_entries():
+    """Supprime toutes les entrées de douleur (RGPD - Droit à l'oubli complet)"""
+    _init_tables()
+    try:
+        # Compter les entrées avant suppression
+        count_result = db.execute_query("SELECT COUNT(*) as count FROM pain_entries")
+        count = count_result[0]["count"] if count_result else 0
+
+        # Supprimer toutes les entrées
+        db.execute_query("DELETE FROM pain_entries")
+
+        logger.info(f"🗑️ Toutes les entrées supprimées (RGPD): {count} entrées")
+        return {
+            "message": "Toutes les entrées supprimées avec succès",
+            "deleted_count": count,
+        }
+    except Exception as e:
+        logger.error(f"❌ Erreur suppression complète: {e}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e

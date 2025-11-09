@@ -324,12 +324,23 @@ class ARIA_QualityAssurance:
             except json.JSONDecodeError:
                 safety_data = []
 
+            # Safety peut retourner soit une liste soit un dict (nouveau format)
+            # Calculer le nombre de vulnérabilités selon le format
+            if isinstance(safety_data, dict):
+                # Nouveau format: dict avec 'affected_packages', 'announcements', etc.
+                # Compter les packages affectés
+                affected = safety_data.get("affected_packages", {})
+                vulnerability_count = len(affected) if isinstance(affected, dict) else 0
+            else:
+                # Ancien format: liste de vulnérabilités
+                vulnerability_count = len(safety_data) if isinstance(safety_data, list) else 0
+
             return {
                 "tool": "safety",
                 "success": result.returncode == 0,
                 "returncode": result.returncode,
                 "vulnerabilities": safety_data,
-                "vulnerability_count": len(safety_data),
+                "vulnerability_count": vulnerability_count,
             }
         except Exception as e:
             # Si l'outil n'est pas installé, retourner un résultat simulé

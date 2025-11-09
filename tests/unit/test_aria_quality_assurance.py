@@ -227,7 +227,8 @@ class TestARIA_QualityAssurance:
         assert "vulnerability_count" in result
         assert result["tool"] == "safety"
         assert isinstance(result["success"], bool)
-        assert isinstance(result["vulnerabilities"], list)
+        # Safety peut retourner soit une liste soit un dict (nouveau format)
+        assert isinstance(result["vulnerabilities"], (list, dict))
         assert isinstance(result["vulnerability_count"], int)
 
     def test_run_pytest_success(self):

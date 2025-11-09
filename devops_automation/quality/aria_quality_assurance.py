@@ -333,7 +333,9 @@ class ARIA_QualityAssurance:
                 vulnerability_count = len(affected) if isinstance(affected, dict) else 0
             else:
                 # Ancien format: liste de vulnérabilités
-                vulnerability_count = len(safety_data) if isinstance(safety_data, list) else 0
+                vulnerability_count = (
+                    len(safety_data) if isinstance(safety_data, list) else 0
+                )
 
             return {
                 "tool": "safety",

@@ -948,14 +948,11 @@ curl http://localhost:8001/metrics
 
 ### Monitoring des Performances
 ```bash
-# Métriques système
-curl http://localhost:8001/api/metrics/system
+# Métriques système (nécessite ARIA_ENABLE_METRICS=true)
+curl http://localhost:8001/metrics
 
-# Métriques applicatives
-curl http://localhost:8001/api/metrics/app
-
-# Métriques de base de données
-curl http://localhost:8001/api/metrics/database
+# Métriques santé unifiées
+curl http://localhost:8001/health/metrics/unified?days_back=7
 ```
 
 ### Optimisations Recommandées

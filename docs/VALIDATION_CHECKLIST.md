@@ -74,12 +74,10 @@ Cette checklist permet de valider que ARKALIA ARIA est prêt pour la production.
   - [ ] Droit à l'oubli implémenté
 
 - [ ] **Endpoints RGPD** - Fonctionnels
-  - [ ] `POST /api/pain/consent` - Gestion consentement
   - [ ] `GET /api/pain/entries` - Accès aux données
-  - [ ] `PUT /api/pain/entries/{id}` - Rectification
-  - [ ] `DELETE /api/pain/entries/{id}` - Effacement
-  - [ ] `DELETE /api/pain/delete-user-data` - Suppression complète
-  - [ ] `GET /api/pain/export-professional` - Export anonymisé
+  - [ ] `DELETE /api/pain/entries/{entry_id}` - Effacement d'une entrée
+  - [ ] `DELETE /api/pain/entries` - Suppression complète (toutes les entrées)
+  - [ ] `GET /api/pain/export/psy-report` - Export anonymisé pour professionnels
 
 ### **Sécurité Technique**
 - [ ] **Audit de sécurité** - 0 vulnérabilité critique
@@ -162,9 +160,10 @@ Cette checklist permet de valider que ARKALIA ARIA est prêt pour la production.
 ### **API & Endpoints**
 - [ ] **API principale** - 100% fonctionnelle
   - [ ] `GET /health` - Health check OK
-  - [ ] `GET /status` - Status détaillé OK
-  - [ ] `GET /metrics` - Métriques OK
+  - [ ] `GET /` - Page d'accueil OK
+  - [ ] `GET /metrics` - Métriques OK (si ARIA_ENABLE_METRICS=true)
   - [ ] Tous les endpoints `/api/*` fonctionnels
+  - [ ] Tous les endpoints `/health/*` fonctionnels
 
 - [ ] **Exports de données** - Validés
   - [ ] Export CSV - Format correct

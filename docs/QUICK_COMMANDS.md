@@ -200,13 +200,16 @@ curl http://127.0.0.1:8001/api/pain/entries
 curl http://127.0.0.1:8001/api/pain/quick-entry
 
 # Connecteurs santé
-curl http://127.0.0.1:8001/api/health/samsung
-curl http://127.0.0.1:8001/api/health/google
-curl http://127.0.0.1:8001/api/health/ios
+curl http://127.0.0.1:8001/health/connectors/status
+curl http://127.0.0.1:8001/health/samsung/sync
+curl http://127.0.0.1:8001/health/google/sync
+curl http://127.0.0.1:8001/health/ios/sync
+curl http://127.0.0.1:8001/health/sync/all
 
 # Exports
-curl http://127.0.0.1:8001/api/pain/export-csv
-curl http://127.0.0.1:8001/api/pain/export-pdf
+curl http://127.0.0.1:8001/api/pain/export/csv
+curl http://127.0.0.1:8001/api/pain/export/pdf
+curl http://127.0.0.1:8001/api/pain/export/excel
 ```
 
 ---
@@ -258,14 +261,11 @@ netstat -tulpn | grep :8001
 
 ### **Métriques Application**
 ```bash
-# Métriques système
-curl http://127.0.0.1:8001/api/metrics/system
+# Métriques système (nécessite ARIA_ENABLE_METRICS=true)
+curl http://127.0.0.1:8001/metrics
 
-# Métriques performance
-curl http://127.0.0.1:8001/api/metrics/performance
-
-# Métriques santé
-curl http://127.0.0.1:8001/api/metrics/health
+# Métriques santé unifiées
+curl http://127.0.0.1:8001/health/metrics/unified?days_back=7
 ```
 
 ---

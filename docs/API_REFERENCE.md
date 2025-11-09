@@ -210,7 +210,7 @@ GET /health/config
 ```
 
 ```http
-POST /health/config
+PUT /health/config
 Content-Type: application/json
 
 {
@@ -298,7 +298,8 @@ CSV: contenu et nom de fichier; Psy-report: HTML imprimable et métadonnées.
 
 ### 🧠 **Patterns Détectés**
 ```http
-GET /api/analytics/patterns?limit=5
+GET /api/patterns/patterns/recent
+POST /api/patterns/analyze
 ```
 **Réponse :**
 ```json
@@ -321,7 +322,8 @@ GET /api/analytics/patterns?limit=5
 
 ### 🔮 **Prédictions Actuelles**
 ```http
-GET /api/analytics/predictions
+GET /api/predictions/predictions/current
+POST /api/predictions/train
 ```
 **Réponse :**
 ```json
@@ -342,9 +344,10 @@ GET /api/analytics/predictions
 }
 ```
 
-### 📊 **Résumé Analytics**
+### 📊 **Expérimentations Recherche**
 ```http
-GET /api/analytics/summary
+GET /api/research/experiments
+POST /api/research/experiment/create
 ```
 **Réponse :**
 ```json

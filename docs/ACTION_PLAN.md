@@ -19,28 +19,27 @@ Ce document présente le plan d'action complet pour finaliser ARKALIA ARIA et le
   - [ ] Configurer HTTPS avec certificats SSL
 - [ ] **Tester checklist RGPD** - Tous les points de `docs/SECURITY_RGPD_CHECKLIST.md`
   - [ ] Vérifier chiffrement SQLite (`aria_pain.db`)
-  - [ ] Tester endpoints de suppression (`/api/pain/delete-user-data`)
-  - [ ] Valider exports anonymisés (`/api/pain/export-professional`)
+  - [ ] Tester endpoints de suppression (`DELETE /api/pain/entries`)
+  - [ ] Valider exports anonymisés (`GET /api/pain/export/psy-report`)
 - [ ] **Valider consentement** - Interface de recueil de consentement
-  - [ ] Tester endpoint `/api/pain/consent`
-  - [ ] Vérifier stockage consentement en DB
+  - [ ] Vérifier stockage consentement en DB (si implémenté)
 - [ ] **Tester droits utilisateur** - Accès, rectification, effacement
   - [ ] GET `/api/pain/entries` (accès)
-  - [ ] PUT `/api/pain/entries/{id}` (rectification)
-  - [ ] DELETE `/api/pain/entries/{id}` (effacement)
+  - [ ] DELETE `/api/pain/entries/{entry_id}` (effacement)
+  - [ ] DELETE `/api/pain/entries` (suppression complète)
 - [ ] **Vérifier anonymisation** - Export pour professionnels
-  - [ ] Tester `/api/pain/export-professional`
+  - [ ] Tester `/api/pain/export/psy-report`
   - [ ] Vérifier suppression données personnelles
 
 #### **Jour 3-4 : Tests Mobile Réels**
 - [ ] **Tester sur iPhone** - Notifications, app, connecteurs
   - [ ] Ouvrir app Flutter dans `mobile_app/`
   - [ ] Tester saisie douleur via API `http://127.0.0.1:8001/api/pain/quick-entry`
-  - [ ] Tester connecteur Apple HealthKit (`/api/health/ios`)
+  - [ ] Tester connecteur Apple HealthKit (`POST /health/ios/sync`)
   - [ ] Tester notifications push iOS
 - [ ] **Tester sur Android** - Samsung Health, Google Fit
-  - [ ] Tester connecteur Samsung Health (`/api/health/samsung`)
-  - [ ] Tester connecteur Google Fit (`/api/health/google`)
+  - [ ] Tester connecteur Samsung Health (`POST /health/samsung/sync`)
+  - [ ] Tester connecteur Google Fit (`POST /health/google/sync`)
   - [ ] Tester synchronisation bidirectionnelle
 - [ ] **Tester notifications push** - iOS et Android
   - [ ] Configurer Firebase pour notifications
@@ -51,9 +50,9 @@ Ce document présente le plan d'action complet pour finaliser ARKALIA ARIA et le
   - [ ] Saisir données en mode offline
   - [ ] Réactiver réseau et vérifier sync
 - [ ] **Tester exports mobile** - PDF, CSV depuis app
-  - [ ] Tester export PDF (`/api/pain/export-pdf`)
-  - [ ] Tester export CSV (`/api/pain/export-csv`)
-  - [ ] Tester export Excel (`/api/pain/export-excel`)
+  - [ ] Tester export PDF (`GET /api/pain/export/pdf`)
+  - [ ] Tester export CSV (`GET /api/pain/export/csv`)
+  - [ ] Tester export Excel (`GET /api/pain/export/excel`)
 
 #### **Jour 5 : Documentation Légale**
 - [ ] **Rédiger mentions légales** - Page complète

@@ -233,20 +233,18 @@ docker-compose down
 - `GET /metrics` - Métriques système
 
 ### **Suivi de Douleur (`/api/pain`)**
+- `GET /api/pain/status` - Statut du module
 - `POST /api/pain/quick-entry` - Saisie rapide douleur
 - `POST /api/pain/entry` - Saisie détaillée douleur
 - `GET /api/pain/entries` - Liste des entrées
-- `GET /api/pain/entries/{id}` - Détail d'une entrée
-- `PUT /api/pain/entries/{id}` - Modifier une entrée
-- `DELETE /api/pain/entries/{id}` - Supprimer une entrée
-- `GET /api/pain/recent` - Entrées récentes
+- `GET /api/pain/entries/recent` - Entrées récentes
 - `GET /api/pain/suggestions` - Suggestions de traitement
-- `GET /api/pain/export-csv` - Export CSV
-- `GET /api/pain/export-pdf` - Export PDF
-- `GET /api/pain/export-excel` - Export Excel
-- `GET /api/pain/export-professional` - Export anonymisé
-- `DELETE /api/pain/delete-user-data` - Suppression complète utilisateur
-- `POST /api/pain/consent` - Gestion consentement RGPD
+- `GET /api/pain/export/csv` - Export CSV
+- `GET /api/pain/export/pdf` - Export PDF
+- `GET /api/pain/export/excel` - Export Excel
+- `GET /api/pain/export/psy-report` - Export rapport psy
+- `DELETE /api/pain/entries/{entry_id}` - Supprimer une entrée
+- `DELETE /api/pain/entries` - Supprimer toutes les entrées
 
 ### **Analyse de Patterns (`/api/patterns`)**
 - `GET /api/patterns/emotions` - Analyse émotionnelle
@@ -266,29 +264,41 @@ docker-compose down
 - `GET /api/research/analytics` - Analytics avancées
 - `GET /api/research/export` - Export recherche
 
-### **Connecteurs Santé (`/api/health`)**
-- `GET /api/health/samsung` - Samsung Health
-- `GET /api/health/google` - Google Fit
-- `GET /api/health/ios` - Apple HealthKit
-- `POST /api/health/sync` - Synchronisation
-- `GET /api/health/status` - Statut connecteurs
+### **Connecteurs Santé (`/health`)**
+- `GET /health/connectors/status` - Statut de tous les connecteurs
+- `POST /health/samsung/sync` - Synchronisation Samsung Health
+- `POST /health/google/sync` - Synchronisation Google Fit
+- `POST /health/ios/sync` - Synchronisation iOS Health
+- `POST /health/sync/all` - Synchronisation de tous les connecteurs
+- `GET /health/data/activity` - Données d'activité unifiées
+- `GET /health/data/sleep` - Données de sommeil unifiées
+- `GET /health/data/stress` - Données de stress unifiées
+- `GET /health/data/health` - Données de santé unifiées
+- `GET /health/metrics/unified` - Métriques unifiées pour dashboard
+- `GET /health/config` - Configuration des connecteurs
+- `PUT /health/config` - Mettre à jour la configuration
 
 ### **Synchronisation CIA (`/api/sync`)**
-- `POST /api/sync/push` - Envoyer vers CIA
-- `POST /api/sync/pull` - Récupérer depuis CIA
-- `GET /api/sync/status` - Statut synchronisation
-- `POST /api/sync/reset` - Réinitialiser sync
+- `GET /api/sync/status` - Statut de la connexion CIA
+- `GET /api/sync/connection` - Détails de la connexion
+- `POST /api/sync/selective` - Synchronisation sélective
+- `GET /api/sync/psy-mode` - Mode présentation psy
+- `POST /api/sync/push-data` - Envoyer des données vers CIA
 
 ### **Audio/Voix (`/api/audio`)**
 - `POST /api/audio/transcribe` - Transcription
 - `POST /api/audio/analyze` - Analyse audio
 - `GET /api/audio/recordings` - Enregistrements
 
-### **Métriques (`/api/metrics`)**
-- `GET /api/metrics/system` - Métriques système
-- `GET /api/metrics/performance` - Métriques performance
-- `GET /api/metrics/health` - Métriques santé
-- `GET /api/metrics/export` - Export métriques
+### **Métriques (`/metrics`) - Optionnel (ARIA_ENABLE_METRICS=true)**
+- `GET /metrics` - Métriques complètes
+- `GET /metrics/health` - Statut de santé
+- `GET /metrics/dashboard` - Dashboard HTML
+- `GET /metrics/export/{format}` - Export (json, markdown, html, csv)
+- `POST /metrics/collect` - Collecte forcée
+- `GET /metrics/validate` - Validation des métriques
+- `GET /metrics/summary` - Résumé des métriques
+- `GET /metrics/alerts` - Alertes et recommandations
 
 ### **DevOps (`/api/devops`)**
 - `GET /api/devops/status` - Statut DevOps
@@ -487,8 +497,8 @@ journalctl -u aria -f
 # Vérifier l'état de l'API
 curl http://127.0.0.1:8001/health
 
-# Vérifier les métriques
-curl http://127.0.0.1:8001/api/metrics/system
+# Vérifier les métriques (nécessite ARIA_ENABLE_METRICS=true)
+curl http://127.0.0.1:8001/metrics
 
 # Vérifier les processus
 ps aux | grep python

@@ -1,23 +1,42 @@
 # 📚 Configuration GitHub Pages pour ARKALIA ARIA
 
-## ⚠️ Activation Requise
+## ⚠️ URGENT - Activation Requise
 
-Pour que le déploiement automatique de la documentation fonctionne, **GitHub Pages doit être activé** dans les paramètres du repository.
+**L'erreur 404 que vous voyez signifie que GitHub Pages n'est PAS encore activé.**
 
-## 🔧 Étapes d'Activation
+Pour que le déploiement automatique de la documentation fonctionne, **GitHub Pages DOIT être activé manuellement** dans les paramètres du repository. Cette action ne peut pas être faite via le code - elle doit être faite dans l'interface web de GitHub.
+
+## 🔧 Étapes d'Activation (À FAIRE MAINTENANT)
+
+### ⚡ Action Immédiate Requise
+
+**Vous devez activer GitHub Pages MAINTENANT pour que le workflow fonctionne.**
 
 ### 1. Accéder aux Paramètres
-1. Aller sur : https://github.com/arkalia-luna-system/Arkalia-aria/settings/pages
-2. Ou : Repository → **Settings** → **Pages** (dans le menu de gauche)
+1. **Ouvrir ce lien** : https://github.com/arkalia-luna-system/Arkalia-aria/settings/pages
+2. Ou manuellement :
+   - Aller sur le repository GitHub
+   - Cliquer sur **"Settings"** (en haut à droite)
+   - Dans le menu de gauche, cliquer sur **"Pages"**
 
-### 2. Configurer la Source
-- **Source** : Sélectionner **"GitHub Actions"** (pas "Deploy from a branch")
-- **Branch** : Laisser vide (géré par GitHub Actions)
-- Cliquer sur **"Save"**
+### 2. Configurer la Source (IMPORTANT)
+Dans la section **"Source"** :
+- **Sélectionner** : `GitHub Actions` (dans le menu déroulant)
+  - ⚠️ **NE PAS** sélectionner "Deploy from a branch"
+  - ⚠️ **NE PAS** sélectionner "None"
+- **Branch** : Laisser vide (géré automatiquement par GitHub Actions)
+- Cliquer sur **"Save"** (bouton vert)
 
 ### 3. Vérifier l'Activation
-- Un message de confirmation devrait apparaître
-- L'URL de la documentation sera : `https://arkalia-luna-system.github.io/Arkalia-aria/`
+Après avoir cliqué sur "Save" :
+- ✅ Un message de confirmation devrait apparaître : "Your site is ready to be published"
+- ✅ L'environment `github-pages` sera créé automatiquement
+- ✅ L'URL de la documentation sera : `https://arkalia-luna-system.github.io/Arkalia-aria/`
+
+### 4. Relancer le Workflow
+Une fois GitHub Pages activé :
+- Le prochain push sur `main` déclenchera automatiquement le workflow
+- Ou vous pouvez relancer manuellement le workflow dans l'onglet "Actions"
 
 ## 📋 Workflows Disponibles
 
@@ -39,9 +58,16 @@ Pour vérifier :
 
 ## 🐛 Dépannage
 
-### Erreur : "Not Found" (404)
-- **Cause** : GitHub Pages n'est pas activé
-- **Solution** : Suivre les étapes ci-dessus
+### ❌ Erreur : "Not Found" (404) - VOUS ÊTES ICI
+- **Cause** : GitHub Pages n'est **PAS activé** dans les paramètres
+- **Symptôme** : `HttpError: Not Found` dans les logs du workflow
+- **Solution IMMÉDIATE** :
+  1. Aller sur : https://github.com/arkalia-luna-system/Arkalia-aria/settings/pages
+  2. Sélectionner **"GitHub Actions"** dans "Source"
+  3. Cliquer sur **"Save"**
+  4. Attendre quelques secondes
+  5. Relancer le workflow ou faire un nouveau push sur `main`
+- **Vérification** : Après activation, l'erreur 404 disparaîtra
 
 ### Erreur : "Permission denied" (403)
 - **Cause** : Permissions insuffisantes

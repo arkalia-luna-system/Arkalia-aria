@@ -1,0 +1,32 @@
+# Fins de ligne automatiques pour tous les fichiers texte
+* text=auto
+
+# Fins de ligne Unix (LF) pour les fichiers Python
+*.py text eol=lf
+
+# Fins de ligne Unix (LF) pour les fichiers de configuration
+*.yml text eol=lf
+*.yaml text eol=lf
+*.toml text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.sh text eol=lf
+
+# Fins de ligne Windows (CRLF) pour les fichiers batch Windows
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binaires
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.otf binary
+

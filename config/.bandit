@@ -1,7 +1,7 @@
 [bandit]
 exclude_dirs = tests,__pycache__,.git,venv,arkalia_aria_venv,node_modules,.venv,build,dist,.tox,htmlcov,reports,metrics_reports
 skips = B101,B601,B603,B607,B608
-confidence = medium
-severity = medium
-format = json
-output = reports/bandit-report.json
+# confidence: 1=low, 2=medium, 3=high
+confidence = 2
+# severity: 1=low, 2=medium, 3=high
+severity = 2

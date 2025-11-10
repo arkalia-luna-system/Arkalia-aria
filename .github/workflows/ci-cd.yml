@@ -60,7 +60,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run security scan
-        run: python -m devops_automation.security.aria_security_validator
+        run: python -m devops_automation.security.aria_security_validator --audit-all
   build:
     runs-on: ubuntu-latest
     needs:

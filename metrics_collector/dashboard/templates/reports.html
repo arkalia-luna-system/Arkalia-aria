@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - ARKALIA ARIA</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/dashboard.js"></script>
+    <script src="/static/exports.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <i class="fas fa-heartbeat"></i>
+                    <h1>ARKALIA ARIA</h1>
+                    <span class="version">v1.0.0</span>
+                </div>
+                <nav class="main-nav">
+                    <a href="/dashboard" class="nav-item">
+                        <i class="fas fa-home"></i> Accueil
+                    </a>
+                    <a href="/dashboard/health" class="nav-item">
+                        <i class="fas fa-heart"></i> Santé
+                    </a>
+                    <a href="/dashboard/pain" class="nav-item">
+                        <i class="fas fa-exclamation-triangle"></i> Douleur
+                    </a>
+                    <a href="/dashboard/patterns" class="nav-item">
+                        <i class="fas fa-chart-line"></i> Patterns
+                    </a>
+                    <a href="/dashboard/reports" class="nav-item active">
+                        <i class="fas fa-file-alt"></i> Rapports
+                    </a>
+                </nav>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="generateReport()">
+                        <i class="fas fa-file-plus"></i> Générer Rapport
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Report Generator -->
+            <section class="report-generator">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-file-plus"></i> Générateur de Rapports</h3>
+                    </div>
+                    <div class="card-content">
+                        <form id="report-form" class="report-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="report-type">Type de Rapport</label>
+                                    <select id="report-type" onchange="updateReportOptions()">
+                                        <option value="comprehensive">Rapport Complet</option>
+                                        <option value="health">Rapport Santé</option>
+                                        <option value="pain">Rapport Douleur</option>
+                                        <option value="patterns">Rapport Patterns</option>
+                                        <option value="summary">Résumé Exécutif</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="report-period">Période</label>
+                                    <select id="report-period">
+                                        <option value="7">7 derniers jours</option>
+                                        <option value="30" selected>30 derniers jours</option>
+                                        <option value="90">90 derniers jours</option>
+                                        <option value="custom">Période personnalisée</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group" id="custom-period" style="display: none;">
+                                    <label for="start-date">Date de début</label>
+                                    <input type="date" id="start-date">
+                                </div>
+
+                                <div class="form-group" id="custom-period-end" style="display: none;">
+                                    <label for="end-date">Date de fin</label>
+                                    <input type="date" id="end-date">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="report-format">Format d'Export</label>
+                                    <select id="report-format">
+                                        <option value="pdf">PDF</option>
+                                        <option value="excel">Excel</option>
+                                        <option value="html">HTML</option>
+                                        <option value="json">JSON</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="report-language">Langue</label>
+                                    <select id="report-language">
+                                        <option value="fr" selected>Français</option>
+                                        <option value="en">English</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Options du Rapport</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="include-charts" checked>
+                                        <span class="checkmark"></span>
+                                        Inclure les graphiques
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="include-insights" checked>
+                                        <span class="checkmark"></span>
+                                        Inclure les insights
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="include-recommendations" checked>
+                                        <span class="checkmark"></span>
+                                        Inclure les recommandations
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="include-raw-data">
+                                        <span class="checkmark"></span>
+                                        Inclure les données brutes
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" onclick="previewReport()">
+                                    <i class="fas fa-eye"></i> Aperçu
+                                </button>
+                                <button type="button" class="btn btn-primary" onclick="generateReport()">
+                                    <i class="fas fa-download"></i> Générer et Télécharger
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Report Templates -->
+            <section class="report-templates">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-file-alt"></i> Modèles de Rapports</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="templates-grid">
+                            <div class="template-item" onclick="selectTemplate('comprehensive')">
+                                <div class="template-icon">
+                                    <i class="fas fa-file-medical"></i>
+                                </div>
+                                <div class="template-info">
+                                    <div class="template-title">Rapport Complet</div>
+                                    <div class="template-description">Analyse complète de tous les aspects santé</div>
+                                    <div class="template-duration">~5 min de génération</div>
+                                </div>
+                            </div>
+
+                            <div class="template-item" onclick="selectTemplate('health')">
+                                <div class="template-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div class="template-info">
+                                    <div class="template-title">Rapport Santé</div>
+                                    <div class="template-description">Focus sur les métriques de santé</div>
+                                    <div class="template-duration">~2 min de génération</div>
+                                </div>
+                            </div>
+
+                            <div class="template-item" onclick="selectTemplate('pain')">
+                                <div class="template-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="template-info">
+                                    <div class="template-title">Rapport Douleur</div>
+                                    <div class="template-description">Analyse détaillée de la douleur</div>
+                                    <div class="template-duration">~3 min de génération</div>
+                                </div>
+                            </div>
+
+                            <div class="template-item" onclick="selectTemplate('summary')">
+                                <div class="template-icon">
+                                    <i class="fas fa-chart-pie"></i>
+                                </div>
+                                <div class="template-info">
+                                    <div class="template-title">Résumé Exécutif</div>
+                                    <div class="template-description">Vue d'ensemble rapide</div>
+                                    <div class="template-duration">~1 min de génération</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Report History -->
+            <section class="report-history">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-history"></i> Historique des Rapports</h3>
+                        <button class="btn btn-secondary" onclick="refreshHistory()">
+                            <i class="fas fa-refresh"></i> Actualiser
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="history-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Période</th>
+                                        <th>Format</th>
+                                        <th>Taille</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="report-history-body">
+                                    <tr>
+                                        <td colspan="6" class="loading">Chargement de l'historique...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Report Statistics -->
+            <section class="report-statistics">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-bar"></i> Statistiques des Rapports</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-icon">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="total-reports">--</div>
+                                    <div class="stat-label">Rapports Générés</div>
+                                </div>
+                            </div>
+
+                            <div class="stat-item">
+                                <div class="stat-icon">
+                                    <i class="fas fa-download"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="total-downloads">--</div>
+                                    <div class="stat-label">Téléchargements</div>
+                                </div>
+                            </div>
+
+                            <div class="stat-item">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="avg-generation-time">--</div>
+                                    <div class="stat-label">Temps Moyen</div>
+                                </div>
+                            </div>
+
+                            <div class="stat-item">
+                                <div class="stat-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="last-report">--</div>
+                                    <div class="stat-label">Dernier Rapport</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Report Preview -->
+            <section class="report-preview" id="report-preview-section" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-eye"></i> Aperçu du Rapport</h3>
+                        <button class="btn btn-secondary" onclick="closePreview()">
+                            <i class="fas fa-times"></i> Fermer
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="preview-content" id="preview-content">
+                            <div class="preview-loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p>Génération de l'aperçu...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Report Generation Modal -->
+    <div class="modal" id="report-generation-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-cog fa-spin"></i> Génération du Rapport</h3>
+            </div>
+            <div class="modal-body">
+                <div class="generation-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="progress-text" id="progress-text">Initialisation...</div>
+                </div>
+                <div class="generation-steps">
+                    <div class="step active" id="step-1">
+                        <i class="fas fa-database"></i>
+                        <span>Collecte des données</span>
+                    </div>
+                    <div class="step" id="step-2">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analyse des patterns</span>
+                    </div>
+                    <div class="step" id="step-3">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>Génération des insights</span>
+                    </div>
+                    <div class="step" id="step-4">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Formatage du rapport</span>
+                    </div>
+                    <div class="step" id="step-5">
+                        <i class="fas fa-download"></i>
+                        <span>Finalisation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Initialisation de la page rapports
+        document.addEventListener('DOMContentLoaded', function () {
+            loadReportHistory();
+            loadReportStatistics();
+        });
+
+        function updateReportOptions() {
+            const reportType = document.getElementById('report-type').value;
+            const customPeriod = document.getElementById('custom-period');
+            const customPeriodEnd = document.getElementById('custom-period-end');
+
+            if (reportType === 'custom') {
+                customPeriod.style.display = 'block';
+                customPeriodEnd.style.display = 'block';
+            } else {
+                customPeriod.style.display = 'none';
+                customPeriodEnd.style.display = 'none';
+            }
+        }
+
+        function selectTemplate(templateType) {
+            document.getElementById('report-type').value = templateType;
+            updateReportOptions();
+
+            // Mettre en surbrillance le template sélectionné
+            document.querySelectorAll('.template-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+        }
+
+        function generateReport() {
+            const formData = {
+                type: document.getElementById('report-type').value,
+                period: document.getElementById('report-period').value,
+                format: document.getElementById('report-format').value,
+                language: document.getElementById('report-language').value,
+                options: {
+                    includeCharts: document.getElementById('include-charts').checked,
+                    includeInsights: document.getElementById('include-insights').checked,
+                    includeRecommendations: document.getElementById('include-recommendations').checked,
+                    includeRawData: document.getElementById('include-raw-data').checked
+                }
+            };
+
+            // Afficher le modal de génération
+            showGenerationModal();
+
+            // Simuler la génération du rapport
+            simulateReportGeneration(formData);
+        }
+
+        function simulateReportGeneration(formData) {
+            const steps = ['step-1', 'step-2', 'step-3', 'step-4', 'step-5'];
+            const stepTexts = [
+                'Collecte des données...',
+                'Analyse des patterns...',
+                'Génération des insights...',
+                'Formatage du rapport...',
+                'Finalisation...'
+            ];
+
+            let currentStep = 0;
+            const interval = setInterval(() => {
+                if (currentStep < steps.length) {
+                    // Mettre à jour la barre de progression
+                    const progress = ((currentStep + 1) / steps.length) * 100;
+                    document.getElementById('progress-fill').style.width = progress + '%';
+                    document.getElementById('progress-text').textContent = stepTexts[currentStep];
+
+                    // Activer l'étape courante
+                    document.getElementById(steps[currentStep]).classList.add('active');
+
+                    currentStep++;
+                } else {
+                    clearInterval(interval);
+
+                    // Génération terminée
+                    setTimeout(() => {
+                        hideGenerationModal();
+                        downloadReport(formData);
+                    }, 1000);
+                }
+            }, 1000);
+        }
+
+        function downloadReport(formData) {
+            showLoading();
+
+            fetch('/dashboard/export/pdf', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    hideLoading();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `aria-report-${formData.type}-${new Date().toISOString().split('T')[0]}.${formData.format}`;
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+
+                    showNotification('Rapport généré avec succès', 'success');
+                    loadReportHistory();
+                    loadReportStatistics();
+                })
+                .catch(error => {
+                    hideLoading();
+                    showNotification('Erreur lors de la génération', 'error');
+                    console.error('Error:', error);
+                });
+        }
+
+        function previewReport() {
+            const formData = {
+                type: document.getElementById('report-type').value,
+                period: document.getElementById('report-period').value,
+                format: 'html',
+                language: document.getElementById('report-language').value,
+                options: {
+                    includeCharts: document.getElementById('include-charts').checked,
+                    includeInsights: document.getElementById('include-insights').checked,
+                    includeRecommendations: document.getElementById('include-recommendations').checked,
+                    includeRawData: document.getElementById('include-raw-data').checked
+                }
+            };
+
+            document.getElementById('report-preview-section').style.display = 'block';
+            document.getElementById('preview-content').innerHTML = `
+                <div class="preview-loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Génération de l'aperçu...</p>
+                </div>
+            `;
+
+            fetch('/dashboard/preview', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('preview-content').innerHTML = html;
+                })
+                .catch(error => {
+                    document.getElementById('preview-content').innerHTML = `
+                    <div class="preview-error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Erreur lors de la génération de l'aperçu</p>
+                    </div>
+                `;
+                    console.error('Error:', error);
+                });
+        }
+
+        function closePreview() {
+            document.getElementById('report-preview-section').style.display = 'none';
+        }
+
+        function loadReportHistory() {
+            // Simuler le chargement de l'historique
+            const historyData = [
+                {
+                    date: '2025-01-27',
+                    type: 'Rapport Complet',
+                    period: '30 jours',
+                    format: 'PDF',
+                    size: '2.3 MB'
+                },
+                {
+                    date: '2025-01-25',
+                    type: 'Rapport Santé',
+                    period: '7 jours',
+                    format: 'Excel',
+                    size: '1.1 MB'
+                },
+                {
+                    date: '2025-01-23',
+                    type: 'Rapport Douleur',
+                    period: '30 jours',
+                    format: 'PDF',
+                    size: '1.8 MB'
+                }
+            ];
+
+            const tbody = document.getElementById('report-history-body');
+            tbody.innerHTML = '';
+
+            historyData.forEach(report => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${report.date}</td>
+                    <td>${report.type}</td>
+                    <td>${report.period}</td>
+                    <td>${report.format}</td>
+                    <td>${report.size}</td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary" onclick="downloadReport('${report.date}')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteReport('${report.date}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function loadReportStatistics() {
+            // Simuler les statistiques
+            document.getElementById('total-reports').textContent = '12';
+            document.getElementById('total-downloads').textContent = '28';
+            document.getElementById('avg-generation-time').textContent = '2.3 min';
+            document.getElementById('last-report').textContent = '2025-01-27';
+        }
+
+        function refreshHistory() {
+            loadReportHistory();
+        }
+
+        function showGenerationModal() {
+            document.getElementById('report-generation-modal').style.display = 'flex';
+
+            // Réinitialiser la progression
+            document.getElementById('progress-fill').style.width = '0%';
+            document.getElementById('progress-text').textContent = 'Initialisation...';
+
+            // Réinitialiser les étapes
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+        }
+
+        function hideGenerationModal() {
+            document.getElementById('report-generation-modal').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - ARKALIA ARIA</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/dashboard.js"></script>
+    <script src="/static/charts.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <i class="fas fa-heartbeat"></i>
+                    <h1>ARKALIA ARIA</h1>
+                    <span class="version">v1.0.0</span>
+                </div>
+                <nav class="main-nav">
+                    <a href="/dashboard" class="nav-item">
+                        <i class="fas fa-home"></i> Accueil
+                    </a>
+                    <a href="/dashboard/health" class="nav-item active">
+                        <i class="fas fa-heart"></i> Santé
+                    </a>
+                    <a href="/dashboard/pain" class="nav-item">
+                        <i class="fas fa-exclamation-triangle"></i> Douleur
+                    </a>
+                    <a href="/dashboard/patterns" class="nav-item">
+                        <i class="fas fa-chart-line"></i> Patterns
+                    </a>
+                    <a href="/dashboard/reports" class="nav-item">
+                        <i class="fas fa-file-alt"></i> Rapports
+                    </a>
+                </nav>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="syncHealthData()">
+                        <i class="fas fa-sync"></i> Synchroniser Santé
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Health Overview -->
+            <section class="health-overview">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-heart"></i> Vue d'ensemble Santé</h3>
+                        <div class="period-selector">
+                            <select id="health-period" onchange="updateHealthCharts()">
+                                <option value="7">7 derniers jours</option>
+                                <option value="30" selected>30 derniers jours</option>
+                                <option value="90">90 derniers jours</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="health-metrics-grid">
+                            <div class="health-metric">
+                                <div class="metric-icon">
+                                    <i class="fas fa-heartbeat"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <div class="metric-value" id="avg-heart-rate-health">--</div>
+                                    <div class="metric-label">Fréquence Cardiaque Moyenne</div>
+                                    <div class="metric-unit">BPM</div>
+                                </div>
+                            </div>
+                            <div class="health-metric">
+                                <div class="metric-icon">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <div class="metric-value" id="avg-hrv">--</div>
+                                    <div class="metric-label">Variabilité Cardiaque</div>
+                                    <div class="metric-unit">ms</div>
+                                </div>
+                            </div>
+                            <div class="health-metric">
+                                <div class="metric-icon">
+                                    <i class="fas fa-weight"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <div class="metric-value" id="current-weight">--</div>
+                                    <div class="metric-label">Poids Actuel</div>
+                                    <div class="metric-unit">kg</div>
+                                </div>
+                            </div>
+                            <div class="health-metric">
+                                <div class="metric-icon">
+                                    <i class="fas fa-thermometer-half"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <div class="metric-value" id="blood-pressure">--</div>
+                                    <div class="metric-label">Pression Artérielle</div>
+                                    <div class="metric-unit">mmHg</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Health Charts -->
+            <section class="health-charts">
+                <div class="chart-row">
+                    <div class="chart-container">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-line"></i> Fréquence Cardiaque</h3>
+                            </div>
+                            <div class="card-content">
+                                <canvas id="heartRateChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-area"></i> Variabilité Cardiaque</h3>
+                            </div>
+                            <div class="card-content">
+                                <canvas id="hrvChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-row">
+                    <div class="chart-container">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-bar"></i> Évolution du Poids</h3>
+                            </div>
+                            <div class="card-content">
+                                <canvas id="weightChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-pie"></i> Répartition des Sources</h3>
+                            </div>
+                            <div class="card-content">
+                                <canvas id="sourcesChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Health Data Tables -->
+            <section class="health-data-tables">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-table"></i> Données de Santé Détaillées</h3>
+                        <div class="table-controls">
+                            <button class="btn btn-secondary" onclick="exportHealthData()">
+                                <i class="fas fa-download"></i> Exporter
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="table-tabs">
+                            <button class="tab-btn active" onclick="showHealthTab('activity')">
+                                <i class="fas fa-running"></i> Activité
+                            </button>
+                            <button class="tab-btn" onclick="showHealthTab('sleep')">
+                                <i class="fas fa-bed"></i> Sommeil
+                            </button>
+                            <button class="tab-btn" onclick="showHealthTab('stress')">
+                                <i class="fas fa-brain"></i> Stress
+                            </button>
+                            <button class="tab-btn" onclick="showHealthTab('health')">
+                                <i class="fas fa-heart"></i> Santé
+                            </button>
+                        </div>
+
+                        <div class="table-content">
+                            <div id="activity-table" class="data-table active">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Pas</th>
+                                            <th>Calories</th>
+                                            <th>Distance</th>
+                                            <th>FC Moyenne</th>
+                                            <th>Source</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="activity-table-body">
+                                        <tr>
+                                            <td colspan="6" class="loading">Chargement des données...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div id="sleep-table" class="data-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Début</th>
+                                            <th>Fin</th>
+                                            <th>Durée</th>
+                                            <th>Qualité</th>
+                                            <th>Réveils</th>
+                                            <th>Source</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="sleep-table-body">
+                                        <tr>
+                                            <td colspan="7" class="loading">Chargement des données...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div id="stress-table" class="data-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Date/Heure</th>
+                                            <th>Niveau Stress</th>
+                                            <th>HRV</th>
+                                            <th>FC Repos</th>
+                                            <th>Source</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="stress-table-body">
+                                        <tr>
+                                            <td colspan="5" class="loading">Chargement des données...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div id="health-table" class="data-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Poids</th>
+                                            <th>IMC</th>
+                                            <th>Pression Systolique</th>
+                                            <th>Pression Diastolique</th>
+                                            <th>Glycémie</th>
+                                            <th>Source</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="health-table-body">
+                                        <tr>
+                                            <td colspan="7" class="loading">Chargement des données...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Health Alerts -->
+            <section class="health-alerts">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Alertes Santé</h3>
+                        <button class="btn btn-secondary" onclick="refreshAlerts()">
+                            <i class="fas fa-refresh"></i> Actualiser
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="alerts-list" id="health-alerts-list">
+                            <div class="alert-item">
+                                <div class="alert-icon">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <div class="alert-content">
+                                    <div class="alert-title">Analyse des données en cours...</div>
+                                    <div class="alert-description">Les alertes seront disponibles après la
+                                        synchronisation</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Initialisation de la page santé
+        document.addEventListener('DOMContentLoaded', function () {
+            loadHealthData();
+            updateHealthCharts();
+            loadHealthTables();
+        });
+
+        function syncHealthData() {
+            showLoading();
+            fetch('/api/health/sync/all', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ days_back: 30 })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    hideLoading();
+                    if (data.status === 'success') {
+                        showNotification('Synchronisation santé réussie', 'success');
+                        loadHealthData();
+                        updateHealthCharts();
+                        loadHealthTables();
+                    } else {
+                        showNotification('Erreur de synchronisation', 'error');
+                    }
+                })
+                .catch(error => {
+                    hideLoading();
+                    showNotification('Erreur de connexion', 'error');
+                    console.error('Error:', error);
+                });
+        }
+
+        function loadHealthData() {
+            fetch('/api/health/metrics/unified?days_back=30')
+                .then(response => response.json())
+                .then(data => {
+                    updateHealthMetrics(data);
+                })
+                .catch(error => {
+                    console.error('Error loading health data:', error);
+                });
+        }
+
+        function updateHealthMetrics(data) {
+            // Mettre à jour les métriques principales
+            document.getElementById('avg-heart-rate-health').textContent =
+                data.activity?.avg_heart_rate || '--';
+            document.getElementById('avg-hrv').textContent =
+                data.stress?.avg_hrv || '--';
+
+            // Poids et pression (à implémenter selon les données disponibles)
+            document.getElementById('current-weight').textContent = '--';
+            document.getElementById('blood-pressure').textContent = '--';
+        }
+
+        function updateHealthCharts() {
+            const period = document.getElementById('health-period').value;
+
+            // Charger les données pour les graphiques
+            Promise.all([
+                fetch(`/api/health/data/activity?days_back=${period}`).then(r => r.json()),
+                fetch(`/api/health/data/stress?days_back=${period}`).then(r => r.json()),
+                fetch(`/api/health/data/health?days_back=${period}`).then(r => r.json())
+            ])
+                .then(([activityData, stressData, healthData]) => {
+                    updateHeartRateChart(activityData);
+                    updateHRVChart(stressData);
+                    updateWeightChart(healthData);
+                    updateSourcesChart([activityData, stressData, healthData]);
+                })
+                .catch(error => {
+                    console.error('Error loading chart data:', error);
+                });
+        }
+
+        function updateHeartRateChart(data) {
+            const ctx = document.getElementById('heartRateChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.map(d => new Date(d.timestamp).toLocaleDateString()),
+                    datasets: [{
+                        label: 'Fréquence Cardiaque',
+                        data: data.map(d => d.heart_rate_bpm || 0),
+                        borderColor: '#e74c3c',
+                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 50,
+                            max: 120
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateHRVChart(data) {
+            const ctx = document.getElementById('hrvChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.map(d => new Date(d.timestamp).toLocaleDateString()),
+                    datasets: [{
+                        label: 'Variabilité Cardiaque',
+                        data: data.map(d => d.heart_rate_variability || 0),
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateWeightChart(data) {
+            const ctx = document.getElementById('weightChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.map(d => new Date(d.timestamp).toLocaleDateString()),
+                    datasets: [{
+                        label: 'Poids (kg)',
+                        data: data.map(d => d.weight_kg || 0),
+                        borderColor: '#2ecc71',
+                        backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateSourcesChart(dataArrays) {
+            const sources = {};
+            dataArrays.forEach(data => {
+                data.forEach(item => {
+                    sources[item.source] = (sources[item.source] || 0) + 1;
+                });
+            });
+
+            const ctx = document.getElementById('sourcesChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(sources),
+                    datasets: [{
+                        data: Object.values(sources),
+                        backgroundColor: [
+                            '#e74c3c',
+                            '#3498db',
+                            '#2ecc71',
+                            '#f39c12'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        function showHealthTab(tabName) {
+            // Masquer tous les onglets
+            document.querySelectorAll('.data-table').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Afficher l'onglet sélectionné
+            document.getElementById(`${tabName}-table`).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function loadHealthTables() {
+            // Charger les données pour chaque tableau
+            loadTableData('activity', '/api/health/data/activity');
+            loadTableData('sleep', '/api/health/data/sleep');
+            loadTableData('stress', '/api/health/data/stress');
+            loadTableData('health', '/api/health/data/health');
+        }
+
+        function loadTableData(tableType, endpoint) {
+            fetch(`${endpoint}?days_back=30`)
+                .then(response => response.json())
+                .then(data => {
+                    updateTableBody(`${tableType}-table-body`, data, tableType);
+                })
+                .catch(error => {
+                    console.error(`Error loading ${tableType} data:`, error);
+                });
+        }
+
+        function updateTableBody(tableBodyId, data, tableType) {
+            const tbody = document.getElementById(tableBodyId);
+            tbody.innerHTML = '';
+
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" class="no-data">Aucune donnée disponible</td></tr>';
+                return;
+            }
+
+            data.slice(0, 50).forEach(item => { // Limiter à 50 entrées
+                const row = document.createElement('tr');
+
+                switch (tableType) {
+                    case 'activity':
+                        row.innerHTML = `
+                            <td>${new Date(item.timestamp).toLocaleDateString()}</td>
+                            <td>${item.steps || '--'}</td>
+                            <td>${item.calories_burned || '--'}</td>
+                            <td>${item.distance_meters ? (item.distance_meters / 1000).toFixed(2) + ' km' : '--'}</td>
+                            <td>${item.heart_rate_bpm || '--'}</td>
+                            <td><span class="source-badge source-${item.source}">${item.source}</span></td>
+                        `;
+                        break;
+                    case 'sleep':
+                        row.innerHTML = `
+                            <td>${new Date(item.sleep_start).toLocaleDateString()}</td>
+                            <td>${new Date(item.sleep_start).toLocaleTimeString()}</td>
+                            <td>${new Date(item.sleep_end).toLocaleTimeString()}</td>
+                            <td>${Math.floor(item.duration_minutes / 60)}h${item.duration_minutes % 60}m</td>
+                            <td>${item.quality_score ? (item.quality_score * 100).toFixed(0) + '%' : '--'}</td>
+                            <td>${item.awakenings_count || '--'}</td>
+                            <td><span class="source-badge source-${item.source}">${item.source}</span></td>
+                        `;
+                        break;
+                    case 'stress':
+                        row.innerHTML = `
+                            <td>${new Date(item.timestamp).toLocaleString()}</td>
+                            <td>${item.stress_level}</td>
+                            <td>${item.heart_rate_variability || '--'}</td>
+                            <td>${item.resting_heart_rate || '--'}</td>
+                            <td><span class="source-badge source-${item.source}">${item.source}</span></td>
+                        `;
+                        break;
+                    case 'health':
+                        row.innerHTML = `
+                            <td>${new Date(item.timestamp).toLocaleDateString()}</td>
+                            <td>${item.weight_kg || '--'}</td>
+                            <td>${item.bmi || '--'}</td>
+                            <td>${item.blood_pressure_systolic || '--'}</td>
+                            <td>${item.blood_pressure_diastolic || '--'}</td>
+                            <td>${item.blood_glucose || '--'}</td>
+                            <td><span class="source-badge source-${item.source}">${item.source}</span></td>
+                        `;
+                        break;
+                }
+
+                tbody.appendChild(row);
+            });
+        }
+
+        function exportHealthData() {
+            showLoading();
+            fetch('/dashboard/export/excel', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ data_type: 'health' })
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    hideLoading();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `aria-health-data-${new Date().toISOString().split('T')[0]}.xlsx`;
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                    hideLoading();
+                    showNotification('Erreur d\'export', 'error');
+                    console.error('Error:', error);
+                });
+        }
+
+        function refreshAlerts() {
+            // Implémenter la logique des alertes santé
+            console.log('Refreshing health alerts...');
+        }
+    </script>
+</body>
+
+</html>

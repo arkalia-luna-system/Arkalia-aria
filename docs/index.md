@@ -155,6 +155,49 @@ mkdocs gh-deploy
 - [ ] **Intégrations** : Connexion avec d'autres outils de santé
 - [ ] **Analytics** : Métriques de performance et d'usage
 
+### 🎯 **Plan d'Action Détaillé**
+- [Plan d'Action Complet](ACTION_PLAN.md) - Roadmap détaillée avec échéances
+- [Workflow Solo](SOLO_WORKFLOW.md) - Guide pour travailler seul
+- [TODO Simple](TODO_SIMPLE.md) - Liste des tâches à faire
+- [Statut Projet](PROJECT_STATUS.md) - État actuel et priorités
+- [Checklist RGPD](SECURITY_RGPD_CHECKLIST.md) - Conformité et sécurité
+- [📄 Mentions Légales](LEGAL_MENTIONS.md) - Informations légales de l'entreprise
+- [🔒 Politique de Confidentialité](PRIVACY_POLICY.md) - Protection des données personnelles
+- [📋 Conditions d'Utilisation](TERMS_OF_USE.md) - CGU de l'application
+- [🍪 Politique de Cookies](COOKIES_POLICY.md) - Gestion des cookies
+- [👤 Contact DPO](DPO_CONTACT.md) - Délégué à la Protection des Données
+
+### 🔧 **Référence Technique**
+- [Référence Technique](TECHNICAL_REFERENCE.md) - Guide technique complet
+- [Guide Développeur](DEVELOPER_GUIDE.md) - Guide pour développeurs
+- [Référence API](API_REFERENCE.md) - Documentation API complète
+
+### ✅ **Validation & Qualité**
+- [Checklist de Validation](VALIDATION_CHECKLIST.md) - Validation complète
+- [Statut Modules](MODULE_STATUS.md) - État des modules
+- [**Résumé Accomplissements**](ACCOMPLISHMENTS_SUMMARY.md) - 🎉 **Mission accomplie !**
+- [Guide Mobile](MOBILE_APP.md) - Documentation mobile
+
+### 🤖 **Migration & Support**
+- [Guide Migration IA](AI_MIGRATION_GUIDE.md) - Guide pour nouvelles IA
+- [Guide Utilisateur](USER_GUIDE.md) - Guide utilisateur final
+- [Exemples](EXAMPLES.md) - Exemples d'utilisation
+
+### 📋 **Résumé & Vue d'Ensemble**
+- [Mission Accomplie](MISSION_ACCOMPLISHED.md) - 🎉 Mission accomplie avec succès !
+- [Documentation Complète](DOCUMENTATION_COMPLETE.md) - Guide complet pour IA
+- [Résumé Final](FINAL_SUMMARY.md) - Résumé complet de la mission
+- [Résumé Accomplissements](ACCOMPLISHMENTS_SUMMARY.md) - Ce qui a été fait
+- [Résumé Projet](PROJECT_SUMMARY.md) - Vue d'ensemble complète
+- [Statut Projet](PROJECT_STATUS.md) - État actuel et priorités
+- [Plan d'Amélioration](PLAN_AMELIORATION_ARKALIA_ARIA.md) - Plan d'amélioration
+
+### ⚡ **Commandes & Références**
+- [Commandes Rapides](QUICK_COMMANDS.md) - Commandes essentielles
+- [Guide Configuration](CONFIGURATION_GUIDE.md) - Configuration complète
+- [Référence API](API_REFERENCE.md) - Documentation API complète
+- [Guide Utilisateur](USER_GUIDE.md) - Guide utilisateur final
+
 ## 🤝 Contribution
 
 ARKALIA ARIA est un projet open source. Nous accueillons les contributions !

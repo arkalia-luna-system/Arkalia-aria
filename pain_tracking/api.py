@@ -4,45 +4,31 @@ Pain Tracking API - Module de suivi de la douleur ARIA
 
 from __future__ import annotations
 
-import os
-import sqlite3
 from datetime import datetime
 from typing import Any, TypedDict
 
-from fastapi import APIRouter
+from fastapi import HTTPException
 from pydantic import BaseModel, Field
 
-router = APIRouter()
+from core import BaseAPI
 
-DB_FILENAME = "aria_pain.db"
+# Créer l'API de base
+api = BaseAPI(
+    prefix="",  # Pas de préfixe ici, il sera ajouté dans main.py
+    tags=["Pain Tracking"],
+    description="API de suivi de la douleur ARIA",
+)
 
-
-def _db_path() -> str:
-    # Permettre de configurer l'emplacement via variable d'environnement
-    env_path = os.getenv("ARIA_DB_PATH")
-    if env_path:
-        return env_path
-    # Par défaut, placer la base dans le répertoire data/ à la racine du projet si disponible
-    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-    data_dir = os.path.join(project_root, "data")
-    try:
-        os.makedirs(data_dir, exist_ok=True)
-        return os.path.join(data_dir, DB_FILENAME)
-    except Exception:
-        # Fallback: stockage local au module
-        return os.path.join(os.path.dirname(__file__), DB_FILENAME)
-
-
-def _get_conn() -> sqlite3.Connection:
-    conn = sqlite3.connect(_db_path())
-    conn.row_factory = sqlite3.Row
-    return conn
+router = api.get_router()
+logger = api.logger
+db = api.db
 
 
 def _init_tables() -> None:
-    conn = _get_conn()
+    """Initialise les tables de la base de données."""
     try:
-        conn.execute(
+        # Créer la table pain_entries
+        db.execute_update(
             """
             CREATE TABLE IF NOT EXISTS pain_entries (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -59,22 +45,23 @@ def _init_tables() -> None:
             )
             """
         )
-        conn.commit()
-    finally:
-        conn.close()
+        logger.info("✅ Tables pain_entries initialisées")
+    except Exception as e:
+        logger.error(f"❌ Erreur initialisation tables: {e}")
+        raise
 
 
-def _fetch_all_entries() -> list[sqlite3.Row]:
+def _fetch_all_entries() -> list[dict]:
     """Récupère toutes les entrées triées par date (récentes d'abord)."""
     _init_tables()
-    conn = _get_conn()
     try:
-        rows = conn.execute(
+        rows = db.execute_query(
             "SELECT * FROM pain_entries ORDER BY timestamp DESC, id DESC"
-        ).fetchall()
-        return rows
-    finally:
-        conn.close()
+        )
+        return [dict(row) for row in rows]
+    except Exception as e:
+        logger.error(f"❌ Erreur récupération entrées: {e}")
+        raise
 
 
 class ActionEff(TypedDict):
@@ -83,7 +70,7 @@ class ActionEff(TypedDict):
     samples: int
 
 
-def _compute_basic_stats(rows: list[sqlite3.Row]) -> dict[str, Any]:
+def _compute_basic_stats(rows: list[dict]) -> dict[str, Any]:
     """Calcule des statistiques simples utiles pour rapport et suggestions."""
     if not rows:
         return {
@@ -207,9 +194,9 @@ async def create_quick_entry(entry: QuickEntry) -> PainEntryOut:
     _init_tables()
     ts = datetime.now().isoformat()
 
-    conn = _get_conn()
     try:
-        cur = conn.execute(
+        # Insérer l'entrée
+        db.execute_update(
             """
             INSERT INTO pain_entries (
                 timestamp, intensity, physical_trigger, action_taken
@@ -217,15 +204,19 @@ async def create_quick_entry(entry: QuickEntry) -> PainEntryOut:
             """,
             (ts, int(entry.intensity), entry.physical_trigger, entry.action_taken),
         )
-        conn.commit()
-        new_id = cur.lastrowid
-        row = conn.execute(
-            "SELECT * FROM pain_entries WHERE id = ?", (new_id,)
-        ).fetchone()
-        assert row is not None
-        return PainEntryOut(**dict(row))
-    finally:
-        conn.close()
+
+        # Récupérer l'entrée créée
+        rows = db.execute_query("SELECT * FROM pain_entries ORDER BY id DESC LIMIT 1")
+        if not rows:
+            raise HTTPException(
+                status_code=500, detail="Erreur lors de la création de l'entrée"
+            )
+
+        logger.info(f"✅ Entrée rapide créée: intensité {entry.intensity}")
+        return PainEntryOut(**dict(rows[0]))
+    except Exception as e:
+        logger.error(f"❌ Erreur création entrée rapide: {e}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
 
 
 @router.post("/entry", response_model=PainEntryOut)
@@ -234,9 +225,9 @@ async def create_pain_entry(entry: PainEntryIn) -> PainEntryOut:
     _init_tables()
     ts = entry.timestamp or datetime.now().isoformat()
 
-    conn = _get_conn()
     try:
-        cur = conn.execute(
+        # Insérer l'entrée détaillée
+        db.execute_update(
             """
             INSERT INTO pain_entries (
                 timestamp, intensity, physical_trigger, mental_trigger, activity,
@@ -255,44 +246,50 @@ async def create_pain_entry(entry: PainEntryIn) -> PainEntryOut:
                 entry.notes,
             ),
         )
-        conn.commit()
-        new_id = cur.lastrowid
-        row = conn.execute(
-            "SELECT * FROM pain_entries WHERE id = ?", (new_id,)
-        ).fetchone()
-        assert row is not None
-        return PainEntryOut(**dict(row))
-    finally:
-        conn.close()
+
+        # Récupérer l'entrée créée
+        rows = db.execute_query("SELECT * FROM pain_entries ORDER BY id DESC LIMIT 1")
+        if not rows:
+            raise HTTPException(
+                status_code=500, detail="Erreur lors de la création de l'entrée"
+            )
+
+        logger.info(f"✅ Entrée détaillée créée: intensité {entry.intensity}")
+        return PainEntryOut(**dict(rows[0]))
+    except Exception as e:
+        logger.error(f"❌ Erreur création entrée détaillée: {e}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
 
 
 @router.get("/entries", response_model=list[PainEntryOut])
 async def list_pain_entries() -> list[PainEntryOut]:
     """Liste toutes les entrées de douleur"""
     _init_tables()
-    conn = _get_conn()
     try:
-        rows = conn.execute(
+        rows = db.execute_query(
             "SELECT * FROM pain_entries ORDER BY timestamp DESC, id DESC"
-        ).fetchall()
-        return [PainEntryOut(**dict(r)) for r in rows]
-    finally:
-        conn.close()
+        )
+        logger.info(f"📋 {len(rows)} entrées récupérées")
+        return [PainEntryOut(**dict(row)) for row in rows]
+    except Exception as e:
+        logger.error(f"❌ Erreur récupération entrées: {e}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
 
 
 @router.get("/entries/recent", response_model=list[PainEntryOut])
 async def list_recent(limit: int = 20) -> list[PainEntryOut]:
     """Liste les entrées récentes"""
     _init_tables()
-    conn = _get_conn()
     try:
-        rows = conn.execute(
+        rows = db.execute_query(
             "SELECT * FROM pain_entries ORDER BY timestamp DESC, id DESC LIMIT ?",
             (limit,),
-        ).fetchall()
-        return [PainEntryOut(**dict(r)) for r in rows]
-    finally:
-        conn.close()
+        )
+        logger.info(f"📋 {len(rows)} entrées récentes récupérées")
+        return [PainEntryOut(**dict(row)) for row in rows]
+    except Exception as e:
+        logger.error(f"❌ Erreur récupération entrées récentes: {e}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
 
 
 @router.get("/export/psy-report")
@@ -501,11 +498,8 @@ async def pain_suggestions(window: int = 30) -> dict[str, Any]:
 async def export_csv():
     """Export CSV pour professionnels de santé"""
     _init_tables()
-    conn = _get_conn()
     try:
-        rows = conn.execute(
-            "SELECT * FROM pain_entries ORDER BY timestamp DESC"
-        ).fetchall()
+        rows = db.execute_query("SELECT * FROM pain_entries ORDER BY timestamp DESC")
 
         # Génération CSV simple
         csv_content = "Date,Heure,Intensité,Déclencheur Physique,Déclencheur Mental,Activité,Localisation,Action,Efficacité,Notes\n"
@@ -515,10 +509,122 @@ async def export_csv():
             date, time = timestamp.split("T") if "T" in timestamp else (timestamp, "")
             csv_content += f"{date},{time},{row['intensity']},{row['physical_trigger'] or ''},{row['mental_trigger'] or ''},{row['activity'] or ''},{row['location'] or ''},{row['action_taken'] or ''},{row['effectiveness'] or ''},{row['notes'] or ''}\n"
 
+        logger.info(f"📊 Export CSV généré: {len(rows)} entrées")
         return {
             "content": csv_content,
             "filename": f"pain_export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
             "entries_count": len(rows),
         }
-    finally:
-        conn.close()
+    except Exception as e:
+        logger.error(f"❌ Erreur export CSV: {e}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
+
+
+@router.get("/export/pdf")
+async def export_pdf():
+    """Export PDF pour professionnels de santé"""
+    _init_tables()
+    try:
+        rows = db.execute_query("SELECT * FROM pain_entries ORDER BY timestamp DESC")
+
+        # Génération PDF simple (format texte)
+        pdf_content = f"""RAPPORT DE DOULEUR - ARKALIA ARIA
+Date d'export: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}
+Nombre d'entrées: {len(rows)}
+
+"""
+
+        # En-têtes
+        pdf_content += "DATE\tHEURE\tINTENSITÉ\tDÉCLENCHEUR PHYSIQUE\tDÉCLENCHEUR MENTAL\tACTIVITÉ\tLOCALISATION\tACTION\tEFFICACITÉ\tNOTES\n"
+        pdf_content += "-" * 120 + "\n"
+
+        # Données
+        for row in rows:
+            timestamp = row["timestamp"]
+            date, time = timestamp.split("T") if "T" in timestamp else (timestamp, "")
+            pdf_content += f"{date}\t{time}\t{row['intensity']}\t{row['physical_trigger'] or ''}\t{row['mental_trigger'] or ''}\t{row['activity'] or ''}\t{row['location'] or ''}\t{row['action_taken'] or ''}\t{row['effectiveness'] or ''}\t{row['notes'] or ''}\n"
+
+        logger.info(f"📄 Export PDF généré: {len(rows)} entrées")
+        return {
+            "content": pdf_content,
+            "filename": f"pain_export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf",
+            "entries_count": len(rows),
+        }
+    except Exception as e:
+        logger.error(f"❌ Erreur export PDF: {e}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
+
+
+@router.get("/export/excel")
+async def export_excel():
+    """Export Excel pour professionnels de santé"""
+    _init_tables()
+    try:
+        rows = db.execute_query("SELECT * FROM pain_entries ORDER BY timestamp DESC")
+
+        # Génération Excel (format CSV avec séparateur tab)
+        excel_content = "Date\tHeure\tIntensité\tDéclencheur Physique\tDéclencheur Mental\tActivité\tLocalisation\tAction\tEfficacité\tNotes\n"
+
+        for row in rows:
+            timestamp = row["timestamp"]
+            date, time = timestamp.split("T") if "T" in timestamp else (timestamp, "")
+            excel_content += f"{date}\t{time}\t{row['intensity']}\t{row['physical_trigger'] or ''}\t{row['mental_trigger'] or ''}\t{row['activity'] or ''}\t{row['location'] or ''}\t{row['action_taken'] or ''}\t{row['effectiveness'] or ''}\t{row['notes'] or ''}\n"
+
+        logger.info(f"📊 Export Excel généré: {len(rows)} entrées")
+        return {
+            "content": excel_content,
+            "filename": f"pain_export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
+            "entries_count": len(rows),
+        }
+    except Exception as e:
+        logger.error(f"❌ Erreur export Excel: {e}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
+
+
+@router.delete("/entries/{entry_id}")
+async def delete_pain_entry(entry_id: int):
+    """Supprime une entrée de douleur (RGPD - Droit à l'oubli)"""
+    _init_tables()
+    try:
+        # Vérifier que l'entrée existe
+        existing = db.execute_query(
+            "SELECT id FROM pain_entries WHERE id = ?", (entry_id,)
+        )
+        if not existing:
+            raise HTTPException(status_code=404, detail="Entrée non trouvée")
+
+        # Supprimer l'entrée
+        db.execute_query("DELETE FROM pain_entries WHERE id = ?", (entry_id,))
+
+        logger.info(f"🗑️ Entrée {entry_id} supprimée (RGPD)")
+        return {
+            "message": f"Entrée {entry_id} supprimée avec succès",
+            "entry_id": entry_id,
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"❌ Erreur suppression entrée {entry_id}: {e}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
+
+
+@router.delete("/entries")
+async def delete_all_pain_entries():
+    """Supprime toutes les entrées de douleur (RGPD - Droit à l'oubli complet)"""
+    _init_tables()
+    try:
+        # Compter les entrées avant suppression
+        count_result = db.execute_query("SELECT COUNT(*) as count FROM pain_entries")
+        count = count_result[0]["count"] if count_result else 0
+
+        # Supprimer toutes les entrées
+        db.execute_query("DELETE FROM pain_entries")
+
+        logger.info(f"🗑️ Toutes les entrées supprimées (RGPD): {count} entrées")
+        return {
+            "message": "Toutes les entrées supprimées avec succès",
+            "deleted_count": count,
+        }
+    except Exception as e:
+        logger.error(f"❌ Erreur suppression complète: {e}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e

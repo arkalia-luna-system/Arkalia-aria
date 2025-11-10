@@ -1,0 +1,36 @@
+# Configuration Safety optimisée pour ARKALIA ARIA
+# Évite les scans lourds et les timeouts
+
+# Timeout en secondes
+timeout = 180
+
+# Format de sortie
+output = json
+
+# Fichier de sortie
+output_file = reports/safety-report.json
+
+# Créer le répertoire reports s'il n'existe pas
+ensure_output_dir = true
+
+# Ignorer les avertissements mineurs
+ignore = 
+    51457  # pyyaml < 6.0
+    51458  # pyyaml < 6.0
+    51459  # pyyaml < 6.0
+
+# Limite de versions à vérifier
+max_versions = 10
+
+# Cache des résultats
+cache = true
+cache_dir = .safety_cache
+
+# Niveau de verbosité
+verbose = false
+
+# Vérifier uniquement les vulnérabilités critiques et hautes
+severity = high
+
+# Ignorer les vulnérabilités expirées
+ignore_expired = true

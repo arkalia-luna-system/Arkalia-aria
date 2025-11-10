@@ -49,6 +49,7 @@ class ARIA_MetricsDashboard:
 
     def _setup_routes(self) -> None:
         """Configure les routes du dashboard."""
+        assert self.app is not None
 
         @self.app.get("/dashboard", response_class=HTMLResponse)
         async def dashboard_home(request: Request):
@@ -78,6 +79,97 @@ class ARIA_MetricsDashboard:
             return self.templates.TemplateResponse(
                 "performance.html", {"request": request, "title": "Performance ARIA"}
             )
+
+        @self.app.get("/dashboard/health", response_class=HTMLResponse)
+        async def dashboard_health(request: Request):
+            """Page des métriques de santé."""
+            return self.templates.TemplateResponse(
+                "health_metrics.html",
+                {"request": request, "title": "Métriques Santé ARIA"},
+            )
+
+        @self.app.get("/dashboard/pain", response_class=HTMLResponse)
+        async def dashboard_pain(request: Request):
+            """Page d'analyse de la douleur."""
+            return self.templates.TemplateResponse(
+                "pain_analytics.html",
+                {"request": request, "title": "Analyse Douleur ARIA"},
+            )
+
+        @self.app.get("/dashboard/patterns", response_class=HTMLResponse)
+        async def dashboard_patterns(request: Request):
+            """Page de visualisation des patterns."""
+            return self.templates.TemplateResponse(
+                "patterns_visualization.html",
+                {"request": request, "title": "Patterns ARIA"},
+            )
+
+        @self.app.get("/dashboard/reports", response_class=HTMLResponse)
+        async def dashboard_reports(request: Request):
+            """Page de génération de rapports."""
+            return self.templates.TemplateResponse(
+                "reports.html", {"request": request, "title": "Rapports ARIA"}
+            )
+
+        @self.app.post("/dashboard/export/pdf")
+        async def export_pdf(request: Request):
+            """Export PDF des données."""
+            try:
+                from .export_handlers import PDFExportHandler
+
+                handler = PDFExportHandler()
+                return await handler.export(request)
+            except Exception as e:
+                from fastapi import HTTPException
+
+                raise HTTPException(
+                    status_code=500, detail=f"Erreur export PDF: {str(e)}"
+                ) from e
+
+        @self.app.post("/dashboard/export/excel")
+        async def export_excel(request: Request):
+            """Export Excel des données."""
+            try:
+                from .export_handlers import ExcelExportHandler
+
+                handler = ExcelExportHandler()
+                return await handler.export(request)
+            except Exception as e:
+                from fastapi import HTTPException
+
+                raise HTTPException(
+                    status_code=500, detail=f"Erreur export Excel: {str(e)}"
+                ) from e
+
+        @self.app.post("/dashboard/export/html")
+        async def export_html(request: Request):
+            """Export HTML des données."""
+            try:
+                from .export_handlers import HTMLExportHandler
+
+                handler = HTMLExportHandler()
+                return await handler.export(request)
+            except Exception as e:
+                from fastapi import HTTPException
+
+                raise HTTPException(
+                    status_code=500, detail=f"Erreur export HTML: {str(e)}"
+                ) from e
+
+        @self.app.post("/dashboard/preview")
+        async def preview_report(request: Request):
+            """Aperçu d'un rapport."""
+            try:
+                from .export_handlers import ReportPreviewHandler
+
+                handler = ReportPreviewHandler()
+                return await handler.preview(request)
+            except Exception as e:
+                from fastapi import HTTPException
+
+                raise HTTPException(
+                    status_code=500, detail=f"Erreur aperçu: {str(e)}"
+                ) from e
 
     def generate_dashboard_html(self, metrics: dict[str, Any]) -> str:  # noqa: W293
         """

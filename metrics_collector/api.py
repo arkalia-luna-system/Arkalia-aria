@@ -7,6 +7,7 @@ API FastAPI pour exposer les métriques ARIA via des endpoints REST.
 Intégration complète avec le système de collecte, validation et dashboard.
 """
 
+import logging
 from datetime import datetime
 from typing import Any
 
@@ -269,4 +270,5 @@ class ARIA_MetricsAPI:
         if static_dir.exists():
             app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
         else:
-            print(f"⚠️ Répertoire static non trouvé: {static_dir}")
+            logger = logging.getLogger(__name__)
+            logger.warning(f"⚠️ Répertoire static non trouvé: {static_dir}")

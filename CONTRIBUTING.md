@@ -1,6 +1,19 @@
 # Contribuer à ARKALIA ARIA
 
+**Dernière mise à jour : Novembre 2025**
+
 Merci de contribuer à ARKALIA ARIA. Voici les règles simples pour garder un dépôt propre, performant et sans erreurs.
+
+## 🆕 **Architecture Centralisée**
+
+ARKALIA ARIA utilise maintenant une architecture centralisée avec le module `core/` :
+
+- **DatabaseManager** : Gestion centralisée de la base de données
+- **CacheManager** : Cache intelligent avec TTL
+- **BaseAPI** : Standardisation de toutes les APIs
+- **Logging** : Système de logging unifié
+
+**Règle importante** : Toujours utiliser les composants `core/` au lieu de créer des connexions DB ou du logging personnalisé.
 
 ## Branches
 - Travail au quotidien sur `develop`
@@ -28,6 +41,8 @@ Merci de contribuer à ARKALIA ARIA. Voici les règles simples pour garder un d�
 ## Documentation
 - Mettre à jour `docs/` et `mkdocs.yml` si endpoints ou modules changent
 - Garder `README.md`, `DEVELOPER_GUIDE.md`, `API_REFERENCE.md` en phase
+- **🆕 Mettre à jour `docs/MODULE_STATUS.md`** si statut des modules change
+- Documenter les migrations vers `core/` dans les PRs
 
 ## Sécurité
 - Pas de commandes dangereuses dans les scripts

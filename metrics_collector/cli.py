@@ -13,6 +13,7 @@ import sys
 from typing import Any
 
 from .collectors.aria_metrics_collector import ARIA_MetricsCollector
+from .dashboard.aria_metrics_dashboard import ARIA_MetricsDashboard
 from .exporters.aria_metrics_exporter import ARIA_MetricsExporter
 from .validators.aria_metrics_validator import ARIA_MetricsValidator
 
@@ -34,6 +35,8 @@ class ARIA_MetricsCLI:
         self.collector = ARIA_MetricsCollector()
         self.exporter = ARIA_MetricsExporter()
         self.validator = ARIA_MetricsValidator()
+        self.dashboard = ARIA_MetricsDashboard()
+        self.dashboard = ARIA_MetricsDashboard()
 
     def run(self, args: list[str] | None = None) -> int:
         """

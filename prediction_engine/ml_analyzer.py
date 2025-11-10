@@ -6,17 +6,17 @@ Adapté de Arkalia Quest Analytics Engine pour la prédiction de douleur
 """
 
 import json
-import logging
-import sqlite3
 import threading
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
+from pathlib import Path
 from typing import Any
 
-# Configuration du logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+from core import DatabaseManager
+from core.logging import get_logger
+
+logger = get_logger("ml_analyzer")
 
 
 class PainEventType(Enum):
@@ -51,7 +51,23 @@ class ARIAMLAnalyzer:
     """Analyseur ML pour ARIA - adapté de Quest Analytics Engine"""
 
     def __init__(self, db_path: str = "aria_pain.db"):
-        self.db_path = db_path
+        # Exposer le chemin DB pour les tests et assurer la création du fichier
+        self.db_path = str(db_path)
+        Path(self.db_path).parent.mkdir(parents=True, exist_ok=True)
+        # Crée le fichier si nécessaire
+        import sqlite3 as _sqlite3
+
+        _sqlite3.connect(self.db_path).close()
+
+        # Utiliser le gestionnaire de base de données centralisé
+        self.db = DatabaseManager(self.db_path)
+        # Exposer le chemin pour compatibilité tests (garder le chemin tel que fourni)
+        self.db_path = str(db_path)
+        # S'assurer que le fichier DB existe
+        Path(self.db_path).parent.mkdir(parents=True, exist_ok=True)
+        import sqlite3 as _sqlite3
+
+        _sqlite3.connect(self.db_path).close()
         self.lock = threading.Lock()
         self._init_database()
 
@@ -65,11 +81,8 @@ class ARIAMLAnalyzer:
     def _init_database(self):
         """Initialise la base de données analytics"""
         with self.lock:
-            conn = sqlite3.connect(self.db_path)
-            cursor = conn.cursor()
-
             # Table des événements de douleur
-            cursor.execute(
+            self.db.execute_update(
                 """
                 CREATE TABLE IF NOT EXISTS pain_events (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -88,7 +101,7 @@ class ARIAMLAnalyzer:
             )
 
             # Table des patterns détectés
-            cursor.execute(
+            self.db.execute_update(
                 """
                 CREATE TABLE IF NOT EXISTS pain_patterns (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -99,11 +112,11 @@ class ARIAMLAnalyzer:
                     recommendations TEXT,
                     detected_at TEXT DEFAULT CURRENT_TIMESTAMP
                 )
-            """
+                """
             )
 
             # Table des prédictions
-            cursor.execute(
+            self.db.execute_update(
                 """
                 CREATE TABLE IF NOT EXISTS pain_predictions (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -115,26 +128,22 @@ class ARIAMLAnalyzer:
                     accuracy REAL,
                     predicted_at TEXT DEFAULT CURRENT_TIMESTAMP
                 )
-            """
+                """
             )
 
-            conn.commit()
-            conn.close()
+            logger.info("✅ Tables ML analytics initialisées")
 
     def track_pain_event(self, event: PainEvent) -> bool:
         """Enregistre un événement de douleur"""
         try:
             with self.lock:
-                conn = sqlite3.connect(self.db_path)
-                cursor = conn.cursor()
-
-                cursor.execute(
+                self.db.execute_update(
                     """
                     INSERT INTO pain_events
                     (event_type, timestamp, user_id, intensity, trigger, action,
                      effectiveness, emotion, metadata)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                """,
+                    """,
                     (
                         event.event_type.value,
                         event.timestamp.isoformat(),
@@ -148,9 +157,6 @@ class ARIAMLAnalyzer:
                     ),
                 )
 
-                conn.commit()
-                conn.close()
-
                 self.total_events += 1
                 logger.debug(f"Événement enregistré: {event.event_type.value}")
                 return True
@@ -163,21 +169,19 @@ class ARIAMLAnalyzer:
         """Analyse les patterns de douleur sur une période"""
         try:
             with self.lock:
-                conn = sqlite3.connect(self.db_path)
-                cursor = conn.cursor()
-
                 # Récupérer les événements récents
                 cutoff_date = (datetime.now() - timedelta(days=days)).isoformat()
-                cursor.execute(
+                rows = self.db.execute_query(
                     """
                     SELECT * FROM pain_events
                     WHERE timestamp > ? AND event_type = 'pain_entry'
                     ORDER BY timestamp DESC
-                """,
+                    """,
                     (cutoff_date,),
                 )
 
-                events = cursor.fetchall()
+                # Convertir sqlite3.Row en tuples pour mypy
+                events = [tuple(r) for r in rows]
 
                 if not events:
                     return {
@@ -193,12 +197,12 @@ class ARIAMLAnalyzer:
 
                 # Sauvegarder les patterns détectés
                 for pattern in patterns:
-                    cursor.execute(
+                    self.db.execute_update(
                         """
                         INSERT INTO pain_patterns
                         (pattern_type, confidence, description, triggers, recommendations)
                         VALUES (?, ?, ?, ?, ?)
-                    """,
+                        """,
                         (
                             pattern["type"],
                             pattern["confidence"],
@@ -207,9 +211,6 @@ class ARIAMLAnalyzer:
                             json.dumps(pattern["recommendations"]),
                         ),
                     )
-
-                conn.commit()
-                conn.close()
 
                 return {
                     "total_events": len(events),
@@ -225,7 +226,7 @@ class ARIAMLAnalyzer:
 
     def _detect_patterns(self, events: list[tuple]) -> list[dict[str, Any]]:
         """Détecte les patterns dans les événements"""
-        patterns = []
+        patterns: list[dict[str, Any]] = []
 
         if len(events) < 3:
             return patterns
@@ -254,7 +255,7 @@ class ARIAMLAnalyzer:
         # Pattern 2: Déclencheurs fréquents
         triggers = [event[5] for event in events if event[5] is not None]
         if triggers:
-            trigger_counts = {}
+            trigger_counts: dict[str, int] = {}
             for trigger in triggers:
                 trigger_counts[trigger] = trigger_counts.get(trigger, 0) + 1
 
@@ -279,7 +280,7 @@ class ARIAMLAnalyzer:
         if actions:
             effective_actions = [action for action, eff in actions if eff and eff >= 7]
             if effective_actions:
-                action_counts = {}
+                action_counts: dict[str, int] = {}
                 for action in effective_actions:
                     action_counts[action] = action_counts.get(action, 0) + 1
 
@@ -427,20 +428,14 @@ class ARIAMLAnalyzer:
         """Sauvegarde une prédiction"""
         try:
             with self.lock:
-                conn = sqlite3.connect(self.db_path)
-                cursor = conn.cursor()
-
-                cursor.execute(
+                self.db.execute_update(
                     """
                     INSERT INTO pain_predictions
                     (predicted_intensity, predicted_trigger, confidence, time_horizon)
                     VALUES (?, ?, ?, ?)
-                """,
+                    """,
                     (intensity, trigger, confidence, "2-4 heures"),
                 )
-
-                conn.commit()
-                conn.close()
 
         except Exception as e:
             logger.error(f"Erreur sauvegarde prédiction: {e}")
@@ -477,26 +472,20 @@ class ARIAMLAnalyzer:
         """Retourne un résumé des analytics"""
         try:
             with self.lock:
-                conn = sqlite3.connect(self.db_path)
-                cursor = conn.cursor()
-
                 # Statistiques générales
-                cursor.execute("SELECT COUNT(*) FROM pain_events")
-                total_events = cursor.fetchone()[0]
-
-                cursor.execute("SELECT COUNT(*) FROM pain_patterns")
-                total_patterns = cursor.fetchone()[0]
-
-                cursor.execute("SELECT COUNT(*) FROM pain_predictions")
-                total_predictions = cursor.fetchone()[0]
+                total_events = self.db.get_count("pain_events")
+                total_patterns = self.db.get_count("pain_patterns")
+                total_predictions = self.db.get_count("pain_predictions")
 
                 # Précision des prédictions
-                cursor.execute(
+                accuracy_rows = self.db.execute_query(
                     "SELECT AVG(accuracy) FROM pain_predictions WHERE accuracy IS NOT NULL"
                 )
-                avg_accuracy = cursor.fetchone()[0] or 0.0
-
-                conn.close()
+                avg_accuracy = (
+                    accuracy_rows[0][0]
+                    if accuracy_rows and accuracy_rows[0][0]
+                    else 0.0
+                )
 
                 return {
                     "total_events": total_events,
@@ -518,14 +507,14 @@ class ARIAMLAnalyzer:
 
 def main():
     """Test du module ARIA ML Analyzer"""
-    print("🧪 Test du module ARIA ML Analyzer")
-    print("=" * 50)
+    logger.info("🧪 Test du module ARIA ML Analyzer")
+    logger.info("=" * 50)
 
     # Créer l'instance
     analyzer = ARIAMLAnalyzer()
 
     # Test d'enregistrement d'événements
-    print("\n1️⃣ Test enregistrement événements")
+    logger.info("\n1️⃣ Test enregistrement événements")
     events = [
         PainEvent(
             PainEventType.PAIN_ENTRY,
@@ -554,23 +543,23 @@ def main():
         analyzer.track_pain_event(event)
 
     # Test d'analyse de patterns
-    print("\n2️⃣ Test analyse patterns")
+    logger.info("\n2️⃣ Test analyse patterns")
     patterns = analyzer.analyze_pain_patterns(days=7)
-    print(f"Patterns détectés: {len(patterns.get('patterns', []))}")
-    print(f"Recommandations: {patterns.get('recommendations', [])}")
+    logger.info(f"Patterns détectés: {len(patterns.get('patterns', []))}")
+    logger.info(f"Recommandations: {patterns.get('recommendations', [])}")
 
     # Test de prédiction
-    print("\n3️⃣ Test prédiction")
+    logger.info("\n3️⃣ Test prédiction")
     context = {"stress_level": 0.8, "fatigue_level": 0.6, "activity_intensity": 0.4}
     prediction = analyzer.predict_pain_episode(context)
-    print(f"Prédiction: {prediction}")
+    logger.info(f"Prédiction: {prediction}")
 
     # Test résumé analytics
-    print("\n4️⃣ Test résumé analytics")
+    logger.info("\n4️⃣ Test résumé analytics")
     summary = analyzer.get_analytics_summary()
-    print(f"Résumé: {summary}")
+    logger.info(f"Résumé: {summary}")
 
-    print("\n✅ Test ARIA ML Analyzer terminé")
+    logger.info("\n✅ Test ARIA ML Analyzer terminé")
 
 
 if __name__ == "__main__":

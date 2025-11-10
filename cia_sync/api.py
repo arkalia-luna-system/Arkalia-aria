@@ -3,14 +3,22 @@ CIA Sync API - Module de synchronisation ARIA
 Synchronisation bidirectionnelle optimisée avec Arkalia CIA
 """
 
+import importlib
 from datetime import datetime
 from typing import Any
 
-import requests
-from fastapi import APIRouter, HTTPException
+from fastapi import HTTPException
 from pydantic import BaseModel
 
-router = APIRouter()
+from core import BaseAPI, get_logger
+
+# Créer l'API avec BaseAPI
+api = BaseAPI("", ["CIA Sync"])  # Pas de préfixe ici, il sera ajouté dans main.py
+router = api.get_router()
+logger = get_logger("cia_sync")
+
+# Charger requests dynamiquement pour éviter les stubs mypy requis
+requests: Any = importlib.import_module("requests")
 
 # Configuration CIA
 CIA_BASE_URL = "http://127.0.0.1:8000"
@@ -31,18 +39,21 @@ def _check_cia_connection() -> bool:
     """Vérifie si CIA est accessible"""
     try:
         response = requests.get(f"{CIA_BASE_URL}/health", timeout=CIA_TIMEOUT)
-        return response.status_code == 200
-    except Exception:
+        is_connected = response.status_code == 200
+        logger.debug(f"Vérification CIA: {is_connected}")
+        return is_connected
+    except Exception as e:
+        logger.warning(f"CIA non accessible: {e}")
         return False
 
 
-def _make_cia_request(method: str, endpoint: str, **kwargs) -> requests.Response:
+def _make_cia_request(method: str, endpoint: str, **kwargs) -> Any:
     """Effectue une requête vers CIA avec gestion d'erreurs"""
     try:
         url = f"{CIA_BASE_URL}{endpoint}"
         response = requests.request(method, url, timeout=CIA_TIMEOUT, **kwargs)
         return response
-    except requests.RequestException as e:
+    except Exception as e:
         # Créer une réponse mock simple
         response = requests.Response()
         response.status_code = 503
@@ -56,6 +67,7 @@ def _make_cia_request(method: str, endpoint: str, **kwargs) -> requests.Response
 async def cia_sync_status() -> dict:
     """Statut du module CIA sync"""
     cia_connected = _check_cia_connection()
+    logger.info(f"Statut CIA sync demandé - Connecté: {cia_connected}")
 
     return {
         "module": "cia_sync",

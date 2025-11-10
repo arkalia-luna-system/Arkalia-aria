@@ -1,0 +1,37 @@
+# ARKALIA ARIA - Configuration de performance
+# Optimisations pour améliorer les performances de développement et CI/CD
+
+[development]
+# Configuration pour l'environnement de développement
+debug = true
+reload = true
+workers = 1
+max_connections = 10
+request_timeout = 30
+
+[ci_cd]
+# Configuration pour CI/CD
+parallel_jobs = 4
+test_timeout = 300
+cache_ttl = 3600
+docker_cache = true
+
+[optimization]
+# Optimisations générales
+enable_compression = true
+enable_caching = true
+cache_size = "100MB"
+max_memory = "512MB"
+
+[database]
+# Configuration base de données
+pool_size = 5
+max_overflow = 10
+pool_timeout = 30
+pool_recycle = 3600
+
+[monitoring]
+# Configuration monitoring
+metrics_interval = 60
+log_level = "INFO"
+enable_profiling = false

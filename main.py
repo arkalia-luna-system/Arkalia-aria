@@ -3,6 +3,8 @@ ARKALIA ARIA - Research Intelligence Assistant
 Point d'entrée principal pour le laboratoire de recherche santé personnel
 """
 
+import logging
+import os
 import sys
 from pathlib import Path
 
@@ -13,21 +15,21 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+# Imports des modules
 from audio_voice.api import router as audio_router
 from cia_sync.api import router as sync_router
-
-# Import du système DevOps
 from devops_automation.api import ARIA_DevOpsAPI
-
-# Import du système de métriques
+from health_connectors.api import HealthConnectorsAPI
 from metrics_collector.api import ARIA_MetricsAPI
-
-# Import des modules ARIA
 from pain_tracking.api import router as pain_router
 from pattern_analysis.api import router as pattern_router
 from prediction_engine.api import router as prediction_router
 from research_tools.api import router as research_router
-from watch_integration.api import router as watch_router
+
+# Configuration du logger
+logger = logging.getLogger(__name__)
+
+# watch_integration supprimé - doublon de health_connectors
 
 # Application FastAPI
 app = FastAPI(
@@ -63,23 +65,34 @@ app.include_router(
 app.include_router(research_router, prefix="/api/research", tags=["Research Tools"])
 app.include_router(sync_router, prefix="/api/sync", tags=["CIA Sync"])
 app.include_router(audio_router, prefix="/api/audio", tags=["Audio/Voice"])
-app.include_router(watch_router, prefix="/api/watch", tags=["Watch Integration"])
+# watch_router supprimé - doublon de health_connectors
 
-# Intégration du système de métriques
+# Intégration des connecteurs santé
 try:
-    metrics_api = ARIA_MetricsAPI(".")
-    metrics_api.integrate_with_app(app)
-    print("✅ Système de métriques intégré")
+    health_api = HealthConnectorsAPI()
+    health_api.integrate_with_app(app)
+    logger.info("✅ Connecteurs santé intégrés")
 except Exception as e:
-    print(f"⚠️ Métriques désactivées: {e}")
+    logger.warning(f"⚠️ Connecteurs santé désactivés: {e}")
+
+# Intégration du système de métriques (désactivé en développement pour éviter les processus lourds)
+if os.getenv("ARIA_ENABLE_METRICS", "false").lower() == "true":
+    try:
+        metrics_api = ARIA_MetricsAPI(".")
+        metrics_api.integrate_with_app(app)
+        logger.info("✅ Système de métriques intégré")
+    except Exception as e:
+        logger.warning(f"⚠️ Métriques désactivées: {e}")
+else:
+    logger.info("ℹ️ Système de métriques désactivé (ARIA_ENABLE_METRICS=false)")
 
 # Intégration du système DevOps
 try:
     devops_api = ARIA_DevOpsAPI(".")
     devops_api.integrate_with_app(app)
-    print("✅ Système DevOps intégré")
+    logger.info("✅ Système DevOps intégré")
 except Exception as e:
-    print(f"⚠️ DevOps désactivé: {e}")
+    logger.warning(f"⚠️ DevOps désactivé: {e}")
 
 
 @app.get("/")
@@ -96,7 +109,8 @@ async def root():
             "research_tools",
             "cia_sync",
             "audio_voice",
-            "watch_integration",
+            # "watch_integration", # supprimé - doublon de health_connectors
+            "health_connectors",
         ],
     }
 

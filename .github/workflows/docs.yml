@@ -45,6 +45,27 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: ⚠️ Vérification GitHub Pages
+        run: |
+          echo "⚠️ Si cette étape échoue avec une erreur 404, GitHub Pages n'est pas activé."
+          echo "📚 Veuillez activer GitHub Pages dans les paramètres du repository :"
+          echo "   https://github.com/arkalia-luna-system/Arkalia-aria/settings/pages"
+          echo "   → Source: 'GitHub Actions'"
+          echo ""
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        continue-on-error: true
+      - name: 📢 Résultat du déploiement
+        if: failure()
+        run: |
+          echo "❌ Échec du déploiement GitHub Pages"
+          echo ""
+          echo "🔧 SOLUTION :"
+          echo "1. Aller sur : https://github.com/arkalia-luna-system/Arkalia-aria/settings/pages"
+          echo "2. Dans 'Source', sélectionner 'GitHub Actions'"
+          echo "3. Cliquer sur 'Save'"
+          echo "4. Relancer le workflow après activation"
+          echo ""
+          echo "📖 Guide complet : docs/GITHUB_PAGES_SETUP.md"
+          exit 1

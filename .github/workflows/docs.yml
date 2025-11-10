@@ -1,4 +1,9 @@
 name: Build Documentation
+
+# ⚠️ IMPORTANT: GitHub Pages doit être activé dans les paramètres du repository
+# Settings > Pages > Source: "GitHub Actions"
+# https://github.com/arkalia-luna-system/Arkalia-aria/settings/pages
+
 "on":
   push:
     branches:

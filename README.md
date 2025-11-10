@@ -33,23 +33,25 @@
 
 ---
 
-## 🚀 **Améliorations Récentes (25 Septembre 2025)**
+## 🚀 **Améliorations Récentes (Novembre 2025)**
 
 ### ✅ **Migration vers Architecture Centralisée**
 - **Module `core/`** : DatabaseManager, CacheManager, Config, Logging unifiés
-- **BaseAPI** : Standardisation de toutes les APIs avec endpoints `/health`, `/status`, `/metrics`
+- **BaseAPI** : Standardisation des APIs principales (4/8 modules) avec endpoints `/health`, `/status`, `/metrics`
 - **Performance** : 1 connexion DB partagée au lieu de 5 connexions séparées
 - **Code** : 2x plus court et plus maintenable
 
-### ✅ **Modules Migrés (8/8)**
+### ✅ **Modules Migrés vers BaseAPI (4/8)**
 - `pain_tracking/` → BaseAPI + DatabaseManager
-- `pattern_analysis/` → Logging unifié
-- `prediction_engine/` → DatabaseManager
-- `research_tools/` → DatabaseManager
-- `metrics_collector/` → DatabaseManager
 - `health_connectors/` → BaseAPI + tests validés
 - `audio_voice/` → BaseAPI + tests validés
 - `cia_sync/` → BaseAPI + tests validés
+
+### ✅ **Modules avec Logging/DB Centralisé (4/8)**
+- `pattern_analysis/` → Logging unifié (API standard)
+- `prediction_engine/` → DatabaseManager (API standard)
+- `research_tools/` → DatabaseManager (API standard)
+- `metrics_collector/` → DatabaseManager (API custom)
 
 ### ✅ **Nouvelles Fonctionnalités**
 - **Exports multiples** : CSV, PDF, Excel fonctionnels (921 entrées testées)

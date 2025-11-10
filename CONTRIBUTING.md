@@ -1,6 +1,6 @@
 # Contribuer à ARKALIA ARIA
 
-**Dernière mise à jour : 23 Septembre 2025**
+**Dernière mise à jour : Novembre 2025**
 
 Merci de contribuer à ARKALIA ARIA. Voici les règles simples pour garder un dépôt propre, performant et sans erreurs.
 

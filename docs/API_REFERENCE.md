@@ -1,6 +1,6 @@
 # 🔌 Référence API - ARKALIA ARIA
 
-**Dernière mise à jour : 23 Septembre 2025**
+**Dernière mise à jour : Novembre 2025**
 
 ## 🌐 **Base URL**
 ```

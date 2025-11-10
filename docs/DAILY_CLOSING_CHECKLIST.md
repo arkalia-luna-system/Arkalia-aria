@@ -1,6 +1,6 @@
 # 📋 Checklist de Fin de Journée - ARKALIA ARIA
 
-**Dernière mise à jour : 25 Septembre 2025**
+**Dernière mise à jour : Novembre 2025**
 
 ## 🎯 **Checklist Quotidienne (15 min max)**
 

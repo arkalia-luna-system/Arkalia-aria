@@ -1,6 +1,6 @@
 # 📚 Documentation Complète ARKALIA ARIA
 
-**Dernière mise à jour : 25 Janvier 2025**
+**Dernière mise à jour : Novembre 2025**
 
 ## 🎯 **Résumé de la Documentation**
 
@@ -64,7 +64,7 @@ Cette documentation complète permet à une IA de comprendre rapidement l'état 
 
 ### **Code & Qualité**
 - ✅ **53 fichiers Python** - ~10 248 lignes
-- ✅ **60 tests** - 100% passent
+- ✅ **394 tests collectés** - 100% passent
 - ✅ **0 erreur** - Black, Ruff, MyPy
 - ✅ **Sécurité** - Bandit, Safety OK
 - ✅ **CI/CD** - Workflows automatisés
@@ -279,7 +279,7 @@ services:
 ### **Code**
 - **Fichiers** : 53 fichiers Python
 - **Lignes** : ~10 248 lignes
-- **Tests** : 60 tests (100% passent)
+- **Tests** : 394 tests collectés (100% passent)
 - **Qualité** : 0 erreur Black, Ruff, MyPy
 
 ### **Performance**

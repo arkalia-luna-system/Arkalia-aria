@@ -102,4 +102,4 @@ France
 
 ---
 
-*Dernière mise à jour : 25 septembre 2025*
+*Dernière mise à jour : novembre 2025*

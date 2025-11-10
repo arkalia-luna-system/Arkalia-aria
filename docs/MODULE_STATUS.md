@@ -1,6 +1,6 @@
 # 📊 Statut des Modules - ARKALIA ARIA
 
-**Dernière mise à jour : 25 Septembre 2025**
+**Dernière mise à jour : Novembre 2025**
 
 ## 🎯 **Légende**
 - ✅ **Migré** : Module migré vers architecture centralisée
@@ -25,7 +25,7 @@
 
 ---
 
-## 📊 **Modules Migrés (8/8)**
+## 📊 **Modules Migrés vers BaseAPI (4/8)**
 
 ### ✅ **pain_tracking/**
 - ✅ **api.py** : Migré vers BaseAPI + DatabaseManager
@@ -34,38 +34,6 @@
 - ✅ **Code** : 2x plus court
 
 **Statut** : ✅ **MIGRÉ** - Prêt pour la production
-
-### ✅ **pattern_analysis/**
-- ✅ **emotion_analyzer.py** : Migré vers get_logger
-- ✅ **api.py** : À migrer vers BaseAPI
-- ✅ **Logging** : Unifié
-
-**Statut** : 🔄 **PARTIELLEMENT MIGRÉ** - Logging OK, API à migrer
-
-### ✅ **prediction_engine/**
-- ✅ **ml_analyzer.py** : Migré vers DatabaseManager
-- ✅ **api.py** : À migrer vers BaseAPI
-- ✅ **Performance** : Connexion DB centralisée
-
-**Statut** : 🔄 **PARTIELLEMENT MIGRÉ** - DB OK, API à migrer
-
-### ✅ **research_tools/**
-- ✅ **data_collector.py** : Migré vers DatabaseManager
-- ✅ **api.py** : À migrer vers BaseAPI
-- ✅ **Performance** : Connexion DB centralisée
-
-**Statut** : 🔄 **PARTIELLEMENT MIGRÉ** - DB OK, API à migrer
-
-### ✅ **metrics_collector/**
-- ✅ **collectors/aria_metrics_collector.py** : Migré vers DatabaseManager
-- ✅ **api.py** : À migrer vers BaseAPI
-- ✅ **Performance** : Connexion DB centralisée
-
-**Statut** : 🔄 **PARTIELLEMENT MIGRÉ** - DB OK, API à migrer
-
----
-
-## ✅ **Modules Migrés (COMPLET)**
 
 ### ✅ **health_connectors/**
 - ✅ **api.py** : Migré vers BaseAPI + tests validés
@@ -87,6 +55,41 @@
 - ✅ **Gestion d'erreurs** : Améliorée
 
 **Statut** : ✅ **MIGRÉ** - Prêt pour la production
+
+---
+
+## 📊 **Modules avec Logging/DB Centralisé (4/8)**
+
+### ✅ **pattern_analysis/**
+- ✅ **emotion_analyzer.py** : Migré vers get_logger
+- ⚠️ **api.py** : Utilise APIRouter (pas BaseAPI)
+- ✅ **Logging** : Unifié
+
+**Statut** : 🔄 **PARTIELLEMENT MIGRÉ** - Logging OK, API utilise APIRouter standard
+
+### ✅ **prediction_engine/**
+- ✅ **ml_analyzer.py** : Migré vers DatabaseManager
+- ⚠️ **api.py** : Utilise APIRouter (pas BaseAPI)
+- ✅ **Performance** : Connexion DB centralisée
+
+**Statut** : 🔄 **PARTIELLEMENT MIGRÉ** - DB OK, API utilise APIRouter standard
+
+### ✅ **research_tools/**
+- ✅ **data_collector.py** : Migré vers DatabaseManager
+- ⚠️ **api.py** : Utilise APIRouter (pas BaseAPI)
+- ✅ **Performance** : Connexion DB centralisée
+
+**Statut** : 🔄 **PARTIELLEMENT MIGRÉ** - DB OK, API utilise APIRouter standard
+
+### ✅ **metrics_collector/**
+- ✅ **collectors/aria_metrics_collector.py** : Migré vers DatabaseManager
+- ⚠️ **api.py** : Utilise ARIA_MetricsAPI (classe custom, pas BaseAPI)
+- ✅ **Performance** : Connexion DB centralisée
+
+**Statut** : 🔄 **PARTIELLEMENT MIGRÉ** - DB OK, API utilise classe custom
+
+---
+
 
 ---
 
@@ -140,8 +143,7 @@
 ## 🧪 **Modules Test**
 
 ### ✅ **tests/**
-- ✅ **Unit tests** : 60 tests (100% passent)
-- ✅ **Integration tests** : 295 tests
+- ✅ **Tests** : 394 tests collectés (100% passent)
 - ✅ **Coverage** : 100% des modules migrés
 
 **Statut** : ✅ **COMPLET** - Tests opérationnels
@@ -150,18 +152,23 @@
 
 ## 📈 **Métriques de Migration**
 
-### **Modules Migrés** : 8/8 (100%) ✅
+### **Modules Migrés vers BaseAPI** : 4/8 (50%) ✅
 - ✅ pain_tracking
-- ✅ pattern_analysis (partiel)
-- ✅ prediction_engine (partiel)
-- ✅ research_tools (partiel)
-- ✅ metrics_collector (partiel)
 - ✅ health_connectors
 - ✅ audio_voice
 - ✅ cia_sync
 
-### **Modules À Migrer** : 0/8 (0%) ✅
-- ✅ **MIGRATION COMPLÈTE**
+### **Modules avec Logging/DB Centralisé** : 4/8 (50%) ✅
+- ✅ pattern_analysis (logging centralisé, API standard)
+- ✅ prediction_engine (DB centralisé, API standard)
+- ✅ research_tools (DB centralisé, API standard)
+- ✅ metrics_collector (DB centralisé, API custom)
+
+### **Modules À Migrer vers BaseAPI** : 4/8 (50%) ⚠️
+- ⚠️ pattern_analysis (optionnel - fonctionne avec APIRouter)
+- ⚠️ prediction_engine (optionnel - fonctionne avec APIRouter)
+- ⚠️ research_tools (optionnel - fonctionne avec APIRouter)
+- ⚠️ metrics_collector (optionnel - utilise classe custom)
 
 ### **Performance**
 - **Avant** : 5 connexions DB séparées
@@ -177,20 +184,16 @@
 
 ## 🎯 **Prochaines Étapes**
 
-### **Semaine 1**
-1. Migrer `health_connectors/api.py` vers BaseAPI
-2. Migrer `audio_voice/api.py` vers BaseAPI
-3. Migrer `cia_sync/api.py` vers BaseAPI
+### **État Actuel**
+- ✅ 4 modules migrés vers BaseAPI (pain_tracking, health_connectors, audio_voice, cia_sync)
+- ✅ 4 modules utilisent logging/DB centralisé (pattern_analysis, prediction_engine, research_tools, metrics_collector)
+- ⚠️ Migration BaseAPI optionnelle pour les 4 autres modules (fonctionnent déjà avec APIRouter standard)
 
-### **Semaine 2**
-1. Finaliser migration de tous les modules
-2. Éliminer tous les doublons restants
-3. Optimiser les performances
-
-### **Semaine 3**
-1. Tests complets
-2. Documentation finale
-3. Déploiement production
+### **Prochaines Étapes (Optionnel)**
+1. Migrer `pattern_analysis/api.py` vers BaseAPI (optionnel)
+2. Migrer `prediction_engine/api.py` vers BaseAPI (optionnel)
+3. Migrer `research_tools/api.py` vers BaseAPI (optionnel)
+4. Migrer `metrics_collector/api.py` vers BaseAPI (optionnel - nécessite refactoring classe custom)
 
 ---
 

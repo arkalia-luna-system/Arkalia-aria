@@ -1,6 +1,6 @@
 # 📊 Statut Projet - ARKALIA ARIA
 
-**Dernière mise à jour : 25 Septembre 2025**
+**Dernière mise à jour : Novembre 2025**
 
 ## ✅ Fonctionnalités Implémentées
 
@@ -37,7 +37,7 @@
 - ✅ **CORRIGÉ** : Erreurs MdiIcons et const résolues
 
 ### Infrastructure
-- ✅ Tests d'intégration (295 tests unitaires, mode rapide disponible)
+- ✅ Tests d'intégration (394 tests collectés, mode rapide disponible)
 - ✅ Documentation MkDocs complète - **MISE À JOUR**
 - ✅ Pipeline CI/CD GitHub Actions (workflows YAML corrigés + optimisés)
 - ✅ Qualité du code : Ruff, Black, MyPy (erreurs corrigées)
@@ -52,12 +52,12 @@
 ## 📈 Métriques Actuelles
 
 - **Code Python** : 53 fichiers, ~10 248 lignes
-- **Tests** : 7 fichiers, 60 tests (100% passent)
+- **Tests** : 394 tests collectés (100% passent)
 - **Typage** : 44 fichiers sources avec mypy strict
 - **Qualité** : 0 erreur Ruff, 0 erreur Black, 0 erreur MyPy
 - **CI/CD** : 4 workflows GitHub Actions opérationnels
 - **Modules** : 8 modules principaux fonctionnels
-- **Migration** : 8 modules migrés vers architecture centralisée (100%)
+- **Migration** : 4 modules migrés vers BaseAPI (pain_tracking, health_connectors, audio_voice, cia_sync), 4 autres modules utilisent DatabaseManager/logging centralisé
 - **Performance** : 3x plus rapide (1 connexion DB vs 5)
 - **Optimisations** : Cache intelligent, lazy loading, rglob optimisé
 - **CI/CD** : Timeouts optimisés, cache Docker, jobs parallèles

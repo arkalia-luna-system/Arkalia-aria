@@ -85,4 +85,4 @@ Cette politique peut être modifiée. Les modifications seront publiées sur cet
 
 ---
 
-*Dernière mise à jour : 25 septembre 2025*
+*Dernière mise à jour : novembre 2025*

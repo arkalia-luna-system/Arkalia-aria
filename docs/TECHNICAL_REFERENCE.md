@@ -1,6 +1,6 @@
 # 🔧 Référence Technique ARKALIA ARIA
 
-**Dernière mise à jour : 25 Janvier 2025**
+**Dernière mise à jour : Novembre 2025**
 
 ## 📁 **Structure du Projet**
 

@@ -77,7 +77,7 @@ France
 ## 📝 **Version**
 
 **Version :** 1.0  
-**Date :** 25 septembre 2025  
+**Date :** novembre 2025  
 
 ---
 

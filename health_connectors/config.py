@@ -157,7 +157,9 @@ class IOSHealthConfig:
         self.enabled = config.ios_health_enabled
 
         # URLs Apple Health
-        self.base_url = "https://api.apple.com/health"  # nosec B105:hardcoded_password_string
+        self.base_url = (
+            "https://api.apple.com/health"  # nosec B105:hardcoded_password_string
+        )
         self.auth_url = "https://appleid.apple.com/auth/authorize"  # nosec B105:hardcoded_password_string
         self.token_url = "https://appleid.apple.com/auth/token"  # nosec B105:hardcoded_password_string
 

@@ -48,7 +48,7 @@ class TestARIA_QualityAssurance:
     def test_init_with_custom_root(self):
         """Test initialisation avec racine personnalisée"""
         # Arrange
-        custom_root = "/tmp/custom_path"  # nosec B108
+        custom_root = "/tmp/custom_path"  # nosec B108:hardcoded_tmp_directory
 
         # Act
         quality_assurance = ARIA_QualityAssurance(custom_root)

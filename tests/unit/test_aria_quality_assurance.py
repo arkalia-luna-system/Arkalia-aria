@@ -49,14 +49,15 @@ class TestARIA_QualityAssurance:
         """Test initialisation avec racine personnalisée"""
         # Arrange
         import tempfile
+
         with tempfile.TemporaryDirectory() as tmpdir:
             custom_root = tmpdir
 
             # Act
             quality_assurance = ARIA_QualityAssurance(custom_root)
 
-        # Assert
-        assert quality_assurance.project_root == Path(custom_root).resolve()
+            # Assert
+            assert quality_assurance.project_root == Path(custom_root).resolve()
 
     def test_run_full_quality_check_success(self):
         """Test cas nominal de run_full_quality_check"""

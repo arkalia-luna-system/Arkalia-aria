@@ -49,13 +49,13 @@ repos:
         additional_dependencies: [types-requests, types-PyYAML]
         args: [--ignore-missing-imports]
 
-  # Sécurité avec Bandit
-  - repo: https://github.com/pycqa/bandit
-    rev: 1.7.5
-    hooks:
-      - id: bandit
-        args: [-r, ., -f, json, -o, bandit-report.json]
-        exclude: ^tests/
+  # Sécurité avec Bandit (DÉSACTIVÉ - trop lourd, utiliser uniquement en CI)
+  # - repo: https://github.com/pycqa/bandit
+  #   rev: 1.7.5
+  #   hooks:
+  #     - id: bandit
+  #       args: [-r, ., -f, json, -o, bandit-report.json]
+  #       exclude: ^tests/
 
   # Vérification des dépendances avec Safety
   - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
@@ -71,13 +71,13 @@ repos:
       - id: mkdocs-build
         additional_dependencies: [mkdocs-material, mkdocs-mermaid2-plugin]
 
-  # Tests avec pytest
-  - repo: https://github.com/pre-commit/mirrors-pytest
-    rev: v7.4.4
-    hooks:
-      - id: pytest
-        args: [-v, --tb=short]
-        additional_dependencies: [pytest-cov, pytest-mock]
+  # Tests avec pytest (DÉSACTIVÉ - trop lourd, utiliser uniquement en CI)
+  # - repo: https://github.com/pre-commit/mirrors-pytest
+  #   rev: v7.4.4
+  #   hooks:
+  #     - id: pytest
+  #       args: [-v, --tb=short]
+  #       additional_dependencies: [pytest-cov, pytest-mock]
 
   # Validation des fichiers de configuration
   - repo: https://github.com/adrienverge/yamllint

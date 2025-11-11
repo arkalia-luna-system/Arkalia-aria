@@ -94,7 +94,7 @@ addopts = [
     "--tb=short",
     "--strict-markers",
     "--disable-warnings",
-    "--cache-clear",
+    # "--cache-clear",  # DÉSACTIVÉ - évite de relancer les tests automatiquement
     "--import-mode=importlib",
     "--maxfail=10",
     "--durations=10",

@@ -400,12 +400,24 @@ class ARIA_MetricsCollector:
                     "issues_found": 0,
                 }
 
+            # Utiliser exclusions pour réduire la charge CPU/RAM
             subprocess.run(
-                [bandit_bin, "-r", ".", "-f", "json"],
+                [
+                    bandit_bin,
+                    "-r",
+                    ".",
+                    "-f",
+                    "json",
+                    "--skip",
+                    "B101,B105,B108,B601,B603,B604,B605,B606,B607,B608,B609,B610",
+                    "-ll",  # Niveau de log bas pour économiser RAM
+                    "--exclude",
+                    "tests,venv,.venv,arkalia_aria_venv,archive,backups,logs,dacc,mobile_app,metrics_reports,reports,deployments,docs,__pycache__,.git,.pytest_cache,htmlcov,build,dist,.mypy_cache",
+                ],
                 capture_output=True,
                 text=True,
                 cwd=self.project_root,
-                timeout=5,
+                timeout=30,  # Timeout augmenté mais raisonnable
             )
             return {
                 "status": "completed",

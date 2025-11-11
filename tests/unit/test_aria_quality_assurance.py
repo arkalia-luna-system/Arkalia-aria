@@ -48,10 +48,12 @@ class TestARIA_QualityAssurance:
     def test_init_with_custom_root(self):
         """Test initialisation avec racine personnalisée"""
         # Arrange
-        custom_root = "/tmp/custom_path"  # nosec B108:hardcoded_tmp_directory
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmpdir:
+            custom_root = tmpdir
 
-        # Act
-        quality_assurance = ARIA_QualityAssurance(custom_root)
+            # Act
+            quality_assurance = ARIA_QualityAssurance(custom_root)
 
         # Assert
         assert quality_assurance.project_root == Path(custom_root).resolve()

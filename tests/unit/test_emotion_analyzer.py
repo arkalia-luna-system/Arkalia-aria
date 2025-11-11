@@ -6,7 +6,6 @@ Tests unitaires pour ARIAREmotionAnalyzer
 Tests complets pour le module d'analyse émotionnelle ARIA.
 """
 
-
 import pytest
 
 from pattern_analysis.emotion_analyzer import ARIAREmotionAnalyzer

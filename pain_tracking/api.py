@@ -28,8 +28,7 @@ def _init_tables() -> None:
     """Initialise les tables de la base de données."""
     try:
         # Créer la table pain_entries
-        db.execute_update(
-            """
+        db.execute_update("""
             CREATE TABLE IF NOT EXISTS pain_entries (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 timestamp TEXT NOT NULL,
@@ -43,8 +42,7 @@ def _init_tables() -> None:
                 notes TEXT,
                 created_at TEXT NOT NULL DEFAULT (DATETIME('now'))
             )
-            """
-        )
+            """)
         logger.info("✅ Tables pain_entries initialisées")
     except Exception as e:
         logger.error(f"❌ Erreur initialisation tables: {e}")

@@ -82,8 +82,7 @@ class ARIAMLAnalyzer:
         """Initialise la base de données analytics"""
         with self.lock:
             # Table des événements de douleur
-            self.db.execute_update(
-                """
+            self.db.execute_update("""
                 CREATE TABLE IF NOT EXISTS pain_events (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     event_type TEXT NOT NULL,
@@ -97,12 +96,10 @@ class ARIAMLAnalyzer:
                     metadata TEXT,
                     created_at TEXT DEFAULT CURRENT_TIMESTAMP
                 )
-            """
-            )
+            """)
 
             # Table des patterns détectés
-            self.db.execute_update(
-                """
+            self.db.execute_update("""
                 CREATE TABLE IF NOT EXISTS pain_patterns (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     pattern_type TEXT NOT NULL,
@@ -112,12 +109,10 @@ class ARIAMLAnalyzer:
                     recommendations TEXT,
                     detected_at TEXT DEFAULT CURRENT_TIMESTAMP
                 )
-                """
-            )
+                """)
 
             # Table des prédictions
-            self.db.execute_update(
-                """
+            self.db.execute_update("""
                 CREATE TABLE IF NOT EXISTS pain_predictions (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     predicted_intensity INTEGER NOT NULL,
@@ -128,8 +123,7 @@ class ARIAMLAnalyzer:
                     accuracy REAL,
                     predicted_at TEXT DEFAULT CURRENT_TIMESTAMP
                 )
-                """
-            )
+                """)
 
             logger.info("✅ Tables ML analytics initialisées")
 

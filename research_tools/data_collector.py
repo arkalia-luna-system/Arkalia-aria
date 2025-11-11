@@ -38,8 +38,7 @@ class ARIADataCollector:
     def _init_database(self):
         """Initialise la base de données de recherche"""
         # Table des expérimentations
-        self.db.execute_update(
-            """
+        self.db.execute_update("""
             CREATE TABLE IF NOT EXISTS experiments (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
@@ -53,12 +52,10 @@ class ARIADataCollector:
                 conclusions TEXT,
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP
             )
-            """
-        )
+            """)
 
         # Table des données collectées
-        self.db.execute_update(
-            """
+        self.db.execute_update("""
             CREATE TABLE IF NOT EXISTS collected_data (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 experiment_id INTEGER,
@@ -69,12 +66,10 @@ class ARIADataCollector:
                 timestamp TEXT DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (experiment_id) REFERENCES experiments (id)
             )
-            """
-        )
+            """)
 
         # Table des métriques système
-        self.db.execute_update(
-            """
+        self.db.execute_update("""
             CREATE TABLE IF NOT EXISTS system_metrics (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 metric_name TEXT NOT NULL,
@@ -83,8 +78,7 @@ class ARIADataCollector:
                 category TEXT,
                 timestamp TEXT DEFAULT CURRENT_TIMESTAMP
             )
-            """
-        )
+            """)
 
         logger.info("✅ Tables research initialisées")
 
@@ -395,15 +389,13 @@ class ARIADataCollector:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
 
-            cursor.execute(
-                """
+            cursor.execute("""
                 SELECT strftime('%H', timestamp) as hour, COUNT(*) as count
                 FROM collected_data
                 GROUP BY hour
                 ORDER BY count DESC
                 LIMIT 1
-            """
-            )
+            """)
 
             result = cursor.fetchone()
             conn.close()

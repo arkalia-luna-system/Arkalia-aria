@@ -2,7 +2,7 @@
 FROM python:3.10-slim
 
 # Métadonnées
-LABEL maintainer="Arkalia Luna System <contact@arkalia-luna.com>"
+LABEL maintainer="Arkalia Luna System <arkalia.luna.system@gmail.com>"
 LABEL description="ARKALIA ARIA - Research Intelligence Assistant"
 LABEL version="1.0.0"
 

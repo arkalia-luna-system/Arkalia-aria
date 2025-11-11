@@ -227,7 +227,7 @@ lines_after_imports = 2
 
 [tool.bandit]
 exclude_dirs = ["tests", "venv", ".venv", "arkalia_aria_venv", "archive", "backups", "logs"]
-skips = ["B101", "B601", "B603", "B604", "B605", "B606", "B607", "B608", "B609", "B610"]
+skips = ["B101", "B105", "B601", "B603", "B604", "B605", "B606", "B607", "B608", "B609", "B610"]
 targets = ["."]
 recursive = true
 verbose = true

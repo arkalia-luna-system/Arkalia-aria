@@ -35,6 +35,8 @@
 
 ## 🚀 **Améliorations Récentes (Novembre 2025)**
 
+> **Dernière mise à jour CI/CD** : Formatage Black validé ✅
+
 ### ✅ **Migration vers Architecture Centralisée**
 - **Module `core/`** : DatabaseManager, CacheManager, Config, Logging unifiés
 - **BaseAPI** : Standardisation des APIs principales (4/8 modules) avec endpoints `/health`, `/status`, `/metrics`

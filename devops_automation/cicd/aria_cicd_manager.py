@@ -271,7 +271,7 @@ class ARIA_CICDManager:
 FROM python:{self.cicd_config['python_version']}-slim
 
 # Métadonnées
-LABEL maintainer="Arkalia Luna System <contact@arkalia-luna.com>"
+LABEL maintainer="Arkalia Luna System <arkalia.luna.system@gmail.com>"
 LABEL description="ARKALIA ARIA - Research Intelligence Assistant"
 LABEL version="1.0.0"
 

@@ -71,8 +71,8 @@ Nous nous réservons le droit de :
 75013 Paris  
 France  
 
-**Email :** contact@arkalia.fr  
-**Support :** support@arkalia.fr  
+**Email :** arkalia.luna.system@gmail.com  
+**Support :** arkalia.luna.system@gmail.com  
 
 ## 📝 **Version**
 

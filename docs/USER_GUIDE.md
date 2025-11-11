@@ -338,7 +338,7 @@ ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intell
 - **Communauté** : Forum utilisateurs
 
 #### Contact
-- **Email** : support@arkalia-aria.com
+- **Email** : arkalia.luna.system@gmail.com
 - **Téléphone** : +33 1 23 45 67 89
 - **Chat** : Support en ligne
 - **Ticket** : Système de tickets
@@ -385,12 +385,12 @@ R : En cas d'urgence, contactez immédiatement les services d'urgence (15 en Fra
 ## 📞 Contact et Support
 
 ### Support Utilisateur
-- **Email** : support@arkalia-aria.com
+- **Email** : arkalia.luna.system@gmail.com
 - **Téléphone** : +33 1 23 45 67 89
 - **Horaires** : Lundi-Vendredi 9h-18h
 
 ### Support Technique
-- **Email** : tech@arkalia-aria.com
+- **Email** : arkalia.luna.system@gmail.com
 - **Documentation** : https://docs.arkalia-aria.com
 - **GitHub** : https://github.com/arkalia-aria
 

@@ -9,10 +9,10 @@ description = "Research Intelligence Assistant - Laboratoire de recherche santé
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
-    {name = "Arkalia Luna System", email = "contact@arkalia-luna.com"}
+    {name = "Arkalia Luna System", email = "arkalia.luna.system@gmail.com"}
 ]
 maintainers = [
-    {name = "Arkalia Luna System", email = "contact@arkalia-luna.com"}
+    {name = "Arkalia Luna System", email = "arkalia.luna.system@gmail.com"}
 ]
 keywords = ["health", "research", "pain-tracking", "ai", "medical", "personal-lab"]
 classifiers = [

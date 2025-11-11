@@ -19,13 +19,13 @@ France
 ## 📞 **Contact**
 
 **Téléphone :** +33 1 23 45 67 89  
-**Email :** contact@arkalia.fr  
+**Email :** arkalia.luna.system@gmail.com  
 **Site web :** https://arkalia.fr  
 
 ## 👨‍💼 **Directeur de la publication**
 
 **Nom :** [Nom du directeur]  
-**Email :** directeur@arkalia.fr  
+**Email :** arkalia.luna.system@gmail.com  
 
 ## 🖥️ **Hébergement**
 
@@ -37,7 +37,7 @@ France
 
 **Délégué à la Protection des Données (DPO) :**  
 **Nom :** [Nom du DPO]  
-**Email :** dpo@arkalia.fr  
+**Email :** arkalia.luna.system@gmail.com  
 
 ## ⚖️ **Droit applicable**
 

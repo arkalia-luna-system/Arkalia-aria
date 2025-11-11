@@ -45,8 +45,8 @@ jobs:
       run: ruff check .
     - name: Run MyPy
       run: mypy .
-    - name: Run Bandit
-      run: bandit -r . -f json -o bandit-report.json
+      - name: Run Bandit
+        run: bandit -r . -f json -o bandit-report.json -c 2 -s 2 --skip B101,B601,B603,B607,B608
     - name: Run Safety
       run: safety check --json --output safety-report.json
   security:

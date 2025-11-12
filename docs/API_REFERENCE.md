@@ -1,17 +1,17 @@
 # 🔌 Référence API - ARKALIA ARIA
 
-**Dernière mise à jour : Novembre 2025
+**Dernière mise à jour :** Novembre 2025
 
-## 🌐 **Base URL**
+## Base URL
 ```
 http://localhost:8001
 ```
 
-## 🆕 **Endpoints Standardisés (BaseAPI)**
+## Endpoints Standardisés (BaseAPI)
 
 Toutes les APIs ARIA héritent automatiquement de ces endpoints :
 
-### 🏥 **Health Check**
+### Health Check
 ```http
 GET /api/{module}/health
 ```
@@ -20,7 +20,7 @@ GET /api/{module}/health
 - `GET /api/pattern/health`
 - `GET /api/prediction/health`
 
-### 📊 **Status**
+### Status
 ```http
 GET /api/{module}/status
 ```
@@ -28,7 +28,7 @@ GET /api/{module}/status
 - `GET /api/pain/status`
 - `GET /api/pattern/status`
 
-### 📈 **Metrics**
+### Metrics
 ```http
 GET /api/{module}/metrics
 ```
@@ -38,9 +38,9 @@ GET /api/{module}/metrics
 
 ---
 
-## 📋 **Endpoints Principaux**
+## Endpoints Principaux
 
-### 🏥 **Health Check**
+### Health Check
 ```http
 GET /health
 ```
@@ -396,7 +396,7 @@ Content-Type: application/json
 
 ---
 
-## 📊 **Métriques et Monitoring**
+## Métriques et Monitoring
 
 ### 📈 **Métriques Système**
 ```http
@@ -529,7 +529,7 @@ GET /api/export/medical-report?period=30_days&include_patterns=true
 
 ---
 
-## 🔧 **Configuration et Administration**
+## Configuration et Administration
 
 ### ⚙️ **Configuration Système**
 ```http
@@ -572,7 +572,7 @@ Content-Type: application/json
 
 ---
 
-## 📝 **Codes d'Erreur**
+## Codes d'Erreur
 
 ### 4xx - Erreurs Client
 - `400` : Bad Request - Données invalides

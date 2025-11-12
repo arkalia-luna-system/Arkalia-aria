@@ -55,7 +55,7 @@ find . -name "*.pyc" -delete 2>/dev/null || true
 find . -name "*.log" -size +10M -delete 2>/dev/null || true
 
 # Vérifier l'espace disque
-du -sh . | tee -a docs/DAILY_LOG.md
+du -sh .  # Afficher l'espace disque utilisé
 ```
 
 ### 5. Planification Demain (2 min)

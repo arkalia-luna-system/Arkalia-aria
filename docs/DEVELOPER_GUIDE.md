@@ -2,7 +2,7 @@
 
 **Documentation technique complète pour les développeurs**
 
-*Dernière mise à jour : Novembre 2025
+*Dernière mise à jour :* Novembre 2025
 
 ---
 
@@ -1017,5 +1017,5 @@ python -m devops_automation.security.aria_security_validator
 
 ---
 
-*Dernière mise à jour : Novembre 2025
-*Version du guide : 2.0.0*
+*Dernière mise à jour :* Novembre 2025  
+*Version du guide :* 2.0.0

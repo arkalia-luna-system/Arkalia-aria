@@ -1,6 +1,6 @@
 # Guide de Configuration ARKALIA ARIA
 
-**Dernière mise à jour : Novembre 2025
+**Dernière mise à jour :** Novembre 2025
 
 ---
 
@@ -531,4 +531,4 @@ ARIA_SECRET_KEY=prod-secret-key-very-secure
 
 ---
 
-**ARKALIA ARIA** - Guide de configuration complet ! ⚙️🚀
+**ARKALIA ARIA** - Guide de configuration

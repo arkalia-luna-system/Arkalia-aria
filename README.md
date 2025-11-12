@@ -2,6 +2,12 @@
 
 **Ton assistant personnel pour mieux comprendre ta santé et ta douleur**
 
+[![health](https://img.shields.io/badge/topic-health-blue)](https://github.com/topics/health)
+[![ai](https://img.shields.io/badge/topic-ai-green)](https://github.com/topics/ai)
+[![rgpd](https://img.shields.io/badge/topic-rgpd-yellow)](https://github.com/topics/rgpd)
+[![fastapi](https://img.shields.io/badge/topic-fastapi-orange)](https://github.com/topics/fastapi)
+[![data-tracking](https://img.shields.io/badge/topic-data--tracking-purple)](https://github.com/topics/data-tracking)
+
 ---
 
 ## 📖 **Pourquoi ARIA ? (En langage simple)**
@@ -63,28 +69,40 @@ ARKALIA ARIA est un outil qui t'aide à **mieux comprendre ta santé** en analys
 
 ## 🚀 **Démarrage Rapide**
 
-### Installation Simple
+### ⚡ **5 Minutes pour Tester ARIA**
+
+Tu veux tester ARIA rapidement ? Voici comment faire en 5 minutes :
 
 ```bash
-# 1. Cloner le projet
+# 1. Cloner le projet (30 secondes)
 git clone https://github.com/arkalia-luna-system/arkalia-aria.git
 cd arkalia-aria
 
-# 2. Installer les dépendances
+# 2. Installer les dépendances (2 minutes)
 pip install -r requirements.txt
 
-# 3. Lancer ARIA
+# 3. Lancer ARIA (10 secondes)
 python main.py
 ```
 
 **C'est tout !** ARIA démarre sur `http://localhost:8000`
 
-### Premiers Pas
+### 🎯 **Premiers Pas (2 minutes)**
 
 1. **Ouvre ton navigateur** : `http://localhost:8000`
 2. **Note ta première douleur** : Clique sur "Saisie rapide" (3 questions, 30 secondes)
-3. **Connecte ta montre** : Dans "Connecteurs Santé", choisis Samsung Health, Google Fit ou Apple Health
-4. **Explore ton dashboard** : Vois tes données s'afficher en temps réel
+3. **Explore ton dashboard** : Vois tes données s'afficher en temps réel
+4. **Active le dark mode** : Clique sur l'icône lune 🌙 dans l'en-tête
+
+**Tu as maintenant testé ARIA !** 🎉
+
+### 📱 **Installation Complète (Optionnel)**
+
+Pour une utilisation complète avec synchronisation santé :
+
+1. **Connecte ta montre** : Dans "Connecteurs Santé", choisis Samsung Health, Google Fit ou Apple Health
+2. **Configure les connecteurs** : Suis le guide dans `docs/USER_GUIDE.md`
+3. **Explore les fonctionnalités** : Dashboard, patterns, exports, etc.
 
 ---
 
@@ -212,10 +230,21 @@ Voir `docs/DEVELOPER_GUIDE.md` pour :
 
 Ce projet fait partie de l'écosystème Arkalia Luna System. Les contributions sont les bienvenues !
 
+### 🎯 **Bon Point de Départ**
+
+Tu es nouveau dans le projet ? Commence par ces issues marquées `good first issue` :
+- [Voir les "good first issue"](https://github.com/arkalia-luna-system/arkalia-aria/labels/good%20first%20issue)
+
+Ces issues sont parfaites pour commencer et comprendre le codebase !
+
+### 💪 **Comment Contribuer**
+
 - 🐛 **Issues** : Signaler des bugs
 - 💡 **Feature Requests** : Proposer des améliorations  
 - 📖 **Documentation** : Améliorer la doc
 - 🧪 **Testing** : Tester et valider
+- 🎨 **UI/UX** : Améliorer l'interface (dark mode, accessibilité)
+- 🔒 **Sécurité** : Scanner et corriger les vulnérabilités
 
 ---
 
@@ -234,12 +263,16 @@ Ce projet fait partie de l'écosystème Arkalia Luna System. Les contributions s
   <a href="https://github.com/arkalia-luna-system/arkalia-aria/actions/workflows/ci-cd.yml">
     <img alt="CI" src="https://github.com/arkalia-luna-system/arkalia-aria/actions/workflows/ci-cd.yml/badge.svg" />
   </a>
+  <a href="https://codecov.io/gh/arkalia-luna-system/arkalia-aria">
+    <img alt="Codecov" src="https://codecov.io/gh/arkalia-luna-system/arkalia-aria/branch/main/graph/badge.svg" />
+  </a>
   <img alt="Python" src="https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12-3776AB" />
   <img alt="Ruff" src="https://img.shields.io/badge/lint-ruff-0A7BBB" />
   <img alt="Black" src="https://img.shields.io/badge/code%20style-black-000000" />
   <a href="https://github.com/arkalia-luna-system/arkalia-aria/issues">
     <img alt="Issues" src="https://img.shields.io/github/issues/arkalia-luna-system/arkalia-aria" />
   </a>
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-blue" />
 </p>
 
 ---

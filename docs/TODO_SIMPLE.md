@@ -1,6 +1,6 @@
 # ✅ TODO Simple ARKALIA ARIA
 
-**Dernière mise à jour : Novembre 2025**
+**Dernière mise à jour : Novembre 2025
 
 ## 🎉 **MISSION ACCOMPLIE !**
 
@@ -11,14 +11,14 @@
 
 ## ✅ **TÂCHES TERMINÉES !**
 
-### **RGPD & Conformité** ✅ **TERMINÉ**
+### RGPD & Conformité ✅ **TERMINÉ**
 - [x] **Créer instance démo** - Environnement de test ✅
 - [x] **Tester checklist RGPD** - Tous les points ✅
 - [x] **Rédiger mentions légales** - Page légale ✅
 - [x] **Créer politique confidentialité** - Document RGPD ✅
 - [x] **Rédiger conditions utilisation** - CGU ✅
 
-### **Tests Mobile** ✅ **TERMINÉ**
+### Tests Mobile ✅ **TERMINÉ**
 - [x] **Tester sur iPhone** - App, notifications, connecteurs ✅
 - [x] **Tester sur Android** - Samsung Health, Google Fit ✅
 - [x] **Tester notifications push** - iOS et Android ✅
@@ -28,13 +28,13 @@
 
 ## 🔧 **IMPORTANT (Ce mois)**
 
-### **Tests & Validation**
+### Tests & Validation
 - [ ] **Tester connecteurs santé** - Samsung/Google/Apple
 - [ ] **Tester exports données** - CSV/PDF/Excel
 - [ ] **Tester suppression données** - Droit à l'oubli
 - [ ] **Tester portabilité données** - Export complet
 
-### **Déploiement**
+### Déploiement
 - [ ] **Configurer serveur production** - Infrastructure
 - [ ] **Configurer HTTPS** - Certificats SSL
 - [ ] **Configurer monitoring** - Alertes
@@ -44,14 +44,14 @@
 
 ## 📱 **MOBILE (Prochain mois)**
 
-### **App Flutter**
+### App Flutter
 - [ ] **Écrans UI complets** - Interface utilisateur
 - [ ] **Navigation entre écrans** - Routing Flutter
 - [ ] **Thème sombre/clair** - Mode sombre
 - [ ] **Notifications push** - iOS/Android
 - [ ] **Mode hors ligne** - Fonctionnement offline
 
-### **Stores**
+### Stores
 - [ ] **Configurer App Store** - iOS Store
 - [ ] **Configurer Google Play** - Android Store
 - [ ] **Créer certificats** - Code signing
@@ -61,13 +61,13 @@
 
 ## 🚀 **AMÉLIORATIONS (Plus tard)**
 
-### **Performance**
+### Performance
 - [ ] **Cache Redis** - Sessions et données
 - [ ] **CDN assets** - Images, CSS, JS
 - [ ] **Optimisation DB** - Index et requêtes
 - [ ] **Monitoring performances** - Métriques
 
-### **Fonctionnalités**
+### Fonctionnalités
 - [ ] **IA avancée** - Modèles ML améliorés
 - [ ] **Intégrations tierces** - API externes
 - [ ] **Analytics avancées** - Dashboard détaillé
@@ -77,19 +77,19 @@
 
 ## 📋 **Ta Checklist Quotidienne**
 
-### **Matin (15 min)**
+### Matin (15 min)
 - [ ] `git status` - Voir changements
 - [ ] `black .` - Formater code
 - [ ] `ruff check . --fix` - Corriger linting
 - [ ] `python -m pytest tests/ --tb=short -x` - Tests rapides
 
-### **Développement (2-4h)**
+### Développement (2-4h)
 - [ ] **1 tâche principale** - Focus sur 1 chose
 - [ ] **Tester ce que tu codes** - Tests unitaires
 - [ ] **Commit régulier** - Sauvegarder
 - [ ] **Push** - Synchroniser GitHub
 
-### **Soir (15 min)**
+### Soir (15 min)
 - [ ] `git status` - État final
 - [ ] `black . && ruff check . --fix` - Nettoyer
 - [ ] `git add . && git commit -m "message"` - Sauvegarder
@@ -99,12 +99,12 @@
 
 ## 🎯 **Focus du Jour**
 
-### **Aujourd'hui**
+### Aujourd'hui
 **Tâche** : ________________
 **Temps** : ___ heures
 **Succès** : ________________
 
-### **Demain**
+### Demain
 **Tâche** : ________________
 **Temps** : ___ heures
 **Succès** : ________________
@@ -113,14 +113,14 @@
 
 ## 🔍 **Tests à Faire**
 
-### **Sur Ton iPhone**
+### Sur Ton iPhone
 - [ ] Ouvrir app ARIA
 - [ ] Saisir douleur
 - [ ] Tester notifications
 - [ ] Exporter PDF
 - [ ] Mode hors ligne
 
-### **Sur Ton Ordinateur**
+### Sur Ton Ordinateur
 - [ ] API : http://127.0.0.1:8001/docs
 - [ ] Exports CSV/PDF
 - [ ] Suppression données
@@ -130,17 +130,17 @@
 
 ## 🚨 **Blocages Actuels**
 
-### **RGPD**
+### RGPD
 - **Problème** : Pas testé sur instance réelle
 - **Solution** : Créer instance démo
 - **Temps** : 2-3h
 
-### **Mobile**
+### Mobile
 - **Problème** : Pas testé sur device réel
 - **Solution** : Tester sur ton iPhone
 - **Temps** : 1-2h
 
-### **Production**
+### Production
 - **Problème** : Pas encore déployé
 - **Solution** : Configurer serveur
 - **Temps** : 4-6h
@@ -149,13 +149,13 @@
 
 ## 📊 **Progrès**
 
-### **Cette Semaine**
+### Cette Semaine
 - **RGPD** : ⏳ À tester
 - **Mobile** : ⏳ À tester
 - **Exports** : ⏳ À tester
 - **Docs légales** : ⏳ À rédiger
 
-### **Ce Mois**
+### Ce Mois
 - **Tests** : ⏳ À faire
 - **Production** : ⏳ À déployer
 - **Monitoring** : ⏳ À configurer

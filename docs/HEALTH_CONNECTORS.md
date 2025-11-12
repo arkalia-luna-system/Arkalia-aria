@@ -41,7 +41,7 @@ Les connecteurs santé d'ARKALIA ARIA permettent la synchronisation des données
 
 ## 🏗️ **Architecture**
 
-### **Structure des Fichiers**
+### Structure des Fichiers
 
 ```
 health_connectors/
@@ -55,7 +55,7 @@ health_connectors/
 └── api.py                         # Endpoints API FastAPI
 ```
 
-### **Diagramme d'Architecture**
+### Diagramme d'Architecture
 
 ```mermaid
 graph TB
@@ -102,7 +102,7 @@ graph TB
 
 ## 📊 **Modèles de Données**
 
-### **UnifiedHealthMetrics**
+### UnifiedHealthMetrics
 
 ```python
 class UnifiedHealthMetrics(BaseModel):
@@ -121,7 +121,7 @@ class UnifiedHealthMetrics(BaseModel):
     bmi: Optional[float]
 ```
 
-### **ActivityData**
+### ActivityData
 
 ```python
 class ActivityData(BaseModel):
@@ -135,7 +135,7 @@ class ActivityData(BaseModel):
     intensity: str
 ```
 
-### **SleepData**
+### SleepData
 
 ```python
 class SleepData(BaseModel):
@@ -149,7 +149,7 @@ class SleepData(BaseModel):
     awakenings: int
 ```
 
-### **StressData**
+### StressData
 
 ```python
 class StressData(BaseModel):
@@ -161,7 +161,7 @@ class StressData(BaseModel):
     stress_events: List[str]
 ```
 
-### **HealthData**
+### HealthData
 
 ```python
 class HealthData(BaseModel):
@@ -180,7 +180,7 @@ class HealthData(BaseModel):
 
 ## 🔧 **API Endpoints**
 
-### **Synchronisation**
+### Synchronisation
 
 ```http
 POST /health/samsung/sync
@@ -195,7 +195,7 @@ Content-Type: application/json
 }
 ```
 
-### **Récupération des Données**
+### Récupération des Données
 
 ```http
 GET /health/data/activity?days_back=30
@@ -205,13 +205,13 @@ GET /health/data/health?days_back=30
 GET /health/metrics/unified?days_back=30
 ```
 
-### **Statut des Connecteurs**
+### Statut des Connecteurs
 
 ```http
 GET /health/connectors/status
 ```
 
-### **Configuration**
+### Configuration
 
 ```http
 GET /health/config
@@ -252,7 +252,7 @@ PUT /health/config
 
 ## 🚀 **Utilisation**
 
-### **Configuration**
+### Configuration
 
 1. **Samsung Health** :
    ```python
@@ -272,7 +272,7 @@ PUT /health/config
    await connector.connect()
    ```
 
-### **Synchronisation**
+### Synchronisation
 
 ```python
 from health_connectors import HealthSyncManager
@@ -287,7 +287,7 @@ await sync_manager.sync_all_connectors(days_back=7)
 await sync_manager.sync_connector("samsung_health", days_back=7)
 ```
 
-### **Récupération des Données**
+### Récupération des Données
 
 ```python
 # Métriques unifiées
@@ -304,19 +304,19 @@ health_data = await sync_manager.get_health_data(days_back=7)
 
 ## 🔒 **Sécurité et Confidentialité**
 
-### **Stockage Local**
+### Stockage Local
 
 - Toutes les données sont stockées localement
 - Aucune transmission externe par défaut
 - Chiffrement des données sensibles
 
-### **Authentification**
+### Authentification
 
 - Tokens OAuth2 pour chaque connecteur
 - Stockage sécurisé des credentials
 - Renouvellement automatique des tokens
 
-### **Permissions**
+### Permissions
 
 - Contrôle granulaire des permissions
 - Consentement explicite requis
@@ -326,7 +326,7 @@ health_data = await sync_manager.get_health_data(days_back=7)
 
 ## 🧪 **Tests**
 
-### **Tests Unitaires**
+### Tests Unitaires
 
 ```bash
 # Tests des connecteurs
@@ -339,7 +339,7 @@ python -m pytest tests/test_data_models.py
 python -m pytest tests/test_health_api.py
 ```
 
-### **Tests d'Intégration**
+### Tests d'Intégration
 
 ```bash
 # Test de synchronisation complète
@@ -350,7 +350,7 @@ python -m pytest tests/test_integration.py
 
 ## 📈 **Monitoring et Logs**
 
-### **Logs de Synchronisation**
+### Logs de Synchronisation
 
 ```python
 import logging
@@ -363,7 +363,7 @@ logger = logging.getLogger("health_connectors")
 await sync_manager.sync_all_connectors()
 ```
 
-### **Métriques de Performance**
+### Métriques de Performance
 
 - Temps de synchronisation
 - Nombre de données synchronisées
@@ -374,7 +374,7 @@ await sync_manager.sync_all_connectors()
 
 ## 🐛 **Dépannage**
 
-### **Problèmes Courants**
+### Problèmes Courants
 
 1. **Connecteur non connecté** :
    - Vérifier les credentials
@@ -391,7 +391,7 @@ await sync_manager.sync_all_connectors()
    - Vérifier la stabilité de l'API externe
    - Tester la connectivité
 
-### **Support**
+### Support
 
 - **Documentation** : `docs/HEALTH_CONNECTORS.md`
 - **Issues** : [GitHub Issues](https://github.com/arkalia-luna-system/arkalia-aria/issues)
@@ -401,14 +401,14 @@ await sync_manager.sync_all_connectors()
 
 ## 🔮 **Évolutions Futures**
 
-### **Connecteurs Additionnels**
+### Connecteurs Additionnels
 
 - **Fitbit** : Montres et trackers Fitbit
 - **Garmin** : Montres Garmin
 - **Withings** : Balances et trackers Withings
 - **Polar** : Montres Polar
 
-### **Fonctionnalités Avancées**
+### Fonctionnalités Avancées
 
 - Synchronisation en temps réel
 - Détection automatique des appareils

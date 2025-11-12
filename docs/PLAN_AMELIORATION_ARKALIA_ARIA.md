@@ -46,7 +46,7 @@
 
 ## 🎯 PLAN D'IMPLÉMENTATION
 
-### **PHASE 1 : MIGRATION VERS CORE** 🔄 (1 jour)
+### PHASE 1 : MIGRATION VERS CORE 🔄 (1 jour)
 
 #### 1.1 Migrer les connexions SQLite
 ```bash
@@ -72,7 +72,7 @@
 - Appliquer les niveaux de log cohérents
 ```
 
-### **PHASE 2 : OPTIMISATION PERFORMANCE** ⚡ (2 jours)
+### PHASE 2 : OPTIMISATION PERFORMANCE ⚡ (2 jours)
 
 #### 2.1 Optimiser metrics_collector
 ```python
@@ -103,7 +103,7 @@ def _collect_performance_metrics(self):
         return {"error": "psutil not available"}
 ```
 
-### **PHASE 3 : STANDARDISATION APIs** 🏗️ (2 jours)
+### PHASE 3 : STANDARDISATION APIs 🏗️ (2 jours)
 
 #### 3.1 Créer BaseAPI
 ```python
@@ -136,7 +136,7 @@ GET /{module}/metrics
 POST /{module}/sync
 ```
 
-### **PHASE 4 : ÉLIMINATION DOUBLONS** 🔄 (1 jour)
+### PHASE 4 : ÉLIMINATION DOUBLONS 🔄 (1 jour)
 
 #### 4.1 Unifier les connecteurs
 ```python
@@ -156,7 +156,7 @@ class BaseConnector(ABC):
 # Standardiser les patterns de connexion
 ```
 
-### **PHASE 5 : TESTS ET VALIDATION** ✅ (1 jour)
+### PHASE 5 : TESTS ET VALIDATION ✅ (1 jour)
 
 #### 5.1 Tests de performance
 ```python
@@ -180,19 +180,19 @@ def test_core_integration():
 
 ## 📈 MÉTRIQUES CIBLES
 
-### **Performance**
+### Performance
 - **Temps de démarrage** : < 2 secondes (actuellement ~5s)
 - **Temps de réponse API** : < 100ms (actuellement ~200ms)
 - **Utilisation mémoire** : < 100MB (actuellement ~150MB)
 - **Cache hit ratio** : > 80%
 
-### **Qualité**
+### Qualité
 - **Couverture de tests** : > 95% (actuellement 99%)
 - **Code dupliqué** : < 5% (actuellement ~15%)
 - **Complexité cyclomatique** : < 10
 - **Lignes par fichier** : < 500
 
-### **Maintenabilité**
+### Maintenabilité
 - **Modules utilisant core** : 100%
 - **Logging standardisé** : 100%
 - **Gestion d'erreurs unifiée** : 100%
@@ -202,33 +202,33 @@ def test_core_integration():
 
 ## 🚀 ORDRE D'IMPLÉMENTATION
 
-### **JOUR 1 : Migration Core**
+### JOUR 1 : Migration Core
 1. Migrer pain_tracking/api.py vers DatabaseManager
 2. Migrer prediction_engine/ml_analyzer.py vers DatabaseManager
 3. Migrer research_tools/data_collector.py vers DatabaseManager
 4. Migrer metrics_collector vers DatabaseManager
 5. Tester les migrations
 
-### **JOUR 2 : Optimisation Performance**
+### JOUR 2 : Optimisation Performance
 1. Implémenter cache dans metrics_collector
 2. Optimiser les recherches de fichiers
 3. Lazy loading des imports lourds
 4. Tests de performance
 
-### **JOUR 3 : Standardisation APIs**
+### JOUR 3 : Standardisation APIs
 1. Créer BaseAPI
 2. Migrer pain_tracking/api.py
 3. Migrer pattern_analysis/api.py
 4. Migrer prediction_engine/api.py
 5. Tests d'intégration
 
-### **JOUR 4 : Élimination Doublons**
+### JOUR 4 : Élimination Doublons
 1. Unifier les connecteurs santé
 2. Supprimer code dupliqué
 3. Standardiser les patterns
 4. Tests de régression
 
-### **JOUR 5 : Validation Finale**
+### JOUR 5 : Validation Finale
 1. Tests de performance complets
 2. Tests d'intégration
 3. Validation métriques

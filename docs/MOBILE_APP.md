@@ -20,7 +20,7 @@ L'application mobile ARKALIA ARIA est une application Flutter native qui offre u
 
 ## 🏗️ **Architecture**
 
-### **Structure des Fichiers**
+### Structure des Fichiers
 
 ```
 mobile_app/
@@ -41,7 +41,7 @@ mobile_app/
 └── pubspec.yaml                  # Dépendances Flutter
 ```
 
-### **Diagramme d'Architecture**
+### Diagramme d'Architecture
 
 ```mermaid
 graph TB
@@ -87,7 +87,7 @@ graph TB
 
 ## 📱 **Architecture de l'Application**
 
-### **🏗️ Structure Actuelle**
+### 🏗️ Structure Actuelle
 
 L'application mobile Flutter est actuellement en phase de développement avec une architecture modulaire :
 
@@ -103,7 +103,7 @@ L'application mobile Flutter est actuellement en phase de développement avec un
 - Notifications push personnalisées
 - Export de rapports multiples
 
-### **🔧 Services Disponibles**
+### 🔧 Services Disponibles
 
 **HealthConnectorService** :
 - Communication avec l'API ARIA
@@ -124,7 +124,7 @@ L'application mobile Flutter est actuellement en phase de développement avec un
 
 ## 🔧 **Services**
 
-### **HealthConnectorService**
+### HealthConnectorService
 
 **Fichier** : `lib/services/health_connector_service.dart`
 
@@ -151,7 +151,7 @@ Future<List<HealthData>> getUnifiedHealthData(int daysBack)
 Future<SyncSummary> getConnectorsStatus()
 ```
 
-### **NotificationService**
+### NotificationService
 
 **Fichier** : `lib/services/notification_service.dart`
 
@@ -176,7 +176,7 @@ Future<void> scheduleDailyReport(int hour)
 Future<void> configureNotifications(Map<String, dynamic> settings)
 ```
 
-### **OfflineCacheService**
+### OfflineCacheService
 
 **Fichier** : `lib/services/offline_cache_service.dart`
 
@@ -199,7 +199,7 @@ Future<DateTime?> getLastSyncTimestamp()
 Future<void> markCacheAsStale()
 ```
 
-### **Services en Développement**
+### Services en Développement
 
 **ExportService** (prévu) :
 - Génération de rapports
@@ -219,7 +219,7 @@ Future<void> markCacheAsStale()
 
 ## 📊 **Modèles de Données**
 
-### **HealthData**
+### HealthData
 
 ```dart
 class HealthData {
@@ -242,7 +242,7 @@ class HealthData {
 }
 ```
 
-### **Modèles en Développement**
+### Modèles en Développement
 
 **PainEntry** (prévu) :
 - Gestion des entrées de douleur
@@ -263,14 +263,14 @@ class HealthData {
 
 ## 🚀 **Installation et Configuration**
 
-### **Prérequis**
+### Prérequis
 
 - Flutter SDK 3.0+
 - Dart SDK 3.0+
 - Android Studio / Xcode
 - Accès à l'API ARIA
 
-### **Installation**
+### Installation
 
 ```bash
 # Cloner le projet
@@ -287,7 +287,7 @@ flutter build apk --release
 flutter build ios --release
 ```
 
-### **Configuration**
+### Configuration
 
 1. **API Backend** :
    ```dart
@@ -323,19 +323,19 @@ flutter build ios --release
 
 ## 🔒 **Sécurité et Confidentialité**
 
-### **Stockage Local**
+### Stockage Local
 
 - Données chiffrées avec SQLite
 - Cache sécurisé avec SharedPreferences
 - Aucune transmission non autorisée
 
-### **Authentification**
+### Authentification
 
 - Tokens JWT pour l'API
 - Stockage sécurisé des credentials
 - Renouvellement automatique
 
-### **Permissions**
+### Permissions
 
 - Contrôle granulaire des permissions
 - Consentement explicite requis
@@ -345,7 +345,7 @@ flutter build ios --release
 
 ## 🧪 **Tests**
 
-### **Tests Unitaires**
+### Tests Unitaires
 
 ```bash
 # Tests des services
@@ -358,14 +358,14 @@ flutter test test/models/
 flutter test test/screens/
 ```
 
-### **Tests d'Intégration**
+### Tests d'Intégration
 
 ```bash
 # Tests d'intégration complets
 flutter test integration_test/
 ```
 
-### **Tests de Performance**
+### Tests de Performance
 
 ```bash
 # Profiling des performances
@@ -376,14 +376,14 @@ flutter run --profile
 
 ## 📈 **Monitoring et Analytics**
 
-### **Métriques de Performance**
+### Métriques de Performance
 
 - Temps de chargement des écrans
 - Latence des API calls
 - Utilisation mémoire
 - Taux d'erreur
 
-### **Analytics Utilisateur**
+### Analytics Utilisateur
 
 - Fonctionnalités les plus utilisées
 - Patterns d'utilisation
@@ -394,7 +394,7 @@ flutter run --profile
 
 ## 🐛 **Dépannage**
 
-### **Problèmes Courants**
+### Problèmes Courants
 
 1. **Synchronisation échouée** :
    - Vérifier la connectivité réseau
@@ -411,7 +411,7 @@ flutter run --profile
    - Redémarrer l'application
    - Réinstaller si nécessaire
 
-### **Logs et Debug**
+### Logs et Debug
 
 ```dart
 // Activation des logs détaillés
@@ -429,14 +429,14 @@ void main() {
 
 ## 🔮 **Évolutions Futures**
 
-### **Fonctionnalités Avancées**
+### Fonctionnalités Avancées
 
 - **IA Intégrée** : Recommandations personnalisées
 - **Reconnaissance Vocale** : Saisie vocale de douleur
 - **Reality Augmentée** : Visualisation 3D des données
 - **Wearables** : Support étendu des montres connectées
 
-### **Améliorations UX**
+### Améliorations UX
 
 - **Thèmes Personnalisés** : Personnalisation avancée
 - **Gestures** : Navigation par gestes
@@ -455,7 +455,7 @@ void main() {
 
 ## 🚧 **Fonctionnalités Manquantes**
 
-### **Interface Utilisateur**
+### Interface Utilisateur
 - [ ] Écrans UI complets (screens/)
 - [ ] Navigation entre écrans
 - [ ] Thème sombre/clair
@@ -463,7 +463,7 @@ void main() {
 - [ ] Accessibilité (a11y)
 - [ ] Internationalisation (i18n)
 
-### **Fonctionnalités Avancées**
+### Fonctionnalités Avancées
 - [ ] Notifications push (iOS/Android)
 - [ ] Mode hors ligne complet
 - [ ] Synchronisation bidirectionnelle
@@ -472,14 +472,14 @@ void main() {
 - [ ] Géolocalisation
 - [ ] Biométrie (Touch ID/Face ID)
 
-### **Tests & Qualité**
+### Tests & Qualité
 - [ ] Tests unitaires Flutter
 - [ ] Tests d'intégration mobile
 - [ ] Tests de performance
 - [ ] Tests d'accessibilité
 - [ ] Tests de compatibilité
 
-### **Déploiement**
+### Déploiement
 - [ ] Configuration App Store
 - [ ] Configuration Google Play
 - [ ] Certificats de signature

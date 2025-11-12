@@ -1,10 +1,10 @@
 # ⚡ Commandes Rapides ARKALIA ARIA
 
-**Dernière mise à jour : Novembre 2025**
+**Dernière mise à jour : Novembre 2025
 
 ## 🚀 **Démarrage Rapide**
 
-### **Lancer l'Application**
+### Lancer l'Application
 ```bash
 # Activer l'environnement
 source arkalia_aria_venv/bin/activate
@@ -18,7 +18,7 @@ uvicorn main:app --host 127.0.0.1 --port 8001 --reload
 curl http://127.0.0.1:8001/health
 ```
 
-### **Tests Rapides**
+### Tests Rapides
 ```bash
 # Tests rapides (mode fail-fast)
 python -m pytest tests/ --tb=short -x
@@ -34,7 +34,7 @@ python -m pytest tests/integration/ -v
 
 ## 🔧 **Qualité du Code**
 
-### **Formatage & Linting**
+### Formatage & Linting
 ```bash
 # Formater le code
 black .
@@ -49,7 +49,7 @@ mypy .
 black . && ruff check . --fix && mypy .
 ```
 
-### **Sécurité**
+### Sécurité
 ```bash
 # Audit de sécurité
 bandit -r . -f json -o reports/bandit-report.json
@@ -63,7 +63,7 @@ bandit -r . && safety check
 
 ## 🐳 **Docker**
 
-### **Docker Compose**
+### Docker Compose
 ```bash
 # Lancer avec Docker
 docker-compose up -d
@@ -78,7 +78,7 @@ docker-compose down
 docker-compose up --build -d
 ```
 
-### **Docker Direct**
+### Docker Direct
 ```bash
 # Construire l'image
 docker build -t arkalia-aria .
@@ -94,7 +94,7 @@ docker logs arkalia-aria
 
 ## 📱 **Application Mobile**
 
-### **Flutter**
+### Flutter
 ```bash
 # Aller dans le dossier mobile
 cd mobile_app/
@@ -114,7 +114,7 @@ flutter build ios --release
 
 ## 🗄️ **Base de Données**
 
-### **SQLite**
+### SQLite
 ```bash
 # Ouvrir la base de données
 sqlite3 aria_pain.db
@@ -132,7 +132,7 @@ SELECT * FROM pain_entries LIMIT 5;
 .quit
 ```
 
-### **Backup & Restore**
+### Backup & Restore
 ```bash
 # Backup
 cp aria_pain.db aria_pain.db.backup
@@ -147,7 +147,7 @@ cp aria_research.db.backup aria_research.db
 
 ## 🔍 **Debugging**
 
-### **Vérifier l'État**
+### Vérifier l'État
 ```bash
 # Vérifier les processus
 ps aux | grep python
@@ -162,7 +162,7 @@ free -h
 df -h
 ```
 
-### **Logs**
+### Logs
 ```bash
 # Voir les logs de l'application
 tail -f logs/app.log
@@ -178,7 +178,7 @@ journalctl -u aria -f
 
 ## 🌐 **API & Endpoints**
 
-### **Tests API**
+### Tests API
 ```bash
 # Health check
 curl http://127.0.0.1:8001/health
@@ -193,7 +193,7 @@ curl http://127.0.0.1:8001/metrics
 open http://127.0.0.1:8001/docs
 ```
 
-### **Endpoints Principaux**
+### Endpoints Principaux
 ```bash
 # Suivi de douleur
 curl http://127.0.0.1:8001/api/pain/entries
@@ -216,7 +216,7 @@ curl http://127.0.0.1:8001/api/pain/export/excel
 
 ## 🧹 **Nettoyage**
 
-### **Cache & Fichiers Temporaires**
+### Cache & Fichiers Temporaires
 ```bash
 # Nettoyer le cache Python
 find . -name "*.pyc" -delete
@@ -231,7 +231,7 @@ rm -rf htmlcov/
 rm -rf logs/*.log
 ```
 
-### **Fichiers de Build**
+### Fichiers de Build
 ```bash
 # Nettoyer les builds
 rm -rf build/
@@ -247,7 +247,7 @@ docker volume prune -f
 
 ## 📊 **Monitoring**
 
-### **Métriques Système**
+### Métriques Système
 ```bash
 # CPU et mémoire
 top -p $(pgrep -f "python.*main.py")
@@ -259,7 +259,7 @@ du -sh aria_pain.db aria_research.db
 netstat -tulpn | grep :8001
 ```
 
-### **Métriques Application**
+### Métriques Application
 ```bash
 # Métriques système (nécessite ARIA_ENABLE_METRICS=true)
 curl http://127.0.0.1:8001/metrics
@@ -272,7 +272,7 @@ curl http://127.0.0.1:8001/health/metrics/unified?days_back=7
 
 ## 🔄 **Git & Déploiement**
 
-### **Git**
+### Git
 ```bash
 # Voir l'état
 git status
@@ -290,7 +290,7 @@ git push
 git log --oneline -10
 ```
 
-### **Déploiement**
+### Déploiement
 ```bash
 # Construire pour production
 docker build -t arkalia-aria:latest .
@@ -306,7 +306,7 @@ docker push arkalia-aria:latest
 
 ## 🚨 **Dépannage**
 
-### **Problèmes Courants**
+### Problèmes Courants
 ```bash
 # Port 8001 occupé
 kill -9 $(lsof -t -i:8001)
@@ -322,7 +322,7 @@ pip install -r requirements.txt
 rm -rf .pytest_cache __pycache__/
 ```
 
-### **Redémarrage Complet**
+### Redémarrage Complet
 ```bash
 # Arrêter tout
 docker-compose down
@@ -341,7 +341,7 @@ python main.py
 
 ## 📚 **Documentation**
 
-### **Générer la Documentation**
+### Générer la Documentation
 ```bash
 # Documentation MkDocs
 mkdocs serve
@@ -353,7 +353,7 @@ open http://127.0.0.1:8001/docs
 open http://127.0.0.1:8001/redoc
 ```
 
-### **Voir la Documentation**
+### Voir la Documentation
 ```bash
 # Ouvrir la documentation
 open docs/index.md
@@ -369,7 +369,7 @@ grep -r "mot-clé" docs/
 
 ## ⚡ **Commandes Ultra-Rapides**
 
-### **Développement Quotidien**
+### Développement Quotidien
 ```bash
 # Workflow complet
 source arkalia_aria_venv/bin/activate && python main.py
@@ -384,7 +384,7 @@ black . && ruff check . --fix
 git add . && git commit -m "update" && git push
 ```
 
-### **Docker Rapide**
+### Docker Rapide
 ```bash
 # Lancer
 docker-compose up -d
@@ -396,7 +396,7 @@ docker-compose logs -f
 docker-compose down
 ```
 
-### **API Rapide**
+### API Rapide
 ```bash
 # Health
 curl http://127.0.0.1:8001/health

@@ -1,6 +1,6 @@
 # ✅ Checklist Sécurité & RGPD – ARKALIA ARIA
 
-Dernière mise à jour: Novembre 2025
+Dernière mise à jour : Novembre 2025
 
 ## Principes Clés
 - Licéité, loyauté, transparence

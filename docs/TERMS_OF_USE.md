@@ -10,12 +10,12 @@ En utilisant ARKALIA ARIA, vous acceptez ces conditions d'utilisation. Si vous n
 
 ## 🔐 **Compte utilisateur**
 
-### **Création de compte**
+### Création de compte
 - Vous devez fournir des informations exactes
 - Vous êtes responsable de la sécurité de votre compte
 - Vous devez notifier toute utilisation non autorisée
 
-### **Responsabilités**
+### Responsabilités
 - Utilisation conforme à la loi
 - Respect des droits d'autrui
 - Non-divulgation de vos identifiants
@@ -77,7 +77,7 @@ France
 ## 📝 **Version**
 
 **Version :** 1.0  
-**Date :** novembre 2025  
+**Date :** Novembre 2025  
 
 ---
 

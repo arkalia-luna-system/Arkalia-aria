@@ -1,10 +1,10 @@
 # 📋 Checklist de Fin de Journée - ARKALIA ARIA
 
-**Dernière mise à jour : Novembre 2025**
+**Dernière mise à jour : Novembre 2025
 
 ## 🎯 **Checklist Quotidienne (15 min max)**
 
-### **1. Tests & Validation (5 min)**
+### 1. Tests & Validation (5 min)
 ```bash
 # Activer l'environnement
 cd /Volumes/T7/arkalia-aria && source arkalia_aria_venv/bin/activate
@@ -20,7 +20,7 @@ bandit -r . -f json -o reports/bandit-report.json
 safety check --json --output reports/safety-report.json
 ```
 
-### **2. Git & Sauvegarde (3 min)**
+### 2. Git & Sauvegarde (3 min)
 ```bash
 # Status et add
 git status
@@ -36,7 +36,7 @@ git commit -m "feat: [module] description claire
 git push origin develop
 ```
 
-### **3. Documentation (3 min)**
+### 3. Documentation (3 min)
 ```bash
 # Mettre à jour le statut
 echo "## $(date '+%d/%m/%Y %H:%M')" >> docs/DAILY_LOG.md
@@ -45,7 +45,7 @@ echo "- [x] Tâche 2" >> docs/DAILY_LOG.md
 echo "" >> docs/DAILY_LOG.md
 ```
 
-### **4. Nettoyage (2 min)**
+### 4. Nettoyage (2 min)
 ```bash
 # Nettoyer les caches Python
 find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
@@ -58,7 +58,7 @@ find . -name "*.log" -size +10M -delete 2>/dev/null || true
 du -sh . | tee -a docs/DAILY_LOG.md
 ```
 
-### **5. Planification Demain (2 min)**
+### 5. Planification Demain (2 min)
 ```bash
 # Créer la TODO pour demain
 echo "## TODO Demain - $(date -d '+1 day' '+%d/%m/%Y')" >> docs/DAILY_LOG.md
@@ -105,14 +105,14 @@ echo "✅ Nettoyage terminé !"
 
 ## 📊 **Métriques Quotidiennes**
 
-### **À Noter Chaque Jour :**
+### À Noter Chaque Jour :
 - **Lignes de code ajoutées/supprimées** : `git diff --stat`
 - **Temps de travail** : Estimation personnelle
 - **Tâches accomplies** : Liste des fonctionnalités
 - **Problèmes rencontrés** : Bugs ou blocages
 - **Espace disque** : `du -sh .`
 
-### **Exemple de Log Quotidien :**
+### Exemple de Log Quotidien :
 ```markdown
 ## 25/09/2025 18:30
 - [x] Migration architecture centralisée
@@ -137,14 +137,14 @@ echo "✅ Nettoyage terminé !"
 
 ## 🎯 **Objectifs de Qualité**
 
-### **Chaque Jour, Vérifier :**
+### Chaque Jour, Vérifier :
 - ✅ **Code** : Black + Ruff = 0 erreur
 - ✅ **Tests** : 100% passent
 - ✅ **Git** : Commit + Push réussi
 - ✅ **Doc** : Mise à jour des changements
 - ✅ **Sécurité** : Scan Bandit/Safety (optionnel)
 
-### **Chaque Semaine :**
+### Chaque Semaine :
 - 📊 **Métriques** : Couverture de code, performance
 - 🔍 **Audit** : Review complet du code
 - 📚 **Documentation** : Mise à jour des guides

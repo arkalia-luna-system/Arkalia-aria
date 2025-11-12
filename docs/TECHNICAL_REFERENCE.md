@@ -1,6 +1,6 @@
 # 🔧 Référence Technique ARKALIA ARIA
 
-**Dernière mise à jour : Novembre 2025**
+**Dernière mise à jour : Novembre 2025
 
 ## 📁 **Structure du Projet**
 
@@ -137,7 +137,7 @@
 
 ## 🚀 **Commandes Essentielles**
 
-### **Développement Local**
+### Développement Local
 ```bash
 # Activer l'environnement virtuel
 source arkalia_aria_venv/bin/activate
@@ -154,7 +154,7 @@ uvicorn main:app --host 0.0.0.0 --port 8001 --workers 4
 curl http://127.0.0.1:8001/health
 ```
 
-### **Tests**
+### Tests
 ```bash
 # Tests rapides (mode fail-fast)
 python -m pytest tests/ --tb=short -x
@@ -173,7 +173,7 @@ python -m pytest tests/ -m "fast" -v
 python -m pytest tests/ -m "not slow" -v
 ```
 
-### **Qualité du Code**
+### Qualité du Code
 ```bash
 # Formater le code
 black .
@@ -192,7 +192,7 @@ safety check --json --output reports/safety-report.json
 black . && ruff check . --fix && mypy . && bandit -r . && safety check
 ```
 
-### **Git & Déploiement**
+### Git & Déploiement
 ```bash
 # Voir l'état du repository
 git status
@@ -210,7 +210,7 @@ git push
 git log --oneline -10
 ```
 
-### **Docker**
+### Docker
 ```bash
 # Construire l'image Docker
 docker build -t arkalia-aria .
@@ -227,12 +227,12 @@ docker-compose down
 
 ## 🔗 **Endpoints API Principaux**
 
-### **Endpoints Standardisés (BaseAPI)**
+### Endpoints Standardisés (BaseAPI)
 - `GET /health` - Vérification de santé
 - `GET /status` - Statut détaillé
 - `GET /metrics` - Métriques système
 
-### **Suivi de Douleur (`/api/pain`)**
+### Suivi de Douleur (`/api/pain`)
 - `GET /api/pain/status` - Statut du module
 - `POST /api/pain/quick-entry` - Saisie rapide douleur
 - `POST /api/pain/entry` - Saisie détaillée douleur
@@ -246,25 +246,25 @@ docker-compose down
 - `DELETE /api/pain/entries/{entry_id}` - Supprimer une entrée
 - `DELETE /api/pain/entries` - Supprimer toutes les entrées
 
-### **Analyse de Patterns (`/api/patterns`)**
+### Analyse de Patterns (`/api/patterns`)
 - `GET /api/patterns/emotions` - Analyse émotionnelle
 - `GET /api/patterns/trends` - Tendances temporelles
 - `GET /api/patterns/correlations` - Corrélations
 - `GET /api/patterns/reports` - Rapports d'analyse
 
-### **Moteur de Prédiction (`/api/predictions`)**
+### Moteur de Prédiction (`/api/predictions`)
 - `POST /api/predictions/analyze` - Analyse ML
 - `GET /api/predictions/trends` - Prédictions de tendances
 - `GET /api/predictions/crises` - Prédiction de crises
 - `GET /api/predictions/recommendations` - Recommandations
 
-### **Outils de Recherche (`/api/research`)**
+### Outils de Recherche (`/api/research`)
 - `POST /api/research/collect` - Collecte de données
 - `GET /api/research/experiments` - Expérimentations
 - `GET /api/research/analytics` - Analytics avancées
 - `GET /api/research/export` - Export recherche
 
-### **Connecteurs Santé (`/health`)**
+### Connecteurs Santé (`/health`)
 - `GET /health/connectors/status` - Statut de tous les connecteurs
 - `POST /health/samsung/sync` - Synchronisation Samsung Health
 - `POST /health/google/sync` - Synchronisation Google Fit
@@ -278,19 +278,19 @@ docker-compose down
 - `GET /health/config` - Configuration des connecteurs
 - `PUT /health/config` - Mettre à jour la configuration
 
-### **Synchronisation CIA (`/api/sync`)**
+### Synchronisation CIA (`/api/sync`)
 - `GET /api/sync/status` - Statut de la connexion CIA
 - `GET /api/sync/connection` - Détails de la connexion
 - `POST /api/sync/selective` - Synchronisation sélective
 - `GET /api/sync/psy-mode` - Mode présentation psy
 - `POST /api/sync/push-data` - Envoyer des données vers CIA
 
-### **Audio/Voix (`/api/audio`)**
+### Audio/Voix (`/api/audio`)
 - `POST /api/audio/transcribe` - Transcription
 - `POST /api/audio/analyze` - Analyse audio
 - `GET /api/audio/recordings` - Enregistrements
 
-### **Métriques (`/metrics`) - Optionnel (ARIA_ENABLE_METRICS=true)**
+### Métriques (`/metrics`) - Optionnel (ARIA_ENABLE_METRICS=true)
 - `GET /metrics` - Métriques complètes
 - `GET /metrics/health` - Statut de santé
 - `GET /metrics/dashboard` - Dashboard HTML
@@ -300,7 +300,7 @@ docker-compose down
 - `GET /metrics/summary` - Résumé des métriques
 - `GET /metrics/alerts` - Alertes et recommandations
 
-### **DevOps (`/api/devops`)**
+### DevOps (`/api/devops`)
 - `GET /api/devops/status` - Statut DevOps
 - `POST /api/devops/deploy` - Déploiement
 - `GET /api/devops/logs` - Logs système
@@ -308,11 +308,11 @@ docker-compose down
 
 ## 🗄️ **Base de Données**
 
-### **Fichiers de Base de Données**
+### Fichiers de Base de Données
 - `aria_pain.db` - Base principale (données douleur)
 - `aria_research.db` - Base recherche (expérimentations)
 
-### **Tables Principales**
+### Tables Principales
 ```sql
 -- Table des entrées de douleur
 CREATE TABLE pain_entries (
@@ -349,7 +349,7 @@ CREATE TABLE ml_predictions (
 );
 ```
 
-### **Connexion à la Base de Données**
+### Connexion à la Base de Données
 ```python
 from core.database import DatabaseManager
 
@@ -365,7 +365,7 @@ data = db.fetch_all("SELECT * FROM pain_entries ORDER BY timestamp DESC LIMIT 10
 
 ## 🔧 **Configuration**
 
-### **Variables d'Environnement**
+### Variables d'Environnement
 ```bash
 # Copier le fichier d'exemple
 cp env.example .env
@@ -379,7 +379,7 @@ ARIA_REDIS_URL=redis://localhost:6379
 ARIA_SECRET_KEY=your-secret-key-here
 ```
 
-### **Configuration Centralisée**
+### Configuration Centralisée
 ```python
 from core.config import Config
 
@@ -394,7 +394,7 @@ max_request_size = config.get("ARIA_MAX_REQUEST_SIZE", 10485760)
 
 ## 📱 **Application Mobile Flutter**
 
-### **Structure Flutter**
+### Structure Flutter
 ```
 mobile_app/
 ├── lib/
@@ -411,7 +411,7 @@ mobile_app/
 └── pubspec.lock                    # Lock file
 ```
 
-### **Commandes Flutter**
+### Commandes Flutter
 ```bash
 # Aller dans le dossier mobile
 cd mobile_app/
@@ -435,7 +435,7 @@ flutter build ios --release
 
 ## 🐳 **Docker & Déploiement**
 
-### **Docker Compose**
+### Docker Compose
 ```yaml
 version: '3.8'
 services:
@@ -463,7 +463,7 @@ services:
     restart: unless-stopped
 ```
 
-### **Déploiement Production**
+### Déploiement Production
 ```bash
 # Construire l'image
 docker build -t arkalia-aria:latest .
@@ -480,7 +480,7 @@ docker-compose down
 
 ## 🔍 **Debugging & Monitoring**
 
-### **Logs**
+### Logs
 ```bash
 # Voir les logs de l'application
 tail -f logs/app.log
@@ -492,7 +492,7 @@ docker-compose logs -f aria
 journalctl -u aria -f
 ```
 
-### **Monitoring**
+### Monitoring
 ```bash
 # Vérifier l'état de l'API
 curl http://127.0.0.1:8001/health
@@ -510,7 +510,7 @@ lsof -i :8001
 free -h
 ```
 
-### **Base de Données**
+### Base de Données
 ```bash
 # Ouvrir la base de données SQLite
 sqlite3 aria_pain.db
@@ -530,9 +530,9 @@ SELECT * FROM pain_entries LIMIT 5;
 
 ## 🚨 **Dépannage Courant**
 
-### **Problèmes Fréquents**
+### Problèmes Fréquents
 
-#### **L'API ne démarre pas**
+#### L'API ne démarre pas
 ```bash
 # Vérifier le port
 lsof -i :8001
@@ -544,7 +544,7 @@ kill -9 $(lsof -t -i:8001)
 python main.py
 ```
 
-#### **Tests échouent**
+#### Tests échouent
 ```bash
 # Vérifier les imports
 python -c "import main"
@@ -556,7 +556,7 @@ pip list
 python -m pytest tests/ -v --tb=long
 ```
 
-#### **Erreurs de base de données**
+#### Erreurs de base de données
 ```bash
 # Vérifier que la base existe
 ls -la aria_pain.db
@@ -569,7 +569,7 @@ rm aria_pain.db
 python -c "from core.database import DatabaseManager; db = DatabaseManager(); db.init_database()"
 ```
 
-#### **Problèmes de cache**
+#### Problèmes de cache
 ```bash
 # Nettoyer le cache Python
 find . -name "*.pyc" -delete
@@ -582,19 +582,19 @@ rm -rf .coverage
 
 ## 📚 **Ressources Utiles**
 
-### **Documentation**
+### Documentation
 - [FastAPI Docs](https://fastapi.tiangolo.com/)
 - [Flutter Docs](https://flutter.dev/docs)
 - [SQLite Docs](https://www.sqlite.org/docs.html)
 - [Docker Docs](https://docs.docker.com/)
 
-### **Outils de Développement**
+### Outils de Développement
 - [Postman](https://www.postman.com/) - Test API
 - [Insomnia](https://insomnia.rest/) - Test API alternatif
 - [DB Browser for SQLite](https://sqlitebrowser.org/) - Interface graphique SQLite
 - [Flutter Inspector](https://flutter.dev/docs/development/tools/devtools/inspector) - Debug Flutter
 
-### **Sécurité & RGPD**
+### Sécurité & RGPD
 - [CNIL](https://www.cnil.fr/) - Commission Nationale Informatique et Libertés
 - [RGPD Guide](https://www.cnil.fr/fr/reglement-europeen-protection-donnees)
 - [Bandit Docs](https://bandit.readthedocs.io/)

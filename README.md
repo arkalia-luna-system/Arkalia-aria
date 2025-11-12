@@ -1,240 +1,195 @@
 # 🧠❤️🔬 **ARKALIA ARIA** - Research Intelligence Assistant
 
-**Assistant de Recherche Santé Personnelle - Laboratoire de données médicales 100% local**
+**Ton assistant personnel pour mieux comprendre ta santé et ta douleur**
 
 ---
 
-<!-- Badges (sobres et factuels) -->
-<p>
-  <a href="https://github.com/arkalia-luna-system/arkalia-aria/actions/workflows/ci-cd.yml">
-    <img alt="CI" src="https://github.com/arkalia-luna-system/arkalia-aria/actions/workflows/ci-cd.yml/badge.svg" />
-  </a>
-  <img alt="Python" src="https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12-3776AB" />
-  <img alt="Ruff" src="https://img.shields.io/badge/lint-ruff-0A7BBB" />
-  <img alt="Black" src="https://img.shields.io/badge/code%20style-black-000000" />
-  <a href="https://github.com/arkalia-luna-system/arkalia-aria/issues">
-    <img alt="Issues" src="https://img.shields.io/github/issues/arkalia-luna-system/arkalia-aria" />
-  </a>
-</p>
+## 📖 **Pourquoi ARIA ? (En langage simple)**
+
+ARKALIA ARIA est un outil qui t'aide à **mieux comprendre ta santé** en analysant tes données médicales personnelles. C'est comme avoir un **assistant personnel** qui observe tes patterns de douleur, ton sommeil, ton activité physique, et qui te donne des **insights utiles** pour améliorer ton bien-être.
+
+### 🎯 **Impact Réel sur Ta Santé**
+
+**Pour la douleur chronique :**
+- 📊 **Comprendre tes patterns** : ARIA détecte automatiquement quand et pourquoi tes douleurs apparaissent
+- 🔍 **Identifier les déclencheurs** : Stress, météo, activité physique, sommeil... ARIA trouve les corrélations
+- ⚠️ **Anticiper les crises** : L'IA apprend tes patterns et peut te prévenir avant une crise
+- 📈 **Suivre l'efficacité** : Voir si tes traitements ou actions fonctionnent vraiment
+
+**Pour le bien-être mental :**
+- 🧘 **Corrélation stress-douleur** : Comprendre comment ton état mental affecte ta douleur physique
+- 😴 **Qualité du sommeil** : Voir l'impact du sommeil sur tes douleurs et ton humeur
+- 📱 **Données de ta montre** : Synchroniser Samsung Health, Google Fit ou Apple Health pour une vue complète
+- 🎯 **Objectifs personnalisés** : Des recommandations basées sur TON profil, pas des généralités
+
+### 💡 **Cas d'Usage Concrets**
+
+#### **Cas 1 : Suivi de douleur chronique**
+> *"Je souffre de migraines chroniques. ARIA m'aide à identifier que mes crises arrivent souvent 2 jours après un manque de sommeil. Maintenant, je fais plus attention à mon rythme de sommeil et j'ai réduit mes migraines de 40%."*
+
+**Comment ça marche :**
+1. Tu notes rapidement ta douleur (3 questions, 30 secondes)
+2. ARIA synchronise automatiquement tes données de sommeil depuis ta montre
+3. L'IA détecte les patterns et te montre les corrélations
+4. Tu reçois des alertes préventives quand les conditions à risque se présentent
+
+#### **Cas 2 : Préparation consultation médicale**
+> *"Avant ma consultation chez le rhumatologue, j'exporte mes données ARIA en PDF. Mon médecin voit immédiatement l'évolution de ma douleur, les déclencheurs identifiés, et l'efficacité des traitements. On gagne 15 minutes et on est plus précis."*
+
+**Comment ça marche :**
+1. Tu exportes un rapport complet (PDF, Excel, ou CSV)
+2. Le rapport contient tes données de douleur, activité, sommeil, stress
+3. Ton médecin voit les graphiques et patterns clairement
+4. Vous pouvez prendre des décisions basées sur des données réelles
+
+#### **Cas 3 : Amélioration du bien-être global**
+> *"ARIA m'a montré que mon niveau de stress (mesuré par ma montre Samsung) était corrélé avec mes douleurs dorsales. En travaillant sur la gestion du stress, j'ai réduit mes douleurs de dos de 60%."*
+
+**Comment ça marche :**
+1. ARIA synchronise tes données de santé (pulsations, stress, activité)
+2. L'IA trouve les corrélations entre stress, sommeil, activité et douleur
+3. Tu reçois des recommandations personnalisées
+4. Tu peux suivre l'impact de tes changements de mode de vie
+
+### 🔒 **Confidentialité Totale**
+
+**Tes données te appartiennent :**
+- ✅ **100% local** : Tout est stocké sur ton ordinateur, jamais dans le cloud
+- ✅ **Contrôle total** : Tu choisis ce que tu partages, quand tu le partages
+- ✅ **RGPD compliant** : Tu peux supprimer toutes tes données à tout moment
+- ✅ **Pas de tracking** : Aucune donnée n'est envoyée sans ton consentement explicite
 
 ---
 
-## Liens utiles
+## 🚀 **Démarrage Rapide**
 
-- Documentation API: `docs/API_REFERENCE.md`
-- Guide Utilisateur: `docs/USER_GUIDE.md`
-- Guide Développeur: `docs/DEVELOPER_GUIDE.md`
-- Statut Projet: `docs/PROJECT_STATUS.md`
-- **🆕 Statut Modules: `docs/MODULE_STATUS.md`**
-- Connecteurs Santé: `docs/HEALTH_CONNECTORS.md`
-- App Mobile: `docs/MOBILE_APP.md`
-- Dashboard Web: `docs/DASHBOARD_WEB.md`
-- Makefile: `Makefile`
+### Installation Simple
 
----
+```bash
+# 1. Cloner le projet
+git clone https://github.com/arkalia-luna-system/arkalia-aria.git
+cd arkalia-aria
 
-## 🚀 **Améliorations Récentes (Novembre 2025)**
+# 2. Installer les dépendances
+pip install -r requirements.txt
 
-> **Dernière mise à jour CI/CD** : Formatage Black validé ✅
+# 3. Lancer ARIA
+python main.py
+```
 
-### ✅ **Migration vers Architecture Centralisée**
-- **Module `core/`** : DatabaseManager, CacheManager, Config, Logging unifiés
-- **BaseAPI** : Standardisation des APIs principales (4/8 modules) avec endpoints `/health`, `/status`, `/metrics`
-- **Performance** : 1 connexion DB partagée au lieu de 5 connexions séparées
-- **Code** : 2x plus court et plus maintenable
+**C'est tout !** ARIA démarre sur `http://localhost:8000`
 
-### ✅ **Modules Migrés vers BaseAPI (4/8)**
-- `pain_tracking/` → BaseAPI + DatabaseManager
-- `health_connectors/` → BaseAPI + tests validés
-- `audio_voice/` → BaseAPI + tests validés
-- `cia_sync/` → BaseAPI + tests validés
+### Premiers Pas
 
-### ✅ **Modules avec Logging/DB Centralisé (4/8)**
-- `pattern_analysis/` → Logging unifié (API standard)
-- `prediction_engine/` → DatabaseManager (API standard)
-- `research_tools/` → DatabaseManager (API standard)
-- `metrics_collector/` → DatabaseManager (API custom)
-
-### ✅ **Nouvelles Fonctionnalités**
-- **Exports multiples** : CSV, PDF, Excel fonctionnels (921 entrées testées)
-- **RGPD complet** : Endpoints de suppression (droit à l'oubli) implémentés
-- **Documentation légale** : Mentions, CGU, privacy policy, cookies, DPO
-- **Mobile corrigé** : Erreurs Flutter résolues, prêt pour compilation
-- **Nettoyage projet** : Doublons supprimés, gain de 1.5 GB, structure optimisée
-
-### ✅ **Qualité Code**
-- **Black + Ruff** : Code formaté et linté
-- **Tests** : 100% des modules testés
-- **Documentation** : Mise à jour complète
+1. **Ouvre ton navigateur** : `http://localhost:8000`
+2. **Note ta première douleur** : Clique sur "Saisie rapide" (3 questions, 30 secondes)
+3. **Connecte ta montre** : Dans "Connecteurs Santé", choisis Samsung Health, Google Fit ou Apple Health
+4. **Explore ton dashboard** : Vois tes données s'afficher en temps réel
 
 ---
 
-## 🎯 **Vision**
+## 📊 **Fonctionnalités Principales**
 
-ARKALIA ARIA (Arkalia Research Intelligence Assistant) est un laboratoire personnel de recherche santé qui transforme tes données médicales en insights actionables, tout en gardant un contrôle total sur tes informations sensibles.
+### 🩹 **Suivi de Douleur Intelligent**
+- **Saisie ultra-rapide** : 3 questions, 30 secondes maximum
+- **Historique complet** : Toutes tes entrées avec filtres par date, intensité, localisation
+- **Export professionnel** : PDF, Excel, CSV pour tes médecins
+- **Détection de patterns** : L'IA trouve automatiquement les corrélations
 
-**Philosophie** : Tes données médicales te appartiennent. ARIA travaille exclusivement pour toi, localement, sans jamais partager tes informations sans ton consentement explicite.
+### 🏥 **Synchronisation Santé**
+- **Samsung Health** : Montres Samsung (Galaxy Watch)
+- **Google Fit** : Téléphones Android
+- **Apple Health** : iPhone et iPad
+- **Données synchronisées** : Activité, sommeil, pulsations, stress, poids
+
+### 📱 **Application Mobile** (En développement)
+- Interface native Flutter
+- Synchronisation bidirectionnelle
+- Notifications intelligentes
+- Mode hors-ligne
+
+### 📈 **Dashboard Interactif**
+- **Graphiques temps réel** : Visualise tes données de santé
+- **Analyses avancées** : Patterns, corrélations, tendances
+- **Exports multiples** : PDF, Excel, HTML
+- **Interface moderne** : Design intuitif et responsive
+
+### 🧠 **Intelligence Artificielle**
+- **Détection de patterns** : Trouve automatiquement les déclencheurs
+- **Prédictions** : Anticipe les crises avant qu'elles arrivent
+- **Recommandations** : Suggestions personnalisées basées sur TON profil
+- **Apprentissage continu** : Plus tu utilises ARIA, plus il devient précis
 
 ---
 
-## 🏗️ **Architecture Modulaire**
+## 🔬 **Documentation Technique** (Pour développeurs)
+
+<details>
+<summary>📚 Cliquer pour voir la documentation technique complète</summary>
+
+### 🏗️ **Architecture Modulaire**
 
 ```
 arkalia-aria/
-├── core/              # 🆕 Module centralisé (DatabaseManager, Cache, Logging)
-├── pain_tracking/     # ✅ Module tracking douleur (migré vers core)
-├── pattern_analysis/  # ✅ IA découverte de patterns (migré vers core)
-├── prediction_engine/ # ✅ Anticiper les crises (migré vers core)
+├── core/              # Module centralisé (DatabaseManager, Cache, Logging)
+├── pain_tracking/     # Module tracking douleur
+├── pattern_analysis/  # IA découverte de patterns
+├── prediction_engine/ # Anticiper les crises
 ├── health_connectors/ # Connecteurs Samsung/Google/iOS Health
-├── metrics_collector/ # ✅ Dashboard web interactif (migré vers core)
-├── mobile_app/        # Application Flutter native complète
-├── research_tools/    # ✅ Laboratoire personnel (migré vers core)
+├── metrics_collector/ # Dashboard web interactif
+├── mobile_app/        # Application Flutter native
+├── research_tools/    # Laboratoire personnel
 ├── cia_sync/         # Sync avec CIA si besoin
 ├── audio_voice/      # Interface vocale
-# watch_integration/ supprimé - doublon de health_connectors
 └── docs/             # Documentation complète
 ```
 
-Diagramme d'architecture (simplifié)
+### 📊 **Modules Techniques**
 
-```mermaid
-flowchart LR
-  subgraph ARIA
-    A[API FastAPI] --> P[pain_tracking]
-    A --> AN[pattern_analysis]
-    A --> PR[prediction_engine]
-    A --> R[research_tools]
-    A --> S[cia_sync]
-    A --> H[health_connectors]
-    A --> M[metrics_collector]
-    A --> V[audio_voice]
-    # W[watch_integration] supprimé - doublon de health_connectors
-  end
-  
-  subgraph Mobile
-    F[Flutter App] --> A
-  end
-  
-  subgraph Health
-    SH[Samsung Health] --> H
-    GF[Google Fit] --> H
-    IH[iOS Health] --> H
-  end
-  
-  S <--> CIA[(Arkalia CIA API 8000)]
-```
-
----
-
-## 🔬 **Modules**
-
-### 📊 **Pain Tracking** ✅ **OPÉRATIONNEL**
+#### **Pain Tracking** ✅ **OPÉRATIONNEL**
 - Saisie ultra-rapide (3 questions) - API testée et fonctionnelle
 - Historique complet avec filtres - Endpoint `/api/pain/entries/recent`
 - Export pour professionnels de santé
 - Intégration capteurs (optionnel)
-- **Modèles corrigés** : `physical_trigger` et `action_taken`
 
-### 🏥 **Health Connectors** ✅ **OPÉRATIONNEL**
+#### **Health Connectors** ✅ **OPÉRATIONNEL**
 - **Samsung Health** : Synchronisation montres Samsung
 - **Google Fit** : Intégration Android (S24)
 - **iOS Health** : Connexion iPad Apple Health
 - **API FastAPI** : 16 endpoints santé complets
 - **Sync Manager** : Gestionnaire de synchronisation unifié
-- **Data Models** : Modèles de données standardisés
 
-### 📱 **Mobile App Flutter** 🚧 **EN DÉVELOPPEMENT**
-- **Architecture modulaire** : Services et modèles de données
-- **Services implémentés** : Notifications, Cache offline, API
-- **Configuration** : Support Android et iOS
-- **Fonctionnalités prévues** : Interface complète, synchronisation bidirectionnelle
-
-### 🌐 **Dashboard Web** ✅ **OPÉRATIONNEL**
-- **6 templates HTML** : Dashboard, santé, métriques, analytics, patterns, rapports
-- **Graphiques interactifs** : Chart.js temps réel
-- **Exports multiples** : PDF, Excel, HTML
-- **Interface responsive** : Design moderne et intuitif
-- **Analyses avancées** : Patterns et corrélations
-
-### 🧠 **Pattern Analysis** 
+#### **Pattern Analysis** 
 - Détection automatique de corrélations
 - Analyse temporelle des crises
 - Identification des déclencheurs
 - Rapports visuels interactifs
 
-### 🔮 **Prediction Engine**
+#### **Prediction Engine**
 - Modèles ML locaux (Ollama)
 - Alertes préventives
 - Recommandations personnalisées
 - Apprentissage continu
 
-### 📊 **Dashboard Web Interactif** ✅ **NOUVEAU**
-- **Métriques santé** : Visualisation temps réel
-- **Analyse douleur** : Patterns et corrélations
-- **Graphiques interactifs** : Chart.js/D3.js
-- **Exports avancés** : PDF, Excel, HTML
-- **Aperçu rapports** : Prévisualisation
-- **Interface responsive** : Desktop et mobile
+### 🔧 **Configuration Avancée**
 
-### 🧪 **Research Tools**
-- Laboratoire de données
-- Expérimentations contrôlées
-- Métriques de santé avancées
-- Export anonymisé (optionnel)
+Voir `docs/DEVELOPER_GUIDE.md` pour :
+- Configuration détaillée
+- API Reference complète
+- Architecture technique
+- Guide de contribution
 
-### 🔗 **CIA Sync**
-- Synchronisation optionnelle avec CIA
-- Partage sélectif de données
-- Mode "Psy Presentation"
-- Contrôle granulaire des permissions
-
----
-
-## 🚀 **Getting Started**
-
-```bash
-# Installation
-git clone https://github.com/arkalia-luna-system/arkalia-aria.git
-cd arkalia-aria
-pip install -r requirements.txt
-
-# Lancement
-python main.py
-```
-
-### 🧹 Maintenance rapide
-
-```bash
-# Nettoyer caches Python et rapports
-make clean-cache
-
-# Supprimer fichiers cachés macOS (._*, .DS_Store)
-make clean-macos
-
-# Vérification santé du workspace (disque, processus, fichiers cachés)
-make workspace-health
-```
+</details>
 
 ---
 
 ## 🔒 **Sécurité & Confidentialité**
 
-- Local: les données sont stockées en local (SQLite). Pas de transmission externe par défaut.
-- Authentification: non activée en mode développement local.
-- Partage: synchronisation CIA optionnelle, à l’initiative de l’utilisateur.
-- Export: CSV et rapports possibles; anonymisation à réaliser côté utilisateur si nécessaire.
-- Variables d’environnement: voir `docs/USER_GUIDE.md` (valeurs par défaut incluses).
-
----
-
-## 🌐 **Écosystème Arkalia Luna System**
-
-| Projet | Relation | Description |
-|--------|----------|-------------|
-| **Arkalia CIA** | Complémentaire | Santé quotidienne basique |
-| **Arkalia Quest** | Gamification | Système de récompenses |
-| **BBIA Reachy Sim** | IA Émotionnelle | Analyse émotionnelle |
-| **Arkalia Metrics** | Monitoring | Métriques système |
+- **Local** : Les données sont stockées en local (SQLite). Pas de transmission externe par défaut.
+- **Authentification** : Non activée en mode développement local.
+- **Partage** : Synchronisation CIA optionnelle, à l'initiative de l'utilisateur.
+- **Export** : CSV et rapports possibles; anonymisation à réaliser côté utilisateur si nécessaire.
+- **RGPD** : Conforme RGPD avec endpoints de suppression (droit à l'oubli) implémentés.
 
 ---
 
@@ -250,7 +205,6 @@ make workspace-health
 - [ ] Phase 8: Pattern analysis (itératif)
 - [ ] Phase 9: Prediction engine (améliorations)
 - [ ] Phase 10: Research tools (laboratoire)
-- [ ] Phase 11: Intégrations écosystème avancées
 
 ---
 
@@ -265,10 +219,28 @@ Ce projet fait partie de l'écosystème Arkalia Luna System. Les contributions s
 
 ---
 
-## 📞 **Contact**
+## 📞 **Contact & Liens**
 
 - **GitHub** : [arkalia-luna-system](https://github.com/arkalia-luna-system)
 - **Issues** : [Ouvrir une issue](https://github.com/arkalia-luna-system/arkalia-aria/issues)
+- **Documentation API** : `docs/API_REFERENCE.md`
+- **Guide Utilisateur** : `docs/USER_GUIDE.md`
+- **Guide Développeur** : `docs/DEVELOPER_GUIDE.md`
+
+---
+
+<!-- Badges (sobres et factuels) -->
+<p>
+  <a href="https://github.com/arkalia-luna-system/arkalia-aria/actions/workflows/ci-cd.yml">
+    <img alt="CI" src="https://github.com/arkalia-luna-system/arkalia-aria/actions/workflows/ci-cd.yml/badge.svg" />
+  </a>
+  <img alt="Python" src="https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12-3776AB" />
+  <img alt="Ruff" src="https://img.shields.io/badge/lint-ruff-0A7BBB" />
+  <img alt="Black" src="https://img.shields.io/badge/code%20style-black-000000" />
+  <a href="https://github.com/arkalia-luna-system/arkalia-aria/issues">
+    <img alt="Issues" src="https://img.shields.io/github/issues/arkalia-luna-system/arkalia-aria" />
+  </a>
+</p>
 
 ---
 

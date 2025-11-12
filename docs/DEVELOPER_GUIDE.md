@@ -1,16 +1,16 @@
-# Guide Développeur ARKALIA ARIA
+# Guide Développeur
 
-**Documentation technique complète pour les développeurs**
+**ARKALIA ARIA** — Documentation technique complète
 
 *Dernière mise à jour :* Novembre 2025
 
 ---
 
-## 📋 Table des matières
+## Table des matières
 
 1. [Architecture Générale](#architecture-générale)
-2. [🆕 Module Core](#module-core)
-3. [🆕 BaseAPI](#baseapi)
+2. [Module Core](#module-core)
+3. [BaseAPI](#baseapi)
 4. [Installation et Configuration](#installation-et-configuration)
 5. [Structure du Projet](#structure-du-projet)
 6. [API Documentation](#api-documentation)
@@ -28,9 +28,9 @@
 
 ---
 
-## 🆕 Module Core
+## Module Core
 
-### Vue d'Ensemble
+### Vue d'ensemble
 Le module `core/` centralise toutes les fonctionnalités communes d'ARKALIA ARIA :
 
 ```
@@ -42,6 +42,7 @@ core/
 ├── config.py            # Configuration centralisée
 ├── logging.py           # Logging unifié
 └── exceptions.py        # Exceptions personnalisées
+
 ```
 
 ### DatabaseManager
@@ -56,6 +57,7 @@ db = DatabaseManager()
 rows = db.execute_query("SELECT * FROM pain_entries")
 count = db.get_count("pain_entries")
 db.execute_update("INSERT INTO pain_entries ...")
+
 ```
 
 ### CacheManager
@@ -72,6 +74,7 @@ value = cache.get("key")
 
 # Cache avec fonction
 value = cache.get_or_set("key", expensive_function, ttl=300)
+
 ```
 
 ### Configuration
@@ -84,13 +87,14 @@ from core import config
 db_path = config.get_db_path()
 log_level = config.get_log_level()
 api_port = config["api_port"]
+
 ```
 
 ---
 
-## 🆕 BaseAPI
+## BaseAPI
 
-### Vue d'Ensemble
+### Vue d'ensemble
 BaseAPI standardise toutes les APIs ARIA avec des endpoints communs :
 
 ```python
@@ -103,6 +107,7 @@ api = BaseAPI(
 )
 
 router = api.get_router()
+
 ```
 
 ### Endpoints Standardisés
@@ -113,6 +118,7 @@ Toutes les APIs héritent automatiquement de :
 - `GET /metrics` - Métriques de performance
 
 ### Utilisation
+
 ```python
 # Dans pain_tracking/api.py
 from core import BaseAPI
@@ -124,13 +130,14 @@ router = api.get_router()
 async def create_entry(entry: PainEntry):
     # Logique métier
     return api.db.execute_update(...)
+
 ```
 
 ---
 
-## 🏗️ Architecture Générale
+## Architecture Générale
 
-### Vue d'Ensemble
+### Vue d'ensemble
 
 ARKALIA ARIA suit une architecture microservices modulaire avec les composants suivants :
 
@@ -152,11 +159,13 @@ ARKALIA ARIA suit une architecture microservices modulaire avec les composants s
                     │   Database      │
                     │   (PostgreSQL)  │
                     └─────────────────┘
+
 ```
 
 ### Technologies Utilisées
 
 #### Backend
+
 - **FastAPI** : Framework web moderne et performant
 - **PostgreSQL** : Base de données relationnelle
 - **Redis** : Cache et sessions
@@ -164,6 +173,7 @@ ARKALIA ARIA suit une architecture microservices modulaire avec les composants s
 - **Pydantic** : Validation des données
 
 #### Frontend Web
+
 - **HTML5/CSS3** : Structure et styles
 - **JavaScript ES6+** : Logique côté client
 - **Chart.js** : Graphiques interactifs
@@ -171,6 +181,7 @@ ARKALIA ARIA suit une architecture microservices modulaire avec les composants s
 - **WebSockets** : Communication temps réel
 
 #### Mobile
+
 - **Flutter** : Framework cross-platform
 - **Dart** : Langage de programmation
 - **Riverpod** : Gestion d'état
@@ -178,6 +189,7 @@ ARKALIA ARIA suit une architecture microservices modulaire avec les composants s
 - **Health** : Intégration santé
 
 #### DevOps
+
 - **Docker** : Conteneurisation
 - **GitHub Actions** : CI/CD
 - **Nginx** : Serveur web
@@ -185,7 +197,7 @@ ARKALIA ARIA suit une architecture microservices modulaire avec les composants s
 
 ---
 
-## 🚀 Installation et Configuration
+## Installation et Configuration
 
 ### Prérequis
 
@@ -200,7 +212,7 @@ ARKALIA ARIA suit une architecture microservices modulaire avec les composants s
 
 ```bash
 # Cloner le repository
-git clone https://github.com/arkalia-aria/arkalia-aria.git
+git clone <https://github.com/arkalia-aria/arkalia-aria.git>
 cd arkalia-aria
 
 # Créer un environnement virtuel
@@ -217,6 +229,7 @@ python -m alembic upgrade head
 
 # Lancer l'application
 uvicorn main:app --reload
+
 ```
 
 ### Installation Frontend Web
@@ -225,6 +238,7 @@ uvicorn main:app --reload
 cd metrics_collector/dashboard
 npm install
 npm run dev
+
 ```
 
 ### Installation Mobile
@@ -233,6 +247,7 @@ npm run dev
 cd mobile_app
 flutter pub get
 flutter run
+
 ```
 
 ### Configuration Docker
@@ -246,11 +261,12 @@ docker-compose logs -f
 
 # Arrêter les services
 docker-compose down
+
 ```
 
 ---
 
-## 📁 Structure du Projet
+## Structure du Projet
 
 ```
 arkalia-aria/
@@ -292,15 +308,17 @@ arkalia-aria/
 ├── requirements.txt            # Dépendances Python
 ├── pyproject.toml             # Configuration du projet
 └── README.md
+
 ```
 
 ---
 
-## 🔌 API Documentation
+## API Documentation
 
 ### Endpoints Principaux
 
 #### Santé
+
 ```http
 POST /api/health/sync
 GET  /api/health/metrics/unified
@@ -309,9 +327,11 @@ GET  /api/health/sleep
 GET  /api/health/stress
 GET  /api/health/data
 GET  /api/health/connectors/status
+
 ```
 
 #### Dashboard
+
 ```http
 GET  /dashboard
 GET  /dashboard/health
@@ -321,11 +341,13 @@ GET  /dashboard/reports
 POST /dashboard/export/pdf
 POST /dashboard/export/excel
 POST /dashboard/export/html
+
 ```
 
 ### Modèles de Données
 
 #### ActivityData
+
 ```python
 class ActivityData(BaseModel):
     date: datetime
@@ -335,9 +357,11 @@ class ActivityData(BaseModel):
     active_minutes: int
     source: str
     raw_data: dict
+
 ```
 
 #### HealthData
+
 ```python
 class HealthData(BaseModel):
     date: datetime
@@ -351,6 +375,7 @@ class HealthData(BaseModel):
     body_temperature: Optional[float]
     source: str
     raw_data: dict
+
 ```
 
 ### Authentification
@@ -361,6 +386,7 @@ headers = {
     "Authorization": "Bearer <token>",
     "Content-Type": "application/json"
 }
+
 ```
 
 ### Gestion des Erreurs
@@ -372,11 +398,12 @@ headers = {
     "message": "Erreur de connexion réseau",
     "details": {...}
 }
+
 ```
 
 ---
 
-## 💊 Connecteurs de Santé
+## Connecteurs de Santé
 
 ### Architecture des Connecteurs
 
@@ -398,6 +425,7 @@ class BaseHealthConnector(ABC):
     async def get_activity_data(self, start_date: datetime, end_date: datetime) -> List[ActivityData]:
         """Récupère les données d'activité"""
         pass
+
 ```
 
 ### Samsung Health Connector
@@ -412,6 +440,7 @@ class SamsungHealthConnector(BaseHealthConnector):
     async def connect(self) -> bool:
         # Implémentation de la connexion Samsung Health
         pass
+
 ```
 
 ### Google Fit Connector
@@ -425,6 +454,7 @@ class GoogleFitConnector(BaseHealthConnector):
     async def connect(self) -> bool:
         # Implémentation de la connexion Google Fit
         pass
+
 ```
 
 ### iOS Health Connector
@@ -438,15 +468,17 @@ class IOSHealthConnector(BaseHealthConnector):
     async def connect(self) -> bool:
         # Implémentation de la connexion iOS Health
         pass
+
 ```
 
 ---
 
-## 🖥️ Dashboard Web
+## Dashboard Web
 
 ### Architecture Frontend
 
 #### Templates Jinja2
+
 ```html
 <!-- dashboard.html -->
 <!DOCTYPE html>
@@ -463,9 +495,11 @@ class IOSHealthConnector(BaseHealthConnector):
     <script src="/static/dashboard.js"></script>
 </body>
 </html>
+
 ```
 
 #### CSS Moderne
+
 ```css
 /* Variables CSS personnalisées */
 :root {
@@ -481,9 +515,11 @@ class IOSHealthConnector(BaseHealthConnector):
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-md);
 }
+
 ```
 
 #### JavaScript ES6+
+
 ```javascript
 class ARKALIADashboard {
     constructor() {
@@ -499,11 +535,13 @@ class ARKALIADashboard {
         // Traitement de la réponse
     }
 }
+
 ```
 
 ### Gestion des Exports
 
 #### PDF Export
+
 ```python
 class PDFExportHandler:
     def generate_report(self, data: dict) -> bytes:
@@ -511,9 +549,11 @@ class PDFExportHandler:
         doc = SimpleDocTemplate(buffer, pagesize=A4)
         # Génération du PDF
         return buffer.getvalue()
+
 ```
 
 #### Excel Export
+
 ```python
 class ExcelExportHandler:
     def generate_report(self, data: dict) -> bytes:
@@ -521,15 +561,17 @@ class ExcelExportHandler:
         worksheet = workbook.active
         # Génération du Excel
         return workbook.save()
+
 ```
 
 ---
 
-## 📱 Application Mobile
+## Application Mobile
 
 ### Architecture Flutter
 
 #### Structure des Modèles
+
 ```dart
 // models/health_data.dart
 class HealthData {
@@ -555,9 +597,11 @@ class HealthData {
     required this.rawData,
   });
 }
+
 ```
 
 #### Services
+
 ```dart
 // services/health_connector_service.dart
 class HealthConnectorService {
@@ -569,9 +613,11 @@ class HealthConnectorService {
     // Implémentation de la récupération des données
   }
 }
+
 ```
 
 #### Écrans
+
 ```dart
 // screens/dashboard_screen.dart
 class DashboardScreen extends ConsumerStatefulWidget {
@@ -592,6 +638,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     );
   }
 }
+
 ```
 
 ### Gestion d'État avec Riverpod
@@ -609,11 +656,12 @@ class HealthDataNotifier extends StateNotifier<List<HealthData>> {
     // Chargement des données
   }
 }
+
 ```
 
 ---
 
-## 🗄️ Base de Données
+## Base de Données
 
 ### Schéma PostgreSQL
 
@@ -646,6 +694,7 @@ CREATE TABLE health_data (
 -- Index pour les performances
 CREATE INDEX idx_health_data_user_date ON health_data(user_id, date);
 CREATE INDEX idx_health_data_source ON health_data(source);
+
 ```
 
 ### Migrations Alembic
@@ -661,11 +710,12 @@ def upgrade():
         sa.Column('updated_at', sa.TIMESTAMP(), nullable=True),
         sa.PrimaryKeyConstraint('id')
     )
+
 ```
 
 ---
 
-## 🧪 Tests et Qualité
+## Tests et Qualité
 
 ### Tests Unitaires
 
@@ -681,6 +731,7 @@ class TestSamsungHealthConnector:
         result = await connector.connect()
         assert result is True
         assert connector.is_connected is True
+
 ```
 
 ### Tests d'Intégration
@@ -697,6 +748,7 @@ def test_health_sync_endpoint():
     response = client.post("/api/health/sync", json={"days_back": 7})
     assert response.status_code == 200
     assert "success" in response.json()
+
 ```
 
 ### Tests Flutter
@@ -712,34 +764,43 @@ void main() {
     expect(find.text('ARKALIA ARIA'), findsOneWidget);
   });
 }
+
 ```
 
 ### Qualité du Code
 
 #### Ruff (Linting)
+
 ```bash
 ruff check .
 ruff format .
+
 ```
 
 #### Black (Formatage)
+
 ```bash
 black .
+
 ```
 
 #### Mypy (Type Checking)
+
 ```bash
 mypy .
+
 ```
 
 #### Coverage
+
 ```bash
 pytest --cov=health_connectors --cov-report=html
+
 ```
 
 ---
 
-## 🚀 Déploiement
+## Déploiement
 
 ### Docker
 
@@ -755,6 +816,7 @@ COPY . .
 EXPOSE 8000
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
 ```
 
 ### Docker Compose
@@ -786,6 +848,7 @@ services:
     image: redis:6-alpine
     ports:
       - "6379:6379"
+
 ```
 
 ### GitHub Actions
@@ -818,11 +881,12 @@ jobs:
           pytest
           ruff check .
           mypy .
+
 ```
 
 ---
 
-## 🤝 Contributions
+## Contributions
 
 ### Processus de Contribution
 
@@ -835,18 +899,21 @@ jobs:
 ### Standards de Code
 
 #### Python
+
 - **PEP 8** : Style de code Python
 - **Type Hints** : Annotations de type obligatoires
 - **Docstrings** : Documentation des fonctions
 - **Tests** : Couverture minimale de 80%
 
 #### Dart/Flutter
+
 - **Effective Dart** : Guide de style Dart
 - **Widget Tests** : Tests pour tous les widgets
 - **Integration Tests** : Tests d'intégration
 - **Performance** : Optimisation des performances
 
 #### JavaScript
+
 - **ESLint** : Linting JavaScript
 - **Prettier** : Formatage automatique
 - **JSDoc** : Documentation des fonctions
@@ -855,6 +922,7 @@ jobs:
 ### Guidelines
 
 #### Commits
+
 ```
 feat: add new health connector
 fix: resolve sync issue
@@ -862,9 +930,11 @@ docs: update API documentation
 style: format code with black
 refactor: improve error handling
 test: add unit tests for sync manager
+
 ```
 
 #### Pull Requests
+
 - **Titre** : Description claire et concise
 - **Description** : Détails des changements
 - **Tests** : Preuve que les tests passent
@@ -875,29 +945,33 @@ test: add unit tests for sync manager
 ## 📚 Ressources
 
 ### Documentation Externe
+
 - [FastAPI Documentation](https://fastapi.tiangolo.com/)
 - [Flutter Documentation](https://docs.flutter.dev/)
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/)
 - [Docker Documentation](https://docs.docker.com/)
 
 ### Outils de Développement
+
 - [VS Code](https://code.visualstudio.com/)
 - [Android Studio](https://developer.android.com/studio)
 - [Postman](https://www.postman.com/)
 - [DBeaver](https://dbeaver.io/)
 
 ### Communauté
+
 - [GitHub Discussions](https://github.com/arkalia-aria/arkalia-aria/discussions)
 - [Discord Server](https://discord.gg/arkalia-aria)
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/arkalia-aria)
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Problèmes Courants
 
 #### Erreur de connexion à la base de données
+
 ```bash
 # Vérifier les permissions
 ls -la aria_pain.db
@@ -905,9 +979,11 @@ ls -la aria_pain.db
 # Recréer la base si nécessaire
 rm aria_pain.db
 python -c "from core.database import DatabaseManager; DatabaseManager().init_database()"
+
 ```
 
 #### Tests qui échouent
+
 ```bash
 # Nettoyer le cache
 rm -rf .pytest_cache
@@ -915,50 +991,61 @@ rm -rf __pycache__
 
 # Relancer les tests
 pytest tests/ -v
+
 ```
 
 #### Problèmes de performance
+
 ```bash
 # Vérifier les processus lourds
 ps aux | grep python
 
 # Nettoyer les caches
 make clean-cache
+
 ```
 
 ### Logs et Debug
 
 #### Activer les logs détaillés
+
 ```python
 import logging
 logging.basicConfig(level=logging.DEBUG)
+
 ```
 
 #### Vérifier les métriques
+
 ```bash
-curl http://localhost:8001/metrics
+curl <http://localhost:8001/metrics>
+
 ```
 
 ---
 
-## ⚡ Performance
+## Performance
 
 ### Optimisations Implémentées
+
 - **Cache intelligent** : TTL 60s pour les requêtes fréquentes
 - **Lazy loading** : Import des modules lourds à la demande
 - **Connexion DB unique** : Singleton pattern pour éviter les doublons
 - **Compression** : Gzip pour les réponses API
 
 ### Monitoring des Performances
+
 ```bash
 # Métriques système (nécessite ARIA_ENABLE_METRICS=true)
-curl http://localhost:8001/metrics
+curl <http://localhost:8001/metrics>
 
 # Métriques santé unifiées
-curl http://localhost:8001/health/metrics/unified?days_back=7
+curl <http://localhost:8001/health/metrics/unified?days_back=7>
+
 ```
 
 ### Optimisations Recommandées
+
 - [ ] Cache Redis pour les sessions
 - [ ] CDN pour les assets statiques
 - [ ] Compression brotli
@@ -967,15 +1054,17 @@ curl http://localhost:8001/health/metrics/unified?days_back=7
 
 ---
 
-## 🔒 Sécurité
+## Sécurité
 
 ### Bonnes Pratiques
+
 - **Secrets** : Toujours utiliser des variables d'environnement
 - **HTTPS** : Obligatoire en production
 - **Validation** : Toutes les entrées utilisateur
 - **Logs** : Ne jamais logger de données sensibles
 
 ### Audit de Sécurité
+
 ```bash
 # Scan de sécurité complet
 bandit -r . -f json -o reports/bandit-report.json
@@ -985,9 +1074,11 @@ safety check --json --output reports/safety-report.json
 
 # Audit personnalisé
 python -m devops_automation.security.aria_security_validator
+
 ```
 
 ### Configuration Sécurisée
+
 - [ ] Chiffrement des données au repos
 - [ ] Rotation automatique des tokens
 - [ ] Limitation des tentatives de connexion
@@ -995,15 +1086,17 @@ python -m devops_automation.security.aria_security_validator
 
 ---
 
-## 📊 Monitoring
+## Monitoring
 
 ### Métriques Disponibles
+
 - **Système** : CPU, RAM, disque, réseau
 - **Application** : Requêtes, erreurs, temps de réponse
 - **Base de données** : Connexions, requêtes, taille
 - **Sécurité** : Tentatives d'intrusion, accès suspects
 
 ### Alertes Configurées
+
 - [ ] CPU > 80% pendant 5 minutes
 - [ ] RAM > 90% pendant 2 minutes
 - [ ] Erreurs > 10% des requêtes
@@ -1011,6 +1104,7 @@ python -m devops_automation.security.aria_security_validator
 - [ ] Tentatives de connexion suspectes
 
 ### Dashboards
+
 - **Grafana** : Métriques système et application
 - **Prometheus** : Collecte des métriques
 - **ELK Stack** : Logs et analyses

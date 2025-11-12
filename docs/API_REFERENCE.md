@@ -3,8 +3,10 @@
 **Dernière mise à jour :** Novembre 2025
 
 ## Base URL
+
 ```
-http://localhost:8001
+<http://localhost:8001>
+
 ```
 
 ## Endpoints Standardisés (BaseAPI)
@@ -12,8 +14,10 @@ http://localhost:8001
 Toutes les APIs ARIA héritent automatiquement de ces endpoints :
 
 ### Health Check
+
 ```http
 GET /api/{module}/health
+
 ```
 **Exemples :**
 - `GET /api/pain/health`
@@ -21,16 +25,20 @@ GET /api/{module}/health
 - `GET /api/prediction/health`
 
 ### Status
+
 ```http
 GET /api/{module}/status
+
 ```
 **Exemples :**
 - `GET /api/pain/status`
 - `GET /api/pattern/status`
 
 ### Metrics
+
 ```http
 GET /api/{module}/metrics
+
 ```
 **Exemples :**
 - `GET /api/pain/metrics`
@@ -41,10 +49,13 @@ GET /api/{module}/metrics
 ## Endpoints Principaux
 
 ### Health Check
+
 ```http
 GET /health
+
 ```
 **Réponse :**
+
 ```json
 {
   "status": "healthy",
@@ -61,6 +72,7 @@ GET /health
     "audio_voice": "active"
   }
 }
+
 ```
 
 ---
@@ -68,10 +80,13 @@ GET /health
 ## 🩺 **Connecteurs Santé**
 
 ### 📊 **Statut des Connecteurs**
+
 ```http
 GET /health/connectors/status
+
 ```
 **Réponse :**
+
 ```json
 {
   "samsung": {
@@ -90,13 +105,17 @@ GET /health/connectors/status
     "data_count": 0
   }
 }
+
 ```
 
 ### 🔄 **Synchronisation Samsung Health**
+
 ```http
 POST /health/samsung/sync
+
 ```
 **Réponse :**
+
 ```json
 {
   "success": true,
@@ -104,13 +123,17 @@ POST /health/samsung/sync
   "data_synced": 45,
   "timestamp": "2024-12-24T18:00:00Z"
 }
+
 ```
 
 ### 🔄 **Synchronisation Google Fit**
+
 ```http
 POST /health/google/sync
+
 ```
 **Réponse :**
+
 ```json
 {
   "success": true,
@@ -118,13 +141,17 @@ POST /health/google/sync
   "data_synced": 32,
   "timestamp": "2024-12-24T18:00:00Z"
 }
+
 ```
 
 ### 🔄 **Synchronisation Apple Health**
+
 ```http
 POST /health/ios/sync
+
 ```
 **Réponse :**
+
 ```json
 {
   "success": true,
@@ -132,13 +159,17 @@ POST /health/ios/sync
   "data_synced": 28,
   "timestamp": "2024-12-24T18:00:00Z"
 }
+
 ```
 
 ### 🔄 **Synchronisation Complète**
+
 ```http
 POST /health/sync/all
+
 ```
 **Réponse :**
+
 ```json
 {
   "success": true,
@@ -151,13 +182,17 @@ POST /health/sync/all
   },
   "timestamp": "2024-12-24T18:00:00Z"
 }
+
 ```
 
 ### 📈 **Métriques Santé Unifiées**
+
 ```http
 GET /health/metrics/unified
+
 ```
 **Réponse :**
+
 ```json
 {
   "total_metrics": 1250,
@@ -191,13 +226,17 @@ GET /health/metrics/unified
     "stress_level": 3.2
   }
 }
+
 ```
 
 ### ⚙️ **Configuration Santé**
+
 ```http
 GET /health/config
+
 ```
 **Réponse :**
+
 ```json
 {
   "auto_sync": true,
@@ -207,6 +246,7 @@ GET /health/config
   "privacy_mode": false,
   "connection_status": "connected"
 }
+
 ```
 
 ```http
@@ -218,6 +258,7 @@ Content-Type: application/json
   "sync_frequency": "hourly",
   "notifications": false
 }
+
 ```
 
 ---
@@ -225,6 +266,7 @@ Content-Type: application/json
 ## 🩹 **Suivi de Douleur**
 
 ### ⚡ **Enregistrement Rapide**
+
 ```http
 POST /api/pain/quick-entry
 Content-Type: application/json
@@ -234,8 +276,10 @@ Content-Type: application/json
   "physical_trigger": "stress",
   "action_taken": "respiration"
 }
+
 ```
 **Réponse (PainEntryOut)** :
+
 ```json
 {
   "id": 1,
@@ -250,9 +294,11 @@ Content-Type: application/json
   "notes": null,
   "created_at": "2025-09-25T14:00:00"
 }
+
 ```
 
 ### 📝 **Enregistrement Détaillé**
+
 ```http
 POST /api/pain/entry
 Content-Type: application/json
@@ -268,25 +314,32 @@ Content-Type: application/json
   "notes": "Douleur après travail",
   "timestamp": "2025-09-25T13:59:00"
 }
+
 ```
 
 ### 📋 **Liste des Entrées**
+
 ```http
 GET /api/pain/entries
 GET /api/pain/entries/recent?limit=20
+
 ```
 **Réponse (liste de PainEntryOut)** : `200 OK` avec tableau d’entrées triées par date (récentes d'abord)
 
 ### 🧠 **Suggestions**
+
 ```http
 GET /api/pain/suggestions?window=30
+
 ```
 Retourne des recommandations et questions de suivi basées sur les données récentes.
 
 ### 📤 **Exports**
+
 ```http
 GET /api/pain/export/csv
 GET /api/pain/export/psy-report
+
 ```
 CSV: contenu et nom de fichier; Psy-report: HTML imprimable et métadonnées.
 
@@ -297,11 +350,14 @@ CSV: contenu et nom de fichier; Psy-report: HTML imprimable et métadonnées.
 ## 🔬 **Analytics et Patterns**
 
 ### 🧠 **Patterns Détectés**
+
 ```http
 GET /api/patterns/patterns/recent
 POST /api/patterns/analyze
+
 ```
 **Réponse :**
+
 ```json
 {
   "patterns": [
@@ -318,14 +374,18 @@ POST /api/patterns/analyze
   "total_patterns": 12,
   "last_analysis": "2024-12-24T18:00:00Z"
 }
+
 ```
 
 ### 🔮 **Prédictions Actuelles**
+
 ```http
 GET /api/predictions/predictions/current
 POST /api/predictions/train
+
 ```
 **Réponse :**
+
 ```json
 {
   "predictions": [
@@ -342,14 +402,18 @@ POST /api/predictions/train
   "model_version": "1.2.0",
   "last_training": "2024-12-23T00:00:00Z"
 }
+
 ```
 
 ### 📊 **Expérimentations Recherche**
+
 ```http
 GET /api/research/experiments
 POST /api/research/experiment/create
+
 ```
 **Réponse :**
+
 ```json
 {
   "total_patterns": 12,
@@ -363,9 +427,11 @@ POST /api/research/experiment/create
   "data_quality": "excellent",
   "last_analysis": "2024-12-24T18:00:00Z"
 }
+
 ```
 
 ### 🔍 **Analyse de Patterns**
+
 ```http
 POST /api/analytics/analyze
 Content-Type: application/json
@@ -375,8 +441,10 @@ Content-Type: application/json
   "analysis_type": "correlation",
   "focus_areas": ["pain_intensity", "stress_level", "sleep_quality"]
 }
+
 ```
 **Réponse :**
+
 ```json
 {
   "success": true,
@@ -392,6 +460,7 @@ Content-Type: application/json
   ],
   "processing_time": "2.3s"
 }
+
 ```
 
 ---
@@ -399,10 +468,13 @@ Content-Type: application/json
 ## Métriques et Monitoring
 
 ### 📈 **Métriques Système**
+
 ```http
 GET /metrics/system
+
 ```
 **Réponse :**
+
 ```json
 {
   "cpu_usage": 23.5,
@@ -413,13 +485,17 @@ GET /metrics/system
   "database_size": "125MB",
   "last_backup": "2024-12-24T00:00:00Z"
 }
+
 ```
 
 ### 🩺 **Métriques Santé**
+
 ```http
 GET /metrics/health
+
 ```
 **Réponse :**
+
 ```json
 {
   "total_health_data": 1250,
@@ -432,13 +508,17 @@ GET /metrics/health
   "last_sync": "2024-12-24T17:30:00Z",
   "sync_status": "healthy"
 }
+
 ```
 
 ### 📊 **Dashboard Data**
+
 ```http
 GET /dashboard/data
+
 ```
 **Réponse :**
+
 ```json
 {
   "pain_summary": {
@@ -462,6 +542,7 @@ GET /dashboard/data
     "last_backup": "2024-12-24T00:00:00Z"
   }
 }
+
 ```
 
 ---
@@ -469,17 +550,22 @@ GET /dashboard/data
 ## 📤 **Export et Partage**
 
 ### 📄 **Export CSV**
+
 ```http
 GET /api/export/csv?format=complete&start_date=2024-12-01&end_date=2024-12-24
 Accept: text/csv
+
 ```
 **Réponse :** Fichier CSV téléchargeable
 
 ### 📊 **Export JSON**
+
 ```http
 GET /api/export/json?format=summary&period=30_days
+
 ```
 **Réponse :**
+
 ```json
 {
   "export_id": "export_456",
@@ -494,13 +580,17 @@ GET /api/export/json?format=summary&period=30_days
   "generated_at": "2024-12-24T18:00:00Z",
   "file_size": "2.3MB"
 }
+
 ```
 
 ### 📋 **Rapport Médical**
+
 ```http
 GET /api/export/medical-report?period=30_days&include_patterns=true
+
 ```
 **Réponse :**
+
 ```json
 {
   "report_id": "report_789",
@@ -525,6 +615,7 @@ GET /api/export/medical-report?period=30_days&include_patterns=true
   ],
   "generated_at": "2024-12-24T18:00:00Z"
 }
+
 ```
 
 ---
@@ -532,10 +623,13 @@ GET /api/export/medical-report?period=30_days&include_patterns=true
 ## Configuration et Administration
 
 ### ⚙️ **Configuration Système**
+
 ```http
 GET /config/system
+
 ```
 **Réponse :**
+
 ```json
 {
   "app_name": "ARKALIA ARIA",
@@ -547,9 +641,11 @@ GET /config/system
   "backup_enabled": true,
   "backup_frequency": "daily"
 }
+
 ```
 
 ### 🔄 **Redémarrage Modules**
+
 ```http
 POST /admin/restart-modules
 Content-Type: application/json
@@ -557,9 +653,11 @@ Content-Type: application/json
 {
   "modules": ["health_connectors", "prediction_engine"]
 }
+
 ```
 
 ### 🗄️ **Nettoyage Base de Données**
+
 ```http
 POST /admin/cleanup-database
 Content-Type: application/json
@@ -568,6 +666,7 @@ Content-Type: application/json
   "older_than_days": 365,
   "backup_before": true
 }
+
 ```
 
 ---
@@ -575,6 +674,7 @@ Content-Type: application/json
 ## Codes d'Erreur
 
 ### 4xx - Erreurs Client
+
 - `400` : Bad Request - Données invalides
 - `401` : Unauthorized - Authentification requise
 - `403` : Forbidden - Accès refusé
@@ -582,11 +682,13 @@ Content-Type: application/json
 - `422` : Unprocessable Entity - Données malformées
 
 ### 5xx - Erreurs Serveur
+
 - `500` : Internal Server Error - Erreur interne
 - `502` : Bad Gateway - Problème de connecteur externe
 - `503` : Service Unavailable - Service temporairement indisponible
 
 ### Exemple d'Erreur
+
 ```json
 {
   "error": "validation_error",
@@ -598,6 +700,7 @@ Content-Type: application/json
   },
   "timestamp": "2024-12-24T18:00:00Z"
 }
+
 ```
 
 ---
@@ -605,13 +708,16 @@ Content-Type: application/json
 ## Authentification
 
 ### Headers Requis
+
 ```http
 Content-Type: application/json
 Accept: application/json
 User-Agent: ARIA-Client/1.0
+
 ```
 
 ### Rate Limiting
+
 - **Limite** : 100 requêtes/minute par IP
 - **Headers** : `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`
 

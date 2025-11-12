@@ -1,14 +1,14 @@
-# 🏥 **ARKALIA ARIA - Health Connectors**
+# Health Connectors
 
-**Connecteurs Santé pour Intégration Multi-Plateforme**
+**ARKALIA ARIA** — Connecteurs santé pour intégration multi-plateforme
 
 ---
 
-## 📋 **Vue d'ensemble**
+## Vue d'ensemble
 
 Les connecteurs santé d'ARKALIA ARIA permettent la synchronisation des données de santé depuis différentes plateformes et appareils, offrant une vue unifiée de votre santé.
 
-### 🎯 **Objectifs**
+### Objectifs
 
 - **Unification** : Données de santé centralisées
 - **Synchronisation** : Mise à jour automatique
@@ -17,21 +17,24 @@ Les connecteurs santé d'ARKALIA ARIA permettent la synchronisation des données
 
 ---
 
-## 🔌 **Connecteurs Disponibles**
+## Connecteurs Disponibles
 
-### 📱 **Samsung Health**
+### Samsung Health
+
 - **Appareil** : Montres Samsung (Galaxy Watch)
 - **Données** : Activité, sommeil, fréquence cardiaque
 - **API** : Samsung Health SDK
 - **Statut** : ✅ Implémenté
 
-### 🤖 **Google Fit**
+### Google Fit
+
 - **Appareil** : Android (S24)
 - **Données** : Activité, calories, distance
 - **API** : Google Fit API
 - **Statut** : ✅ Implémenté
 
-### 🍎 **iOS Health**
+### iOS Health
+
 - **Appareil** : iPad
 - **Données** : Santé, activité, sommeil
 - **API** : HealthKit
@@ -39,7 +42,7 @@ Les connecteurs santé d'ARKALIA ARIA permettent la synchronisation des données
 
 ---
 
-## 🏗️ **Architecture**
+## Architecture
 
 ### Structure des Fichiers
 
@@ -53,6 +56,7 @@ health_connectors/
 ├── ios_health_connector.py        # Connecteur iOS Health
 ├── sync_manager.py                # Gestionnaire de synchronisation
 └── api.py                         # Endpoints API FastAPI
+
 ```
 
 ### Diagramme d'Architecture
@@ -96,11 +100,12 @@ graph TB
     SM --> SH
     SM --> GF
     SM --> IH
+
 ```
 
 ---
 
-## 📊 **Modèles de Données**
+## Modèles de Données
 
 ### UnifiedHealthMetrics
 
@@ -119,6 +124,7 @@ class UnifiedHealthMetrics(BaseModel):
     blood_pressure_diastolic: Optional[int]
     weight: Optional[float]
     bmi: Optional[float]
+
 ```
 
 ### ActivityData
@@ -133,6 +139,7 @@ class ActivityData(BaseModel):
     active_minutes: int
     activity_type: str
     intensity: str
+
 ```
 
 ### SleepData
@@ -147,6 +154,7 @@ class SleepData(BaseModel):
     light_sleep: float
     rem_sleep: float
     awakenings: int
+
 ```
 
 ### StressData
@@ -159,6 +167,7 @@ class StressData(BaseModel):
     heart_rate: float
     hrv: Optional[float]
     stress_events: List[str]
+
 ```
 
 ### HealthData
@@ -174,11 +183,12 @@ class HealthData(BaseModel):
     bmi: Optional[float]
     body_fat: Optional[float]
     temperature: Optional[float]
+
 ```
 
 ---
 
-## 🔧 **API Endpoints**
+## API Endpoints
 
 ### Synchronisation
 
@@ -193,6 +203,7 @@ Content-Type: application/json
   "days_back": 30,
   "connector_name": "samsung_health"
 }
+
 ```
 
 ### Récupération des Données
@@ -203,12 +214,14 @@ GET /health/data/sleep?days_back=30
 GET /health/data/stress?days_back=30
 GET /health/data/health?days_back=30
 GET /health/metrics/unified?days_back=30
+
 ```
 
 ### Statut des Connecteurs
 
 ```http
 GET /health/connectors/status
+
 ```
 
 ### Configuration
@@ -216,6 +229,7 @@ GET /health/connectors/status
 ```http
 GET /health/config
 PUT /health/config
+
 ```
 
 **Réponse :**
@@ -246,11 +260,12 @@ PUT /health/config
   "global_errors": [],
   "overall_status": "partial"
 }
+
 ```
 
 ---
 
-## 🚀 **Utilisation**
+## Utilisation
 
 ### Configuration
 
@@ -285,6 +300,7 @@ await sync_manager.sync_all_connectors(days_back=7)
 
 # Synchroniser un connecteur spécifique
 await sync_manager.sync_connector("samsung_health", days_back=7)
+
 ```
 
 ### Récupération des Données
@@ -298,11 +314,12 @@ activity_data = await sync_manager.get_activity_data(days_back=7)
 sleep_data = await sync_manager.get_sleep_data(days_back=7)
 stress_data = await sync_manager.get_stress_data(days_back=7)
 health_data = await sync_manager.get_health_data(days_back=7)
+
 ```
 
 ---
 
-## 🔒 **Sécurité et Confidentialité**
+## Sécurité et Confidentialité
 
 ### Stockage Local
 
@@ -324,7 +341,7 @@ health_data = await sync_manager.get_health_data(days_back=7)
 
 ---
 
-## 🧪 **Tests**
+## Tests
 
 ### Tests Unitaires
 
@@ -337,6 +354,7 @@ python -m pytest tests/test_data_models.py
 
 # Tests de l'API
 python -m pytest tests/test_health_api.py
+
 ```
 
 ### Tests d'Intégration
@@ -344,11 +362,12 @@ python -m pytest tests/test_health_api.py
 ```bash
 # Test de synchronisation complète
 python -m pytest tests/test_integration.py
+
 ```
 
 ---
 
-## 📈 **Monitoring et Logs**
+## Monitoring et Logs
 
 ### Logs de Synchronisation
 
@@ -361,6 +380,7 @@ logger = logging.getLogger("health_connectors")
 
 # Logs automatiques lors de la synchronisation
 await sync_manager.sync_all_connectors()
+
 ```
 
 ### Métriques de Performance
@@ -372,7 +392,7 @@ await sync_manager.sync_all_connectors()
 
 ---
 
-## 🐛 **Dépannage**
+## Dépannage
 
 ### Problèmes Courants
 
@@ -399,7 +419,7 @@ await sync_manager.sync_all_connectors()
 
 ---
 
-## 🔮 **Évolutions Futures**
+## Évolutions Futures
 
 ### Connecteurs Additionnels
 

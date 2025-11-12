@@ -1,10 +1,13 @@
-# ⚡ Commandes Rapides ARKALIA ARIA
+# Commandes Rapides
 
-**Dernière mise à jour : Novembre 2025
+**ARKALIA ARIA** — Référence rapide des commandes essentielles
 
-## 🚀 **Démarrage Rapide**
+**Dernière mise à jour :** Novembre 2025
+
+## Démarrage Rapide
 
 ### Lancer l'Application
+
 ```bash
 # Activer l'environnement
 source arkalia_aria_venv/bin/activate
@@ -16,9 +19,11 @@ uvicorn main:app --host 127.0.0.1 --port 8001 --reload
 
 # Vérifier que ça fonctionne
 curl http://127.0.0.1:8001/health
+
 ```
 
 ### Tests Rapides
+
 ```bash
 # Tests rapides (mode fail-fast)
 python -m pytest tests/ --tb=short -x
@@ -28,13 +33,15 @@ python -m pytest tests/ --cov=. --cov-report=html
 
 # Tests d'intégration
 python -m pytest tests/integration/ -v
+
 ```
 
 ---
 
-## 🔧 **Qualité du Code**
+## Qualité du Code
 
 ### Formatage & Linting
+
 ```bash
 # Formater le code
 black .
@@ -47,9 +54,11 @@ mypy .
 
 # Tous les outils de qualité
 black . && ruff check . --fix && mypy .
+
 ```
 
 ### Sécurité
+
 ```bash
 # Audit de sécurité
 bandit -r . -f json -o reports/bandit-report.json
@@ -57,6 +66,7 @@ safety check --json --output reports/safety-report.json
 
 # Audit complet
 bandit -r . && safety check
+
 ```
 
 ---
@@ -64,6 +74,7 @@ bandit -r . && safety check
 ## 🐳 **Docker**
 
 ### Docker Compose
+
 ```bash
 # Lancer avec Docker
 docker-compose up -d
@@ -76,9 +87,11 @@ docker-compose down
 
 # Reconstruire l'image
 docker-compose up --build -d
+
 ```
 
 ### Docker Direct
+
 ```bash
 # Construire l'image
 docker build -t arkalia-aria .
@@ -88,13 +101,15 @@ docker run -p 8001:8001 arkalia-aria
 
 # Voir les logs
 docker logs arkalia-aria
+
 ```
 
 ---
 
-## 📱 **Application Mobile**
+## Application Mobile
 
 ### Flutter
+
 ```bash
 # Aller dans le dossier mobile
 cd mobile_app/
@@ -108,13 +123,15 @@ flutter run
 # Construire pour production
 flutter build apk --release
 flutter build ios --release
+
 ```
 
 ---
 
-## 🗄️ **Base de Données**
+## Base de Données
 
 ### SQLite
+
 ```bash
 # Ouvrir la base de données
 sqlite3 aria_pain.db
@@ -130,9 +147,11 @@ SELECT * FROM pain_entries LIMIT 5;
 
 # Quitter
 .quit
+
 ```
 
 ### Backup & Restore
+
 ```bash
 # Backup
 cp aria_pain.db aria_pain.db.backup
@@ -141,6 +160,7 @@ cp aria_research.db aria_research.db.backup
 # Restore
 cp aria_pain.db.backup aria_pain.db
 cp aria_research.db.backup aria_research.db
+
 ```
 
 ---
@@ -148,6 +168,7 @@ cp aria_research.db.backup aria_research.db
 ## 🔍 **Debugging**
 
 ### Vérifier l'État
+
 ```bash
 # Vérifier les processus
 ps aux | grep python
@@ -160,9 +181,11 @@ free -h
 
 # Vérifier l'utilisation disque
 df -h
+
 ```
 
 ### Logs
+
 ```bash
 # Voir les logs de l'application
 tail -f logs/app.log
@@ -172,13 +195,15 @@ docker-compose logs -f aria
 
 # Voir les logs système
 journalctl -u aria -f
+
 ```
 
 ---
 
-## 🌐 **API & Endpoints**
+## API & Endpoints
 
 ### Tests API
+
 ```bash
 # Health check
 curl http://127.0.0.1:8001/health
@@ -191,9 +216,11 @@ curl http://127.0.0.1:8001/metrics
 
 # Documentation API
 open http://127.0.0.1:8001/docs
+
 ```
 
 ### Endpoints Principaux
+
 ```bash
 # Suivi de douleur
 curl http://127.0.0.1:8001/api/pain/entries
@@ -210,6 +237,7 @@ curl http://127.0.0.1:8001/health/sync/all
 curl http://127.0.0.1:8001/api/pain/export/csv
 curl http://127.0.0.1:8001/api/pain/export/pdf
 curl http://127.0.0.1:8001/api/pain/export/excel
+
 ```
 
 ---
@@ -217,6 +245,7 @@ curl http://127.0.0.1:8001/api/pain/export/excel
 ## 🧹 **Nettoyage**
 
 ### Cache & Fichiers Temporaires
+
 ```bash
 # Nettoyer le cache Python
 find . -name "*.pyc" -delete
@@ -229,9 +258,11 @@ rm -rf htmlcov/
 
 # Nettoyer les logs
 rm -rf logs/*.log
+
 ```
 
 ### Fichiers de Build
+
 ```bash
 # Nettoyer les builds
 rm -rf build/
@@ -241,13 +272,15 @@ rm -rf *.egg-info/
 # Nettoyer Docker
 docker system prune -f
 docker volume prune -f
+
 ```
 
 ---
 
-## 📊 **Monitoring**
+## Monitoring
 
 ### Métriques Système
+
 ```bash
 # CPU et mémoire
 top -p $(pgrep -f "python.*main.py")
@@ -257,22 +290,26 @@ du -sh aria_pain.db aria_research.db
 
 # Connexions réseau
 netstat -tulpn | grep :8001
+
 ```
 
 ### Métriques Application
+
 ```bash
 # Métriques système (nécessite ARIA_ENABLE_METRICS=true)
 curl http://127.0.0.1:8001/metrics
 
 # Métriques santé unifiées
 curl http://127.0.0.1:8001/health/metrics/unified?days_back=7
+
 ```
 
 ---
 
-## 🔄 **Git & Déploiement**
+## Git & Déploiement
 
 ### Git
+
 ```bash
 # Voir l'état
 git status
@@ -288,9 +325,11 @@ git push
 
 # Voir l'historique
 git log --oneline -10
+
 ```
 
 ### Déploiement
+
 ```bash
 # Construire pour production
 docker build -t arkalia-aria:latest .
@@ -300,6 +339,7 @@ docker tag arkalia-aria:latest arkalia-aria:v1.0.0
 
 # Push vers registry
 docker push arkalia-aria:latest
+
 ```
 
 ---
@@ -307,6 +347,7 @@ docker push arkalia-aria:latest
 ## 🚨 **Dépannage**
 
 ### Problèmes Courants
+
 ```bash
 # Port 8001 occupé
 kill -9 $(lsof -t -i:8001)
@@ -320,9 +361,11 @@ pip install -r requirements.txt
 
 # Problème de cache
 rm -rf .pytest_cache __pycache__/
+
 ```
 
 ### Redémarrage Complet
+
 ```bash
 # Arrêter tout
 docker-compose down
@@ -335,6 +378,7 @@ docker system prune -f
 docker-compose up -d
 # OU
 python main.py
+
 ```
 
 ---
@@ -342,6 +386,7 @@ python main.py
 ## 📚 **Documentation**
 
 ### Générer la Documentation
+
 ```bash
 # Documentation MkDocs
 mkdocs serve
@@ -351,9 +396,11 @@ open http://127.0.0.1:8001/docs
 
 # Documentation ReDoc
 open http://127.0.0.1:8001/redoc
+
 ```
 
 ### Voir la Documentation
+
 ```bash
 # Ouvrir la documentation
 open docs/index.md
@@ -363,6 +410,7 @@ ls docs/*.md
 
 # Chercher dans la documentation
 grep -r "mot-clé" docs/
+
 ```
 
 ---
@@ -370,6 +418,7 @@ grep -r "mot-clé" docs/
 ## ⚡ **Commandes Ultra-Rapides**
 
 ### Développement Quotidien
+
 ```bash
 # Workflow complet
 source arkalia_aria_venv/bin/activate && python main.py
@@ -382,9 +431,11 @@ black . && ruff check . --fix
 
 # Git
 git add . && git commit -m "update" && git push
+
 ```
 
 ### Docker Rapide
+
 ```bash
 # Lancer
 docker-compose up -d
@@ -394,15 +445,18 @@ docker-compose logs -f
 
 # Arrêter
 docker-compose down
+
 ```
 
 ### API Rapide
+
 ```bash
 # Health
 curl http://127.0.0.1:8001/health
 
 # Docs
 open http://127.0.0.1:8001/docs
+
 ```
 
 ---

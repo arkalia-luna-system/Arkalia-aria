@@ -7,6 +7,7 @@ ARKALIA ARIA s'engage à protéger votre vie privée et vos données personnelle
 ## Données collectées
 
 ### Données de santé
+
 - Intensité de la douleur (0-10)
 - Déclencheurs physiques et mentaux
 - Localisation de la douleur
@@ -14,12 +15,14 @@ ARKALIA ARIA s'engage à protéger votre vie privée et vos données personnelle
 - Notes personnelles
 
 ### Données techniques
+
 - Adresse IP
 - Type de navigateur
 - Système d'exploitation
 - Données de connexion
 
 ### Données de navigation
+
 - Pages visitées
 - Temps passé sur le site
 - Cookies et technologies similaires
@@ -41,6 +44,7 @@ ARKALIA ARIA s'engage à protéger votre vie privée et vos données personnelle
 ## Partage des données
 
 Vos données ne sont **PAS** partagées avec des tiers, sauf :
+
 - Avec votre consentement explicite
 - Pour répondre à une obligation légale
 - Avec des prestataires de services (sous contrat de confidentialité)
@@ -65,6 +69,7 @@ Vos données sont stockées en France. Aucun transfert international n'est effec
 ## Vos droits
 
 Vous avez le droit de :
+
 - **Accès** : Consulter vos données
 - **Rectification** : Corriger vos données
 - **Effacement** : Supprimer vos données
@@ -74,12 +79,13 @@ Vous avez le droit de :
 
 ## Exercice de vos droits
 
-**Contact DPO :** arkalia.luna.system@gmail.com  
+**Contact DPO :** <arkalia.luna.system@gmail.com>  
 **Délai de réponse :** 1 mois maximum
 
 ## Cookies
 
 Nous utilisons des cookies pour :
+
 - Fonctionnement du site
 - Statistiques d'utilisation
 - Amélioration de l'expérience
@@ -97,9 +103,9 @@ Cette politique peut être modifiée. Les modifications seront publiées sur cet
 75013 Paris  
 France  
 
-**Email :** arkalia.luna.system@gmail.com  
-**DPO :** arkalia.luna.system@gmail.com  
+**Email :** <arkalia.luna.system@gmail.com>  
+**DPO :** <arkalia.luna.system@gmail.com>  
 
 ---
 
-*Dernière mise à jour : Novembre 2025
+*Dernière mise à jour :* Novembre 2025

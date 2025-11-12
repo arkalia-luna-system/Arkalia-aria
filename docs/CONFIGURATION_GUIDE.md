@@ -1,18 +1,21 @@
-# Guide de Configuration ARKALIA ARIA
+# Guide de Configuration
+
+**ARKALIA ARIA** — Configuration complète pour tous les environnements
 
 **Dernière mise à jour :** Novembre 2025
 
 ---
 
-## 🎯 Objectif
+## Objectif
 
 Ce guide explique comment configurer ARKALIA ARIA pour différents environnements (développement, test, production).
 
 ---
 
-## 🔧 **Configuration de Base**
+## Configuration de Base
 
 ### Variables d'Environnement
+
 ```bash
 # Copier le fichier d'exemple
 cp env.example .env
@@ -24,9 +27,11 @@ ARIA_MAX_REQUEST_SIZE=10485760
 ARIA_CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
 ARIA_REDIS_URL=redis://localhost:6379
 ARIA_SECRET_KEY=your-secret-key-here
+
 ```
 
 ### Configuration Centralisée
+
 ```python
 # core/config.py
 from pydantic_settings import BaseSettings
@@ -41,13 +46,15 @@ class Config(BaseSettings):
     
     class Config:
         env_file = ".env"
+
 ```
 
 ---
 
-## 🏗️ **Environnements**
+## Environnements
 
 ### Développement Local
+
 ```bash
 # Configuration développement
 export ARIA_DB_PATH=aria_pain.db
@@ -59,9 +66,11 @@ export ARIA_SECRET_KEY=dev-secret-key
 
 # Lancer en mode développement
 python main.py
+
 ```
 
 ### Test/Staging
+
 ```bash
 # Configuration test
 export ARIA_DB_PATH=aria_pain_test.db
@@ -73,9 +82,11 @@ export ARIA_SECRET_KEY=test-secret-key
 
 # Lancer en mode test
 uvicorn main:app --host 0.0.0.0 --port 8001 --workers 2
+
 ```
 
 ### Production
+
 ```bash
 # Configuration production
 export ARIA_DB_PATH=/app/data/aria_pain.db
@@ -87,13 +98,15 @@ export ARIA_SECRET_KEY=prod-secret-key
 
 # Lancer en mode production
 uvicorn main:app --host 0.0.0.0 --port 8001 --workers 4
+
 ```
 
 ---
 
-## 🗄️ **Base de Données**
+## Base de Données
 
 ### SQLite (Développement)
+
 ```python
 # Configuration SQLite
 DATABASE_CONFIG = {
@@ -105,9 +118,11 @@ DATABASE_CONFIG = {
         "isolation_level": None
     }
 }
+
 ```
 
 ### PostgreSQL (Production)
+
 ```python
 # Configuration PostgreSQL
 DATABASE_CONFIG = {
@@ -124,9 +139,11 @@ DATABASE_CONFIG = {
         "pool_recycle": 3600
     }
 }
+
 ```
 
 ### MySQL (Alternative)
+
 ```python
 # Configuration MySQL
 DATABASE_CONFIG = {
@@ -143,13 +160,15 @@ DATABASE_CONFIG = {
         "pool_recycle": 3600
     }
 }
+
 ```
 
 ---
 
-## 🔒 **Sécurité**
+## Sécurité
 
 ### HTTPS/TLS
+
 ```nginx
 # nginx.conf
 server {
@@ -164,16 +183,18 @@ server {
     ssl_prefer_server_ciphers off;
     
     location / {
-        proxy_pass http://127.0.0.1:8001;
+        proxy_pass <http://127.0.0.1:8001;>
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
+
 ```
 
 ### CORS
+
 ```python
 # Configuration CORS
 CORS_CONFIG = {
@@ -187,9 +208,11 @@ CORS_CONFIG = {
     "allow_headers": ["*"],
     "max_age": 3600
 }
+
 ```
 
 ### Rate Limiting
+
 ```python
 # Configuration Rate Limiting
 RATE_LIMIT_CONFIG = {
@@ -198,13 +221,15 @@ RATE_LIMIT_CONFIG = {
     "burst_size": 10,
     "exclude_paths": ["/health", "/status", "/metrics"]
 }
+
 ```
 
 ---
 
-## 📊 **Monitoring**
+## Monitoring
 
 ### Prometheus
+
 ```yaml
 # prometheus.yml
 global:
@@ -216,9 +241,11 @@ scrape_configs:
       - targets: ['localhost:8001']
     metrics_path: '/metrics'
     scrape_interval: 5s
+
 ```
 
 ### Grafana
+
 ```json
 {
   "dashboard": {
@@ -247,9 +274,11 @@ scrape_configs:
     ]
   }
 }
+
 ```
 
 ### Logs
+
 ```python
 # Configuration des logs
 LOGGING_CONFIG = {
@@ -287,13 +316,15 @@ LOGGING_CONFIG = {
         }
     }
 }
+
 ```
 
 ---
 
-## 🐳 **Docker**
+## Docker
 
 ### Dockerfile
+
 ```dockerfile
 FROM python:3.10-slim
 
@@ -323,9 +354,11 @@ EXPOSE 8001
 
 # Commande par défaut
 CMD ["python", "main.py"]
+
 ```
 
 ### Docker Compose
+
 ```yaml
 version: '3.8'
 
@@ -367,13 +400,15 @@ services:
 
 volumes:
   redis_data:
+
 ```
 
 ---
 
-## 📱 **Configuration Mobile**
+## Configuration Mobile
 
 ### Flutter
+
 ```yaml
 # pubspec.yaml
 name: arkalia_aria
@@ -395,9 +430,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+
 ```
 
 ### Configuration API
+
 ```dart
 // lib/config/api_config.dart
 class ApiConfig {
@@ -407,70 +444,76 @@ class ApiConfig {
   
   static String get apiUrl => '$baseUrl/$apiVersion';
 }
+
 ```
 
 ---
 
-## 🔧 **Outils de Développement**
+## Outils de Développement
 
 ### Pre-commit Hooks
+
 ```yaml
 # .pre-commit-config.yaml
 repos:
-  - repo: https://github.com/psf/black
+  - repo: <https://github.com/psf/black>
     rev: 23.11.0
     hooks:
       - id: black
         language_version: python3.10
 
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
+  - repo: <https://github.com/charliermarsh/ruff-pre-commit>
     rev: v0.1.0
     hooks:
       - id: ruff
         args: [--fix]
 
-  - repo: https://github.com/pre-commit/mirrors-mypy
+  - repo: <https://github.com/pre-commit/mirrors-mypy>
     rev: v1.7.0
     hooks:
       - id: mypy
         additional_dependencies: [types-requests]
+
 ```
 
 ### Makefile
+
 ```makefile
 # Makefile
 .PHONY: install test lint format clean docker
 
 install:
-	pip install -r requirements.txt
+    pip install -r requirements.txt
 
 test:
-	python -m pytest tests/ -v
+    python -m pytest tests/ -v
 
 lint:
-	black . && ruff check . --fix && mypy .
+    black . && ruff check . --fix && mypy .
 
 format:
-	black . && ruff check . --fix
+    black . && ruff check . --fix
 
 clean:
-	find . -name "*.pyc" -delete
-	find . -name "__pycache__" -type d -exec rm -rf {} +
-	rm -rf .pytest_cache htmlcov/
+    find . -name "*.pyc" -delete
+    find . -name "__pycache__" -type d -exec rm -rf {} +
+    rm -rf .pytest_cache htmlcov/
 
 docker:
-	docker-compose up --build -d
+    docker-compose up --build -d
 
 docker-clean:
-	docker-compose down
-	docker system prune -f
+    docker-compose down
+    docker system prune -f
+
 ```
 
 ---
 
-## 🚨 **Configuration de Production**
+## Configuration de Production
 
 ### Checklist Production
+
 - [ ] **HTTPS** - Certificats SSL configurés
 - [ ] **Base de données** - PostgreSQL/MySQL configuré
 - [ ] **Monitoring** - Prometheus + Grafana actifs
@@ -481,6 +524,7 @@ docker-clean:
 - [ ] **Alertes** - Notifications configurées
 
 ### Variables d'Environnement Production
+
 ```bash
 # Production
 ARIA_DB_PATH=/app/data/aria_pain.db
@@ -493,13 +537,15 @@ ARIA_DATABASE_URL=postgresql://user:pass@localhost:5432/arkalia_aria
 ARIA_SENTRY_DSN=https://your-sentry-dsn
 ARIA_PROMETHEUS_ENABLED=true
 ARIA_GRAFANA_URL=https://grafana.arkalia-aria.com
+
 ```
 
 ---
 
-## 📋 **Configuration par Environnement**
+## Configuration par Environnement
 
 ### Développement
+
 ```bash
 # .env.development
 ARIA_DB_PATH=aria_pain.db
@@ -507,9 +553,11 @@ ARIA_LOG_LEVEL=DEBUG
 ARIA_CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
 ARIA_REDIS_URL=redis://localhost:6379
 ARIA_SECRET_KEY=dev-secret-key
+
 ```
 
 ### Test
+
 ```bash
 # .env.test
 ARIA_DB_PATH=aria_pain_test.db
@@ -517,9 +565,11 @@ ARIA_LOG_LEVEL=INFO
 ARIA_CORS_ORIGINS=http://test.arkalia-aria.com
 ARIA_REDIS_URL=redis://test-redis:6379
 ARIA_SECRET_KEY=test-secret-key
+
 ```
 
 ### Production
+
 ```bash
 # .env.production
 ARIA_DB_PATH=/app/data/aria_pain.db
@@ -527,8 +577,9 @@ ARIA_LOG_LEVEL=WARNING
 ARIA_CORS_ORIGINS=https://arkalia-aria.com
 ARIA_REDIS_URL=redis://prod-redis:6379
 ARIA_SECRET_KEY=prod-secret-key-very-secure
+
 ```
 
 ---
 
-**ARKALIA ARIA** - Guide de configuration
+**ARKALIA ARIA** — Guide de configuration

@@ -1,6 +1,6 @@
-# 📊 **ARKALIA ARIA - Dashboard Web Interactif**
+# Dashboard Web Interactif
 
-**Interface Web Avancée pour la Visualisation et l'Analyse des Données de Santé**
+**ARKALIA ARIA** — Interface web avancée pour la visualisation et l'analyse des données de santé
 
 ---
 
@@ -8,7 +8,7 @@
 
 Le dashboard web ARKALIA ARIA offre une interface web interactive et responsive pour visualiser, analyser et exporter vos données de santé avec des graphiques en temps réel et des fonctionnalités d'export avancées.
 
-### 🎯 **Objectifs**
+### Objectifs
 
 - **Visualisation temps réel** : Graphiques interactifs et dynamiques
 - **Analyses avancées** : Patterns, corrélations et tendances
@@ -37,6 +37,7 @@ metrics_collector/dashboard/
 │   └── exports.js                # Fonctionnalités d'export
 ├── aria_metrics_dashboard.py     # Extension du dashboard
 └── export_handlers.py            # Gestionnaires d'export
+
 ```
 
 ### Diagramme d'Architecture
@@ -82,6 +83,7 @@ graph TB
     API --> PT
     API --> PA
     API --> PE
+
 ```
 
 ---
@@ -203,6 +205,7 @@ graph TB
 - **Real-time updates** : Mise à jour automatique des données
 
 **Types de Graphiques** :
+
 ```javascript
 // Graphique de tendances
 const trendChart = new Chart(ctx, {
@@ -226,6 +229,7 @@ const trendChart = new Chart(ctx, {
     }
   }
 });
+
 ```
 
 ### Mise à Jour Temps Réel
@@ -239,6 +243,7 @@ const trendChart = new Chart(ctx, {
 - Gestion des erreurs de connexion
 
 **Implémentation** :
+
 ```javascript
 class RealtimeUpdater {
   constructor() {
@@ -263,6 +268,7 @@ class RealtimeUpdater {
     }
   }
 }
+
 ```
 
 ### Système d'Export
@@ -276,6 +282,7 @@ class RealtimeUpdater {
 - Aperçu avant export
 
 **Types d'Export** :
+
 ```javascript
 class ExportManager {
   async exportPDF(data, options) {
@@ -304,6 +311,7 @@ class ExportManager {
     // Export HTML avec interactivité préservée
   }
 }
+
 ```
 
 ---
@@ -321,6 +329,7 @@ class ExportManager {
 - Métadonnées et filigranes
 
 **Implémentation** :
+
 ```python
 class PDFExportHandler:
     async def export(self, request: Request):
@@ -351,6 +360,7 @@ class PDFExportHandler:
             media_type="application/pdf",
             headers={"Content-Disposition": "attachment; filename=rapport-aria.pdf"}
         )
+
 ```
 
 ### ExcelExportHandler
@@ -419,6 +429,7 @@ async def dashboard_reports(request: Request):
         "reports.html", 
         {"request": request, "title": "Rapports ARIA"}
     )
+
 ```
 
 ### Routes d'Export
@@ -463,11 +474,12 @@ async def preview_report(request: Request):
         return await handler.preview(request)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erreur aperçu: {str(e)}")
+
 ```
 
 ---
 
-## 🎨 **Interface Utilisateur**
+## Interface Utilisateur
 
 ### Design System
 
@@ -514,6 +526,7 @@ async def preview_report(request: Request):
     </button>
   </div>
 </div>
+
 ```
 
 ### Responsive Design
@@ -539,6 +552,7 @@ async def preview_report(request: Request):
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
 ```
 
 ---
@@ -593,11 +607,12 @@ class DataCache {
     });
   }
 }
+
 ```
 
 ---
 
-## 🧪 **Tests**
+## Tests
 
 ### Tests Frontend
 
@@ -625,6 +640,7 @@ describe('Export Functionality', () => {
     expect(result.success).toBe(true);
   });
 });
+
 ```
 
 ### Tests Backend
@@ -641,11 +657,12 @@ def test_export_pdf():
     response = client.post("/dashboard/export/pdf", json=mock_export_data)
     assert response.status_code == 200
     assert response.headers["content-type"] == "application/pdf"
+
 ```
 
 ---
 
-## 📈 **Monitoring et Analytics**
+## Monitoring et Analytics
 
 ### Métriques de Performance
 
@@ -663,7 +680,7 @@ def test_export_pdf():
 
 ---
 
-## 🐛 **Dépannage**
+## Dépannage
 
 ### Problèmes Courants
 
@@ -693,11 +710,12 @@ logger = logging.getLogger("dashboard")
 # Logs des exports
 logger.info(f"Export PDF démarré: {user_id}")
 logger.error(f"Erreur export: {error}")
+
 ```
 
 ---
 
-## 🔮 **Évolutions Futures**
+## Évolutions Futures
 
 ### Fonctionnalités Avancées
 

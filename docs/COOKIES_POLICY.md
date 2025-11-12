@@ -68,6 +68,7 @@ L'application mobile utilise des technologies similaires :
 ## Suppression des cookies
 
 ### Navigateur web
+
 - Chrome : Paramètres > Confidentialité > Cookies
 - Firefox : Options > Vie privée > Cookies
 - Safari : Préférences > Confidentialité > Cookies

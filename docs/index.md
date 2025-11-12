@@ -1,7 +1,7 @@
 # ARKALIA ARIA
 
 **Research Intelligence Assistant**  
-*Laboratoire de recherche santé personnel*
+#### Laboratoire de recherche santé personnel
 
 ---
 
@@ -51,7 +51,7 @@ ARKALIA ARIA est un assistant de recherche intelligent conçu pour transformer v
 
 ```bash
 # Cloner le projet
-git clone https://github.com/arkalia-luna-system/arkalia-aria.git
+git clone <https://github.com/arkalia-luna-system/arkalia-aria.git>
 cd arkalia-aria
 
 # Créer l'environnement virtuel
@@ -62,6 +62,7 @@ arkalia_aria_venv\Scripts\activate     # Windows
 
 # Installer les dépendances
 pip install -r requirements.txt
+
 ```
 
 ### Lancement
@@ -72,6 +73,7 @@ uvicorn main:app --host 127.0.0.1 --port 8001 --reload
 
 # Ou directement
 python main.py
+
 ```
 
 ### Accès
@@ -103,6 +105,7 @@ graph TB
     I --> N[Predictions]
     J --> O[Research Data]
     K --> P[Bidirectional Sync]
+
 ```
 
 ---
@@ -149,6 +152,7 @@ pytest tests/ --cov=. --cov-report=html
 
 # Tests d'intégration CIA/ARIA
 python tests/integration/test_cia_aria_integration.py
+
 ```
 
 ### Qualité du Code
@@ -163,9 +167,10 @@ ruff check .
 # Sécurité
 bandit -r .
 safety check
+
 ```
 
-### Documentation
+### Génération Documentation
 
 ```bash
 # Construction locale
@@ -173,6 +178,7 @@ mkdocs serve
 
 # Déploiement
 mkdocs gh-deploy
+
 ```
 
 ---
@@ -256,7 +262,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](https://github.com/ark
 
 - **Issues** : [GitHub Issues](https://github.com/arkalia-luna-system/arkalia-aria/issues)
 - **Discussions** : [GitHub Discussions](https://github.com/arkalia-luna-system/arkalia-aria/discussions)
-- **Email** : arkalia.luna.system@gmail.com
+- **Email** : <arkalia.luna.system@gmail.com>
 
 ---
 

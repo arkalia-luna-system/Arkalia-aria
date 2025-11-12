@@ -7,11 +7,13 @@ Les fichiers dans `.github/workflows/` sont **automatiquement générés** par l
 ## Comment ça fonctionne
 
 ### Génération automatique
+
 - Le script `devops_automation/cicd/aria_cicd_manager.py` génère les workflows
 - Les workflows sont créés en YAML à partir de templates Python
 - La génération se fait lors des commits ou via commande manuelle
 
 ### Fichiers générés automatiquement
+
 - `.github/workflows/ci-cd.yml`
 - `.github/workflows/security.yml` 
 - `.github/workflows/docs.yml`
@@ -26,18 +28,22 @@ Les fichiers dans `.github/workflows/` sont **automatiquement générés** par l
 - Fonction `_generate_deployment_config()` pour le déploiement
 
 ### 2. Régénérer les workflows
+
 ```bash
 # Régénération complète
 python -m devops_automation.cicd.aria_cicd_manager
 
 # Ou via le Makefile
 make setup-cicd
+
 ```
 
 ### 3. Vérifier les changements
+
 ```bash
 git status
 git diff .github/workflows/
+
 ```
 
 ## 🚫 **Ce qu'il ne faut PAS faire**

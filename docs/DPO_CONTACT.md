@@ -8,7 +8,7 @@
 
 **Nom :** [Nom du DPO]  
 **Titre :** Délégué à la Protection des Données  
-**Email :** arkalia.luna.system@gmail.com  
+**Email :** <arkalia.luna.system@gmail.com>  
 **Téléphone :** +33 1 23 45 67 89  
 
 ## Adresse
@@ -27,26 +27,32 @@ France
 ## 📧 **Types de demandes**
 
 ### Accès aux données
+
 - Consultation de vos données personnelles
 - Copie de vos données
 
 ### Rectification
+
 - Correction d'informations inexactes
 - Mise à jour de vos données
 
 ### Effacement
+
 - Suppression de vos données
 - Droit à l'oubli
 
 ### Portabilité
+
 - Export de vos données
 - Transfert vers un autre service
 
 ### Limitation
+
 - Restriction du traitement
 - Suspension temporaire
 
 ### Opposition
+
 - Refus du traitement
 - Désabonnement
 
@@ -74,7 +80,7 @@ Seul le DPO et son équipe y ont accès.
 ## Urgences
 
 Pour les urgences liées à la protection des données :
-**Email :** arkalia.luna.system@gmail.com  
+**Email :** <arkalia.luna.system@gmail.com>  
 **Téléphone :** +33 1 23 45 67 90  
 
 ## Formulaires
@@ -94,9 +100,9 @@ Pour les urgences liées à la protection des données :
 ## ⚖️ **Recours**
 
 Si vous n'êtes pas satisfait de la réponse :
-- **CNIL :** https://www.cnil.fr
+- **CNIL :** <https://www.cnil.fr>
 - **Téléphone :** 01 53 73 22 22
-- **Email :** arkalia.luna.system@gmail.com
+- **Email :** <arkalia.luna.system@gmail.com>
 
 ## 📚 **Ressources**
 

@@ -40,6 +40,7 @@ En utilisant ARKALIA ARIA, vous acceptez ces conditions d'utilisation. Si vous n
 ## Limitation de responsabilité
 
 ARKALIA ARIA ne peut être tenu responsable de :
+
 - Perte de données due à une utilisation incorrecte
 - Dommages indirects ou consécutifs
 - Interruptions de service
@@ -55,6 +56,7 @@ ARKALIA ARIA ne peut être tenu responsable de :
 ## Modifications
 
 Nous nous réservons le droit de :
+
 - Modifier ces conditions
 - Suspendre votre accès
 - Interrompre le service

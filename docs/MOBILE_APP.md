@@ -1,6 +1,6 @@
-# 📱 **ARKALIA ARIA - Application Mobile Flutter**
+# Application Mobile Flutter
 
-**Application Mobile Native pour la Gestion de Santé Personnelle**
+**ARKALIA ARIA** — Application mobile native pour la gestion de santé personnelle
 
 ---
 
@@ -8,7 +8,7 @@
 
 L'application mobile ARKALIA ARIA est une application Flutter native qui offre une interface intuitive et complète pour la gestion de votre santé personnelle, avec synchronisation bidirectionnelle et mode hors ligne.
 
-### 🎯 **Objectifs**
+### Objectifs
 
 - **Interface intuitive** : Design moderne et accessible
 - **Synchronisation bidirectionnelle** : Données en temps réel
@@ -39,6 +39,7 @@ mobile_app/
 ├── android/                       # Configuration Android
 ├── ios/                          # Configuration iOS
 └── pubspec.yaml                  # Dépendances Flutter
+
 ```
 
 ### Diagramme d'Architecture
@@ -81,6 +82,7 @@ graph TB
     ES --> API
     
     API --> DB
+
 ```
 
 ---
@@ -135,6 +137,7 @@ L'application mobile Flutter est actuellement en phase de développement avec un
 - Gestion des erreurs
 
 **Méthodes principales** :
+
 ```dart
 // Synchronisation
 Future<void> syncAllConnectors()
@@ -149,6 +152,7 @@ Future<List<HealthData>> getUnifiedHealthData(int daysBack)
 
 // Statut des connecteurs
 Future<SyncSummary> getConnectorsStatus()
+
 ```
 
 ### NotificationService
@@ -162,6 +166,7 @@ Future<SyncSummary> getConnectorsStatus()
 - Configuration des permissions
 
 **Méthodes principales** :
+
 ```dart
 // Permissions
 Future<bool> requestPermission()
@@ -174,6 +179,7 @@ Future<void> scheduleDailyReport(int hour)
 
 // Configuration
 Future<void> configureNotifications(Map<String, dynamic> settings)
+
 ```
 
 ### OfflineCacheService
@@ -187,6 +193,7 @@ Future<void> configureNotifications(Map<String, dynamic> settings)
 - Optimisation des performances
 
 **Méthodes principales** :
+
 ```dart
 // Cache
 Future<void> cacheAllData(Map<String, dynamic> data)
@@ -197,6 +204,7 @@ Future<void> clearAllCache()
 Future<bool> isCacheUpToDate()
 Future<DateTime?> getLastSyncTimestamp()
 Future<void> markCacheAsStale()
+
 ```
 
 ### Services en Développement
@@ -240,6 +248,7 @@ class HealthData {
   factory HealthData.fromJson(Map<String, dynamic> json);
   Map<String, dynamic> toJson();
 }
+
 ```
 
 ### Modèles en Développement
@@ -274,7 +283,7 @@ class HealthData {
 
 ```bash
 # Cloner le projet
-git clone https://github.com/arkalia-luna-system/arkalia-aria.git
+git clone <https://github.com/arkalia-luna-system/arkalia-aria.git>
 cd arkalia-aria/mobile_app
 
 # Installer les dépendances
@@ -285,6 +294,7 @@ flutter build apk --release
 
 # Configuration iOS
 flutter build ios --release
+
 ```
 
 ### Configuration
@@ -343,7 +353,7 @@ flutter build ios --release
 
 ---
 
-## 🧪 **Tests**
+## Tests
 
 ### Tests Unitaires
 
@@ -356,6 +366,7 @@ flutter test test/models/
 
 # Tests des écrans
 flutter test test/screens/
+
 ```
 
 ### Tests d'Intégration
@@ -363,6 +374,7 @@ flutter test test/screens/
 ```bash
 # Tests d'intégration complets
 flutter test integration_test/
+
 ```
 
 ### Tests de Performance
@@ -370,11 +382,12 @@ flutter test integration_test/
 ```bash
 # Profiling des performances
 flutter run --profile
+
 ```
 
 ---
 
-## 📈 **Monitoring et Analytics**
+## Monitoring et Analytics
 
 ### Métriques de Performance
 
@@ -392,7 +405,7 @@ flutter run --profile
 
 ---
 
-## 🐛 **Dépannage**
+## Dépannage
 
 ### Problèmes Courants
 
@@ -423,11 +436,12 @@ void main() {
   }
   runApp(MyApp());
 }
+
 ```
 
 ---
 
-## 🔮 **Évolutions Futures**
+## Évolutions Futures
 
 ### Fonctionnalités Avancées
 
@@ -453,9 +467,10 @@ void main() {
 
 ---
 
-## 🚧 **Fonctionnalités Manquantes**
+## Fonctionnalités Manquantes
 
 ### Interface Utilisateur
+
 - [ ] Écrans UI complets (screens/)
 - [ ] Navigation entre écrans
 - [ ] Thème sombre/clair
@@ -464,6 +479,7 @@ void main() {
 - [ ] Internationalisation (i18n)
 
 ### Fonctionnalités Avancées
+
 - [ ] Notifications push (iOS/Android)
 - [ ] Mode hors ligne complet
 - [ ] Synchronisation bidirectionnelle
@@ -473,6 +489,7 @@ void main() {
 - [ ] Biométrie (Touch ID/Face ID)
 
 ### Tests & Qualité
+
 - [ ] Tests unitaires Flutter
 - [ ] Tests d'intégration mobile
 - [ ] Tests de performance
@@ -480,6 +497,7 @@ void main() {
 - [ ] Tests de compatibilité
 
 ### Déploiement
+
 - [ ] Configuration App Store
 - [ ] Configuration Google Play
 - [ ] Certificats de signature

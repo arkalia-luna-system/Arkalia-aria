@@ -8,11 +8,12 @@
 
 ## Checklist Quotidienne
 
-*Temps estimé : 15 minutes maximum*
+#### Temps estimé : 15 minutes maximum
 
 ### 1. Tests & Validation
 
-*~5 minutes*
+#### ~5 minutes
+
 ```bash
 # Activer l'environnement
 cd /Volumes/T7/arkalia-aria && source arkalia_aria_venv/bin/activate
@@ -26,11 +27,13 @@ black . && ruff check . --fix
 # Vérification de sécurité (optionnel)
 bandit -r . -f json -o reports/bandit-report.json
 safety check --json --output reports/safety-report.json
+
 ```
 
 ### 2. Git & Sauvegarde
 
-*~3 minutes*
+#### ~3 minutes
+
 ```bash
 # Status et add
 git status
@@ -44,22 +47,26 @@ git commit -m "feat: [module] description claire
 
 # Push vers le repository
 git push origin develop
+
 ```
 
 ### 3. Documentation
 
-*~3 minutes*
+#### ~3 minutes
+
 ```bash
 # Mettre à jour le statut
 echo "## $(date '+%d/%m/%Y %H:%M')" >> docs/DAILY_LOG.md
 echo "- [x] Tâche 1" >> docs/DAILY_LOG.md
 echo "- [x] Tâche 2" >> docs/DAILY_LOG.md
 echo "" >> docs/DAILY_LOG.md
+
 ```
 
 ### 4. Nettoyage
 
-*~2 minutes*
+#### ~2 minutes
+
 ```bash
 # Nettoyer les caches Python
 find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
@@ -70,26 +77,30 @@ find . -name "*.log" -size +10M -delete 2>/dev/null || true
 
 # Vérifier l'espace disque
 du -sh .  # Afficher l'espace disque utilisé
+
 ```
 
 ### 5. Planification
 
-*~2 minutes*
+#### ~2 minutes
+
 ```bash
 # Créer la TODO pour demain
 echo "## TODO Demain - $(date -d '+1 day' '+%d/%m/%Y')" >> docs/DAILY_LOG.md
 echo "- [ ] Tâche prioritaire 1" >> docs/DAILY_LOG.md
 echo "- [ ] Tâche prioritaire 2" >> docs/DAILY_LOG.md
 echo "" >> docs/DAILY_LOG.md
+
 ```
 
 ---
 
 ## Script Automatisé
 
-*Optionnel — Pour automatiser la routine quotidienne*
+#### Optionnel — Pour automatiser la routine quotidienne
 
 Créer `scripts/daily_closing.sh` :
+
 ```bash
 #!/bin/bash
 cd /Volumes/T7/arkalia-aria
@@ -117,6 +128,7 @@ find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
 find . -name "*.pyc" -delete 2>/dev/null || true
 
 echo "✅ Nettoyage terminé !"
+
 ```
 
 ---
@@ -124,13 +136,15 @@ echo "✅ Nettoyage terminé !"
 ## Métriques Quotidiennes
 
 ### Indicateurs à suivre quotidiennement
+
 - **Lignes de code ajoutées/supprimées** : `git diff --stat`
 - **Temps de travail** : Estimation personnelle
 - **Tâches accomplies** : Liste des fonctionnalités
 - **Problèmes rencontrés** : Bugs ou blocages
 - **Espace disque** : `du -sh .`
 
-### Exemple de Log Quotidien :
+### Exemple de Log Quotidien 
+
 ```markdown
 ## 25/09/2025 18:30
 - [x] Migration architecture centralisée
@@ -149,6 +163,7 @@ echo "✅ Nettoyage terminé !"
 - [ ] Tests mobile device réel
 - [ ] Validation RGPD expert
 - [ ] Déploiement production
+
 ```
 
 ---
@@ -156,6 +171,7 @@ echo "✅ Nettoyage terminé !"
 ## Objectifs de Qualité
 
 ### Standards quotidiens
+
 - ✅ **Code** : Black + Ruff = 0 erreur
 - ✅ **Tests** : 100% passent
 - ✅ **Git** : Commit + Push réussi
@@ -163,6 +179,7 @@ echo "✅ Nettoyage terminé !"
 - ✅ **Sécurité** : Scan Bandit/Safety (optionnel)
 
 ### Standards hebdomadaires
+
 - 📊 **Métriques** : Couverture de code, performance
 - 🔍 **Audit** : Review complet du code
 - 📚 **Documentation** : Mise à jour des guides

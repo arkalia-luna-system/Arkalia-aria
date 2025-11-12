@@ -1,6 +1,10 @@
-# 📊 Statut des Modules - ARKALIA ARIA
+# Statut des Modules
+
+**ARKALIA ARIA** — État actuel de tous les modules
 
 **Dernière mise à jour :** Novembre 2025
+
+---
 
 ## Légende
 - ✅ **Migré** : Module migré vers architecture centralisée
@@ -12,7 +16,7 @@
 
 ## Modules Core
 
-### 🆕 **core/**
+### core/
 - ✅ **database.py** : DatabaseManager centralisé
 - ✅ **cache.py** : CacheManager intelligent
 - ✅ **config.py** : Configuration centralisée
@@ -25,9 +29,11 @@
 
 ---
 
-## Modules Migrés vers BaseAPI (4/8)
+## Modules Migrés vers BaseAPI
 
-### ✅ **pain_tracking/**
+*4 modules sur 8 migrés*
+
+### pain_tracking/
 - ✅ **api.py** : Migré vers BaseAPI + DatabaseManager
 - ✅ **Endpoints** : `/health`, `/status`, `/metrics` automatiques
 - ✅ **Performance** : 3x plus rapide
@@ -35,21 +41,21 @@
 
 **Statut** : ✅ **MIGRÉ** - Prêt pour la production
 
-### ✅ **health_connectors/**
+### health_connectors/
 - ✅ **api.py** : Migré vers BaseAPI + tests validés
 - ✅ **Logging** : Unifié avec get_logger
 - ✅ **Performance** : Optimisé
 
 **Statut** : ✅ **MIGRÉ** - Prêt pour la production
 
-### ✅ **audio_voice/**
+### audio_voice/
 - ✅ **api.py** : Migré vers BaseAPI + get_logger
 - ✅ **Logging** : Unifié avec get_logger
 - ✅ **Gestion d'erreurs** : Améliorée
 
 **Statut** : ✅ **MIGRÉ** - Prêt pour la production
 
-### ✅ **cia_sync/**
+### cia_sync/
 - ✅ **api.py** : Migré vers BaseAPI + get_logger
 - ✅ **Logging** : Unifié avec get_logger
 - ✅ **Gestion d'erreurs** : Améliorée
@@ -60,28 +66,28 @@
 
 ## Modules avec Logging/DB Centralisé (4/8)
 
-### ✅ **pattern_analysis/**
+### pattern_analysis/
 - ✅ **emotion_analyzer.py** : Migré vers get_logger
 - ⚠️ **api.py** : Utilise APIRouter (pas BaseAPI)
 - ✅ **Logging** : Unifié
 
 **Statut** : 🔄 **PARTIELLEMENT MIGRÉ** - Logging OK, API utilise APIRouter standard
 
-### ✅ **prediction_engine/**
+### prediction_engine/
 - ✅ **ml_analyzer.py** : Migré vers DatabaseManager
 - ⚠️ **api.py** : Utilise APIRouter (pas BaseAPI)
 - ✅ **Performance** : Connexion DB centralisée
 
 **Statut** : 🔄 **PARTIELLEMENT MIGRÉ** - DB OK, API utilise APIRouter standard
 
-### ✅ **research_tools/**
+### research_tools/
 - ✅ **data_collector.py** : Migré vers DatabaseManager
 - ⚠️ **api.py** : Utilise APIRouter (pas BaseAPI)
 - ✅ **Performance** : Connexion DB centralisée
 
 **Statut** : 🔄 **PARTIELLEMENT MIGRÉ** - DB OK, API utilise APIRouter standard
 
-### ✅ **metrics_collector/**
+### metrics_collector/
 - ✅ **collectors/aria_metrics_collector.py** : Migré vers DatabaseManager
 - ⚠️ **api.py** : Utilise ARIA_MetricsAPI (classe custom, pas BaseAPI)
 - ✅ **Performance** : Connexion DB centralisée
@@ -93,16 +99,18 @@
 
 ---
 
+---
+
 ## Modules Interface
 
-### ✅ **mobile_app/**
+### mobile_app/
 - ✅ **Flutter** : Application mobile complète
 - ✅ **4 écrans** : Santé, Dashboard, Analytics, Settings
 - ✅ **API Service** : Communication avec backend
 
 **Statut** : ✅ **COMPLET** - Prêt pour la production
 
-### ✅ **docs/**
+### docs/
 - ✅ **Documentation** : Complète et à jour
 - ✅ **API Reference** : Mise à jour avec BaseAPI
 - ✅ **Developer Guide** : Mise à jour avec core
@@ -113,9 +121,11 @@
 
 ---
 
-## ⚡ **Modules Optimisation (NOUVEAU)**
+---
 
-### 🆕 **config/**
+## Modules Optimisation
+
+### config/
 - ✅ **.bandit** : Configuration Bandit optimisée (timeouts, exclusions)
 - ✅ **.safety** : Configuration Safety optimisée (cache, limites)
 - ✅ **performance.toml** : Configuration de performance centralisée
@@ -123,14 +133,14 @@
 
 **Statut** : ✅ **COMPLET** - Optimisations opérationnelles
 
-### 🆕 **devops_automation/scripts/**
+### devops_automation/scripts/
 - ✅ **cleanup_heavy_processes.sh** : Script de nettoyage automatique
 - ✅ **Timeouts** : Arrêt automatique des processus lourds
 - ✅ **Monitoring** : Surveillance des ressources système
 
 **Statut** : ✅ **COMPLET** - Scripts de maintenance opérationnels
 
-### 🆕 **.github/workflows/**
+### .github/workflows/
 - ✅ **ci-cd.yml** : Workflow optimisé avec timeouts et cache
 - ✅ **security.yml** : Audit de sécurité optimisé
 - ✅ **Timeouts** : Limites de temps pour tous les jobs
@@ -140,9 +150,11 @@
 
 ---
 
-## 🧪 **Modules Test**
+---
 
-### ✅ **tests/**
+## Modules Test
+
+### tests/
 - ✅ **Tests** : 394 tests collectés (100% passent)
 - ✅ **Coverage** : 100% des modules migrés
 
@@ -150,7 +162,9 @@
 
 ---
 
-## 📈 **Métriques de Migration**
+---
+
+## Métriques de Migration
 
 ### Modules Migrés vers BaseAPI : 4/8 (50%) ✅
 - ✅ pain_tracking

@@ -13,7 +13,8 @@ Pour que le déploiement automatique de la documentation fonctionne, **GitHub Pa
 **Vous devez activer GitHub Pages MAINTENANT pour que le workflow fonctionne.**
 
 ### 1. Accéder aux Paramètres
-1. **Ouvrir ce lien** : https://github.com/arkalia-luna-system/Arkalia-aria/settings/pages
+
+1. **Ouvrir ce lien** : <https://github.com/arkalia-luna-system/Arkalia-aria/settings/pages>
 2. Ou manuellement :
    - Aller sur le repository GitHub
    - Cliquer sur **"Settings"** (en haut à droite)
@@ -59,10 +60,11 @@ Pour vérifier :
 ## 🐛 Dépannage
 
 ### ❌ Erreur : "Not Found" (404) - VOUS ÊTES ICI
+
 - **Cause** : GitHub Pages n'est **PAS activé** dans les paramètres
 - **Symptôme** : `HttpError: Not Found` dans les logs du workflow
 - **Solution IMMÉDIATE** :
-  1. Aller sur : https://github.com/arkalia-luna-system/Arkalia-aria/settings/pages
+  1. Aller sur : <https://github.com/arkalia-luna-system/Arkalia-aria/settings/pages>
   2. Sélectionner **"GitHub Actions"** dans "Source"
   3. Cliquer sur **"Save"**
   4. Attendre quelques secondes
@@ -70,6 +72,7 @@ Pour vérifier :
 - **Vérification** : Après activation, l'erreur 404 disparaîtra
 
 ### Erreur : "Permission denied" (403)
+
 - **Cause** : Permissions insuffisantes
 - **Solution** : Vérifier que les permissions dans le workflow sont correctes :
   ```yaml
@@ -80,6 +83,7 @@ Pour vérifier :
   ```
 
 ### Erreur : "Environment not found"
+
 - **Cause** : L'environment `github-pages` n'existe pas
 - **Solution** : GitHub crée automatiquement cet environment lors de l'activation de Pages
 

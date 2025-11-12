@@ -1,10 +1,10 @@
 # 🔄 Génération Automatique des Workflows CI/CD
 
-## ⚠️ **IMPORTANT : Ne pas modifier manuellement les fichiers .yml**
+## IMPORTANT : Ne pas modifier manuellement les fichiers .yml
 
 Les fichiers dans `.github/workflows/` sont **automatiquement générés** par le système CI/CD d'ARKALIA ARIA.
 
-## 🔧 **Comment ça fonctionne**
+## Comment ça fonctionne
 
 ### Génération automatique
 - Le script `devops_automation/cicd/aria_cicd_manager.py` génère les workflows
@@ -46,7 +46,7 @@ git diff .github/workflows/
 - ❌ Commiter des modifications manuelles des workflows
 - ❌ Désactiver la génération automatique
 
-## ✅ **Ce qu'il faut faire**
+## Ce qu'il faut faire
 
 - ✅ Modifier uniquement le code Python dans `devops_automation/`
 - ✅ Tester les changements avec `make setup-cicd`
@@ -73,7 +73,7 @@ git diff .github/workflows/
 - Tests : `tests/unit/test_aria_cicd_manager.py`
 - Configuration : `pyproject.toml` (section `[tool.aria]`)
 
-## 🎯 **Avantages de cette approche**
+## Avantages de cette approche
 
 1. **Cohérence** : Tous les workflows suivent le même template
 2. **Maintenance** : Un seul endroit pour modifier la logique CI/CD

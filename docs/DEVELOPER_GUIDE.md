@@ -1,16 +1,16 @@
-# Guide Développeur ARKALIA ARIA
+# Guide Développeur
 
-**Documentation technique complète pour les développeurs**
+**ARKALIA ARIA** — Documentation technique complète
 
 *Dernière mise à jour :* Novembre 2025
 
 ---
 
-## 📋 Table des matières
+## Table des matières
 
 1. [Architecture Générale](#architecture-générale)
-2. [🆕 Module Core](#module-core)
-3. [🆕 BaseAPI](#baseapi)
+2. [Module Core](#module-core)
+3. [BaseAPI](#baseapi)
 4. [Installation et Configuration](#installation-et-configuration)
 5. [Structure du Projet](#structure-du-projet)
 6. [API Documentation](#api-documentation)
@@ -28,9 +28,9 @@
 
 ---
 
-## 🆕 Module Core
+## Module Core
 
-### Vue d'Ensemble
+### Vue d'ensemble
 Le module `core/` centralise toutes les fonctionnalités communes d'ARKALIA ARIA :
 
 ```
@@ -88,9 +88,9 @@ api_port = config["api_port"]
 
 ---
 
-## 🆕 BaseAPI
+## BaseAPI
 
-### Vue d'Ensemble
+### Vue d'ensemble
 BaseAPI standardise toutes les APIs ARIA avec des endpoints communs :
 
 ```python
@@ -128,9 +128,9 @@ async def create_entry(entry: PainEntry):
 
 ---
 
-## 🏗️ Architecture Générale
+## Architecture Générale
 
-### Vue d'Ensemble
+### Vue d'ensemble
 
 ARKALIA ARIA suit une architecture microservices modulaire avec les composants suivants :
 
@@ -185,7 +185,7 @@ ARKALIA ARIA suit une architecture microservices modulaire avec les composants s
 
 ---
 
-## 🚀 Installation et Configuration
+## Installation et Configuration
 
 ### Prérequis
 
@@ -250,7 +250,7 @@ docker-compose down
 
 ---
 
-## 📁 Structure du Projet
+## Structure du Projet
 
 ```
 arkalia-aria/
@@ -296,7 +296,7 @@ arkalia-aria/
 
 ---
 
-## 🔌 API Documentation
+## API Documentation
 
 ### Endpoints Principaux
 
@@ -376,7 +376,7 @@ headers = {
 
 ---
 
-## 💊 Connecteurs de Santé
+## Connecteurs de Santé
 
 ### Architecture des Connecteurs
 
@@ -442,7 +442,7 @@ class IOSHealthConnector(BaseHealthConnector):
 
 ---
 
-## 🖥️ Dashboard Web
+## Dashboard Web
 
 ### Architecture Frontend
 
@@ -525,7 +525,7 @@ class ExcelExportHandler:
 
 ---
 
-## 📱 Application Mobile
+## Application Mobile
 
 ### Architecture Flutter
 
@@ -613,7 +613,7 @@ class HealthDataNotifier extends StateNotifier<List<HealthData>> {
 
 ---
 
-## 🗄️ Base de Données
+## Base de Données
 
 ### Schéma PostgreSQL
 
@@ -665,7 +665,7 @@ def upgrade():
 
 ---
 
-## 🧪 Tests et Qualité
+## Tests et Qualité
 
 ### Tests Unitaires
 
@@ -739,7 +739,7 @@ pytest --cov=health_connectors --cov-report=html
 
 ---
 
-## 🚀 Déploiement
+## Déploiement
 
 ### Docker
 
@@ -822,7 +822,7 @@ jobs:
 
 ---
 
-## 🤝 Contributions
+## Contributions
 
 ### Processus de Contribution
 
@@ -893,7 +893,7 @@ test: add unit tests for sync manager
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Problèmes Courants
 
@@ -941,7 +941,7 @@ curl http://localhost:8001/metrics
 
 ---
 
-## ⚡ Performance
+## Performance
 
 ### Optimisations Implémentées
 - **Cache intelligent** : TTL 60s pour les requêtes fréquentes
@@ -967,7 +967,7 @@ curl http://localhost:8001/health/metrics/unified?days_back=7
 
 ---
 
-## 🔒 Sécurité
+## Sécurité
 
 ### Bonnes Pratiques
 - **Secrets** : Toujours utiliser des variables d'environnement
@@ -995,7 +995,7 @@ python -m devops_automation.security.aria_security_validator
 
 ---
 
-## 📊 Monitoring
+## Monitoring
 
 ### Métriques Disponibles
 - **Système** : CPU, RAM, disque, réseau

@@ -10,7 +10,7 @@ Ce guide explique comment configurer ARKALIA ARIA pour différents environnement
 
 ---
 
-## 🔧 **Configuration de Base**
+## Configuration de Base
 
 ### Variables d'Environnement
 ```bash
@@ -45,7 +45,7 @@ class Config(BaseSettings):
 
 ---
 
-## 🏗️ **Environnements**
+## Environnements
 
 ### Développement Local
 ```bash
@@ -91,7 +91,7 @@ uvicorn main:app --host 0.0.0.0 --port 8001 --workers 4
 
 ---
 
-## 🗄️ **Base de Données**
+## Base de Données
 
 ### SQLite (Développement)
 ```python
@@ -147,7 +147,7 @@ DATABASE_CONFIG = {
 
 ---
 
-## 🔒 **Sécurité**
+## Sécurité
 
 ### HTTPS/TLS
 ```nginx
@@ -202,7 +202,7 @@ RATE_LIMIT_CONFIG = {
 
 ---
 
-## 📊 **Monitoring**
+## Monitoring
 
 ### Prometheus
 ```yaml
@@ -371,7 +371,7 @@ volumes:
 
 ---
 
-## 📱 **Configuration Mobile**
+## Configuration Mobile
 
 ### Flutter
 ```yaml
@@ -411,7 +411,7 @@ class ApiConfig {
 
 ---
 
-## 🔧 **Outils de Développement**
+## Outils de Développement
 
 ### Pre-commit Hooks
 ```yaml
@@ -497,7 +497,7 @@ ARIA_GRAFANA_URL=https://grafana.arkalia-aria.com
 
 ---
 
-## 📋 **Configuration par Environnement**
+## Configuration par Environnement
 
 ### Développement
 ```bash

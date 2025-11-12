@@ -1,14 +1,16 @@
 # Guide des Bonnes Pratiques
 
+**ARKALIA ARIA** — Standards et routines d'excellence
+
 **Dernière mise à jour :** Novembre 2025
 
 ---
 
-## 🎯 Évaluation
+## Évaluation
 
-### 📊 Score actuel : 9/10
+### Score actuel : 9/10
 
-#### ✅ Points forts
+#### Points forts
 - **Architecture** : Migration vers `core/` parfaite
 - **Documentation** : 97 fichiers MD, exhaustive
 - **Git** : Commits détaillés et structurés
@@ -16,7 +18,7 @@
 - **Tests** : Vérification que tout fonctionne
 - **Standards** : Black + Ruff systématiquement
 
-#### ⚠️ Points à améliorer (6-7/10)
+#### Points à améliorer (6-7/10)
 - **Tests automatisés** : Suite complète pas lancée
 - **Sécurité** : Scans Bandit/Safety manquants
 - **Monitoring** : Pas de métriques de performance
@@ -24,9 +26,11 @@
 
 ---
 
-## 🏆 Habitudes
+## Habitudes
 
-### 📋 Routine de fin de journée (15 minutes)
+### Routine de fin de journée
+
+*Temps estimé : 15 minutes*
 
 #### Tests & Validation (5 min)
 ```bash
@@ -84,7 +88,9 @@ find . -name "*.log" -size +10M -delete 2>/dev/null || true
 
 ---
 
-### 📋 2. ROUTINE DE DÉBUT DE JOURNÉE (10 min)
+### Routine de début de journée
+
+*Temps estimé : 10 minutes*
 
 #### Vérification de l'état (3 min)
 ```bash
@@ -123,9 +129,9 @@ find . -name "._*" -type f -delete 2>/dev/null || true
 
 ---
 
-## 🎯 **STANDARDS PROFESSIONNELS**
+## Standards
 
-### 📝 Messages de Commit (Convention)
+### Messages de Commit
 
 #### Format :
 ```
@@ -159,7 +165,9 @@ Closes #123"
 git commit -m "fix stuff"
 ```
 
-### 🔍 Code Review (Auto-Review)
+### Code Review
+
+*Auto-review avant chaque commit*
 
 #### Avant chaque commit :
 1. **Lire le code** : Est-ce que c'est clair ?
@@ -174,7 +182,9 @@ git commit -m "fix stuff"
 - Est-ce que les erreurs sont gérées ?
 - Est-ce que c'est testé ?
 
-### 📊 Métriques Quotidiennes
+---
+
+### Métriques Quotidiennes
 
 #### À noter chaque jour :
 ```bash
@@ -214,9 +224,9 @@ time python main.py
 
 ---
 
-## 🚀 **OUTILS PROFESSIONNELS**
+## Outils
 
-### 📋 Scripts Automatiques
+### Scripts Automatiques
 
 #### 1. Script de fin de journée :
 ```bash
@@ -233,7 +243,7 @@ time python main.py
 ./scripts/cleanup.sh
 ```
 
-### 🔧 Configuration IDE
+### Configuration IDE
 
 #### VSCode (Recommandé) :
 ```json
@@ -257,21 +267,27 @@ time python main.py
 
 ---
 
-## 📈 **ÉVOLUTION PROFESSIONNELLE**
+## Évolution
 
-### 🎯 Objectifs à court terme (1 mois)
+### Objectifs à court terme
+
+*1 mois*
 - [ ] Automatiser 100% des tests
 - [ ] Implémenter les scans de sécurité
 - [ ] Créer des métriques de performance
 - [ ] Standardiser la documentation
 
-### 🎯 Objectifs à moyen terme (3 mois)
+### Objectifs à moyen terme
+
+*3 mois*
 - [ ] CI/CD complètement automatisé
 - [ ] Monitoring en temps réel
 - [ ] Tests de performance
 - [ ] Documentation interactive
 
-### 🎯 Objectifs à long terme (6 mois)
+### Objectifs à long terme
+
+*6 mois*
 - [ ] Architecture microservices
 - [ ] Déploiement automatique
 - [ ] Monitoring avancé
@@ -279,7 +295,7 @@ time python main.py
 
 ---
 
-## 💡 **CONSEILS DE PRO**
+## Recommandations
 
 ### 1. Commence toujours par les tests
 - Écris les tests avant le code (TDD)
@@ -313,9 +329,9 @@ time python main.py
 
 ---
 
-## 🏆 **CONCLUSION**
+## Conclusion
 
-**Évaluation professionnelle**
+**Évaluation**
 
 Les habitudes de développement sont excellentes :
 - ✅ Architecture solide
@@ -324,10 +340,10 @@ Les habitudes de développement sont excellentes :
 - ✅ Standards respectés
 - ✅ Nettoyage proactif
 
-**Recommandations pour améliorer encore :**
+**Recommandations pour progresser :**
 - 🔧 Automatiser les tests
 - 🔍 Ajouter les scans de sécurité
 - 📊 Mesurer les performances
 - 📋 Planifier les journées de travail
 
-**Conclusion :** Les pratiques actuelles sont de très bon niveau et suivent les standards professionnels.
+**Conclusion :** Les pratiques actuelles sont de très bon niveau et respectent les standards d'excellence.

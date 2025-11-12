@@ -1,6 +1,10 @@
-# ✅ Checklist de Validation ARKALIA ARIA
+# Checklist de Validation
+
+**ARKALIA ARIA** — Validation complète avant production
 
 **Dernière mise à jour :** Novembre 2025
+
+---
 
 ## Objectif
 
@@ -11,6 +15,7 @@ Cette checklist permet de valider que ARKALIA ARIA est prêt pour la production.
 ## Validation Technique
 
 ### Code & Architecture
+
 - [ ] **Architecture centralisée** - Module `core/` fonctionnel
   - [ ] `DatabaseManager` - Singleton opérationnel
   - [ ] `CacheManager` - Cache intelligent actif
@@ -36,6 +41,7 @@ Cette checklist permet de valider que ARKALIA ARIA est prêt pour la production.
   - [ ] `safety check` - Dépendances OK
 
 ### Tests & Validation
+
 - [ ] **Tests unitaires** - 100% passent
   - [ ] `python -m pytest tests/unit/ -v` - Tests unitaires OK
   - [ ] `python -m pytest tests/integration/ -v` - Tests intégration OK
@@ -48,6 +54,7 @@ Cette checklist permet de valider que ARKALIA ARIA est prêt pour la production.
   - [ ] Test exports de données
 
 ### Performance & Optimisations
+
 - [ ] **Performance optimisée** - 3x plus rapide
   - [ ] 1 connexion DB partagée (vs 5 séparées)
   - [ ] Cache intelligent actif
@@ -65,6 +72,7 @@ Cette checklist permet de valider que ARKALIA ARIA est prêt pour la production.
 ## Validation Sécurité & RGPD
 
 ### Conformité RGPD
+
 - [ ] **Checklist RGPD** - Tous les points validés
   - [ ] Consentement explicite recueilli
   - [ ] Droits utilisateur implémentés (accès, rectification, effacement)
@@ -80,6 +88,7 @@ Cette checklist permet de valider que ARKALIA ARIA est prêt pour la production.
   - [ ] `GET /api/pain/export/psy-report` - Export anonymisé pour professionnels
 
 ### Sécurité Technique
+
 - [ ] **Audit de sécurité** - 0 vulnérabilité critique
   - [ ] Bandit scan - 0 erreur critique
   - [ ] Safety check - 0 vulnérabilité

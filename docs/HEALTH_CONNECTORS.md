@@ -4,7 +4,7 @@
 
 ---
 
-## 📋 **Vue d'ensemble**
+## Vue d'ensemble
 
 Les connecteurs santé d'ARKALIA ARIA permettent la synchronisation des données de santé depuis différentes plateformes et appareils, offrant une vue unifiée de votre santé.
 
@@ -39,7 +39,7 @@ Les connecteurs santé d'ARKALIA ARIA permettent la synchronisation des données
 
 ---
 
-## 🏗️ **Architecture**
+## Architecture
 
 ### Structure des Fichiers
 
@@ -100,7 +100,7 @@ graph TB
 
 ---
 
-## 📊 **Modèles de Données**
+## Modèles de Données
 
 ### UnifiedHealthMetrics
 
@@ -178,7 +178,7 @@ class HealthData(BaseModel):
 
 ---
 
-## 🔧 **API Endpoints**
+## API Endpoints
 
 ### Synchronisation
 
@@ -250,7 +250,7 @@ PUT /health/config
 
 ---
 
-## 🚀 **Utilisation**
+## Utilisation
 
 ### Configuration
 
@@ -302,7 +302,7 @@ health_data = await sync_manager.get_health_data(days_back=7)
 
 ---
 
-## 🔒 **Sécurité et Confidentialité**
+## Sécurité et Confidentialité
 
 ### Stockage Local
 

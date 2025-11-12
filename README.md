@@ -1,67 +1,81 @@
-# 🧠❤️🔬 **ARKALIA ARIA**
+# ARKALIA ARIA
 
-**Research Intelligence Assistant — Assistant de recherche santé personnelle**
+**Research Intelligence Assistant**  
+*Assistant de recherche santé personnelle*
 
-> ⏰ **Mis à jour régulièrement** — Ce projet est maintenu activement et mis à jour chaque semaine.
+> **Mis à jour régulièrement** — Ce projet est maintenu activement et mis à jour chaque semaine.
 
 ---
 
-## 🎯 **Vision**
+## Vision
 
 ARKALIA ARIA transforme vos données médicales en insights actionnables, tout en conservant un contrôle total sur vos informations sensibles. Un laboratoire personnel de recherche santé qui travaille exclusivement pour vous, localement, sans jamais partager vos informations sans votre consentement explicite.
 
 ---
 
-## 💡 **Pourquoi ARIA ?**
+## Pourquoi ARIA ?
 
 ARKALIA ARIA vous aide à mieux comprendre votre santé en analysant vos données médicales personnelles. Un assistant qui observe vos patterns de douleur, votre sommeil, votre activité physique, et vous fournit des insights utiles pour améliorer votre bien-être.
 
-### 🎯 **Impact sur votre santé**
+### Impact sur votre santé
 
 **Pour la douleur chronique :**
+
 - 📊 **Comprendre vos patterns** : Détection automatique des moments et causes d'apparition de vos douleurs
 - 🔍 **Identifier les déclencheurs** : Stress, météo, activité physique, sommeil — ARIA trouve les corrélations
 - ⚠️ **Anticiper les crises** : L'intelligence artificielle apprend vos patterns et peut vous prévenir avant une crise
 - 📈 **Suivre l'efficacité** : Visualiser l'impact réel de vos traitements et actions
 
 **Pour le bien-être mental :**
+
 - 🧘 **Corrélation stress-douleur** : Comprendre comment votre état mental affecte votre douleur physique
 - 😴 **Qualité du sommeil** : Observer l'impact du sommeil sur vos douleurs et votre humeur
 - 📱 **Données de votre montre** : Synchronisation avec Samsung Health, Google Fit ou Apple Health pour une vue complète
 - 🎯 **Objectifs personnalisés** : Recommandations basées sur votre profil unique
 
-### 💼 **Cas d'usage**
+---
+
+### Cas d'usage
 
 #### Suivi de douleur chronique
+
 > *"Je souffre de migraines chroniques. ARIA m'aide à identifier que mes crises arrivent souvent deux jours après un manque de sommeil. En faisant plus attention à mon rythme de sommeil, j'ai réduit mes migraines de 40%."*
 
 **Fonctionnement :**
+
 1. Saisie rapide de votre douleur (3 questions, 30 secondes)
 2. Synchronisation automatique de vos données de sommeil depuis votre montre
 3. Détection des patterns et visualisation des corrélations
 4. Alertes préventives lorsque les conditions à risque se présentent
 
 #### Préparation de consultation médicale
+
 > *"Avant ma consultation chez le rhumatologue, j'exporte mes données ARIA en PDF. Mon médecin voit immédiatement l'évolution de ma douleur, les déclencheurs identifiés, et l'efficacité des traitements. Nous gagnons du temps et sommes plus précis."*
 
 **Fonctionnement :**
+
 1. Export d'un rapport complet (PDF, Excel, ou CSV)
 2. Rapport contenant vos données de douleur, activité, sommeil, stress
 3. Visualisation claire des graphiques et patterns pour votre médecin
 4. Prise de décisions basées sur des données réelles
 
 #### Amélioration du bien-être global
+
 > *"ARIA m'a montré que mon niveau de stress (mesuré par ma montre Samsung) était corrélé avec mes douleurs dorsales. En travaillant sur la gestion du stress, j'ai réduit mes douleurs de dos de 60%."*
 
 **Fonctionnement :**
+
 1. Synchronisation de vos données de santé (pulsations, stress, activité)
 2. Identification des corrélations entre stress, sommeil, activité et douleur
 3. Réception de recommandations personnalisées
 4. Suivi de l'impact de vos changements de mode de vie
 
-### 🔒 **Confidentialité**
+---
+
+## Confidentialité
 
 **Vos données vous appartiennent :**
+
 - ✅ **100% local** : Tout est stocké sur votre ordinateur, jamais dans le cloud
 - ✅ **Contrôle total** : Vous choisissez ce que vous partagez, quand vous le partagez
 - ✅ **Conforme RGPD** : Suppression de toutes vos données possible à tout moment
@@ -109,7 +123,7 @@ ARKALIA ARIA vous aide à mieux comprendre votre santé en analysant vos donnée
 
 ---
 
-## 🚀 **Démarrage rapide**
+## Démarrage rapide
 
 ### ⚡ **5 minutes pour tester ARIA**
 
@@ -127,14 +141,16 @@ python main.py
 
 L'application démarre sur `http://localhost:8000`
 
-### 🎯 **Premiers pas**
+### Premiers pas
 
 1. **Ouvrir votre navigateur** : `http://localhost:8000`
 2. **Noter votre première douleur** : Cliquer sur "Saisie rapide" (3 questions, 30 secondes)
 3. **Explorer le dashboard** : Observer vos données s'afficher en temps réel
 4. **Activer le mode sombre** : Cliquer sur l'icône lune 🌙 dans l'en-tête
 
-### 📱 **Installation complète** (optionnel)
+### Installation complète
+
+*Optionnel — Pour une utilisation complète avec synchronisation santé*
 
 Pour une utilisation complète avec synchronisation santé :
 
@@ -144,33 +160,40 @@ Pour une utilisation complète avec synchronisation santé :
 
 ---
 
-## 📊 **Fonctionnalités**
+## Fonctionnalités
 
-### 🩹 **Suivi de douleur intelligent**
+### Suivi de douleur intelligent
+
 - **Saisie ultra-rapide** : 3 questions, 30 secondes maximum
 - **Historique complet** : Toutes vos entrées avec filtres par date, intensité, localisation
 - **Export professionnel** : PDF, Excel, CSV pour vos médecins
 - **Détection de patterns** : L'intelligence artificielle trouve automatiquement les corrélations
 
-### 🏥 **Synchronisation santé**
+### Synchronisation santé
+
 - **Samsung Health** : Montres Samsung (Galaxy Watch)
 - **Google Fit** : Téléphones Android
 - **Apple Health** : iPhone et iPad
 - **Données synchronisées** : Activité, sommeil, pulsations, stress, poids
 
-### 📱 **Application mobile** (en développement)
+### Application mobile
+
+*En développement*
+
 - Interface native Flutter
 - Synchronisation bidirectionnelle
 - Notifications intelligentes
 - Mode hors-ligne
 
-### 📈 **Dashboard interactif**
+### Dashboard interactif
+
 - **Graphiques temps réel** : Visualisation de vos données de santé
 - **Analyses avancées** : Patterns, corrélations, tendances
 - **Exports multiples** : PDF, Excel, HTML
 - **Interface moderne** : Design intuitif et responsive
 
-### 🧠 **Intelligence artificielle**
+### Intelligence artificielle
+
 - **Détection de patterns** : Trouve automatiquement les déclencheurs
 - **Prédictions** : Anticipe les crises avant qu'elles arrivent
 - **Recommandations** : Suggestions personnalisées basées sur votre profil
@@ -178,9 +201,9 @@ Pour une utilisation complète avec synchronisation santé :
 
 ---
 
-## 🏗️ **Architecture**
+## Architecture
 
-```
+```text
 arkalia-aria/
 ├── core/              # Module centralisé (DatabaseManager, Cache, Logging)
 ├── pain_tracking/     # Module tracking douleur
@@ -195,15 +218,19 @@ arkalia-aria/
 └── docs/             # Documentation complète
 ```
 
-### 📊 **Modules**
+---
+
+### Modules
 
 #### Pain Tracking ✅ **Opérationnel**
+
 - Saisie ultra-rapide (3 questions) — API testée et fonctionnelle
 - Historique complet avec filtres — Endpoint `/api/pain/entries/recent`
 - Export pour professionnels de santé
 - Intégration capteurs (optionnel)
 
 #### Health Connectors ✅ **Opérationnel**
+
 - **Samsung Health** : Synchronisation montres Samsung
 - **Google Fit** : Intégration Android (S24)
 - **iOS Health** : Connexion iPad Apple Health
@@ -211,12 +238,14 @@ arkalia-aria/
 - **Sync Manager** : Gestionnaire de synchronisation unifié
 
 #### Pattern Analysis
+
 - Détection automatique de corrélations
 - Analyse temporelle des crises
 - Identification des déclencheurs
 - Rapports visuels interactifs
 
 #### Prediction Engine
+
 - Modèles ML locaux (Ollama)
 - Alertes préventives
 - Recommandations personnalisées
@@ -224,7 +253,7 @@ arkalia-aria/
 
 ---
 
-## 🔒 **Sécurité et confidentialité**
+## Sécurité et confidentialité
 
 - **Local** : Les données sont stockées en local (SQLite). Aucune transmission externe par défaut.
 - **Authentification** : Non activée en mode développement local.
@@ -234,7 +263,7 @@ arkalia-aria/
 
 ---
 
-## 📈 **Roadmap**
+## Roadmap
 
 - [x] Phase 1 : Structure modulaire
 - [x] Phase 2 : Pain tracking (endpoints principaux)
@@ -249,16 +278,17 @@ arkalia-aria/
 
 ---
 
-## 🤝 **Contribution**
+## Contribution
 
 Ce projet fait partie de l'écosystème Arkalia Luna System. Les contributions sont les bienvenues.
 
-### 🎯 **Bon point de départ**
+### Bon point de départ
 
 Vous êtes nouveau dans le projet ? Commencez par ces issues marquées `good first issue` :
+
 - [Voir les "good first issue"](https://github.com/arkalia-luna-system/arkalia-aria/labels/good%20first%20issue)
 
-### 💪 **Comment contribuer**
+### Comment contribuer
 
 - 🐛 **Issues** : Signaler des bugs
 - 💡 **Feature Requests** : Proposer des améliorations
@@ -269,7 +299,7 @@ Vous êtes nouveau dans le projet ? Commencez par ces issues marquées `good fir
 
 ---
 
-## 📞 **Contact et liens**
+## Contact et liens
 
 - **GitHub** : [arkalia-luna-system](https://github.com/arkalia-luna-system)
 - **Issues** : [Ouvrir une issue](https://github.com/arkalia-luna-system/arkalia-aria/issues)

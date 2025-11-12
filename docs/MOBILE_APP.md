@@ -4,7 +4,7 @@
 
 ---
 
-## 📋 **Vue d'ensemble**
+## Vue d'ensemble
 
 L'application mobile ARKALIA ARIA est une application Flutter native qui offre une interface intuitive et complète pour la gestion de votre santé personnelle, avec synchronisation bidirectionnelle et mode hors ligne.
 
@@ -18,7 +18,7 @@ L'application mobile ARKALIA ARIA est une application Flutter native qui offre u
 
 ---
 
-## 🏗️ **Architecture**
+## Architecture
 
 ### Structure des Fichiers
 
@@ -85,7 +85,7 @@ graph TB
 
 ---
 
-## 📱 **Architecture de l'Application**
+## Architecture de l'Application
 
 ### 🏗️ Structure Actuelle
 
@@ -122,7 +122,7 @@ L'application mobile Flutter est actuellement en phase de développement avec un
 
 ---
 
-## 🔧 **Services**
+## Services
 
 ### HealthConnectorService
 
@@ -217,7 +217,7 @@ Future<void> markCacheAsStale()
 
 ---
 
-## 📊 **Modèles de Données**
+## Modèles de Données
 
 ### HealthData
 
@@ -261,7 +261,7 @@ class HealthData {
 
 ---
 
-## 🚀 **Installation et Configuration**
+## Installation et Configuration
 
 ### Prérequis
 
@@ -321,7 +321,7 @@ flutter build ios --release
 
 ---
 
-## 🔒 **Sécurité et Confidentialité**
+## Sécurité et Confidentialité
 
 ### Stockage Local
 
@@ -445,7 +445,7 @@ void main() {
 
 ---
 
-## 📞 **Support**
+## Support
 
 - **Documentation** : `docs/MOBILE_APP.md`
 - **Issues** : [GitHub Issues](https://github.com/arkalia-luna-system/arkalia-aria/issues)

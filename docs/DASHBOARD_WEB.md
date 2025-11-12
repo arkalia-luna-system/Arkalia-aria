@@ -4,7 +4,7 @@
 
 ---
 
-## 📋 **Vue d'ensemble**
+## Vue d'ensemble
 
 Le dashboard web ARKALIA ARIA offre une interface web interactive et responsive pour visualiser, analyser et exporter vos données de santé avec des graphiques en temps réel et des fonctionnalités d'export avancées.
 
@@ -18,7 +18,7 @@ Le dashboard web ARKALIA ARIA offre une interface web interactive et responsive 
 
 ---
 
-## 🏗️ **Architecture**
+## Architecture
 
 ### Structure des Fichiers
 
@@ -86,7 +86,7 @@ graph TB
 
 ---
 
-## 📱 **Pages du Dashboard**
+## Pages du Dashboard
 
 ### 🏠 Dashboard Principal
 
@@ -191,7 +191,7 @@ graph TB
 
 ---
 
-## 🔧 **Fonctionnalités Techniques**
+## Fonctionnalités Techniques
 
 ### Graphiques Interactifs
 
@@ -308,7 +308,7 @@ class ExportManager {
 
 ---
 
-## 📊 **Gestionnaires d'Export**
+## Gestionnaires d'Export
 
 ### PDFExportHandler
 
@@ -379,7 +379,7 @@ class PDFExportHandler:
 
 ---
 
-## 🚀 **API Endpoints**
+## API Endpoints
 
 ### Routes Dashboard
 
@@ -543,7 +543,7 @@ async def preview_report(request: Request):
 
 ---
 
-## 🔒 **Sécurité et Performance**
+## Sécurité et Performance
 
 ### Sécurité
 
@@ -715,7 +715,7 @@ logger.error(f"Erreur export: {error}")
 
 ---
 
-## 📞 **Support**
+## Support
 
 - **Documentation** : `docs/DASHBOARD_WEB.md`
 - **Issues** : [GitHub Issues](https://github.com/arkalia-luna-system/arkalia-aria/issues)

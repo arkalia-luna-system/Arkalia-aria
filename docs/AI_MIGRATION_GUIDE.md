@@ -1,14 +1,14 @@
 # 🤖 Guide de Migration pour IA ARKALIA ARIA
 
-**Dernière mise à jour : Novembre 2025
+**Dernière mise à jour :** Novembre 2025
 
-## 🎯 **Objectif**
+## Objectif
 
 Ce guide permet à une nouvelle IA de comprendre rapidement l'état du projet ARKALIA ARIA et de continuer le développement sans perdre de temps.
 
 ---
 
-## 📋 **État Actuel du Projet**
+## État Actuel du Projet
 
 ### Architecture
 - **Type** : Application FastAPI + Flutter
@@ -30,7 +30,7 @@ Ce guide permet à une nouvelle IA de comprendre rapidement l'état du projet AR
 
 ---
 
-## 🚀 **Démarrage Rapide**
+## Démarrage Rapide
 
 ### 1. Environnement de Développement
 ```bash
@@ -84,7 +84,7 @@ python -m pytest tests/ --cov=. --cov-report=html
 
 ---
 
-## 🔧 **Architecture Technique**
+## Architecture Technique
 
 ### Structure Principale
 ```
@@ -120,7 +120,7 @@ main.py                    # Point d'entrée FastAPI
 
 ---
 
-## 🎯 **Prochaines Étapes Prioritaires**
+## Prochaines Étapes Prioritaires
 
 ### Phase 1 : Validation RGPD (1-2 semaines)
 1. **Créer instance démo** - Environnement de test
@@ -190,7 +190,7 @@ sqlite3 aria_pain.db
 
 ---
 
-## 📱 **Application Mobile**
+## Application Mobile
 
 ### Structure Flutter
 ```
@@ -249,7 +249,7 @@ docker-compose down
 
 ---
 
-## 📊 **Métriques Actuelles**
+## Métriques Actuelles
 
 ### Code
 - **Fichiers Python** : 53 fichiers
@@ -265,7 +265,7 @@ docker-compose down
 
 ---
 
-## 🎯 **Objectifs à Court Terme**
+## Objectifs à Court Terme
 
 ### Cette Semaine
 1. **RGPD** - Tester sur instance démo
@@ -281,7 +281,7 @@ docker-compose down
 
 ---
 
-## 📞 **Support & Ressources**
+## Support & Ressources
 
 ### Documentation
 - **GitHub** : https://github.com/arkalia-luna-system/arkalia-aria
@@ -296,7 +296,7 @@ docker-compose down
 
 ---
 
-## ✅ **Checklist de Prise en Main**
+## Checklist de Prise en Main
 
 ### Première Session (30 min)
 - [ ] Lire `TECHNICAL_REFERENCE.md`

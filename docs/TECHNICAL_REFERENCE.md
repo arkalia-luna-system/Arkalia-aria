@@ -1,6 +1,6 @@
 # 🔧 Référence Technique ARKALIA ARIA
 
-**Dernière mise à jour : Novembre 2025
+**Dernière mise à jour :** Novembre 2025
 
 ## 📁 **Structure du Projet**
 
@@ -135,7 +135,7 @@
     └── ...                         # Fichiers de test
 ```
 
-## 🚀 **Commandes Essentielles**
+## Commandes Essentielles
 
 ### Développement Local
 ```bash
@@ -306,7 +306,7 @@ docker-compose down
 - `GET /api/devops/logs` - Logs système
 - `POST /api/devops/backup` - Sauvegarde
 
-## 🗄️ **Base de Données**
+## Base de Données
 
 ### Fichiers de Base de Données
 - `aria_pain.db` - Base principale (données douleur)
@@ -363,7 +363,7 @@ result = db.execute_query("SELECT * FROM pain_entries WHERE user_id = ?", (user_
 data = db.fetch_all("SELECT * FROM pain_entries ORDER BY timestamp DESC LIMIT 10")
 ```
 
-## 🔧 **Configuration**
+## Configuration
 
 ### Variables d'Environnement
 ```bash
@@ -392,7 +392,7 @@ log_level = config.get("ARIA_LOG_LEVEL", "INFO")
 max_request_size = config.get("ARIA_MAX_REQUEST_SIZE", 10485760)
 ```
 
-## 📱 **Application Mobile Flutter**
+## Application Mobile Flutter
 
 ### Structure Flutter
 ```

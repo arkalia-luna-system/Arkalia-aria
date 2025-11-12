@@ -11,11 +11,13 @@ En utilisant ARKALIA ARIA, vous acceptez ces conditions d'utilisation. Si vous n
 ## Compte utilisateur
 
 ### Création de compte
+
 - Vous devez fournir des informations exactes
 - Vous êtes responsable de la sécurité de votre compte
 - Vous devez notifier toute utilisation non autorisée
 
 ### Responsabilités
+
 - Utilisation conforme à la loi
 - Respect des droits d'autrui
 - Non-divulgation de vos identifiants
@@ -71,8 +73,8 @@ Nous nous réservons le droit de :
 75013 Paris  
 France  
 
-**Email :** arkalia.luna.system@gmail.com  
-**Support :** arkalia.luna.system@gmail.com  
+**Email :** <arkalia.luna.system@gmail.com>  
+**Support :** <arkalia.luna.system@gmail.com>  
 
 ## Version
 
@@ -81,4 +83,4 @@ France
 
 ---
 
-*ARKALIA ARIA - Research Intelligence Assistant*
+## ARKALIA ARIA - Research Intelligence Assistant

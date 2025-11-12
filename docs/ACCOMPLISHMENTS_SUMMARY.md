@@ -5,7 +5,7 @@
 
 ---
 
-## 🚀 **Accomplissements Majeurs**
+## Accomplissements Majeurs
 
 ### ✅ **1. Architecture Centralisée (100% Terminé)**
 - **Module `core/`** créé avec DatabaseManager, CacheManager, Config, Logging
@@ -56,7 +56,7 @@
 
 ---
 
-## 📊 **Métriques de Succès**
+## Métriques de Succès
 
 ### Performance
 - **Connexions DB** : 1 partagée (vs 5 séparées)
@@ -78,7 +78,7 @@
 
 ---
 
-## 🎯 **État Final du Projet**
+## État Final du Projet
 
 ### ✅ Prêt pour Production
 - **API** : 100% fonctionnelle

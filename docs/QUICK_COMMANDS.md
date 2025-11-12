@@ -1,8 +1,8 @@
 # ⚡ Commandes Rapides ARKALIA ARIA
 
-**Dernière mise à jour : Novembre 2025
+**Dernière mise à jour :** Novembre 2025
 
-## 🚀 **Démarrage Rapide**
+## Démarrage Rapide
 
 ### Lancer l'Application
 ```bash
@@ -32,7 +32,7 @@ python -m pytest tests/integration/ -v
 
 ---
 
-## 🔧 **Qualité du Code**
+## Qualité du Code
 
 ### Formatage & Linting
 ```bash
@@ -92,7 +92,7 @@ docker logs arkalia-aria
 
 ---
 
-## 📱 **Application Mobile**
+## Application Mobile
 
 ### Flutter
 ```bash
@@ -112,7 +112,7 @@ flutter build ios --release
 
 ---
 
-## 🗄️ **Base de Données**
+## Base de Données
 
 ### SQLite
 ```bash
@@ -176,7 +176,7 @@ journalctl -u aria -f
 
 ---
 
-## 🌐 **API & Endpoints**
+## API & Endpoints
 
 ### Tests API
 ```bash
@@ -245,7 +245,7 @@ docker volume prune -f
 
 ---
 
-## 📊 **Monitoring**
+## Monitoring
 
 ### Métriques Système
 ```bash
@@ -270,7 +270,7 @@ curl http://127.0.0.1:8001/health/metrics/unified?days_back=7
 
 ---
 
-## 🔄 **Git & Déploiement**
+## Git & Déploiement
 
 ### Git
 ```bash

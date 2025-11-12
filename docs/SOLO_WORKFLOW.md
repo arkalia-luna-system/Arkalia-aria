@@ -1,6 +1,6 @@
 # 🚀 Workflow Solo ARKALIA ARIA
 
-**Dernière mise à jour : Novembre 2025
+**Dernière mise à jour :** Novembre 2025
 
 ## 🎉 **MISSION ACCOMPLIE !**
 
@@ -20,7 +20,7 @@
 
 ---
 
-## 📋 **Ta Checklist Quotidienne**
+## Ta Checklist Quotidienne
 
 ### 🌅 Matin (30 min)
 - [ ] `git status` - Voir ce qui a changé
@@ -42,7 +42,7 @@
 
 ---
 
-## 🎯 **Tes Prochaines Étapes**
+## Tes Prochaines Étapes
 
 ### Cette Semaine (25-31 Janvier)
 1. **RGPD** - Tester la checklist sur instance démo
@@ -77,7 +77,7 @@
 
 ---
 
-## 📱 **Tests à Faire**
+## Tests à Faire
 
 ### Sur Ton iPhone
 - [ ] Ouvrir l'app ARIA
@@ -100,7 +100,7 @@
 
 ---
 
-## 🔧 **Commandes Utiles**
+## Commandes Utiles
 
 ### Développement
 ```bash
@@ -152,7 +152,7 @@ git push
 
 ---
 
-## 📊 **Tes Métriques**
+## Tes Métriques
 
 ### Code
 - **Commits** : ___ commits cette semaine
@@ -168,7 +168,7 @@ git push
 
 ---
 
-## 🎯 **Focus du Jour**
+## Focus du Jour
 
 ### Aujourd'hui
 **Tâche principale** : ________________
@@ -182,7 +182,7 @@ git push
 
 ---
 
-## 🚀 **Déploiement Solo**
+## Déploiement Solo
 
 ### Étape 1 : Préparation
 - [ ] Configurer serveur (VPS/Cloud)
@@ -204,7 +204,7 @@ git push
 
 ---
 
-## 📱 **App Mobile Solo**
+## App Mobile Solo
 
 ### Étape 1 : Tests
 - [ ] Tester sur ton iPhone

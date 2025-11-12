@@ -1,8 +1,8 @@
 # 📋 Résumé Projet ARKALIA ARIA
 
-**Dernière mise à jour : Novembre 2025
+**Dernière mise à jour :** Novembre 2025
 
-## 🎯 **Vue d'Ensemble**
+## Vue d'Ensemble
 
 **ARKALIA ARIA** est un assistant de recherche intelligent pour le suivi de santé personnel. Le projet est techniquement prêt à 85% : architecture centralisée complète, 4 modules migrés vers BaseAPI, 4 modules avec logging/DB centralisé, 394 tests passent, nécessite validations fonctionnelles et déploiement production.
 
@@ -17,7 +17,7 @@
 
 ---
 
-## 🏗️ **Architecture Technique**
+## Architecture Technique
 
 ### Stack Technologique
 - **Backend** : FastAPI (Python 3.10+)
@@ -42,7 +42,7 @@
 
 ---
 
-## 📊 **Métriques du Projet**
+## Métriques du Projet
 
 ### Code
 - **Fichiers Python** : 53 fichiers
@@ -65,7 +65,7 @@
 
 ---
 
-## 🚀 **Fonctionnalités Implémentées**
+## Fonctionnalités Implémentées
 
 ### Suivi de Douleur
 - Saisie rapide (3 questions)
@@ -99,7 +99,7 @@
 
 ---
 
-## 📱 **Application Mobile**
+## Application Mobile
 
 ### Structure Flutter
 ```
@@ -120,7 +120,7 @@ mobile_app/
 
 ---
 
-## 🔒 **Sécurité & RGPD**
+## Sécurité & RGPD
 
 ### Conformité RGPD
 - Consentement explicite
@@ -181,7 +181,7 @@ services:
 
 ---
 
-## 🎯 **Prochaines Étapes**
+## Prochaines Étapes
 
 ### Phase 1 : Validation RGPD (1-2 semaines)
 1. **Instance démo** - Environnement de test
@@ -201,7 +201,7 @@ services:
 
 ---
 
-## 🔧 **Commandes Essentielles**
+## Commandes Essentielles
 
 ### Développement
 ```bash
@@ -232,7 +232,7 @@ docker-compose down
 
 ---
 
-## 📊 **Métriques de Succès**
+## Métriques de Succès
 
 ### Objectifs Atteints
 - ✅ Architecture centralisée
@@ -263,7 +263,7 @@ docker-compose down
 
 ---
 
-## 📞 **Support & Ressources**
+## Support & Ressources
 
 ### Documentation
 - **GitHub** : https://github.com/arkalia-luna-system/arkalia-aria
@@ -277,7 +277,7 @@ docker-compose down
 
 ---
 
-## ✅ **Checklist de Validation**
+## Checklist de Validation
 
 ### Technique
 - [ ] Architecture centralisée OK

@@ -1,24 +1,24 @@
 # 👤 Contact DPO - ARKALIA ARIA
 
-## 🎯 **Délégué à la Protection des Données (DPO)**
+## Délégué à la Protection des Données (DPO)
 
 **ARKALIA ARIA** a désigné un Délégué à la Protection des Données conformément au RGPD.
 
-## 📞 **Informations de contact**
+## Informations de contact
 
 **Nom :** [Nom du DPO]  
 **Titre :** Délégué à la Protection des Données  
 **Email :** arkalia.luna.system@gmail.com  
 **Téléphone :** +33 1 23 45 67 89  
 
-## 📍 **Adresse**
+## Adresse
 
 **ARKALIA**  
 123 Avenue de la Santé  
 75013 Paris  
 France  
 
-## ⏰ **Horaires de contact**
+## Horaires de contact
 
 **Lundi - Vendredi :** 9h00 - 18h00  
 **Samedi :** 9h00 - 12h00  
@@ -57,7 +57,7 @@ France
 - **Portabilité :** 1 mois
 - **Limitation/Opposition :** 1 mois
 
-## 📋 **Informations à fournir**
+## Informations à fournir
 
 Lors de votre demande, veuillez indiquer :
 - Votre nom et prénom
@@ -66,18 +66,18 @@ Lors de votre demande, veuillez indiquer :
 - Description de votre demande
 - Pièce d'identité (si nécessaire)
 
-## 🔒 **Confidentialité**
+## Confidentialité
 
 Votre demande est traitée de manière confidentielle.  
 Seul le DPO et son équipe y ont accès.
 
-## 📞 **Urgences**
+## Urgences
 
 Pour les urgences liées à la protection des données :
 **Email :** arkalia.luna.system@gmail.com  
 **Téléphone :** +33 1 23 45 67 90  
 
-## 📝 **Formulaires**
+## Formulaires
 
 ### Demande d'accès
 [Lien vers le formulaire]

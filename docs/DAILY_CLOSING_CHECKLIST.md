@@ -1,10 +1,18 @@
-# 📋 Checklist de Fin de Journée - ARKALIA ARIA
+# Checklist de Fin de Journée
 
-**Dernière mise à jour : Novembre 2025
+**ARKALIA ARIA** — Routine quotidienne d'excellence
 
-## 🎯 **Checklist Quotidienne (15 min max)**
+**Dernière mise à jour :** Novembre 2025
 
-### 1. Tests & Validation (5 min)
+---
+
+## Checklist Quotidienne
+
+*Temps estimé : 15 minutes maximum*
+
+### 1. Tests & Validation
+
+*~5 minutes*
 ```bash
 # Activer l'environnement
 cd /Volumes/T7/arkalia-aria && source arkalia_aria_venv/bin/activate
@@ -20,7 +28,9 @@ bandit -r . -f json -o reports/bandit-report.json
 safety check --json --output reports/safety-report.json
 ```
 
-### 2. Git & Sauvegarde (3 min)
+### 2. Git & Sauvegarde
+
+*~3 minutes*
 ```bash
 # Status et add
 git status
@@ -36,7 +46,9 @@ git commit -m "feat: [module] description claire
 git push origin develop
 ```
 
-### 3. Documentation (3 min)
+### 3. Documentation
+
+*~3 minutes*
 ```bash
 # Mettre à jour le statut
 echo "## $(date '+%d/%m/%Y %H:%M')" >> docs/DAILY_LOG.md
@@ -45,7 +57,9 @@ echo "- [x] Tâche 2" >> docs/DAILY_LOG.md
 echo "" >> docs/DAILY_LOG.md
 ```
 
-### 4. Nettoyage (2 min)
+### 4. Nettoyage
+
+*~2 minutes*
 ```bash
 # Nettoyer les caches Python
 find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
@@ -58,7 +72,9 @@ find . -name "*.log" -size +10M -delete 2>/dev/null || true
 du -sh .  # Afficher l'espace disque utilisé
 ```
 
-### 5. Planification Demain (2 min)
+### 5. Planification
+
+*~2 minutes*
 ```bash
 # Créer la TODO pour demain
 echo "## TODO Demain - $(date -d '+1 day' '+%d/%m/%Y')" >> docs/DAILY_LOG.md
@@ -69,7 +85,9 @@ echo "" >> docs/DAILY_LOG.md
 
 ---
 
-## 🚀 **Script Automatisé (Optionnel)**
+## Script Automatisé
+
+*Optionnel — Pour automatiser la routine quotidienne*
 
 Créer `scripts/daily_closing.sh` :
 ```bash
@@ -103,9 +121,9 @@ echo "✅ Nettoyage terminé !"
 
 ---
 
-## 📊 **Métriques Quotidiennes**
+## Métriques Quotidiennes
 
-### À Noter Chaque Jour :
+### Indicateurs à suivre quotidiennement
 - **Lignes de code ajoutées/supprimées** : `git diff --stat`
 - **Temps de travail** : Estimation personnelle
 - **Tâches accomplies** : Liste des fonctionnalités
@@ -135,16 +153,16 @@ echo "✅ Nettoyage terminé !"
 
 ---
 
-## 🎯 **Objectifs de Qualité**
+## Objectifs de Qualité
 
-### Chaque Jour, Vérifier :
+### Standards quotidiens
 - ✅ **Code** : Black + Ruff = 0 erreur
 - ✅ **Tests** : 100% passent
 - ✅ **Git** : Commit + Push réussi
 - ✅ **Doc** : Mise à jour des changements
 - ✅ **Sécurité** : Scan Bandit/Safety (optionnel)
 
-### Chaque Semaine :
+### Standards hebdomadaires
 - 📊 **Métriques** : Couverture de code, performance
 - 🔍 **Audit** : Review complet du code
 - 📚 **Documentation** : Mise à jour des guides
@@ -152,14 +170,14 @@ echo "✅ Nettoyage terminé !"
 
 ---
 
-## 💡 **Conseils de Pro**
+## Recommandations
 
-1. **Commence par les tests** : Toujours vérifier que rien ne casse
-2. **Commits atomiques** : Un commit = une fonctionnalité
-3. **Messages clairs** : `feat:`, `fix:`, `docs:`, `refactor:`
-4. **Documentation vivante** : Mise à jour en continu
-5. **Nettoyage régulier** : Éviter l'accumulation de déchets
-6. **Planification** : Toujours noter ce qu'on fait demain
-7. **Métriques** : Mesurer pour s'améliorer
+1. **Tests en priorité** — Vérifier que rien ne casse avant tout
+2. **Commits atomiques** — Un commit = une fonctionnalité logique
+3. **Messages structurés** — Utiliser `feat:`, `fix:`, `docs:`, `refactor:`
+4. **Documentation à jour** — Mise à jour en continu
+5. **Nettoyage systématique** — Éviter l'accumulation de déchets
+6. **Planification rigoureuse** — Toujours noter les objectifs du lendemain
+7. **Métriques suivies** — Mesurer pour progresser
 
-**Bonne pratique :** Faire cette checklist même les jours où on n'a pas beaucoup codé !
+> **Note importante :** Cette checklist doit être exécutée même les jours où l'activité de développement est limitée.

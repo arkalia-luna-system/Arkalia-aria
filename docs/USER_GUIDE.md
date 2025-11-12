@@ -1,12 +1,12 @@
-# Guide Utilisateur ARKALIA ARIA
+# Guide Utilisateur
 
-**Guide complet pour psychologues, patients et utilisateurs**
+**ARKALIA ARIA** — Guide complet pour psychologues, patients et utilisateurs
 
 *Dernière mise à jour :* Novembre 2025
 
 ---
 
-## 📋 Table des matières
+## Table des matières
 
 1. [Introduction](#introduction)
 2. [Installation et Configuration](#installation-et-configuration)
@@ -21,7 +21,7 @@
 
 ---
 
-## 🎯 Introduction
+## Introduction
 
 ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intelligence artificielle pour le suivi de la santé mentale et physique. Cette solution intègre des connecteurs de santé multi-plateforme, un dashboard web interactif et une application mobile native.
 
@@ -34,7 +34,7 @@ ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intell
 
 ---
 
-## 🚀 Installation et Configuration
+## Installation et Configuration
 
 ### Prérequis
 
@@ -66,7 +66,7 @@ ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intell
 
 ---
 
-## 🖥️ Interface Utilisateur
+## Interface Utilisateur
 
 ### Dashboard Web
 
@@ -98,7 +98,7 @@ ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intell
 
 ---
 
-## 💊 Gestion des Données de Santé
+## Gestion des Données de Santé
 
 ### Connecteurs Disponibles
 
@@ -141,7 +141,7 @@ ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intell
 
 ---
 
-## 🩹 Suivi de la Douleur
+## Suivi de la Douleur
 
 ### Saisie des Données
 
@@ -197,7 +197,7 @@ ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intell
 
 ---
 
-## 📊 Analyses et Rapports
+## Analyses et Rapports
 
 ### Types d'Analyses
 
@@ -241,7 +241,7 @@ ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intell
 
 ---
 
-## 🔄 Synchronisation Multi-Plateforme
+## Synchronisation Multi-Plateforme
 
 ### Architecture de Synchronisation
 
@@ -274,7 +274,7 @@ ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intell
 
 ---
 
-## ⚙️ Paramètres et Personnalisation
+## Paramètres et Personnalisation
 
 ### Paramètres Généraux
 
@@ -312,7 +312,7 @@ ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intell
 
 ---
 
-## 🔧 Résolution de Problèmes
+## Résolution de Problèmes
 
 ### Problèmes Courants
 
@@ -350,7 +350,7 @@ ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intell
 
 ---
 
-## ❓ FAQ
+## FAQ
 
 ### Questions Générales
 
@@ -387,7 +387,7 @@ R : En cas d'urgence, contactez immédiatement les services d'urgence (15 en Fra
 
 ---
 
-## 📞 Contact et Support
+## Contact et Support
 
 ### Support Utilisateur
 - **Email** : arkalia.luna.system@gmail.com

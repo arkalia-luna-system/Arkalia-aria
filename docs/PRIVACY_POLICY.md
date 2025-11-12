@@ -74,7 +74,7 @@ Vous avez le droit de :
 
 ## 📞 **Exercice de vos droits**
 
-**Contact DPO :** dpo@arkalia.fr  
+**Contact DPO :** arkalia.luna.system@gmail.com  
 **Délai de réponse :** 1 mois maximum
 
 ## 🍪 **Cookies**
@@ -97,8 +97,8 @@ Cette politique peut être modifiée. Les modifications seront publiées sur cet
 75013 Paris  
 France  
 
-**Email :** contact@arkalia.fr  
-**DPO :** dpo@arkalia.fr  
+**Email :** arkalia.luna.system@gmail.com  
+**DPO :** arkalia.luna.system@gmail.com  
 
 ---
 

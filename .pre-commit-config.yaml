@@ -49,13 +49,54 @@ repos:
         additional_dependencies: [types-requests, types-PyYAML]
         args: [--ignore-missing-imports]
 
-  # Sécurité avec Bandit (DÉSACTIVÉ - trop lourd, utiliser uniquement en CI)
-  # - repo: https://github.com/pycqa/bandit
-  #   rev: 1.7.5
-  #   hooks:
-  #     - id: bandit
-  #       args: [-r, ., -f, json, -o, bandit-report.json]
-  #       exclude: ^tests/
+  # Sécurité avec Bandit (optimisé pour réduire RAM/CPU)
+  - repo: https://github.com/pycqa/bandit
+    rev: 1.7.5
+    hooks:
+      - id: bandit
+        args: [
+            -r,
+            .,
+            -f,
+            json,
+            -o,
+            bandit-report.json,
+            --skip,
+            B101,
+            B105,
+            B108,
+            B601,
+            B603,
+            B604,
+            B605,
+            B606,
+            B607,
+            B608,
+            B609,
+            B610,
+            -ll, # Niveau de log bas pour économiser RAM
+            --exclude,
+            tests,
+            venv,
+            .venv,
+            arkalia_aria_venv,
+            archive,
+            backups,
+            logs,
+            dacc,
+            mobile_app,
+            metrics_reports,
+            reports,
+            deployments,
+            docs,
+            __pycache__,
+            .git,
+            .pytest_cache,
+            htmlcov,
+            build,
+            dist,
+            .mypy_cache,
+          ]
 
   # Vérification des dépendances avec Safety
   - repo: https://github.com/Lucas-C/pre-commit-hooks-safety

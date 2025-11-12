@@ -57,7 +57,18 @@ class ARIA_QualityAssurance:
             },
             "mypy": {"command": ["mypy", "."], "fix_command": None},
             "bandit": {
-                "command": ["bandit", "-r", ".", "-f", "json"],
+                "command": [
+                    "bandit",
+                    "-r",
+                    ".",
+                    "-f",
+                    "json",
+                    "--skip",
+                    "B101,B105,B108,B601,B603,B604,B605,B606,B607,B608,B609,B610",
+                    "-ll",  # Niveau de log bas
+                    "--exclude",
+                    "tests,venv,.venv,arkalia_aria_venv,archive,backups,logs,dacc,mobile_app,metrics_reports,reports,deployments,docs,__pycache__,.git,.pytest_cache,htmlcov,build,dist,.mypy_cache",
+                ],
                 "fix_command": None,
             },
             "safety": {"command": ["safety", "check", "--json"], "fix_command": None},

@@ -8,7 +8,7 @@
 
 **Nom :** [Nom du DPO]  
 **Titre :** Délégué à la Protection des Données  
-**Email :** dpo@arkalia.fr  
+**Email :** arkalia.luna.system@gmail.com  
 **Téléphone :** +33 1 23 45 67 89  
 
 ## 📍 **Adresse**
@@ -74,7 +74,7 @@ Seul le DPO et son équipe y ont accès.
 ## 📞 **Urgences**
 
 Pour les urgences liées à la protection des données :
-**Email :** dpo-urgence@arkalia.fr  
+**Email :** arkalia.luna.system@gmail.com  
 **Téléphone :** +33 1 23 45 67 90  
 
 ## 📝 **Formulaires**
@@ -96,7 +96,7 @@ Pour les urgences liées à la protection des données :
 Si vous n'êtes pas satisfait de la réponse :
 - **CNIL :** https://www.cnil.fr
 - **Téléphone :** 01 53 73 22 22
-- **Email :** contact@cnil.fr
+- **Email :** arkalia.luna.system@gmail.com
 
 ## 📚 **Ressources**
 

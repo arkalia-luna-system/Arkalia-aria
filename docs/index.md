@@ -216,7 +216,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](https://github.com/ark
 
 - **Issues** : [GitHub Issues](https://github.com/arkalia-luna-system/arkalia-aria/issues)
 - **Discussions** : [GitHub Discussions](https://github.com/arkalia-luna-system/arkalia-aria/discussions)
-- **Email** : contact@arkalia-luna.com
+- **Email** : arkalia.luna.system@gmail.com
 
 ---
 

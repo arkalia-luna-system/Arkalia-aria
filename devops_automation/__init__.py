@@ -16,7 +16,7 @@ Modules principaux:
 
 __version__ = "1.0.0"
 __author__ = "Arkalia Luna System"
-__email__ = "contact@arkalia-luna.com"
+__email__ = "arkalia.luna.system@gmail.com"
 __license__ = "MIT"
 
 from .cicd.aria_cicd_manager import ARIA_CICDManager

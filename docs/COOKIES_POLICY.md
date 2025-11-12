@@ -76,8 +76,8 @@ L'application mobile utilise des technologies similaires :
 75013 Paris  
 France  
 
-**Email :** contact@arkalia.fr  
-**DPO :** dpo@arkalia.fr  
+**Email :** arkalia.luna.system@gmail.com  
+**DPO :** arkalia.luna.system@gmail.com  
 
 ## 📝 **Modifications**
 

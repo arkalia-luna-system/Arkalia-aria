@@ -23,7 +23,7 @@ Classes principales:
 
 __version__ = "1.0.0"
 __author__ = "Arkalia Luna System"
-__email__ = "contact@arkalia-luna.com"
+__email__ = "arkalia.luna.system@gmail.com"
 __license__ = "MIT"
 
 from .collectors.aria_metrics_collector import ARIA_MetricsCollector

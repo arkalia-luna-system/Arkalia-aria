@@ -2,7 +2,7 @@
 
 **Guide complet pour psychologues, patients et utilisateurs**
 
-*Dernière mise à jour : Novembre 2025
+*Dernière mise à jour :* Novembre 2025
 
 ---
 
@@ -406,5 +406,5 @@ R : En cas d'urgence, contactez immédiatement les services d'urgence (15 en Fra
 
 ---
 
-*Dernière mise à jour : Novembre 2025
-*Version du guide : 1.0.0*
+*Dernière mise à jour :* Novembre 2025  
+*Version du guide :* 1.0.0

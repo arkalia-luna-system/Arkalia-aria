@@ -1,14 +1,14 @@
-# 📋 Conditions d'Utilisation - ARKALIA ARIA
+# Conditions d'Utilisation - ARKALIA ARIA
 
-## 🎯 **Objet**
+## Objet
 
 ARKALIA ARIA est une application de suivi de la douleur et d'analyse de la santé. Ces conditions régissent votre utilisation de l'application.
 
-## ✅ **Acceptation des conditions**
+## Acceptation des conditions
 
 En utilisant ARKALIA ARIA, vous acceptez ces conditions d'utilisation. Si vous n'acceptez pas, veuillez ne pas utiliser l'application.
 
-## 🔐 **Compte utilisateur**
+## Compte utilisateur
 
 ### Création de compte
 - Vous devez fournir des informations exactes
@@ -20,7 +20,7 @@ En utilisant ARKALIA ARIA, vous acceptez ces conditions d'utilisation. Si vous n
 - Respect des droits d'autrui
 - Non-divulgation de vos identifiants
 
-## 🚫 **Utilisations interdites**
+## Utilisations interdites
 
 - Utilisation à des fins illégales
 - Tentative de piratage ou de contournement
@@ -28,14 +28,14 @@ En utilisant ARKALIA ARIA, vous acceptez ces conditions d'utilisation. Si vous n
 - Collecte de données d'autres utilisateurs
 - Utilisation commerciale sans autorisation
 
-## 📊 **Données et confidentialité**
+## Données et confidentialité
 
 - Vos données de santé sont protégées
 - Nous respectons le RGPD
 - Consultez notre politique de confidentialité
 - Vous gardez le contrôle de vos données
 
-## ⚠️ **Limitation de responsabilité**
+## Limitation de responsabilité
 
 ARKALIA ARIA ne peut être tenu responsable de :
 - Perte de données due à une utilisation incorrecte
@@ -43,14 +43,14 @@ ARKALIA ARIA ne peut être tenu responsable de :
 - Interruptions de service
 - Résultats de l'utilisation de l'application
 
-## 🏥 **Avertissement médical**
+## Avertissement médical
 
 - ARKALIA ARIA n'est pas un dispositif médical
 - Consultez toujours un professionnel de santé
 - Ne remplace pas un diagnostic médical
 - Utilisez l'application à vos risques et périls
 
-## 🔄 **Modifications**
+## Modifications
 
 Nous nous réservons le droit de :
 - Modifier ces conditions
@@ -58,13 +58,13 @@ Nous nous réservons le droit de :
 - Interrompre le service
 - Mettre à jour l'application
 
-## ⚖️ **Droit applicable**
+## Droit applicable
 
 - Droit français applicable
 - Tribunaux français compétents
 - Conformité RGPD
 
-## 📞 **Contact**
+## Contact
 
 **ARKALIA**  
 123 Avenue de la Santé  
@@ -74,7 +74,7 @@ France
 **Email :** arkalia.luna.system@gmail.com  
 **Support :** arkalia.luna.system@gmail.com  
 
-## 📝 **Version**
+## Version
 
 **Version :** 1.0  
 **Date :** Novembre 2025  

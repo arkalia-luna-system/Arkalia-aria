@@ -1,10 +1,10 @@
-# 🔒 Politique de Confidentialité - ARKALIA ARIA
+# Politique de Confidentialité - ARKALIA ARIA
 
-## 📋 **Introduction**
+## Introduction
 
 ARKALIA ARIA s'engage à protéger votre vie privée et vos données personnelles. Cette politique explique comment nous collectons, utilisons et protégeons vos informations.
 
-## 📊 **Données collectées**
+## Données collectées
 
 ### Données de santé
 - Intensité de la douleur (0-10)
@@ -24,7 +24,7 @@ ARKALIA ARIA s'engage à protéger votre vie privée et vos données personnelle
 - Temps passé sur le site
 - Cookies et technologies similaires
 
-## 🎯 **Finalités du traitement**
+## Finalités du traitement
 
 - Suivi et analyse de la douleur
 - Amélioration des soins de santé
@@ -32,37 +32,37 @@ ARKALIA ARIA s'engage à protéger votre vie privée et vos données personnelle
 - Statistiques d'utilisation
 - Support technique
 
-## ⚖️ **Base légale**
+## Base légale
 
 - **Consentement** : Pour les données de santé
 - **Intérêt légitime** : Pour les données techniques
 - **Obligation légale** : Pour la conservation des données
 
-## 🔄 **Partage des données**
+## Partage des données
 
 Vos données ne sont **PAS** partagées avec des tiers, sauf :
 - Avec votre consentement explicite
 - Pour répondre à une obligation légale
 - Avec des prestataires de services (sous contrat de confidentialité)
 
-## 🌍 **Transfert international**
+## Transfert international
 
 Vos données sont stockées en France. Aucun transfert international n'est effectué.
 
-## ⏰ **Durée de conservation**
+## Durée de conservation
 
 - **Données de santé** : 5 ans après la dernière utilisation
 - **Données techniques** : 1 an
 - **Données de navigation** : 13 mois
 
-## 🔐 **Sécurité des données**
+## Sécurité des données
 
 - Chiffrement des données sensibles
 - Accès restreint aux données
 - Sauvegardes sécurisées
 - Formation du personnel
 
-## 👤 **Vos droits**
+## Vos droits
 
 Vous avez le droit de :
 - **Accès** : Consulter vos données
@@ -72,12 +72,12 @@ Vous avez le droit de :
 - **Limitation** : Limiter le traitement
 - **Opposition** : Vous opposer au traitement
 
-## 📞 **Exercice de vos droits**
+## Exercice de vos droits
 
 **Contact DPO :** arkalia.luna.system@gmail.com  
 **Délai de réponse :** 1 mois maximum
 
-## 🍪 **Cookies**
+## Cookies
 
 Nous utilisons des cookies pour :
 - Fonctionnement du site
@@ -86,11 +86,11 @@ Nous utilisons des cookies pour :
 
 Vous pouvez désactiver les cookies dans votre navigateur.
 
-## 📝 **Modifications**
+## Modifications
 
 Cette politique peut être modifiée. Les modifications seront publiées sur cette page.
 
-## 📞 **Contact**
+## Contact
 
 **ARKALIA**  
 123 Avenue de la Santé  

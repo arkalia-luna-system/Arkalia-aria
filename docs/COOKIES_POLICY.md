@@ -1,10 +1,10 @@
-# 🍪 Politique de Cookies - ARKALIA ARIA
+# Politique de Cookies - ARKALIA ARIA
 
-## 📋 **Qu'est-ce qu'un cookie ?**
+## Qu'est-ce qu'un cookie ?
 
 Un cookie est un petit fichier texte stocké sur votre appareil lorsque vous visitez un site web. Il permet au site de mémoriser vos préférences et d'améliorer votre expérience.
 
-## 🎯 **Types de cookies utilisés**
+## Types de cookies utilisés
 
 ### Cookies essentiels
 - **Finalité :** Fonctionnement du site
@@ -21,7 +21,7 @@ Un cookie est un petit fichier texte stocké sur votre appareil lorsque vous vis
 - **Durée :** 12 mois
 - **Obligatoire :** Non
 
-## 📊 **Cookies spécifiques**
+## Cookies spécifiques
 
 | Nom | Type | Finalité | Durée |
 |-----|------|----------|-------|
@@ -30,7 +30,7 @@ Un cookie est un petit fichier texte stocké sur votre appareil lorsque vous vis
 | `analytics` | Performance | Statistiques | 13 mois |
 | `security` | Essentiel | Sécurité | 1 mois |
 
-## 🔧 **Gestion des cookies**
+## Gestion des cookies
 
 ### Accepter tous les cookies
 Cliquez sur "Accepter" pour autoriser tous les cookies.
@@ -41,25 +41,25 @@ Cliquez sur "Refuser" pour n'autoriser que les cookies essentiels.
 ### Personnaliser
 Cliquez sur "Personnaliser" pour choisir les types de cookies.
 
-## 🌐 **Cookies tiers**
+## Cookies tiers
 
 Nous n'utilisons pas de cookies tiers.
 
-## 🔒 **Sécurité**
+## Sécurité
 
 - Cookies sécurisés (HTTPS)
 - Pas de données sensibles
 - Chiffrement des données
 - Accès restreint
 
-## 📱 **Cookies mobiles**
+## Cookies mobiles
 
 L'application mobile utilise des technologies similaires :
 - Stockage local
 - Préférences utilisateur
 - Données de session
 
-## 🗑️ **Suppression des cookies**
+## Suppression des cookies
 
 ### Navigateur web
 - Chrome : Paramètres > Confidentialité > Cookies
@@ -69,7 +69,7 @@ L'application mobile utilise des technologies similaires :
 ### Application mobile
 - Paramètres > Applications > ARKALIA ARIA > Stockage
 
-## 📞 **Contact**
+## Contact
 
 **ARKALIA**  
 123 Avenue de la Santé  
@@ -79,7 +79,7 @@ France
 **Email :** arkalia.luna.system@gmail.com  
 **DPO :** arkalia.luna.system@gmail.com  
 
-## 📝 **Modifications**
+## Modifications
 
 Cette politique peut être modifiée. Les modifications seront publiées sur cette page.
 

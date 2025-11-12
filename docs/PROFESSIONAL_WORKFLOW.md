@@ -1,6 +1,6 @@
 # Guide des Bonnes Pratiques
 
-**Dernière mise à jour : Novembre 2025
+**Dernière mise à jour :** Novembre 2025
 
 ---
 
@@ -59,10 +59,8 @@ git push origin develop
 
 #### Documentation (3 min)
 ```bash
-# Mettre à jour le statut
-echo "## $(date '+%d/%m/%Y %H:%M')" >> docs/DAILY_LOG.md
-echo "- [x] Tâche 1" >> docs/DAILY_LOG.md
-echo "- [x] Tâche 2" >> docs/DAILY_LOG.md
+# Mettre à jour le statut dans PROJECT_STATUS.md si nécessaire
+# Les logs quotidiens sont maintenant dans les commits Git
 ```
 
 #### Nettoyage (2 min)
@@ -80,10 +78,8 @@ find . -name "*.log" -size +10M -delete 2>/dev/null || true
 
 #### Planification (2 min)
 ```bash
-# TODO pour demain
-echo "## TODO Demain - $(date -d '+1 day' '+%d/%m/%Y')" >> docs/DAILY_LOG.md
-echo "- [ ] Tâche prioritaire 1" >> docs/DAILY_LOG.md
-echo "- [ ] Tâche prioritaire 2" >> docs/DAILY_LOG.md
+# TODO pour demain - utiliser TODO_SIMPLE.md ou créer une issue GitHub
+# Les tâches sont maintenant trackées dans TODO_SIMPLE.md et les issues GitHub
 ```
 
 ---
@@ -102,13 +98,11 @@ pytest tests/ -q --tb=short
 
 #### Planification (3 min)
 ```bash
-# Lire le TODO d'hier
-cat docs/DAILY_LOG.md | tail -10
+# Lire le TODO
+cat docs/TODO_SIMPLE.md | head -50
 
-# Créer la TODO d'aujourd'hui
-echo "## TODO Aujourd'hui - $(date '+%d/%m/%Y')" >> docs/DAILY_LOG.md
-echo "- [ ] Tâche prioritaire 1" >> docs/DAILY_LOG.md
-echo "- [ ] Tâche prioritaire 2" >> docs/DAILY_LOG.md
+# Vérifier les issues GitHub pour les priorités
+# Les tâches sont maintenant trackées dans TODO_SIMPLE.md et les issues GitHub
 ```
 
 #### Environnement (2 min)
@@ -321,19 +315,19 @@ time python main.py
 
 ## 🏆 **CONCLUSION**
 
-**Tu es déjà très pro !** 🎉
+**Évaluation professionnelle**
 
-Tes habitudes sont excellentes :
+Les habitudes de développement sont excellentes :
 - ✅ Architecture solide
 - ✅ Documentation exhaustive
 - ✅ Git bien utilisé
 - ✅ Standards respectés
 - ✅ Nettoyage proactif
 
-**Pour passer au niveau supérieur :**
-- 🔧 Automatise les tests
-- 🔍 Ajoute les scans de sécurité
-- 📊 Mesure les performances
-- 📋 Planifie mieux tes journées
+**Recommandations pour améliorer encore :**
+- 🔧 Automatiser les tests
+- 🔍 Ajouter les scans de sécurité
+- 📊 Mesurer les performances
+- 📋 Planifier les journées de travail
 
-**Continue comme ça, tu es sur la bonne voie !** 🚀
+**Conclusion :** Les pratiques actuelles sont de très bon niveau et suivent les standards professionnels.

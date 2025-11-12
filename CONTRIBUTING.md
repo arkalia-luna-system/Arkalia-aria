@@ -1,10 +1,101 @@
 # Contribuer à ARKALIA ARIA
 
-**Dernière mise à jour : Novembre 2025
+**Dernière mise à jour :** Novembre 2025
 
 Merci de contribuer à ARKALIA ARIA. Voici les règles simples pour garder un dépôt propre, performant et sans erreurs.
 
-## 🆕 **Architecture Centralisée**
+---
+
+## Conventions Git
+
+### Workflow des Branches
+
+```
+main (production)
+  ↑
+develop (développement)
+  ↑
+feature/xxx (nouvelles fonctionnalités)
+  ↑
+hotfix/xxx (corrections urgentes)
+```
+
+**Règles :**
+- **`main`** : Branche de production, toujours stable et testée
+- **`develop`** : Branche de développement principale
+- **`feature/xxx`** : Nouvelles fonctionnalités (ex: `feature/pain-export-pdf`)
+- **`hotfix/xxx`** : Corrections urgentes pour production (ex: `hotfix/security-fix`)
+- **`fix/xxx`** : Corrections de bugs (ex: `fix/api-error-handling`)
+
+**Workflow :**
+1. Créer une branche depuis `develop` : `git checkout -b feature/ma-fonctionnalite`
+2. Développer et committer régulièrement
+3. Pousser vers `origin` : `git push origin feature/ma-fonctionnalite`
+4. Créer une Pull Request vers `develop`
+5. Après validation, merger `develop` dans `main` pour la production
+
+### Conventions de Commit
+
+**Format :**
+```
+<type>(<scope>): <description courte>
+
+<description détaillée optionnelle>
+
+<footer optionnel>
+```
+
+**Types de commit :**
+- `feat:` : Nouvelle fonctionnalité
+- `fix:` : Correction de bug
+- `docs:` : Documentation uniquement
+- `style:` : Formatage, pas de changement de logique
+- `refactor:` : Refactoring sans changement de fonctionnalité
+- `perf:` : Amélioration de performance
+- `test:` : Ajout ou modification de tests
+- `chore:` : Maintenance, dépendances, configuration
+- `ci:` : Changements CI/CD
+- `build:` : Changements du système de build
+
+**Scopes (optionnels mais recommandés) :**
+- `pain` : Module pain_tracking
+- `health` : Module health_connectors
+- `core` : Module core
+- `ci` : CI/CD
+- `docs` : Documentation
+- `mobile` : Application mobile
+- `api` : API FastAPI
+- `security` : Sécurité
+
+**Exemples de commits :**
+```bash
+# Bon
+git commit -m "feat(pain): add PDF export endpoint
+- Add /api/pain/export/pdf endpoint
+- Generate text-based PDF content
+- Include pain entries in export
+- Closes #123"
+
+# Bon
+git commit -m "fix(ci): corriger bandit - exclure fichiers macOS cachés"
+
+# Bon
+git commit -m "docs(api): mettre à jour endpoints dans API_REFERENCE.md"
+
+# Mauvais
+git commit -m "fix stuff"
+git commit -m "update"
+git commit -m "WIP"
+```
+
+**Règles :**
+- Messages en français ou anglais (cohérent dans le projet)
+- Description courte : max 72 caractères
+- Utiliser l'impératif : "add" pas "added" ou "adds"
+- Référencer les issues : `Closes #123`, `Fixes #456`
+- Un commit = une modification logique
+
+## Architecture Centralisée
 
 ARKALIA ARIA utilise maintenant une architecture centralisée avec le module `core/` :
 

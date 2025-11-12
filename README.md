@@ -2,6 +2,8 @@
 
 **Research Intelligence Assistant — Assistant de recherche santé personnelle**
 
+> ⏰ **Mis à jour régulièrement** — Ce projet est maintenu activement et mis à jour chaque semaine.
+
 ---
 
 ## 🎯 **Vision**
@@ -67,6 +69,46 @@ ARKALIA ARIA vous aide à mieux comprendre votre santé en analysant vos donnée
 
 ---
 
+## 💻 **Compatibilité**
+
+### Versions Python Supportées
+
+| Version | Statut | Notes |
+|---------|--------|-------|
+| Python 3.10 | ✅ Supporté | Version recommandée |
+| Python 3.11 | ✅ Supporté | Testé et validé |
+| Python 3.12 | ✅ Supporté | Testé et validé |
+| Python 3.9 | ❌ Non supporté | Trop ancien |
+| Python 3.13+ | ⚠️ Non testé | Peut fonctionner mais non validé |
+
+### Systèmes d'Exploitation
+
+| OS | Statut | Notes |
+|----|--------|-------|
+| Linux | ✅ Supporté | Testé sur Ubuntu 20.04+ |
+| macOS | ✅ Supporté | Testé sur macOS 12+ |
+| Windows | ✅ Supporté | Testé sur Windows 10/11 |
+| WSL | ✅ Supporté | Windows Subsystem for Linux |
+
+### Navigateurs Web (Dashboard)
+
+| Navigateur | Version minimale | Statut |
+|------------|------------------|--------|
+| Chrome | 90+ | ✅ Supporté |
+| Firefox | 88+ | ✅ Supporté |
+| Safari | 14+ | ✅ Supporté |
+| Edge | 90+ | ✅ Supporté |
+
+### Connecteurs Santé
+
+| Plateforme | Statut | Versions testées |
+|------------|--------|------------------|
+| Samsung Health | ✅ Supporté | Galaxy Watch 4+, S24+ |
+| Google Fit | ✅ Supporté | Android 8+ |
+| Apple Health | ✅ Supporté | iOS 14+, iPadOS 14+ |
+
+---
+
 ## 🚀 **Démarrage rapide**
 
 ### ⚡ **5 minutes pour tester ARIA**
@@ -83,7 +125,7 @@ pip install -r requirements.txt
 python main.py
 ```
 
-**C'est tout !** ARIA démarre sur `http://localhost:8000`
+L'application démarre sur `http://localhost:8000`
 
 ### 🎯 **Premiers pas**
 
@@ -256,4 +298,4 @@ Vous êtes nouveau dans le projet ? Commencez par ces issues marquées `good fir
 
 ---
 
-> **"Vos données médicales sont sacrées. ARIA les protège comme un trésor personnel."**
+> **"Vos données médicales sont sacrées. ARIA les protège comme un trésor personnel."** — ARKALIA ARIA

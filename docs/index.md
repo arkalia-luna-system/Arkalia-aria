@@ -184,10 +184,8 @@ mkdocs gh-deploy
 - [Exemples](EXAMPLES.md) - Exemples d'utilisation
 
 ### 📋 **Résumé & Vue d'Ensemble**
-- [Mission Accomplie](MISSION_ACCOMPLISHED.md) - 🎉 Mission accomplie avec succès !
 - [Documentation Complète](DOCUMENTATION_COMPLETE.md) - Guide complet pour IA
-- [Résumé Final](FINAL_SUMMARY.md) - Résumé complet de la mission
-- [Résumé Accomplissements](ACCOMPLISHMENTS_SUMMARY.md) - Ce qui a été fait
+- [Résumé Accomplissements](ACCOMPLISHMENTS_SUMMARY.md) - 🎉 Ce qui a été fait
 - [Résumé Projet](PROJECT_SUMMARY.md) - Vue d'ensemble complète
 - [Statut Projet](PROJECT_STATUS.md) - État actuel et priorités
 - [Plan d'Amélioration](PLAN_AMELIORATION_ARKALIA_ARIA.md) - Plan d'amélioration

@@ -1,6 +1,6 @@
 # Statut Projet ARKALIA ARIA
 
-**Dernière mise à jour : Novembre 2025
+**Dernière mise à jour :** Novembre 2025
 
 ---
 
@@ -117,4 +117,4 @@
 
 ---
 
-**ARKALIA ARIA** - Statut projet ! 📊🚀
+**ARKALIA ARIA** - Statut du projet

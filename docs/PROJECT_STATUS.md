@@ -1,10 +1,12 @@
-# 📊 Statut Projet - ARKALIA ARIA
+# Statut Projet ARKALIA ARIA
 
-**Dernière mise à jour : Novembre 2025**
+**Dernière mise à jour : Novembre 2025
 
-## ✅ Fonctionnalités Implémentées
+---
 
-### 🆕 Architecture Centralisée (NOUVEAU)
+## ✅ Fonctionnalités implémentées
+
+### 🆕 Architecture centralisée
 - ✅ **Module `core/`** : DatabaseManager, CacheManager, Config, Logging unifiés
 - ✅ **BaseAPI** : Standardisation de toutes les APIs avec endpoints standardisés
 - ✅ **Performance** : 1 connexion DB partagée (vs 5 connexions séparées)

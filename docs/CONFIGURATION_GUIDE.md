@@ -1,8 +1,10 @@
-# ⚙️ Guide de Configuration ARKALIA ARIA
+# Guide de Configuration ARKALIA ARIA
 
-**Dernière mise à jour : Novembre 2025**
+**Dernière mise à jour : Novembre 2025
 
-## 🎯 **Objectif**
+---
+
+## 🎯 Objectif
 
 Ce guide explique comment configurer ARKALIA ARIA pour différents environnements (développement, test, production).
 
@@ -10,7 +12,7 @@ Ce guide explique comment configurer ARKALIA ARIA pour différents environnement
 
 ## 🔧 **Configuration de Base**
 
-### **Variables d'Environnement**
+### Variables d'Environnement
 ```bash
 # Copier le fichier d'exemple
 cp env.example .env
@@ -24,7 +26,7 @@ ARIA_REDIS_URL=redis://localhost:6379
 ARIA_SECRET_KEY=your-secret-key-here
 ```
 
-### **Configuration Centralisée**
+### Configuration Centralisée
 ```python
 # core/config.py
 from pydantic_settings import BaseSettings
@@ -45,7 +47,7 @@ class Config(BaseSettings):
 
 ## 🏗️ **Environnements**
 
-### **Développement Local**
+### Développement Local
 ```bash
 # Configuration développement
 export ARIA_DB_PATH=aria_pain.db
@@ -59,7 +61,7 @@ export ARIA_SECRET_KEY=dev-secret-key
 python main.py
 ```
 
-### **Test/Staging**
+### Test/Staging
 ```bash
 # Configuration test
 export ARIA_DB_PATH=aria_pain_test.db
@@ -73,7 +75,7 @@ export ARIA_SECRET_KEY=test-secret-key
 uvicorn main:app --host 0.0.0.0 --port 8001 --workers 2
 ```
 
-### **Production**
+### Production
 ```bash
 # Configuration production
 export ARIA_DB_PATH=/app/data/aria_pain.db
@@ -91,7 +93,7 @@ uvicorn main:app --host 0.0.0.0 --port 8001 --workers 4
 
 ## 🗄️ **Base de Données**
 
-### **SQLite (Développement)**
+### SQLite (Développement)
 ```python
 # Configuration SQLite
 DATABASE_CONFIG = {
@@ -105,7 +107,7 @@ DATABASE_CONFIG = {
 }
 ```
 
-### **PostgreSQL (Production)**
+### PostgreSQL (Production)
 ```python
 # Configuration PostgreSQL
 DATABASE_CONFIG = {
@@ -124,7 +126,7 @@ DATABASE_CONFIG = {
 }
 ```
 
-### **MySQL (Alternative)**
+### MySQL (Alternative)
 ```python
 # Configuration MySQL
 DATABASE_CONFIG = {
@@ -147,7 +149,7 @@ DATABASE_CONFIG = {
 
 ## 🔒 **Sécurité**
 
-### **HTTPS/TLS**
+### HTTPS/TLS
 ```nginx
 # nginx.conf
 server {
@@ -171,7 +173,7 @@ server {
 }
 ```
 
-### **CORS**
+### CORS
 ```python
 # Configuration CORS
 CORS_CONFIG = {
@@ -187,7 +189,7 @@ CORS_CONFIG = {
 }
 ```
 
-### **Rate Limiting**
+### Rate Limiting
 ```python
 # Configuration Rate Limiting
 RATE_LIMIT_CONFIG = {
@@ -202,7 +204,7 @@ RATE_LIMIT_CONFIG = {
 
 ## 📊 **Monitoring**
 
-### **Prometheus**
+### Prometheus
 ```yaml
 # prometheus.yml
 global:
@@ -216,7 +218,7 @@ scrape_configs:
     scrape_interval: 5s
 ```
 
-### **Grafana**
+### Grafana
 ```json
 {
   "dashboard": {
@@ -247,7 +249,7 @@ scrape_configs:
 }
 ```
 
-### **Logs**
+### Logs
 ```python
 # Configuration des logs
 LOGGING_CONFIG = {
@@ -291,7 +293,7 @@ LOGGING_CONFIG = {
 
 ## 🐳 **Docker**
 
-### **Dockerfile**
+### Dockerfile
 ```dockerfile
 FROM python:3.10-slim
 
@@ -323,7 +325,7 @@ EXPOSE 8001
 CMD ["python", "main.py"]
 ```
 
-### **Docker Compose**
+### Docker Compose
 ```yaml
 version: '3.8'
 
@@ -371,7 +373,7 @@ volumes:
 
 ## 📱 **Configuration Mobile**
 
-### **Flutter**
+### Flutter
 ```yaml
 # pubspec.yaml
 name: arkalia_aria
@@ -395,7 +397,7 @@ dev_dependencies:
   flutter_lints: ^3.0.0
 ```
 
-### **Configuration API**
+### Configuration API
 ```dart
 // lib/config/api_config.dart
 class ApiConfig {
@@ -411,7 +413,7 @@ class ApiConfig {
 
 ## 🔧 **Outils de Développement**
 
-### **Pre-commit Hooks**
+### Pre-commit Hooks
 ```yaml
 # .pre-commit-config.yaml
 repos:
@@ -434,7 +436,7 @@ repos:
         additional_dependencies: [types-requests]
 ```
 
-### **Makefile**
+### Makefile
 ```makefile
 # Makefile
 .PHONY: install test lint format clean docker
@@ -468,7 +470,7 @@ docker-clean:
 
 ## 🚨 **Configuration de Production**
 
-### **Checklist Production**
+### Checklist Production
 - [ ] **HTTPS** - Certificats SSL configurés
 - [ ] **Base de données** - PostgreSQL/MySQL configuré
 - [ ] **Monitoring** - Prometheus + Grafana actifs
@@ -478,7 +480,7 @@ docker-clean:
 - [ ] **Performance** - Cache Redis configuré
 - [ ] **Alertes** - Notifications configurées
 
-### **Variables d'Environnement Production**
+### Variables d'Environnement Production
 ```bash
 # Production
 ARIA_DB_PATH=/app/data/aria_pain.db
@@ -497,7 +499,7 @@ ARIA_GRAFANA_URL=https://grafana.arkalia-aria.com
 
 ## 📋 **Configuration par Environnement**
 
-### **Développement**
+### Développement
 ```bash
 # .env.development
 ARIA_DB_PATH=aria_pain.db
@@ -507,7 +509,7 @@ ARIA_REDIS_URL=redis://localhost:6379
 ARIA_SECRET_KEY=dev-secret-key
 ```
 
-### **Test**
+### Test
 ```bash
 # .env.test
 ARIA_DB_PATH=aria_pain_test.db
@@ -517,7 +519,7 @@ ARIA_REDIS_URL=redis://test-redis:6379
 ARIA_SECRET_KEY=test-secret-key
 ```
 
-### **Production**
+### Production
 ```bash
 # .env.production
 ARIA_DB_PATH=/app/data/aria_pain.db

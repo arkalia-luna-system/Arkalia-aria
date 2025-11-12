@@ -20,7 +20,7 @@ Le dashboard web ARKALIA ARIA offre une interface web interactive et responsive 
 
 ## 🏗️ **Architecture**
 
-### **Structure des Fichiers**
+### Structure des Fichiers
 
 ```
 metrics_collector/dashboard/
@@ -39,7 +39,7 @@ metrics_collector/dashboard/
 └── export_handlers.py            # Gestionnaires d'export
 ```
 
-### **Diagramme d'Architecture**
+### Diagramme d'Architecture
 
 ```mermaid
 graph TB
@@ -88,7 +88,7 @@ graph TB
 
 ## 📱 **Pages du Dashboard**
 
-### **🏠 Dashboard Principal**
+### 🏠 Dashboard Principal
 
 **Route** : `/dashboard`
 
@@ -98,7 +98,7 @@ graph TB
 - Métriques de sécurité et performance
 - Actions rapides
 
-### **📊 Métriques Générales**
+### 📊 Métriques Générales
 
 **Route** : `/dashboard/metrics`
 
@@ -107,7 +107,7 @@ graph TB
 - Performance de l'application
 - Statistiques d'utilisation
 
-### **🔒 Sécurité**
+### 🔒 Sécurité
 
 **Route** : `/dashboard/security`
 
@@ -116,7 +116,7 @@ graph TB
 - Alertes de sécurité
 - Audit des accès
 
-### **⚡ Performance**
+### ⚡ Performance
 
 **Route** : `/dashboard/performance`
 
@@ -125,7 +125,7 @@ graph TB
 - Temps de réponse
 - Utilisation des ressources
 
-### **🏥 Métriques Santé**
+### 🏥 Métriques Santé
 
 **Route** : `/dashboard/health`
 
@@ -141,7 +141,7 @@ graph TB
 - **Graphique de poids/BMI** : Suivi corporel
 - **Graphique de température** : Variations corporelles
 
-### **💔 Analyse Douleur**
+### 💔 Analyse Douleur
 
 **Route** : `/dashboard/pain`
 
@@ -157,7 +157,7 @@ graph TB
 - **Graphique des localisations** : Zones affectées
 - **Graphique d'efficacité** : Actions et résultats
 
-### **🔍 Visualisation Patterns**
+### 🔍 Visualisation Patterns
 
 **Route** : `/dashboard/patterns`
 
@@ -173,7 +173,7 @@ graph TB
 - **Tendances saisonnières** : Variations long terme
 - **Anomalies** : Détection d'événements inhabituels
 
-### **📄 Génération Rapports**
+### 📄 Génération Rapports
 
 **Route** : `/dashboard/reports`
 
@@ -193,7 +193,7 @@ graph TB
 
 ## 🔧 **Fonctionnalités Techniques**
 
-### **Graphiques Interactifs**
+### Graphiques Interactifs
 
 **Fichier** : `static/charts.js`
 
@@ -228,7 +228,7 @@ const trendChart = new Chart(ctx, {
 });
 ```
 
-### **Mise à Jour Temps Réel**
+### Mise à Jour Temps Réel
 
 **Fichier** : `static/realtime.js`
 
@@ -265,7 +265,7 @@ class RealtimeUpdater {
 }
 ```
 
-### **Système d'Export**
+### Système d'Export
 
 **Fichier** : `static/exports.js`
 
@@ -310,7 +310,7 @@ class ExportManager {
 
 ## 📊 **Gestionnaires d'Export**
 
-### **PDFExportHandler**
+### PDFExportHandler
 
 **Fichier** : `export_handlers.py`
 
@@ -353,7 +353,7 @@ class PDFExportHandler:
         )
 ```
 
-### **ExcelExportHandler**
+### ExcelExportHandler
 
 **Fonctionnalités** :
 - Génération Excel avec OpenPyXL
@@ -361,7 +361,7 @@ class PDFExportHandler:
 - Formatage conditionnel
 - Graphiques intégrés
 
-### **HTMLExportHandler**
+### HTMLExportHandler
 
 **Fonctionnalités** :
 - Export HTML avec interactivité
@@ -369,7 +369,7 @@ class PDFExportHandler:
 - Responsive design
 - Compatible tous navigateurs
 
-### **ReportPreviewHandler**
+### ReportPreviewHandler
 
 **Fonctionnalités** :
 - Aperçu avant export
@@ -381,7 +381,7 @@ class PDFExportHandler:
 
 ## 🚀 **API Endpoints**
 
-### **Routes Dashboard**
+### Routes Dashboard
 
 ```python
 # Métriques santé
@@ -421,7 +421,7 @@ async def dashboard_reports(request: Request):
     )
 ```
 
-### **Routes d'Export**
+### Routes d'Export
 
 ```python
 # Export PDF
@@ -469,7 +469,7 @@ async def preview_report(request: Request):
 
 ## 🎨 **Interface Utilisateur**
 
-### **Design System**
+### Design System
 
 **Couleurs** :
 - **Primaire** : Rouge ARKALIA (#DC2626)
@@ -484,7 +484,7 @@ async def preview_report(request: Request):
 - **Corps** : Inter, 14px, Regular
 - **Captions** : Inter, 12px, Regular
 
-### **Composants Réutilisables**
+### Composants Réutilisables
 
 ```html
 <!-- Carte de métrique -->
@@ -516,7 +516,7 @@ async def preview_report(request: Request):
 </div>
 ```
 
-### **Responsive Design**
+### Responsive Design
 
 ```css
 /* Mobile First */
@@ -545,21 +545,21 @@ async def preview_report(request: Request):
 
 ## 🔒 **Sécurité et Performance**
 
-### **Sécurité**
+### Sécurité
 
 - **Authentification** : JWT tokens pour l'API
 - **Autorisation** : Contrôle d'accès granulaire
 - **Validation** : Sanitisation des données d'entrée
 - **HTTPS** : Chiffrement des communications
 
-### **Performance**
+### Performance
 
 - **Cache** : Mise en cache des données fréquentes
 - **Lazy Loading** : Chargement différé des graphiques
 - **Compression** : Gzip pour les assets statiques
 - **CDN** : Distribution des ressources statiques
 
-### **Optimisations**
+### Optimisations
 
 ```javascript
 // Lazy loading des graphiques
@@ -599,7 +599,7 @@ class DataCache {
 
 ## 🧪 **Tests**
 
-### **Tests Frontend**
+### Tests Frontend
 
 ```javascript
 // Tests des graphiques
@@ -627,7 +627,7 @@ describe('Export Functionality', () => {
 });
 ```
 
-### **Tests Backend**
+### Tests Backend
 
 ```python
 # Tests des routes dashboard
@@ -647,14 +647,14 @@ def test_export_pdf():
 
 ## 📈 **Monitoring et Analytics**
 
-### **Métriques de Performance**
+### Métriques de Performance
 
 - **Temps de chargement** : < 2 secondes
 - **Temps de rendu** : < 500ms
 - **Taux d'erreur** : < 1%
 - **Disponibilité** : > 99.9%
 
-### **Analytics Utilisateur**
+### Analytics Utilisateur
 
 - **Pages les plus visitées** : Dashboard, Analyses, Rapports
 - **Fonctionnalités utilisées** : Exports, Filtres, Graphiques
@@ -665,7 +665,7 @@ def test_export_pdf():
 
 ## 🐛 **Dépannage**
 
-### **Problèmes Courants**
+### Problèmes Courants
 
 1. **Graphiques ne se chargent pas** :
    - Vérifier la console JavaScript
@@ -682,7 +682,7 @@ def test_export_pdf():
    - Optimiser les requêtes
    - Réduire la taille des datasets
 
-### **Logs et Debug**
+### Logs et Debug
 
 ```python
 # Activation des logs détaillés
@@ -699,14 +699,14 @@ logger.error(f"Erreur export: {error}")
 
 ## 🔮 **Évolutions Futures**
 
-### **Fonctionnalités Avancées**
+### Fonctionnalités Avancées
 
 - **IA Intégrée** : Recommandations automatiques
 - **Real-time Collaboration** : Partage en temps réel
 - **Advanced Analytics** : Machine Learning intégré
 - **Custom Dashboards** : Personnalisation complète
 
-### **Améliorations Techniques**
+### Améliorations Techniques
 
 - **Progressive Web App** : Installation native
 - **Offline Support** : Fonctionnement hors ligne

@@ -6,17 +6,17 @@ Un cookie est un petit fichier texte stocké sur votre appareil lorsque vous vis
 
 ## 🎯 **Types de cookies utilisés**
 
-### **Cookies essentiels**
+### Cookies essentiels
 - **Finalité :** Fonctionnement du site
 - **Durée :** Session
 - **Obligatoire :** Oui
 
-### **Cookies de performance**
+### Cookies de performance
 - **Finalité :** Statistiques d'utilisation
 - **Durée :** 13 mois
 - **Obligatoire :** Non
 
-### **Cookies de fonctionnalité**
+### Cookies de fonctionnalité
 - **Finalité :** Mémorisation des préférences
 - **Durée :** 12 mois
 - **Obligatoire :** Non
@@ -32,13 +32,13 @@ Un cookie est un petit fichier texte stocké sur votre appareil lorsque vous vis
 
 ## 🔧 **Gestion des cookies**
 
-### **Accepter tous les cookies**
+### Accepter tous les cookies
 Cliquez sur "Accepter" pour autoriser tous les cookies.
 
-### **Refuser les cookies non essentiels**
+### Refuser les cookies non essentiels
 Cliquez sur "Refuser" pour n'autoriser que les cookies essentiels.
 
-### **Personnaliser**
+### Personnaliser
 Cliquez sur "Personnaliser" pour choisir les types de cookies.
 
 ## 🌐 **Cookies tiers**
@@ -61,12 +61,12 @@ L'application mobile utilise des technologies similaires :
 
 ## 🗑️ **Suppression des cookies**
 
-### **Navigateur web**
+### Navigateur web
 - Chrome : Paramètres > Confidentialité > Cookies
 - Firefox : Options > Vie privée > Cookies
 - Safari : Préférences > Confidentialité > Cookies
 
-### **Application mobile**
+### Application mobile
 - Paramètres > Applications > ARKALIA ARIA > Stockage
 
 ## 📞 **Contact**
@@ -85,4 +85,4 @@ Cette politique peut être modifiée. Les modifications seront publiées sur cet
 
 ---
 
-*Dernière mise à jour : novembre 2025*
+*Dernière mise à jour : Novembre 2025

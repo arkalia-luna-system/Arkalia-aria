@@ -6,20 +6,20 @@ ARKALIA ARIA s'engage à protéger votre vie privée et vos données personnelle
 
 ## 📊 **Données collectées**
 
-### **Données de santé**
+### Données de santé
 - Intensité de la douleur (0-10)
 - Déclencheurs physiques et mentaux
 - Localisation de la douleur
 - Actions prises et leur efficacité
 - Notes personnelles
 
-### **Données techniques**
+### Données techniques
 - Adresse IP
 - Type de navigateur
 - Système d'exploitation
 - Données de connexion
 
-### **Données de navigation**
+### Données de navigation
 - Pages visitées
 - Temps passé sur le site
 - Cookies et technologies similaires
@@ -102,4 +102,4 @@ France
 
 ---
 
-*Dernière mise à jour : novembre 2025*
+*Dernière mise à jour : Novembre 2025

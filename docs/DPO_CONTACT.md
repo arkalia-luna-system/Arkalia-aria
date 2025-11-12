@@ -26,27 +26,27 @@ France
 
 ## 📧 **Types de demandes**
 
-### **Accès aux données**
+### Accès aux données
 - Consultation de vos données personnelles
 - Copie de vos données
 
-### **Rectification**
+### Rectification
 - Correction d'informations inexactes
 - Mise à jour de vos données
 
-### **Effacement**
+### Effacement
 - Suppression de vos données
 - Droit à l'oubli
 
-### **Portabilité**
+### Portabilité
 - Export de vos données
 - Transfert vers un autre service
 
-### **Limitation**
+### Limitation
 - Restriction du traitement
 - Suspension temporaire
 
-### **Opposition**
+### Opposition
 - Refus du traitement
 - Désabonnement
 
@@ -79,16 +79,16 @@ Pour les urgences liées à la protection des données :
 
 ## 📝 **Formulaires**
 
-### **Demande d'accès**
+### Demande d'accès
 [Lien vers le formulaire]
 
-### **Demande de rectification**
+### Demande de rectification
 [Lien vers le formulaire]
 
-### **Demande d'effacement**
+### Demande d'effacement
 [Lien vers le formulaire]
 
-### **Demande de portabilité**
+### Demande de portabilité
 [Lien vers le formulaire]
 
 ## ⚖️ **Recours**

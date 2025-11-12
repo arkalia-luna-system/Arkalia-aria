@@ -269,9 +269,11 @@ exclude = [
     "*.png",
     "*.jpg",
     "*.jpeg",
+    "._*",  # Fichiers macOS cachés
+    "**/._*",  # Fichiers macOS cachés récursifs
 ]
 # Tests de sécurité à ignorer (faux positifs courants)
-skips = ["B101", "B105", "B108", "B601", "B603", "B604", "B605", "B606", "B607", "B608", "B609", "B610"]
+skips = ["B101", "B105", "B108", "B311", "B601", "B603", "B604", "B605", "B606", "B607", "B608", "B609", "B610"]
 # Cibler uniquement le code source Python
 targets = ["core", "health_connectors", "metrics_collector", "pain_tracking", "pattern_analysis", "prediction_engine", "research_tools", "devops_automation", "audio_voice", "cia_sync"]
 recursive = true

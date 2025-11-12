@@ -99,8 +99,6 @@
 
 ---
 
----
-
 ## Modules Interface
 
 ### mobile_app/
@@ -118,8 +116,6 @@
 - 🆕 **Performance** : Documentation des optimisations CI/CD
 
 **Statut** : ✅ **COMPLET** - Documentation à jour
-
----
 
 ---
 
@@ -150,8 +146,6 @@
 
 ---
 
----
-
 ## Modules Test
 
 ### tests/
@@ -159,8 +153,6 @@
 - ✅ **Coverage** : 100% des modules migrés
 
 **Statut** : ✅ **COMPLET** - Tests opérationnels
-
----
 
 ---
 
@@ -211,7 +203,7 @@
 
 ---
 
-## 🔗 **Liens Utiles**
+## Liens Utiles
 
 - README.md - Vue d'ensemble du projet (fichier racine)
 - [PROJECT_STATUS.md](PROJECT_STATUS.md) - Statut global

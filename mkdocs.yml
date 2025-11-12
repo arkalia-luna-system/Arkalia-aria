@@ -74,35 +74,24 @@ nav:
   - Accueil: index.md
   - Guide Utilisateur: USER_GUIDE.md
   - Référence API: API_REFERENCE.md
-  - Exemples: EXAMPLES.md
   - Guide Développeur: DEVELOPER_GUIDE.md
+  - Référence Technique: TECHNICAL_REFERENCE.md
   - Statut Projet: PROJECT_STATUS.md
   - Statut Modules: MODULE_STATUS.md
   - App Mobile: MOBILE_APP.md
   - Connecteurs Santé: HEALTH_CONNECTORS.md
   - Dashboard Web: DASHBOARD_WEB.md
-  - Checklist RGPD: SECURITY_RGPD_CHECKLIST.md
-  - Plan d'Amélioration: PLAN_AMELIORATION_ARKALIA_ARIA.md
-  - Mission Accomplie: MISSION_ACCOMPLISHED.md
-  - Documentation Complète: DOCUMENTATION_COMPLETE.md
-  - Résumé Final: FINAL_SUMMARY.md
-  - Résumé Accomplissements: ACCOMPLISHMENTS_SUMMARY.md
-  - Résumé Projet: PROJECT_SUMMARY.md
+  - Workflow Professionnel: PROFESSIONAL_WORKFLOW.md
   - Commandes Rapides: QUICK_COMMANDS.md
   - Guide Configuration: CONFIGURATION_GUIDE.md
-  - Plan d'Action: ACTION_PLAN.md
-  - Guide Migration IA: AI_MIGRATION_GUIDE.md
-  - Audit Réponse CEO: AUDIT_RESPONSE_CEO.md
-  - CI/CD Auto Génération: CI_CD_AUTO_GENERATION.md
-  - Workflow Solo: SOLO_WORKFLOW.md
-  - Référence Technique: TECHNICAL_REFERENCE.md
-  - TODO Simple: TODO_SIMPLE.md
   - Checklist Validation: VALIDATION_CHECKLIST.md
-  - Contact DPO: DPO_CONTACT.md
-  - Politique Cookies: COOKIES_POLICY.md
-  - Conditions d'Utilisation: TERMS_OF_USE.md
-  - Politique de Confidentialité: PRIVACY_POLICY.md
+  - Checklist RGPD: SECURITY_RGPD_CHECKLIST.md
+  - Checklist Quotidienne: DAILY_CLOSING_CHECKLIST.md
   - Mentions Légales: LEGAL_MENTIONS.md
+  - Politique de Confidentialité: PRIVACY_POLICY.md
+  - Conditions d'Utilisation: TERMS_OF_USE.md
+  - Politique Cookies: COOKIES_POLICY.md
+  - Contact DPO: DPO_CONTACT.md
 
 extra:
   social:

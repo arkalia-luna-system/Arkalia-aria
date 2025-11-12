@@ -1,7 +1,8 @@
 # ARKALIA ARIA
 
-**Research Intelligence Assistant**  
-#### Laboratoire de recherche santé personnel
+## Research Intelligence Assistant
+
+### Laboratoire de recherche santé personnel
 
 ---
 
@@ -51,7 +52,7 @@ ARKALIA ARIA est un assistant de recherche intelligent conçu pour transformer v
 
 ```bash
 # Cloner le projet
-git clone <https://github.com/arkalia-luna-system/arkalia-aria.git>
+git clone https://github.com/arkalia-luna-system/arkalia-aria.git
 cd arkalia-aria
 
 # Créer l'environnement virtuel
@@ -78,9 +79,9 @@ python main.py
 
 ### Accès
 
-- **API Documentation** : <http://127.0.0.1:8001/docs>
-- **Interface Alternative** : <http://127.0.0.1:8001/redoc>
-- **Statut de santé** : <http://127.0.0.1:8001/health>
+- **API Documentation** : http://127.0.0.1:8001/docs
+- **Interface Alternative** : http://127.0.0.1:8001/redoc
+- **Statut de santé** : http://127.0.0.1:8001/health
 
 ---
 
@@ -133,7 +134,6 @@ ARKALIA ARIA fonctionne en parfaite harmonie avec ARKALIA CIA :
 
 - [Guide Utilisateur](USER_GUIDE.md) - Comment utiliser ARIA au quotidien
 - [Référence API](API_REFERENCE.md) - Documentation complète des endpoints
-- [Exemples](EXAMPLES.md) - Cas d'usage et exemples pratiques
 - [Guide Développeur](DEVELOPER_GUIDE.md) - Contribution et développement
 - [Statut Projet](PROJECT_STATUS.md) - État actuel et roadmap
 
@@ -193,9 +193,7 @@ mkdocs gh-deploy
 
 ### Plan d'Action Détaillé
 
-- [Plan d'Action Complet](ACTION_PLAN.md) - Roadmap détaillée avec échéances
-- [Workflow Solo](SOLO_WORKFLOW.md) - Guide pour travailler seul
-- [TODO Simple](TODO_SIMPLE.md) - Liste des tâches à faire
+- [Workflow Professionnel](PROFESSIONAL_WORKFLOW.md) - Guide pour travailler efficacement
 - [Statut Projet](PROJECT_STATUS.md) - État actuel et priorités
 - [Checklist RGPD](SECURITY_RGPD_CHECKLIST.md) - Conformité et sécurité
 - [Mentions Légales](LEGAL_MENTIONS.md) — Informations légales de l'entreprise
@@ -214,22 +212,11 @@ mkdocs gh-deploy
 
 - [Checklist de Validation](VALIDATION_CHECKLIST.md) - Validation complète
 - [Statut Modules](MODULE_STATUS.md) - État des modules
-- [**Résumé Accomplissements**](ACCOMPLISHMENTS_SUMMARY.md) - 🎉 **Mission accomplie !**
 - [Guide Mobile](MOBILE_APP.md) - Documentation mobile
 
 ### Migration & Support
 
-- [Guide Migration IA](AI_MIGRATION_GUIDE.md) - Guide pour nouvelles IA
 - [Guide Utilisateur](USER_GUIDE.md) - Guide utilisateur final
-- [Exemples](EXAMPLES.md) - Exemples d'utilisation
-
-### Résumé & Vue d'Ensemble
-
-- [Documentation Complète](DOCUMENTATION_COMPLETE.md) - Guide complet pour IA
-- [Résumé Accomplissements](ACCOMPLISHMENTS_SUMMARY.md) - 🎉 Ce qui a été fait
-- [Résumé Projet](PROJECT_SUMMARY.md) - Vue d'ensemble complète
-- [Statut Projet](PROJECT_STATUS.md) - État actuel et priorités
-- [Plan d'Amélioration](PLAN_AMELIORATION_ARKALIA_ARIA.md) - Plan d'amélioration
 
 ### Commandes & Références
 

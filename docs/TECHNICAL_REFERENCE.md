@@ -115,9 +115,7 @@
 │   └── README.md                   # Documentation tests
 ├── docs/                           # Documentation
 │   ├── index.md                    # Page d'accueil
-│   ├── ACTION_PLAN.md              # Plan d'action
-│   ├── SOLO_WORKFLOW.md            # Workflow solo
-│   ├── TODO_SIMPLE.md              # TODO simple
+│   ├── PROFESSIONAL_WORKFLOW.md    # Workflow professionnel
 │   ├── PROJECT_STATUS.md           # Statut projet
 │   ├── SECURITY_RGPD_CHECKLIST.md  # Checklist RGPD
 │   ├── DEVELOPER_GUIDE.md          # Guide développeur
@@ -157,7 +155,7 @@ python main.py
 uvicorn main:app --host 0.0.0.0 --port 8001 --workers 4
 
 # Vérifier l'état de l'API
-curl <http://127.0.0.1:8001/health>
+curl http://127.0.0.1:8001/health
 
 ```
 
@@ -540,10 +538,10 @@ journalctl -u aria -f
 
 ```bash
 # Vérifier l'état de l'API
-curl <http://127.0.0.1:8001/health>
+curl http://127.0.0.1:8001/health
 
 # Vérifier les métriques (nécessite ARIA_ENABLE_METRICS=true)
-curl <http://127.0.0.1:8001/metrics>
+curl http://127.0.0.1:8001/metrics
 
 # Vérifier les processus
 ps aux | grep python

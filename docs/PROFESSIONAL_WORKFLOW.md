@@ -93,8 +93,8 @@ find . -name "*.log" -size +10M -delete 2>/dev/null || true
 #### Planification (2 min)
 
 ```bash
-# TODO pour demain - utiliser TODO_SIMPLE.md ou créer une issue GitHub
-# Les tâches sont maintenant trackées dans TODO_SIMPLE.md et les issues GitHub
+# TODO pour demain - créer une issue GitHub ou noter dans PROJECT_STATUS.md
+# Les tâches sont maintenant trackées dans les issues GitHub et PROJECT_STATUS.md
 
 ```
 
@@ -120,10 +120,10 @@ pytest tests/ -q --tb=short
 
 ```bash
 # Lire le TODO
-cat docs/TODO_SIMPLE.md | head -50
+cat docs/PROJECT_STATUS.md | grep -A 20 "Prochaines Étapes"
 
 # Vérifier les issues GitHub pour les priorités
-# Les tâches sont maintenant trackées dans TODO_SIMPLE.md et les issues GitHub
+# Les tâches sont maintenant trackées dans PROJECT_STATUS.md et les issues GitHub
 
 ```
 

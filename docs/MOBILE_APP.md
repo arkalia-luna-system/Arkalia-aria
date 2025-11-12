@@ -283,7 +283,7 @@ class HealthData {
 
 ```bash
 # Cloner le projet
-git clone <https://github.com/arkalia-luna-system/arkalia-aria.git>
+git clone https://github.com/arkalia-luna-system/arkalia-aria.git
 cd arkalia-aria/mobile_app
 
 # Installer les dépendances

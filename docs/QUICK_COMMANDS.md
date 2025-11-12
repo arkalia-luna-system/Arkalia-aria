@@ -18,7 +18,7 @@ python main.py
 uvicorn main:app --host 127.0.0.1 --port 8001 --reload
 
 # Vérifier que ça fonctionne
-curl <http://127.0.0.1:8001/health>
+curl http://127.0.0.1:8001/health
 
 ```
 
@@ -206,16 +206,16 @@ journalctl -u aria -f
 
 ```bash
 # Health check
-curl <http://127.0.0.1:8001/health>
+curl http://127.0.0.1:8001/health
 
 # Status détaillé
-curl <http://127.0.0.1:8001/status>
+curl http://127.0.0.1:8001/status
 
 # Métriques
-curl <http://127.0.0.1:8001/metrics>
+curl http://127.0.0.1:8001/metrics
 
 # Documentation API
-open <http://127.0.0.1:8001/docs>
+open http://127.0.0.1:8001/docs
 
 ```
 
@@ -223,20 +223,20 @@ open <http://127.0.0.1:8001/docs>
 
 ```bash
 # Suivi de douleur
-curl <http://127.0.0.1:8001/api/pain/entries>
-curl <http://127.0.0.1:8001/api/pain/quick-entry>
+curl http://127.0.0.1:8001/api/pain/entries
+curl http://127.0.0.1:8001/api/pain/quick-entry
 
 # Connecteurs santé
-curl <http://127.0.0.1:8001/health/connectors/status>
-curl <http://127.0.0.1:8001/health/samsung/sync>
-curl <http://127.0.0.1:8001/health/google/sync>
-curl <http://127.0.0.1:8001/health/ios/sync>
-curl <http://127.0.0.1:8001/health/sync/all>
+curl http://127.0.0.1:8001/health/connectors/status
+curl http://127.0.0.1:8001/health/samsung/sync
+curl http://127.0.0.1:8001/health/google/sync
+curl http://127.0.0.1:8001/health/ios/sync
+curl http://127.0.0.1:8001/health/sync/all
 
 # Exports
-curl <http://127.0.0.1:8001/api/pain/export/csv>
-curl <http://127.0.0.1:8001/api/pain/export/pdf>
-curl <http://127.0.0.1:8001/api/pain/export/excel>
+curl http://127.0.0.1:8001/api/pain/export/csv
+curl http://127.0.0.1:8001/api/pain/export/pdf
+curl http://127.0.0.1:8001/api/pain/export/excel
 
 ```
 
@@ -297,10 +297,10 @@ netstat -tulpn | grep :8001
 
 ```bash
 # Métriques système (nécessite ARIA_ENABLE_METRICS=true)
-curl <http://127.0.0.1:8001/metrics>
+curl http://127.0.0.1:8001/metrics
 
 # Métriques santé unifiées
-curl <http://127.0.0.1:8001/health/metrics/unified?days_back=7>
+curl http://127.0.0.1:8001/health/metrics/unified?days_back=7
 
 ```
 
@@ -392,10 +392,10 @@ python main.py
 mkdocs serve
 
 # Documentation API
-open <http://127.0.0.1:8001/docs>
+open http://127.0.0.1:8001/docs
 
 # Documentation ReDoc
-open <http://127.0.0.1:8001/redoc>
+open http://127.0.0.1:8001/redoc
 
 ```
 
@@ -452,10 +452,10 @@ docker-compose down
 
 ```bash
 # Health
-curl <http://127.0.0.1:8001/health>
+curl http://127.0.0.1:8001/health
 
 # Docs
-open <http://127.0.0.1:8001/docs>
+open http://127.0.0.1:8001/docs
 
 ```
 

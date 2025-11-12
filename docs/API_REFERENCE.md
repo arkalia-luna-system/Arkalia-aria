@@ -602,7 +602,7 @@ Content-Type: application/json
 
 ---
 
-## 🔐 **Authentification**
+## Authentification
 
 ### Headers Requis
 ```http

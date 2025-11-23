@@ -63,10 +63,14 @@
 ### cia_sync/
 
 - ✅ **api.py** : Migré vers BaseAPI + get_logger
+- ✅ **auto_sync.py** : Synchronisation automatique périodique
+- ✅ **granularity_config.py** : Système de configuration granularité
+- ✅ **document_integration.py** : Intégration documents CIA
 - ✅ **Logging** : Unifié avec get_logger
 - ✅ **Gestion d'erreurs** : Améliorée
+- ✅ **Fonctionnalités** : Auto-sync, granularité, rapports médicaux, intégration CIA
 
-**Statut** : ✅ **MIGRÉ** - Prêt pour la production
+**Statut** : ✅ **OPÉRATIONNEL** - Synchronisation CIA complète (Phase 3)
 
 ---
 

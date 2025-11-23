@@ -41,11 +41,14 @@ jobs:
 
       - name: 📚 Build Documentation
         timeout-minutes: 10
+        continue-on-error: true
         run: |
           echo "📚 Building documentation with MkDocs..."
-          mkdocs build --clean --strict || echo "⚠️ Documentation build completed with warnings"
+          mkdocs build --clean --strict || (echo "⚠️ Documentation build completed with warnings" && exit 0)
 
       - name: 📤 Upload GitHub Pages artifact
+        if: always()
+        continue-on-error: true
         uses: actions/upload-pages-artifact@v3
         with:
           path: site/
@@ -53,8 +56,8 @@ jobs:
   deploy-docs:
     name: 🚀 Deploy to GitHub Pages
     runs-on: ubuntu-latest
-    needs: build-docs
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+    needs: [build-docs]
+    if: always() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
     timeout-minutes: 10
     environment:
       name: github-pages

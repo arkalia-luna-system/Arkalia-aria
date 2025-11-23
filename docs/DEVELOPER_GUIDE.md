@@ -2,6 +2,7 @@
 
 **ARKALIA ARIA** — Documentation technique complète
 
+**Version :** 1.0.0  
 *Dernière mise à jour :* Novembre 2025
 
 ---
@@ -1425,4 +1426,4 @@ python -m devops_automation.security.aria_security_validator
 ---
 
 *Dernière mise à jour :* Novembre 2025  
-*Version du guide :* 2.0.0
+*Version du guide :* 1.0.0 (aligné avec version ARIA 1.0.0)

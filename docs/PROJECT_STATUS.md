@@ -2,6 +2,7 @@
 
 **ARKALIA ARIA** — État actuel, métriques et vue d'ensemble
 
+**Version :** 1.0.0  
 **Dernière mise à jour :** Novembre 2025
 
 ---
@@ -197,6 +198,29 @@
 
 1. **Performance** - Cache Redis, CDN
 2. **Fonctionnalités** - IA avancée, intégrations
+
+### Phase 4 : Intégration BBIA (2026+)
+
+**Note importante** : Cette phase nécessite l'acquisition de robots Reachy Mini (Pollen Robotics).
+
+**Timeline** :
+- Robot personnel : prévu janvier 2026
+- Robot pour maman : prévu ultérieurement (quand les fonds seront disponibles)
+
+**Pourquoi attendre ?**
+- L'intégration BBIA nécessite un robot physique pour tests et validation réels
+- Les fonctionnalités Phase 1-3 sont complètes et utilisables de manière autonome
+- ARIA peut fonctionner sans robot (journal douleur, patterns, sync CIA)
+- L'architecture est prête pour l'intégration future (modules préparés)
+
+**Fonctionnalités prévues** :
+1. **Application mobile Flutter native** (architecture en place)
+2. **Prédiction engine amélioré** (ML locaux avancés)
+3. **Intégration BBIA** (émotions, coaching adaptatif)
+4. **BBIA adapte comportement** selon état ARIA (douleur, patterns, prédictions)
+5. **Research tools** (laboratoire personnel avancé)
+6. **Intelligence artificielle** pour patterns complexes
+7. **Interface robotique pour maman** (via CIA + ARIA)
 3. **Analytics** - Dashboard avancé
 
 ---

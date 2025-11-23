@@ -13,6 +13,7 @@ from pydantic import BaseModel
 from core import BaseAPI, get_logger
 
 from .auto_sync import get_auto_sync_manager
+from .document_integration import get_document_integration
 from .granularity_config import (
     DataType,
     GranularityConfig,

@@ -2,7 +2,7 @@
 
 **Research Intelligence Assistant**  
 
-### Assistant de recherche santé personnelle
+## Assistant de recherche santé personnelle
 
 > **Mis à jour régulièrement** — Ce projet est maintenu activement et mis à jour chaque semaine.  
 > **Dernière mise à jour majeure** : 23 novembre 2025 — Documentation alignée avec CIA et écosystème Arkalia Luna.

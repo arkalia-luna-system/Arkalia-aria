@@ -45,6 +45,7 @@ Ce répertoire contient les workflows GitHub Actions pour le projet ARKALIA ARIA
 | GitHub Pages | ✅ read | ✅ write | ✅ write | ❌ |
 
 ### Sécurité
+
 - **Principe du moindre privilège** : Chaque workflow n'a que les permissions nécessaires
 - **Pas de conflit de permissions** entre workflows
 - **Audit de sécurité quotidien** automatique

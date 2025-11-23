@@ -784,8 +784,8 @@ Content-Type: application/json
   "physical_trigger": "stress",
   "action_taken": "respiration"
 }
-
 ```
+
 **Réponse (PainEntryOut)** :
 
 ```json
@@ -830,9 +830,9 @@ Content-Type: application/json
 ```http
 GET /api/pain/entries
 GET /api/pain/entries/recent?limit=20
-
 ```
-**Réponse (liste de PainEntryOut)** : `200 OK` avec tableau d’entrées triées par date (récentes d'abord)
+
+**Réponse (liste de PainEntryOut)** : `200 OK` avec tableau d'entrées triées par date (récentes d'abord)
 
 ### 🧠 **Suggestions**
 

@@ -68,17 +68,21 @@
 
 ### pattern_analysis/
 - ✅ **emotion_analyzer.py** : Migré vers get_logger
-- ⚠️ **api.py** : Utilise APIRouter (pas BaseAPI)
+- ✅ **correlation_analyzer.py** : Nouveau module d'analyse de corrélations
+- ✅ **api.py** : Endpoints fonctionnels (corrélations sommeil/stress, déclencheurs)
 - ✅ **Logging** : Unifié
+- ✅ **Fonctionnalités** : Corrélations sommeil ↔ douleur, stress ↔ douleur, détection déclencheurs récurrents
 
-**Statut** : 🔄 **PARTIELLEMENT MIGRÉ** - Logging OK, API utilise APIRouter standard
+**Statut** : ✅ **OPÉRATIONNEL** - Pattern analysis avancé implémenté (Phase 2)
 
 ### prediction_engine/
 - ✅ **ml_analyzer.py** : Migré vers DatabaseManager
-- ⚠️ **api.py** : Utilise APIRouter (pas BaseAPI)
+- ✅ **api.py** : Endpoints fonctionnels (prédictions, analytics, train)
 - ✅ **Performance** : Connexion DB centralisée
+- ✅ **Intégration** : Utilise correlation_analyzer pour enrichir prédictions
+- ✅ **Fonctionnalités** : Prédictions basées sur patterns, alertes préventives, recommandations
 
-**Statut** : 🔄 **PARTIELLEMENT MIGRÉ** - DB OK, API utilise APIRouter standard
+**Statut** : ✅ **OPÉRATIONNEL** - Prediction engine fonctionnel avec intégration pattern_analysis
 
 ### research_tools/
 - ✅ **data_collector.py** : Migré vers DatabaseManager

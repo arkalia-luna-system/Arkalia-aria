@@ -473,6 +473,140 @@ class IOSHealthConnector(BaseHealthConnector):
 
 ---
 
+## Pattern Analysis
+
+### Vue d'ensemble
+
+Le module `pattern_analysis/` détecte automatiquement les corrélations entre douleur, sommeil, stress et autres facteurs.
+
+### CorrelationAnalyzer
+
+```python
+from pattern_analysis.correlation_analyzer import CorrelationAnalyzer
+
+analyzer = CorrelationAnalyzer()
+
+# Analyse corrélation sommeil ↔ douleur
+sleep_corr = analyzer.analyze_sleep_pain_correlation(days_back=30)
+
+# Analyse corrélation stress ↔ douleur
+stress_corr = analyzer.analyze_stress_pain_correlation(days_back=30)
+
+# Détection déclencheurs récurrents
+triggers = analyzer.detect_recurrent_triggers(days_back=30, min_occurrences=3)
+
+# Analyse complète
+comprehensive = analyzer.get_comprehensive_analysis(days_back=30)
+```
+
+### Endpoints API
+
+```python
+# Analyse complète
+GET /api/patterns/patterns/recent?days=30
+
+# Corrélations spécifiques
+GET /api/patterns/correlations/sleep-pain?days=30
+GET /api/patterns/correlations/stress-pain?days=30
+
+# Déclencheurs récurrents
+GET /api/patterns/triggers/recurrent?days=30&min_occurrences=3
+
+# Analyse personnalisée
+POST /api/patterns/analyze
+{
+  "days_back": 30,
+  "analysis_type": "comprehensive"  # "comprehensive", "sleep", "stress", "triggers"
+}
+```
+
+### Algorithmes
+
+- **Corrélation de Pearson** : Calcul simple et local pour corrélations sommeil/stress
+- **Détection de patterns** : Comptage de déclencheurs récurrents
+- **Patterns temporels** : Analyse par heure et jour de la semaine
+- **100% local** : Aucune donnée externe, traitement entièrement local
+
+---
+
+## Prediction Engine
+
+### Vue d'ensemble
+
+Le module `prediction_engine/` prédit les épisodes de douleur basés sur les patterns historiques et le contexte actuel.
+
+### ARIAMLAnalyzer
+
+```python
+from prediction_engine.ml_analyzer import ARIAMLAnalyzer
+
+ml_analyzer = ARIAMLAnalyzer()
+
+# Prédiction basée sur contexte
+context = {
+    "stress_level": 0.8,
+    "fatigue_level": 0.6,
+    "activity_intensity": 0.4
+}
+prediction = ml_analyzer.predict_pain_episode(context)
+
+# Analyse des patterns historiques
+patterns = ml_analyzer.analyze_pain_patterns(days=14)
+
+# Analytics
+summary = ml_analyzer.get_analytics_summary()
+```
+
+### Intégration avec Pattern Analysis
+
+Le `prediction_engine` utilise automatiquement les corrélations détectées par `pattern_analysis` :
+
+```python
+# Dans prediction_engine/api.py
+correlation_analyzer = CorrelationAnalyzer()
+sleep_corr = correlation_analyzer.analyze_sleep_pain_correlation(days_back=7)
+stress_corr = correlation_analyzer.analyze_stress_pain_correlation(days_back=7)
+
+# Ajustement de la prédiction selon corrélations
+if sleep_corr.get("correlation", 0) < -0.4:
+    # Manque de sommeil → risque élevé
+    predicted_intensity += 1
+```
+
+### Endpoints API
+
+```python
+# Prédictions actuelles
+GET /api/predictions/predictions/current?include_correlations=true
+
+# Prédiction personnalisée
+POST /api/predictions/predict
+{
+  "stress_level": 0.8,
+  "fatigue_level": 0.6,
+  "activity_intensity": 0.4,
+  "include_correlations": true
+}
+
+# Analytics
+GET /api/predictions/analytics
+
+# Entraînement (réanalyse)
+POST /api/predictions/train
+{
+  "days_back": 14
+}
+```
+
+### Algorithmes de Prédiction
+
+- **Règles basées sur patterns** : Utilise les patterns détectés historiquement
+- **Facteurs contextuels** : Stress, fatigue, activité, heure, jour
+- **Ajustement corrélations** : Enrichit avec corrélations sommeil/stress
+- **Confiance adaptative** : Plus de données = plus de confiance
+
+---
+
 ## Dashboard Web
 
 ### Architecture Frontend

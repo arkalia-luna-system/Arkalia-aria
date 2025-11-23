@@ -161,7 +161,8 @@ class ARIA_CICDManager:
                         {
                             "name": "Run security scan",
                             "run": (
-                                "python -m devops_automation.security.aria_security_validator"
+                                "python -m devops_automation.security"
+                                ".aria_security_validator"
                             ),
                         },
                     ],
@@ -219,7 +220,8 @@ class ARIA_CICDManager:
                         {
                             "name": "Run comprehensive security audit",
                             "run": (
-                                "python -m devops_automation.security.aria_security_validator --audit-all"
+                                "python -m devops_automation.security"
+                                ".aria_security_validator --audit-all"
                             ),
                         },
                     ],

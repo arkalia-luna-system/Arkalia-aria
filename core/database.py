@@ -108,7 +108,8 @@ class DatabaseManager:
 
     def execute_update(self, query: str, params: tuple = ()) -> int:
         """
-        Exécute une requête INSERT/UPDATE/DELETE et retourne le nombre de lignes affectées.
+        Exécute une requête INSERT/UPDATE/DELETE et retourne le nombre
+        de lignes affectées.
 
         Args:
             query: Requête SQL INSERT/UPDATE/DELETE

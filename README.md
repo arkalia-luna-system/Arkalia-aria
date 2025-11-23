@@ -1,6 +1,7 @@
 # ARKALIA ARIA
 
 **Research Intelligence Assistant**  
+
 *Assistant de recherche santé personnelle*
 
 > **Mis à jour régulièrement** — Ce projet est maintenu activement et mis à jour chaque semaine.  
@@ -93,16 +94,19 @@ ARIA capture et analyse des données structurées pour comprendre vos patterns d
 **Localisation** : Zone du corps affectée (tête, dos, genou, etc.)
 
 **Qualité** : Type de douleur via déclencheurs :
+
 - **Déclencheurs physiques** : Activité, posture, mouvement, météo, alimentation
 - **Déclencheurs mentaux** : Stress, anxiété, fatigue, émotions
 
 **Contexte temporel** :
+
 - Heure de la journée
 - Activité en cours
 - État de sommeil (via synchronisation montre)
 - Niveau de stress (via synchronisation montre)
 
 **Actions et efficacité** :
+
 - Action prise pour soulager (médicament, repos, étirement, etc.)
 - Efficacité perçue (0-10)
 - Notes libres pour détails supplémentaires
@@ -120,15 +124,18 @@ ARIA capture et analyse des données structurées pour comprendre vos patterns d
 ### Utilisation des données
 
 **Visualisation** :
+
 - Graphiques temporels (timeline de douleur)
 - Corrélations (stress ↔ douleur, sommeil ↔ douleur)
 - Heatmaps (pics horaires, jours de la semaine)
 
 **Détection de patterns** :
+
 - Algorithmes simples au départ (règles déterministes)
 - Intelligence artificielle pour corrélations complexes (en développement)
 
 **Préparation de rapports** :
+
 - Synthèses par période
 - Export structuré pour professionnels de santé
 
@@ -151,6 +158,7 @@ ARIA génère des rapports professionnels pour vos consultations médicales et p
 ### Contenu des rapports
 
 **Synthèse statistique** :
+
 - Nombre d'entrées sur la période
 - Intensité moyenne
 - Top déclencheurs (physiques et mentaux)
@@ -158,12 +166,14 @@ ARIA génère des rapports professionnels pour vos consultations médicales et p
 - Pics horaires récurrents
 
 **Historique détaillé** :
+
 - Toutes les entrées avec timestamp
 - Intensité, localisation, déclencheurs
 - Actions prises et efficacité
 - Notes libres
 
 **Graphiques** :
+
 - Évolution temporelle de la douleur
 - Corrélations avec sommeil, stress, activité
 - Distribution par heure/jour
@@ -209,6 +219,7 @@ ARIA et **CIA** (Companion Intelligence Assistant) sont complémentaires dans l'
 ### En pratique
 
 **CIA** = "Mon coffre-fort santé familial"
+
 - Je stocke mes documents médicaux (ordonnances, résultats d'analyses)
 - Je gère mes rendez-vous et rappels
 - J'ai mes contacts d'urgence (ICE) à portée de main
@@ -216,6 +227,7 @@ ARIA et **CIA** (Companion Intelligence Assistant) sont complémentaires dans l'
 - **C'est mon point d'ancrage santé général**
 
 **ARIA** = "Mon laboratoire personnel de recherche"
+
 - Je note ma douleur et mon humeur tous les jours (3 questions, 30 secondes)
 - J'analyse les patterns (stress → douleur, sommeil → humeur)
 - Je prépare mes consultations avec des rapports structurés
@@ -232,6 +244,7 @@ ARIA et **CIA** (Companion Intelligence Assistant) sont complémentaires dans l'
 4. **Pour consultation** : CIA génère un rapport unifié (documents + données ARIA)
 
 **Exemple concret** :
+
 - **ARIA** : "J'ai noté 45 entrées de douleur sur 30 jours, intensité moyenne 6.2/10, déclencheur principal : manque de sommeil"
 - **CIA** : "Rapport médical complet : Documents + Synthèse ARIA (douleur moyenne 6.2/10, déclencheur sommeil) + Historique RDV"
 
@@ -248,6 +261,7 @@ ARIA et **CIA** (Companion Intelligence Assistant) travaillent ensemble dans l'�
 > *"Je note ma douleur et mon humeur tous les jours dans ARIA. CIA ne voit que des agrégats pour les documents (ex: 'douleur moyenne cette semaine: 5/10'), pas tous les détails intimes de chaque entrée. Sauf si je choisis de partager plus."*
 
 **Fonctionnalité** :
+
 - ARIA stocke toutes les entrées détaillées localement
 - CIA reçoit des résumés périodiques (quotidien, hebdomadaire)
 - L'utilisateur contrôle le niveau de détail partagé
@@ -257,6 +271,7 @@ ARIA et **CIA** (Companion Intelligence Assistant) travaillent ensemble dans l'�
 > *"Avant un RDV médical, CIA récupère les données pertinentes d'ARIA pour générer un rapport résumé. Le médecin voit l'évolution de la douleur, les déclencheurs identifiés, et l'efficacité des traitements, le tout intégré dans le dossier médical CIA."*
 
 **Fonctionnalité** :
+
 - Export ARIA → Import CIA avant consultation
 - Rapport unifié (documents CIA + données ARIA)
 - Partage sécurisé avec professionnel de santé
@@ -266,6 +281,7 @@ ARIA et **CIA** (Companion Intelligence Assistant) travaillent ensemble dans l'�
 > *"Pour ma séance avec mon psychologue, j'active le mode 'psy' dans ARIA. Les données sont anonymisées (pas de timestamps précis, pas de notes personnelles), puis exportées vers CIA pour partage sécurisé."*
 
 **Fonctionnalité** :
+
 - Anonymisation automatique (timestamps floutés, notes filtrées)
 - Export HTML prêt à imprimer
 - Synchronisation optionnelle avec CIA
@@ -273,6 +289,7 @@ ARIA et **CIA** (Companion Intelligence Assistant) travaillent ensemble dans l'�
 ### État d'implémentation
 
 **✅ Implémenté** :
+
 - Module `cia_sync/` avec API de synchronisation
 - Endpoints de vérification de connexion CIA
 - Synchronisation sélective (douleur, patterns, prédictions)
@@ -280,6 +297,7 @@ ARIA et **CIA** (Companion Intelligence Assistant) travaillent ensemble dans l'�
 - Push de données vers CIA
 
 **🚧 En développement** :
+
 - Synchronisation automatique périodique
 - Agrégation intelligente (résumés vs détails)
 - Interface utilisateur pour contrôle granularité
@@ -294,11 +312,13 @@ ARIA fait partie de l'écosystème **Arkalia Luna System**, un ensemble de proje
 ### Projets liés
 
 **CIA (Companion Intelligence Assistant)** : Coffre-fort santé familial
+
 - [GitHub](https://github.com/arkalia-luna-system/arkalia-cia)
 - Documents médicaux sécurisés, rappels, urgence
 - Point d'ancrage santé de l'écosystème
 
 **BBIA-SIM** : Moteur cognitif robotique pour Reachy Mini
+
 - [GitHub](https://github.com/arkalia-luna-system/bbia-sim)
 - 12 émotions robotiques, vision, voix
 - Interface incarnée pour l'écosystème (Phase 4)
@@ -306,6 +326,7 @@ ARIA fait partie de l'écosystème **Arkalia Luna System**, un ensemble de proje
 ### 📚 Pour aller plus loin
 
 **Documentation détaillée côté CIA** :
+
 - **[ARIA Integration](https://github.com/arkalia-luna-system/arkalia-cia/blob/develop/docs/ARIA_INTEGRATION.md)** — Vision clinique complète de l'intégration CIA ↔ ARIA avec scénarios d'utilisation
 - **[Ecosystem Vision](https://github.com/arkalia-luna-system/arkalia-cia/blob/develop/docs/ECOSYSTEM_VISION.md)** — Vision stratégique de l'écosystème Arkalia Luna System
 - **[Use Cases](https://github.com/arkalia-luna-system/arkalia-cia/blob/develop/docs/USE_CASES.md)** — Cas d'usage concrets pour différents profils utilisateurs (senior, patient douleur chronique, famille, professionnel santé)
@@ -341,12 +362,14 @@ ARIA fait partie de l'écosystème **Arkalia Luna System**, un ensemble de proje
 ```
 
 **Flux de données** :
+
 - **ARIA** → **CIA** : Données de douleur/psy agrégées pour documents
 - **CIA** → **ARIA** : Contexte santé (RDV, médicaments, historique)
 - **ARIA/CIA** → **BBIA** : État émotionnel et santé pour comportement adaptatif
 - **BBIA** → **ARIA/CIA** : Interactions et observations comportementales
 
 **Futures intégrations** :
+
 - BBIA adapte son comportement selon l'état ARIA (douleur élevée → empathie renforcée)
 - CIA génère des rappels basés sur les patterns ARIA
 - Métriques système collectées pour amélioration continue
@@ -354,11 +377,13 @@ ARIA fait partie de l'écosystème **Arkalia Luna System**, un ensemble de proje
 ### Pour aller plus loin
 
 **Documentation détaillée côté CIA** :
+
 - [`docs/ARIA_INTEGRATION.md`](https://github.com/arkalia-luna-system/arkalia-cia/blob/develop/docs/ARIA_INTEGRATION.md) : Vision clinique de l'intégration ARIA ↔ CIA
 - [`docs/ECOSYSTEM_VISION.md`](https://github.com/arkalia-luna-system/arkalia-cia/blob/develop/docs/ECOSYSTEM_VISION.md) : Vision complète de l'écosystème Arkalia Luna
 - [`docs/USE_CASES.md`](https://github.com/arkalia-luna-system/arkalia-cia/blob/develop/docs/USE_CASES.md) : Cas d'usage par profils utilisateurs
 
 **Documentation ARIA** :
+
 - [`docs/API_REFERENCE.md`](docs/API_REFERENCE.md) : Documentation complète des endpoints
 - [`docs/DEVELOPER_GUIDE.md`](docs/DEVELOPER_GUIDE.md) : Guide développeur et contribution
 - [`docs/PROFESSIONAL_WORKFLOW.md`](docs/PROFESSIONAL_WORKFLOW.md) : Workflow pour professionnels de santé
@@ -636,11 +661,13 @@ ARIA suit les mêmes standards de qualité industrielle que CIA et BBIA.
 ### Métriques de qualité
 
 **Tests** :
+
 - 394 tests collectés (100% passent)
 - Couverture de code : Suivi via Codecov (badge affiche la branche `main`)
 - Tests d'intégration CIA/ARIA
 
 **Code Quality** :
+
 - **Black** : Formatage automatique (ligne 88)
 - **Ruff** : Linting rapide (E, F, W, I, B, C4, UP)
 - **MyPy** : Vérification de types
@@ -648,6 +675,7 @@ ARIA suit les mêmes standards de qualité industrielle que CIA et BBIA.
 - **Safety** : Audit des dépendances
 
 **Standards** :
+
 - Code conforme PEP 8
 - Typage strict avec MyPy
 - Documentation des fonctions
@@ -656,6 +684,7 @@ ARIA suit les mêmes standards de qualité industrielle que CIA et BBIA.
 ### Badges de statut
 
 Les badges en haut du README affichent :
+
 - Statut CI/CD (passing/failing)
 - Couverture de code (Codecov)
 - Versions Python supportées
@@ -704,6 +733,7 @@ Les badges en haut du README affichent :
 ### Conformité
 
 **RGPD** : Conforme RGPD avec :
+
 - Droit d'accès (export de toutes vos données)
 - Droit de rectification (modification des entrées)
 - Droit à l'oubli (suppression complète)
@@ -743,6 +773,7 @@ Roadmap alignée avec l'écosystème Arkalia Luna (CIA, BBIA).
 - [x] Mode présentation psychologue (anonymisation) ✅ **Terminé**
 - [x] Synchronisation automatique périodique ✅ **Terminé**
 - [x] Agrégation intelligente (résumés vs détails) ✅ **Terminé**
+- [x] Système de configuration granularité ✅ **Terminé**
 - [ ] Interface utilisateur pour contrôle granularité 🚧 **En développement**
 - [ ] Intégration complète avec documents CIA 🚧 **En développement**
 

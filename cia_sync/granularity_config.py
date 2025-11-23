@@ -347,10 +347,13 @@ class GranularityConfigManager:
             "period_days": config.sync_period_days,
         }
 
+        intensities: list[float] = []
         if config.include_statistics:
             # Calculer des statistiques
             intensities = [
-                d.get("intensity", 0) for d in data_list if d.get("intensity")
+                float(d.get("intensity", 0))
+                for d in data_list
+                if d.get("intensity") is not None
             ]
             if intensities:
                 aggregated["statistics"] = {
@@ -359,10 +362,12 @@ class GranularityConfigManager:
                     "min_intensity": min(intensities),
                 }
 
-        if config.include_trends:
+        if config.include_trends and intensities:
             # Détecter des tendances simples
             if len(intensities) > 1:
-                trend = "increasing" if intensities[-1] > intensities[0] else "decreasing"
+                trend = (
+                    "increasing" if intensities[-1] > intensities[0] else "decreasing"
+                )
                 aggregated["trend"] = trend
 
         # Agrégation par déclencheurs

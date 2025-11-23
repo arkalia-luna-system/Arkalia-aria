@@ -116,17 +116,25 @@ class AutoSyncManager:
                 success = self._perform_sync()
 
                 if success:
-                    self.sync_stats["successful_syncs"] += 1
+                    self.sync_stats["successful_syncs"] = (
+                        self.sync_stats.get("successful_syncs", 0) + 1
+                    )
                     logger.info("✅ Synchronisation automatique réussie")
                 else:
-                    self.sync_stats["failed_syncs"] += 1
+                    self.sync_stats["failed_syncs"] = (
+                        self.sync_stats.get("failed_syncs", 0) + 1
+                    )
                     logger.warning("⚠️ Synchronisation automatique échouée")
 
-                self.sync_stats["total_syncs"] += 1
+                self.sync_stats["total_syncs"] = (
+                    self.sync_stats.get("total_syncs", 0) + 1
+                )
                 self.last_sync = datetime.now()
 
             except Exception as e:
-                self.sync_stats["failed_syncs"] += 1
+                self.sync_stats["failed_syncs"] = (
+                    self.sync_stats.get("failed_syncs", 0) + 1
+                )
                 self.sync_stats["last_error"] = str(e)
                 logger.error(f"❌ Erreur dans la boucle de sync: {e}")
 

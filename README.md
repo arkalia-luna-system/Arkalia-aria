@@ -189,24 +189,57 @@ Un médecin recevrait un PDF contenant :
 
 ---
 
+## ARIA vs CIA : Quelle différence ?
+
+ARIA et **CIA** (Companion Intelligence Assistant) sont complémentaires dans l'écosystème Arkalia Luna, mais servent des objectifs différents.
+
+### Positionnement clair
+
+| Aspect | **CIA** | **ARIA** |
+|--------|---------|----------|
+| **Rôle principal** | Coffre-fort santé généraliste / Assistant familial | Laboratoire personnel profond / Microscope intime |
+| **Public cible** | Seniors, familles, proches aidants | Patients chroniques, personnes en burnout, psy |
+| **Type de données** | Documents médicaux, RDV, contacts urgence | Douleur fine-grain, patterns psy, corrélations |
+| **Granularité** | Vue d'ensemble, agrégats, synthèses | Détails intimes, chaque entrée, chaque pattern |
+| **Fréquence** | Événements ponctuels (RDV, documents) | Suivi continu (journal quotidien) |
+| **Stockage** | Documents sécurisés (AES-256) | Base de données locale (SQLite) |
+| **Export** | Documents médicaux complets | Rapports spécialisés (douleur, psy) |
+| **Mode** | 100% offline, pas de cloud | 100% local, synchronisation optionnelle |
+
+### En pratique
+
+**CIA** = "Mon coffre-fort santé familial"
+- Je stocke mes documents médicaux (ordonnances, résultats d'analyses)
+- Je gère mes rendez-vous et rappels
+- J'ai mes contacts d'urgence (ICE) à portée de main
+- Je consulte mes portails santé
+- **C'est mon point d'ancrage santé général**
+
+**ARIA** = "Mon laboratoire personnel de recherche"
+- Je note ma douleur et mon humeur tous les jours (3 questions, 30 secondes)
+- J'analyse les patterns (stress → douleur, sommeil → humeur)
+- Je prépare mes consultations avec des rapports structurés
+- Je comprends mes déclencheurs et l'efficacité de mes actions
+- **C'est mon microscope sur ma santé intime**
+
+### Complémentarité
+
+**ARIA prépare → CIA consolide**
+
+1. **Dans ARIA** : Je note ma douleur quotidienne, j'analyse les patterns
+2. **Vers CIA** : Les données agrégées (résumés, synthèses) vont dans CIA
+3. **Dans CIA** : J'ai une vue d'ensemble avec mes documents médicaux
+4. **Pour consultation** : CIA génère un rapport unifié (documents + données ARIA)
+
+**Exemple concret** :
+- **ARIA** : "J'ai noté 45 entrées de douleur sur 30 jours, intensité moyenne 6.2/10, déclencheur principal : manque de sommeil"
+- **CIA** : "Rapport médical complet : Documents + Synthèse ARIA (douleur moyenne 6.2/10, déclencheur sommeil) + Historique RDV"
+
+---
+
 ## Synchronisation ARIA ↔ CIA
 
 ARIA et **CIA** (Companion Intelligence Assistant) travaillent ensemble dans l'écosystème Arkalia Luna.
-
-### Positionnement
-
-**CIA** = Coffre-fort santé généraliste / assistant familial
-- Documents médicaux sécurisés (AES-256)
-- Rappels de rendez-vous
-- Contacts d'urgence (ICE)
-- Portails santé
-- **100% offline**, pas de cloud forcé
-
-**ARIA** = Laboratoire personnel profond / microscope intime
-- Suivi fin de douleur (chaque entrée, chaque pattern)
-- Analyse psychologique détaillée
-- Patterns comportementaux
-- Export professionnel spécialisé
 
 ### Scénarios de synchronisation
 

@@ -142,10 +142,12 @@ class AutoSyncManager:
             if self.is_running:
                 sleep_seconds = self.sync_interval_minutes * 60
                 logger.debug(f"⏳ Prochaine sync dans {self.sync_interval_minutes} min")
+                # Attendre avec vérification périodique de is_running
                 for _ in range(sleep_seconds):
                     if not self.is_running:
                         break
                     threading.Event().wait(1)
+                # Si on sort de la boucle et is_running est False, on sort aussi de la boucle while
 
         logger.info("🔄 Boucle de synchronisation arrêtée")
 

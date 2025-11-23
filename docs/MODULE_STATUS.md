@@ -25,7 +25,7 @@
 - ✅ **logging.py** : Logging unifié
 - ✅ **exceptions.py** : Exceptions personnalisées
 - ✅ **api_base.py** : BaseAPI pour standardiser les APIs
-- ✅ **__init__.py** : Exports principaux
+- ✅ **\__init__\__.py** : Exports principaux
 
 **Statut** : ✅ **COMPLET** - Module central opérationnel
 
@@ -33,7 +33,7 @@
 
 ## Modules Migrés vers BaseAPI
 
-*4 modules sur 8 migrés*
+#### 4 modules sur 8 migrés
 
 ### pain_tracking/
 

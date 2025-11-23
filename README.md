@@ -2,7 +2,7 @@
 
 **Research Intelligence Assistant**  
 
-*Assistant de recherche santé personnelle*
+### Assistant de recherche santé personnelle
 
 > **Mis à jour régulièrement** — Ce projet est maintenu activement et mis à jour chaque semaine.  
 > **Dernière mise à jour majeure** : 23 novembre 2025 — Documentation alignée avec CIA et écosystème Arkalia Luna.
@@ -191,6 +191,7 @@ ARIA génère des rapports professionnels pour vos consultations médicales et p
 ### Exemple de rapport médecin
 
 Un médecin recevrait un PDF contenant :
+
 1. **Résumé exécutif** : "Patient avec 45 entrées sur 30 jours, intensité moyenne 6.2/10"
 2. **Déclencheurs identifiés** : "Manque de sommeil (12 occurrences), stress professionnel (8 occurrences)"
 3. **Actions efficaces** : "Repos 20min → efficacité moyenne 7.5/10"
@@ -236,7 +237,7 @@ ARIA et CIA (Companion Intelligence Assistant) sont complémentaires dans l'éco
 
 ### Complémentarité
 
-**ARIA prépare → CIA consolide**
+#### ARIA prépare → CIA consolide
 
 1. **Dans ARIA** : Je note ma douleur quotidienne, j'analyse les patterns
 2. **Vers CIA** : Les données agrégées (résumés, synthèses) vont dans CIA
@@ -468,7 +469,7 @@ L'application démarre sur `http://localhost:8000`
 
 ### Installation complète
 
-*Optionnel — Pour une utilisation complète avec synchronisation santé*
+#### Optionnel — Pour une utilisation complète avec synchronisation santé
 
 Pour une utilisation complète avec synchronisation santé :
 
@@ -496,7 +497,7 @@ Pour une utilisation complète avec synchronisation santé :
 
 ### Application mobile
 
-*En développement*
+#### En développement
 
 - Interface native Flutter
 - Synchronisation bidirectionnelle
@@ -774,8 +775,8 @@ Roadmap alignée avec l'écosystème Arkalia Luna (CIA, BBIA).
 - [x] Synchronisation automatique périodique ✅ **Terminé**
 - [x] Agrégation intelligente (résumés vs détails) ✅ **Terminé**
 - [x] Système de configuration granularité ✅ **Terminé**
+- [x] Intégration complète avec documents CIA ✅ **Terminé**
 - [ ] Interface utilisateur pour contrôle granularité 🚧 **En développement**
-- [ ] Intégration complète avec documents CIA 🚧 **En développement**
 
 ### Phase 4 : Boucle avec BBIA 🔮 **Planifié**
 
@@ -820,6 +821,7 @@ Vous êtes nouveau dans le projet ? Commencez par ces issues marquées `good fir
 ---
 
 <!-- Badges -->
+<!-- markdownlint-disable MD033 -->
 <p>
   <a href="https://github.com/arkalia-luna-system/arkalia-aria/actions/workflows/ci-cd.yml">
     <img alt="CI" src="https://github.com/arkalia-luna-system/arkalia-aria/actions/workflows/ci-cd.yml/badge.svg" />
@@ -836,6 +838,7 @@ Vous êtes nouveau dans le projet ? Commencez par ces issues marquées `good fir
   </a>
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blue" />
 </p>
+<!-- markdownlint-enable MD033 -->
 
 ---
 

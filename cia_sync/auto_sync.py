@@ -74,7 +74,8 @@ class AutoSyncManager:
         self.sync_thread.start()
 
         logger.info(
-            f"✅ Synchronisation automatique démarrée (intervalle: {interval_minutes} min)"
+            f"✅ Synchronisation automatique démarrée "
+            f"(intervalle: {interval_minutes} min)"
         )
         return True
 

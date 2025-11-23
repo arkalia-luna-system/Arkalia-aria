@@ -13,6 +13,7 @@ from pydantic import BaseModel
 from core import BaseAPI, get_logger
 
 from .auto_sync import get_auto_sync_manager
+from .document_integration import get_document_integration
 from .granularity_config import (
     DataType,
     GranularityConfig,
@@ -91,6 +92,8 @@ async def cia_sync_status() -> dict:
             "bidirectional_sync",
             "auto_sync_periodic",
             "intelligent_aggregation",
+            "document_integration",
+            "medical_reports",
         ],
     }
 
@@ -518,3 +521,166 @@ async def get_sync_levels() -> dict:
         "default_config": get_config_manager().get_default_config().to_dict(),
         "timestamp": datetime.now().isoformat(),
     }
+
+
+@router.post("/documents/generate-report")
+async def generate_medical_report(
+    period_days: int = 30,
+    include_patterns: bool = True,
+    include_predictions: bool = True,
+    anonymize: bool = False,
+) -> dict:
+    """
+    Génère un rapport médical complet depuis les données ARIA.
+
+    Args:
+        period_days: Nombre de jours à inclure (défaut: 30)
+        include_patterns: Inclure les patterns détectés (défaut: True)
+        include_predictions: Inclure les prédictions (défaut: True)
+        anonymize: Anonymiser les données personnelles (défaut: False)
+
+    Returns:
+        Rapport médical structuré
+    """
+    try:
+        doc_integration = get_document_integration()
+        report = doc_integration.generate_medical_report(
+            period_days=period_days,
+            include_patterns=include_patterns,
+            include_predictions=include_predictions,
+            anonymize=anonymize,
+        )
+
+        if "error" in report:
+            raise HTTPException(
+                status_code=500, detail=f"Erreur génération rapport: {report['error']}"
+            )
+
+        return report
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Erreur génération rapport: {str(e)}"
+        ) from e
+
+
+@router.post("/documents/sync-report")
+async def sync_report_to_cia(
+    report: dict[str, Any], document_type: str = "pain_report"
+) -> dict:
+    """
+    Synchronise un rapport médical avec les documents CIA.
+
+    Body attendu :
+    {
+        "report": {...},  # Rapport généré par generate-report
+        "document_type": "pain_report"  # Type de document
+    }
+
+    Args:
+        report: Rapport médical à synchroniser
+        document_type: Type de document (défaut: "pain_report")
+
+    Returns:
+        Résultat de la synchronisation
+    """
+    try:
+        doc_integration = get_document_integration()
+        result = doc_integration.sync_report_to_cia(report, document_type)
+
+        if not result.get("success"):
+            raise HTTPException(
+                status_code=500, detail=result.get("error", "Erreur synchronisation")
+            )
+
+        return result
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Erreur synchronisation rapport: {str(e)}"
+        ) from e
+
+
+@router.post("/documents/consultation-report")
+async def prepare_consultation_report(
+    days_before: int = 7, anonymize: bool = True
+) -> dict:
+    """
+    Prépare un rapport formaté pour une consultation médicale.
+
+    Args:
+        days_before: Nombre de jours avant la consultation (défaut: 7)
+        anonymize: Anonymiser les données (défaut: True)
+
+    Returns:
+        Rapport formaté pour consultation
+    """
+    try:
+        doc_integration = get_document_integration()
+        report = doc_integration.prepare_consultation_report(
+            days_before=days_before, anonymize=anonymize
+        )
+
+        return report
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Erreur préparation rapport consultation: {str(e)}",
+        ) from e
+
+
+@router.post("/documents/generate-and-sync")
+async def generate_and_sync_report(
+    period_days: int = 30,
+    include_patterns: bool = True,
+    include_predictions: bool = True,
+    anonymize: bool = False,
+    document_type: str = "pain_report",
+) -> dict:
+    """
+    Génère un rapport médical et le synchronise automatiquement avec CIA.
+
+    Args:
+        period_days: Nombre de jours à inclure (défaut: 30)
+        include_patterns: Inclure les patterns (défaut: True)
+        include_predictions: Inclure les prédictions (défaut: True)
+        anonymize: Anonymiser les données (défaut: False)
+        document_type: Type de document (défaut: "pain_report")
+
+    Returns:
+        Résultat de la génération et synchronisation
+    """
+    try:
+        doc_integration = get_document_integration()
+
+        # Générer le rapport
+        report = doc_integration.generate_medical_report(
+            period_days=period_days,
+            include_patterns=include_patterns,
+            include_predictions=include_predictions,
+            anonymize=anonymize,
+        )
+
+        if "error" in report:
+            raise HTTPException(
+                status_code=500, detail=f"Erreur génération: {report['error']}"
+            )
+
+        # Synchroniser avec CIA
+        sync_result = doc_integration.sync_report_to_cia(report, document_type)
+
+        return {
+            "report_generated": True,
+            "report": report,
+            "sync_result": sync_result,
+            "timestamp": datetime.now().isoformat(),
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Erreur génération et synchronisation: {str(e)}",
+        ) from e

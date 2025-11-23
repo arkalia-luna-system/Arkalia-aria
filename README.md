@@ -303,6 +303,13 @@ ARIA fait partie de l'écosystème **Arkalia Luna System**, un ensemble de proje
 - 12 émotions robotiques, vision, voix
 - Interface incarnée pour l'écosystème (Phase 4)
 
+### 📚 Pour aller plus loin
+
+**Documentation détaillée côté CIA** :
+- **[ARIA Integration](https://github.com/arkalia-luna-system/arkalia-cia/blob/develop/docs/ARIA_INTEGRATION.md)** — Vision clinique complète de l'intégration CIA ↔ ARIA avec scénarios d'utilisation
+- **[Ecosystem Vision](https://github.com/arkalia-luna-system/arkalia-cia/blob/develop/docs/ECOSYSTEM_VISION.md)** — Vision stratégique de l'écosystème Arkalia Luna System
+- **[Use Cases](https://github.com/arkalia-luna-system/arkalia-cia/blob/develop/docs/USE_CASES.md)** — Cas d'usage concrets pour différents profils utilisateurs (senior, patient douleur chronique, famille, professionnel santé)
+
 ### Vision système
 
 ```

@@ -732,9 +732,9 @@ Roadmap alignée avec l'écosystème Arkalia Luna (CIA, BBIA).
 - [x] Health connectors (Samsung/Google/iOS) ✅ **Terminé**
 - [x] Dashboard web interactif ✅ **Terminé**
 - [x] Tests unitaires complets ✅ **Terminé**
-- [ ] Pattern analysis avancé (corrélations sommeil, stress, météo)
-- [ ] Détection automatique de déclencheurs récurrents
-- [ ] Visualisations interactives (heatmaps, timelines)
+- [x] Pattern analysis avancé (corrélations sommeil, stress) ✅ **Terminé**
+- [x] Détection automatique de déclencheurs récurrents ✅ **Terminé**
+- [ ] Visualisations interactives (heatmaps, timelines) 🚧 **En développement**
 
 ### Phase 3 : Synchro CIA + anonymisation 🚧 **En cours**
 

@@ -49,7 +49,7 @@ class AutoSyncManager:
         self.sync_thread: threading.Thread | None = None
         self.sync_interval_minutes = 60  # Par défaut : 1 heure
         self.last_sync: datetime | None = None
-        self.sync_stats = {
+        self.sync_stats: dict[str, Any] = {
             "total_syncs": 0,
             "successful_syncs": 0,
             "failed_syncs": 0,

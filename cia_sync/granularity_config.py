@@ -342,7 +342,7 @@ class GranularityConfigManager:
         if not data_list:
             return {"count": 0, "summary": {}}
 
-        aggregated = {
+        aggregated: dict[str, Any] = {
             "count": len(data_list),
             "period_days": config.sync_period_days,
         }

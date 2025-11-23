@@ -263,6 +263,168 @@ Content-Type: application/json
 
 ---
 
+## 🔄 **Synchronisation CIA (ARKALIA CIA)**
+
+### 📊 **Statut de Synchronisation**
+
+```http
+GET /api/sync/status
+GET /api/sync/connection
+```
+
+**Réponse GET /api/sync/status :**
+
+```json
+{
+  "module": "cia_sync",
+  "status": "healthy",
+  "timestamp": "2025-11-23T10:00:00",
+  "cia_connected": true,
+  "cia_url": "http://127.0.0.1:8000",
+  "features": [
+    "selective_sync",
+    "psy_presentation_mode",
+    "granular_permissions",
+    "data_control",
+    "bidirectional_sync",
+    "auto_sync_periodic",
+    "intelligent_aggregation"
+  ]
+}
+```
+
+### 🔄 **Synchronisation Sélective**
+
+```http
+POST /api/sync/sync/selective
+Content-Type: application/json
+
+{
+  "sync_pain_entries": true,
+  "sync_patterns": true,
+  "sync_predictions": true,
+  "anonymize_for_psy": false
+}
+```
+
+**Réponse :**
+
+```json
+{
+  "message": "Synchronisation sélective réussie",
+  "synced_data": [
+    {
+      "type": "pain_entries",
+      "count": 45,
+      "status": "synced"
+    },
+    {
+      "type": "patterns",
+      "status": "synced"
+    },
+    {
+      "type": "predictions",
+      "status": "synced"
+    }
+  ],
+  "status": "completed",
+  "timestamp": "2025-11-23T10:00:00"
+}
+```
+
+### 🤖 **Synchronisation Automatique Périodique**
+
+```http
+POST /api/sync/auto-sync/start?interval_minutes=60
+POST /api/sync/auto-sync/stop
+GET /api/sync/auto-sync/status
+POST /api/sync/auto-sync/sync-now
+PUT /api/sync/auto-sync/interval?interval_minutes=30
+```
+
+**Réponse GET /api/sync/auto-sync/status :**
+
+```json
+{
+  "is_running": true,
+  "sync_interval_minutes": 60,
+  "last_sync": "2025-11-23T09:00:00",
+  "stats": {
+    "total_syncs": 24,
+    "successful_syncs": 23,
+    "failed_syncs": 1,
+    "last_error": null
+  },
+  "cia_url": "http://127.0.0.1:8000"
+}
+```
+
+**Réponse POST /api/sync/auto-sync/start :**
+
+```json
+{
+  "message": "Synchronisation automatique démarrée",
+  "status": "started",
+  "interval_minutes": 60,
+  "timestamp": "2025-11-23T10:00:00"
+}
+```
+
+### 🧠 **Mode Présentation Psychologue**
+
+```http
+GET /api/sync/psy-mode
+```
+
+**Réponse :**
+
+```json
+{
+  "message": "Mode présentation psy activé",
+  "anonymized_data": {
+    "pain_entries_count": 45,
+    "export_filename": "aria_export_anonymized.csv",
+    "data_available": true,
+    "anonymization_level": "high",
+    "export_ready": true
+  },
+  "export_ready": true,
+  "timestamp": "2025-11-23T10:00:00"
+}
+```
+
+### 📤 **Push de Données vers CIA**
+
+```http
+POST /api/sync/sync/push-data
+Content-Type: application/json
+
+{
+  "type": "pain_entry",
+  "payload": {
+    "intensity": 7,
+    "physical_trigger": "stress",
+    "timestamp": "2025-11-23T10:00:00"
+  }
+}
+```
+
+**Réponse :**
+
+```json
+{
+  "message": "Données pain_entry synchronisées avec CIA",
+  "status": "success",
+  "cia_response": {
+    "id": 123,
+    "synced_at": "2025-11-23T10:00:00"
+  },
+  "timestamp": "2025-11-23T10:00:00"
+}
+```
+
+---
+
 ## 🩹 **Suivi de Douleur**
 
 ### ⚡ **Enregistrement Rapide**

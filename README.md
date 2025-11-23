@@ -3,7 +3,8 @@
 **Research Intelligence Assistant**  
 *Assistant de recherche santé personnelle*
 
-> **Mis à jour régulièrement** — Ce projet est maintenu activement et mis à jour chaque semaine.
+> **Mis à jour régulièrement** — Ce projet est maintenu activement et mis à jour chaque semaine.  
+> **Dernière mise à jour majeure** : 23 novembre 2025 — Documentation alignée avec CIA et écosystème Arkalia Luna.
 
 ---
 
@@ -550,6 +551,81 @@ arkalia-aria/
 - Alertes préventives
 - Recommandations personnalisées
 - Apprentissage continu
+
+---
+
+## CI/CD & Qualité
+
+ARIA suit les mêmes standards de qualité industrielle que CIA et BBIA.
+
+### Pipeline CI/CD
+
+**Workflows GitHub Actions** :
+
+- **CI/CD Principal** (`ci-cd.yml`) :
+  - Tests unitaires sur Python 3.10, 3.11, 3.12
+  - Formatage (Black), Linting (Ruff), Types (MyPy)
+  - Sécurité (Bandit, Safety)
+  - Couverture de code (Codecov)
+  - Build Docker
+  - Déploiement automatique
+
+- **Security Audit** (`security.yml`) :
+  - Analyse statique (Bandit)
+  - Vulnérabilités (Safety)
+  - Scan avancé (Semgrep)
+  - Audit des dépendances
+  - Vérification de licences
+
+- **Documentation** (`gh-pages.yml`) :
+  - Construction MkDocs
+  - Déploiement GitHub Pages
+
+### Métriques de qualité
+
+**Tests** :
+- 394 tests collectés (100% passent)
+- Couverture de code : Suivi via Codecov
+- Tests d'intégration CIA/ARIA
+
+**Code Quality** :
+- **Black** : Formatage automatique (ligne 88)
+- **Ruff** : Linting rapide (E, F, W, I, B, C4, UP)
+- **MyPy** : Vérification de types
+- **Bandit** : Analyse de sécurité
+- **Safety** : Audit des dépendances
+
+**Standards** :
+- Code conforme PEP 8
+- Typage strict avec MyPy
+- Documentation des fonctions
+- Tests pour chaque module
+
+### Badges de statut
+
+Les badges en haut du README affichent :
+- Statut CI/CD (passing/failing)
+- Couverture de code (Codecov)
+- Versions Python supportées
+- Linters (Ruff, Black)
+- Nombre d'issues ouvertes
+- Licence (MIT)
+
+### Workflow de développement
+
+1. **Commit** : Pre-commit hooks (Black, Ruff, MyPy)
+2. **Push** : Déclenchement automatique du pipeline CI/CD
+3. **Tests** : Exécution sur 3 versions Python
+4. **Lint** : Vérification formatage et qualité
+5. **Sécurité** : Scan automatique
+6. **Merge** : Validation requise avant merge sur `main`
+
+### Documentation
+
+- **API Reference** : `docs/API_REFERENCE.md`
+- **Developer Guide** : `docs/DEVELOPER_GUIDE.md`
+- **Technical Reference** : `docs/TECHNICAL_REFERENCE.md`
+- **GitHub Actions** : `.github/README.md`
 
 ---
 

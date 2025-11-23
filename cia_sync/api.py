@@ -12,6 +12,8 @@ from pydantic import BaseModel
 
 from core import BaseAPI, get_logger
 
+from .auto_sync import get_auto_sync_manager
+
 # Créer l'API avec BaseAPI
 api = BaseAPI("", ["CIA Sync"])  # Pas de préfixe ici, il sera ajouté dans main.py
 router = api.get_router()
@@ -81,6 +83,8 @@ async def cia_sync_status() -> dict:
             "granular_permissions",
             "data_control",
             "bidirectional_sync",
+            "auto_sync_periodic",
+            "intelligent_aggregation",
         ],
     }
 
@@ -213,4 +217,142 @@ async def push_data_to_cia(data: dict[str, Any]) -> dict:
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"Erreur lors de la synchronisation: {str(e)}"
+        ) from e
+
+
+@router.post("/auto-sync/start")
+async def start_auto_sync(interval_minutes: int = 60) -> dict:
+    """
+    Démarre la synchronisation automatique périodique.
+
+    Args:
+        interval_minutes: Intervalle entre chaque synchronisation (défaut: 60 min)
+
+    Returns:
+        Statut de démarrage
+    """
+    try:
+        auto_sync = get_auto_sync_manager()
+        success = auto_sync.start(interval_minutes=interval_minutes)
+
+        if success:
+            return {
+                "message": "Synchronisation automatique démarrée",
+                "status": "started",
+                "interval_minutes": interval_minutes,
+                "timestamp": datetime.now().isoformat(),
+            }
+        else:
+            raise HTTPException(
+                status_code=400, detail="Synchronisation automatique déjà en cours"
+            )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Erreur démarrage auto sync: {str(e)}"
+        ) from e
+
+
+@router.post("/auto-sync/stop")
+async def stop_auto_sync() -> dict:
+    """
+    Arrête la synchronisation automatique périodique.
+
+    Returns:
+        Statut d'arrêt
+    """
+    try:
+        auto_sync = get_auto_sync_manager()
+        success = auto_sync.stop()
+
+        if success:
+            return {
+                "message": "Synchronisation automatique arrêtée",
+                "status": "stopped",
+                "timestamp": datetime.now().isoformat(),
+            }
+        else:
+            raise HTTPException(
+                status_code=400, detail="Synchronisation automatique n'est pas en cours"
+            )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Erreur arrêt auto sync: {str(e)}"
+        ) from e
+
+
+@router.get("/auto-sync/status")
+async def auto_sync_status() -> dict:
+    """
+    Retourne le statut de la synchronisation automatique.
+
+    Returns:
+        Statut, statistiques, configuration
+    """
+    try:
+        auto_sync = get_auto_sync_manager()
+        status = auto_sync.get_status()
+        return status
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Erreur récupération statut: {str(e)}"
+        ) from e
+
+
+@router.post("/auto-sync/sync-now")
+async def sync_now() -> dict:
+    """
+    Force une synchronisation immédiate (hors cycle automatique).
+
+    Returns:
+        Résultat de la synchronisation
+    """
+    try:
+        auto_sync = get_auto_sync_manager()
+        success = auto_sync.sync_now()
+
+        if success:
+            return {
+                "message": "Synchronisation immédiate réussie",
+                "status": "completed",
+                "timestamp": datetime.now().isoformat(),
+            }
+        else:
+            raise HTTPException(
+                status_code=500, detail="Synchronisation immédiate échouée"
+            )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Erreur synchronisation immédiate: {str(e)}"
+        ) from e
+
+
+@router.put("/auto-sync/interval")
+async def update_sync_interval(interval_minutes: int) -> dict:
+    """
+    Met à jour l'intervalle de synchronisation automatique.
+
+    Args:
+        interval_minutes: Nouvel intervalle en minutes (minimum: 1)
+
+    Returns:
+        Confirmation de mise à jour
+    """
+    try:
+        auto_sync = get_auto_sync_manager()
+        success = auto_sync.update_interval(interval_minutes)
+
+        if success:
+            return {
+                "message": f"Intervalle mis à jour: {interval_minutes} min",
+                "status": "updated",
+                "interval_minutes": interval_minutes,
+                "timestamp": datetime.now().isoformat(),
+            }
+        else:
+            raise HTTPException(
+                status_code=400, detail="Intervalle invalide (minimum: 1 minute)"
+            )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Erreur mise à jour intervalle: {str(e)}"
         ) from e

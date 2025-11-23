@@ -741,10 +741,10 @@ Roadmap alignée avec l'écosystème Arkalia Luna (CIA, BBIA).
 - [x] Module `cia_sync/` avec API ✅ **Terminé**
 - [x] Synchronisation sélective (douleur, patterns, prédictions) ✅ **Terminé**
 - [x] Mode présentation psychologue (anonymisation) ✅ **Terminé**
-- [ ] Synchronisation automatique périodique
-- [ ] Agrégation intelligente (résumés vs détails)
-- [ ] Interface utilisateur pour contrôle granularité
-- [ ] Intégration complète avec documents CIA
+- [x] Synchronisation automatique périodique ✅ **Terminé**
+- [x] Agrégation intelligente (résumés vs détails) ✅ **Terminé**
+- [ ] Interface utilisateur pour contrôle granularité 🚧 **En développement**
+- [ ] Intégration complète avec documents CIA 🚧 **En développement**
 
 ### Phase 4 : Boucle avec BBIA 🔮 **Planifié**
 

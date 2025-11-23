@@ -352,27 +352,97 @@ CSV: contenu et nom de fichier; Psy-report: HTML imprimable et métadonnées.
 ### 🧠 **Patterns Détectés**
 
 ```http
-GET /api/patterns/patterns/recent
+GET /api/patterns/patterns/recent?days=30
+GET /api/patterns/correlations/sleep-pain?days=30
+GET /api/patterns/correlations/stress-pain?days=30
+GET /api/patterns/triggers/recurrent?days=30&min_occurrences=3
 POST /api/patterns/analyze
 
 ```
-**Réponse :**
+
+**Réponse GET /api/patterns/patterns/recent :**
 
 ```json
 {
+  "period_days": 30,
+  "analysis_date": "2025-11-23T10:00:00",
+  "sleep_pain_correlation": {
+    "correlation": -0.65,
+    "confidence": 0.87,
+    "data_points": 25,
+    "patterns": [
+      {
+        "type": "sleep_duration",
+        "description": "Douleur plus élevée les jours avec moins de sommeil",
+        "strength": 0.65
+      }
+    ],
+    "recommendations": [
+      "Manque de sommeil corrélé avec douleur élevée. Envisager d'améliorer la durée de sommeil."
+    ]
+  },
+  "stress_pain_correlation": {
+    "correlation": 0.72,
+    "confidence": 0.82,
+    "data_points": 28,
+    "patterns": [
+      {
+        "type": "stress_pain",
+        "description": "Stress élevé corrélé avec douleur élevée",
+        "strength": 0.72
+      }
+    ],
+    "recommendations": [
+      "Stress fortement corrélé avec douleur. Envisager des techniques de gestion du stress."
+    ]
+  },
+  "recurrent_triggers": {
+    "triggers": {
+      "physical": [
+        {"trigger": "marche prolongée", "count": 12},
+        {"trigger": "position assise", "count": 8}
+      ],
+      "mental": [
+        {"trigger": "stress", "count": 15},
+        {"trigger": "fatigue", "count": 9}
+      ],
+      "activities": [
+        {"activity": "travail sur ordinateur", "count": 10}
+      ]
+    },
+    "temporal_patterns": {
+      "hours": [
+        {"hour": "14", "count": 8},
+        {"hour": "18", "count": 6}
+      ],
+      "days": [
+        {"day": "Monday", "count": 12},
+        {"day": "Friday", "count": 10}
+      ]
+    },
+    "total_entries": 45
+  }
+}
+
+```
+
+**Réponse GET /api/patterns/correlations/sleep-pain :**
+
+```json
+{
+  "correlation": -0.65,
+  "confidence": 0.87,
+  "data_points": 25,
   "patterns": [
     {
-      "id": "pattern_001",
-      "type": "correlation",
-      "description": "Douleur dos corrélée avec stress élevé",
-      "confidence": 0.87,
-      "frequency": "daily",
-      "affected_data": ["pain_intensity", "stress_level"],
-      "detected_date": "2024-12-20T10:00:00Z"
+      "type": "sleep_duration",
+      "description": "Douleur plus élevée les jours avec moins de sommeil",
+      "strength": 0.65
     }
   ],
-  "total_patterns": 12,
-  "last_analysis": "2024-12-24T18:00:00Z"
+  "recommendations": [
+    "Manque de sommeil corrélé avec douleur élevée. Envisager d'améliorer la durée de sommeil."
+  ]
 }
 
 ```
@@ -380,27 +450,83 @@ POST /api/patterns/analyze
 ### 🔮 **Prédictions Actuelles**
 
 ```http
-GET /api/predictions/predictions/current
+GET /api/predictions/predictions/current?include_correlations=true
+POST /api/predictions/predict
 POST /api/predictions/train
+GET /api/predictions/analytics
 
 ```
-**Réponse :**
+
+**Réponse GET /api/predictions/predictions/current :**
 
 ```json
 {
+  "risk_level": "medium",
   "predictions": [
     {
-      "id": "pred_001",
-      "type": "pain_episode",
-      "intensity": 6,
-      "trigger": "stress",
-      "timeframe": "next_2_hours",
-      "confidence": 0.78,
-      "factors": ["high_stress", "weather_change", "sleep_deficit"]
+      "predicted_intensity": 6,
+      "predicted_trigger": "stress",
+      "confidence": 0.75,
+      "time_horizon": "2-4 heures",
+      "recommendations": [
+        "Techniques de relaxation préventives",
+        "Surveillance accrue",
+        "Plan de gestion activé"
+      ],
+      "context_factors": {
+        "time_of_day": 14,
+        "day_of_week": 0,
+        "stress_factor": 0.8,
+        "fatigue_factor": 0.6,
+        "activity_factor": 0.4
+      },
+      "correlation_factors": {
+        "sleep_correlation": -0.65,
+        "stress_correlation": 0.72,
+        "adjustment": 1
+      }
     }
   ],
-  "model_version": "1.2.0",
-  "last_training": "2024-12-23T00:00:00Z"
+  "confidence": 0.75,
+  "timestamp": "2025-11-23T14:00:00"
+}
+
+```
+
+**Réponse POST /api/predictions/predict :**
+
+```json
+{
+  "predicted_intensity": 7,
+  "predicted_trigger": "stress",
+  "confidence": 0.82,
+  "time_horizon": "2-4 heures",
+  "recommendations": [
+    "Techniques de relaxation préventives",
+    "Surveillance accrue",
+    "Plan de gestion activé"
+  ],
+  "context_factors": {
+    "time_of_day": 14,
+    "day_of_week": 0,
+    "stress_factor": 0.8,
+    "fatigue_factor": 0.6,
+    "activity_factor": 0.4
+  }
+}
+
+```
+
+**Réponse GET /api/predictions/analytics :**
+
+```json
+{
+  "total_events": 145,
+  "total_patterns": 8,
+  "total_predictions": 32,
+  "prediction_accuracy": 0.78,
+  "pattern_detection_rate": 5.52,
+  "system_health": "operational"
 }
 
 ```

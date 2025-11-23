@@ -1,9 +1,13 @@
 # ARKALIA ARIA
 
 **Research Intelligence Assistant**  
-*Assistant de recherche santé personnelle*
+**Version :** 1.0.0
 
-> **Mis à jour régulièrement** — Ce projet est maintenu activement et mis à jour chaque semaine.
+## Assistant de recherche santé personnelle
+
+> **Mis à jour régulièrement** — Ce projet est maintenu activement et mis à jour chaque semaine.  
+> **Dernière mise à jour majeure** : 23 novembre 2025 — Documentation alignée avec CIA et écosystème Arkalia Luna.  
+> **Phase 2 & 3 terminées** : Pattern analysis avancé et synchronisation CIA complète.
 
 ---
 
@@ -15,7 +19,16 @@ ARKALIA ARIA transforme vos données médicales en insights actionnables, tout e
 
 ## Pourquoi ARIA ?
 
-ARKALIA ARIA vous aide à mieux comprendre votre santé en analysant vos données médicales personnelles. Un assistant qui observe vos patterns de douleur, votre sommeil, votre activité physique, et vous fournit des insights utiles pour améliorer votre bien-être.
+ARKALIA ARIA est votre **laboratoire personnel de recherche santé** : un journal de douleur intelligent et un analyseur de patterns psychologiques connecté à **CIA** (votre coffre-fort santé familial), avec export professionnel sécurisé pour médecins et psychologues.
+
+**ARIA = microscope sur la douleur + mental**, préparant le contenu qui ira éventuellement dans CIA pour une vue d'ensemble santé.
+
+### Pour qui ?
+
+- **Patients chroniques** : Personnes souffrant de douleurs récurrentes (migraines, fibromyalgie, arthrite, etc.)
+- **Personnes en burnout** : Suivi du stress, de l'anxiété et de la dysrégulation émotionnelle
+- **Psychologues** : Outil d'accompagnement pour analyser les patterns comportementaux et émotionnels
+- **Médecins** : Rapports structurés pour consultations plus efficaces
 
 ### Impact sur votre santé
 
@@ -69,6 +82,314 @@ ARKALIA ARIA vous aide à mieux comprendre votre santé en analysant vos donnée
 2. Identification des corrélations entre stress, sommeil, activité et douleur
 3. Réception de recommandations personnalisées
 4. Suivi de l'impact de vos changements de mode de vie
+
+---
+
+## Douleur & Psy : Ce qu'ARIA suit
+
+ARIA capture et analyse des données structurées pour comprendre vos patterns de douleur et votre état psychologique.
+
+### Données de douleur
+
+**Intensité** : Échelle 0-10 (0 = aucune douleur, 10 = douleur insupportable)
+
+**Localisation** : Zone du corps affectée (tête, dos, genou, etc.)
+
+**Qualité** : Type de douleur via déclencheurs :
+
+- **Déclencheurs physiques** : Activité, posture, mouvement, météo, alimentation
+- **Déclencheurs mentaux** : Stress, anxiété, fatigue, émotions
+
+**Contexte temporel** :
+
+- Heure de la journée
+- Activité en cours
+- État de sommeil (via synchronisation montre)
+- Niveau de stress (via synchronisation montre)
+
+**Actions et efficacité** :
+
+- Action prise pour soulager (médicament, repos, étirement, etc.)
+- Efficacité perçue (0-10)
+- Notes libres pour détails supplémentaires
+
+### Données psychologiques
+
+**Humeur** : Suivi via corrélations avec douleur et activité
+
+**Anxiété** : Détection via patterns de déclencheurs mentaux
+
+**Dysrégulation émotionnelle** : Identification via corrélations stress-douleur
+
+**Patterns comportementaux** : Détection automatique de routines et déclencheurs récurrents
+
+### Utilisation des données
+
+**Visualisation** :
+
+- Graphiques temporels (timeline de douleur)
+- Corrélations (stress ↔ douleur, sommeil ↔ douleur)
+- Heatmaps (pics horaires, jours de la semaine)
+
+**Détection de patterns** :
+
+- Algorithmes simples au départ (règles déterministes)
+- Intelligence artificielle pour corrélations complexes (en développement)
+
+**Préparation de rapports** :
+
+- Synthèses par période
+- Export structuré pour professionnels de santé
+
+---
+
+## Export médical
+
+ARIA génère des rapports professionnels pour vos consultations médicales et psychologiques.
+
+### Formats disponibles
+
+**PDF** : Rapport complet avec graphiques et synthèse
+
+**CSV** : Données brutes pour analyse Excel/tableurs
+
+**Excel** : Format tabulaire avec graphiques intégrés
+
+**HTML** : Rapport psychologue prêt à imprimer (mode anonymisé)
+
+### Contenu des rapports
+
+**Synthèse statistique** :
+
+- Nombre d'entrées sur la période
+- Intensité moyenne
+- Top déclencheurs (physiques et mentaux)
+- Actions les plus efficaces
+- Pics horaires récurrents
+
+**Historique détaillé** :
+
+- Toutes les entrées avec timestamp
+- Intensité, localisation, déclencheurs
+- Actions prises et efficacité
+- Notes libres
+
+**Graphiques** :
+
+- Évolution temporelle de la douleur
+- Corrélations avec sommeil, stress, activité
+- Distribution par heure/jour
+
+### Confidentialité et contrôle
+
+**Filtrage** : Vous choisissez ce qui est inclus dans l'export
+
+**Anonymisation** : Mode spécial pour psychologues (données anonymisées)
+
+**Local-first** : Tous les exports sont générés localement, aucune donnée ne quitte votre machine
+
+**Droit à l'oubli** : Suppression complète possible à tout moment (endpoints RGPD)
+
+### Exemple de rapport médecin
+
+Un médecin recevrait un PDF contenant :
+
+1. **Résumé exécutif** : "Patient avec 45 entrées sur 30 jours, intensité moyenne 6.2/10"
+2. **Déclencheurs identifiés** : "Manque de sommeil (12 occurrences), stress professionnel (8 occurrences)"
+3. **Actions efficaces** : "Repos 20min → efficacité moyenne 7.5/10"
+4. **Timeline** : Graphique montrant l'évolution sur la période
+5. **Données brutes** : Tableau complet pour analyse approfondie
+
+---
+
+## ARIA vs CIA : Quelle différence ?
+
+ARIA et CIA (Companion Intelligence Assistant) sont complémentaires dans l'écosystème Arkalia Luna, mais servent des objectifs différents.
+
+### Positionnement clair
+
+| Aspect | **CIA** | **ARIA** |
+|--------|---------|----------|
+| **Rôle principal** | Coffre-fort santé généraliste / Assistant familial | Laboratoire personnel profond / Microscope intime |
+| **Public cible** | Seniors, familles, proches aidants | Patients chroniques, personnes en burnout, psy |
+| **Type de données** | Documents médicaux, RDV, contacts urgence | Douleur fine-grain, patterns psy, corrélations |
+| **Granularité** | Vue d'ensemble, agrégats, synthèses | Détails intimes, chaque entrée, chaque pattern |
+| **Fréquence** | Événements ponctuels (RDV, documents) | Suivi continu (journal quotidien) |
+| **Stockage** | Documents sécurisés (AES-256) | Base de données locale (SQLite) |
+| **Export** | Documents médicaux complets | Rapports spécialisés (douleur, psy) |
+| **Mode** | 100% offline, pas de cloud | 100% local, synchronisation optionnelle |
+
+### En pratique
+
+**CIA** = "Mon coffre-fort santé familial"
+
+- Je stocke mes documents médicaux (ordonnances, résultats d'analyses)
+- Je gère mes rendez-vous et rappels
+- J'ai mes contacts d'urgence (ICE) à portée de main
+- Je consulte mes portails santé
+- **C'est mon point d'ancrage santé général**
+
+**ARIA** = "Mon laboratoire personnel de recherche"
+
+- Je note ma douleur et mon humeur tous les jours (3 questions, 30 secondes)
+- J'analyse les patterns (stress → douleur, sommeil → humeur)
+- Je prépare mes consultations avec des rapports structurés
+- Je comprends mes déclencheurs et l'efficacité de mes actions
+- **C'est mon microscope sur ma santé intime**
+
+### Complémentarité
+
+#### ARIA prépare → CIA consolide
+
+1. **Dans ARIA** : Je note ma douleur quotidienne, j'analyse les patterns
+2. **Vers CIA** : Les données agrégées (résumés, synthèses) vont dans CIA
+3. **Dans CIA** : J'ai une vue d'ensemble avec mes documents médicaux
+4. **Pour consultation** : CIA génère un rapport unifié (documents + données ARIA)
+
+**Exemple concret** :
+
+- **ARIA** : "J'ai noté 45 entrées de douleur sur 30 jours, intensité moyenne 6.2/10, déclencheur principal : manque de sommeil"
+- **CIA** : "Rapport médical complet : Documents + Synthèse ARIA (douleur moyenne 6.2/10, déclencheur sommeil) + Historique RDV"
+
+---
+
+## Synchronisation ARIA ↔ CIA
+
+ARIA et **CIA** (Companion Intelligence Assistant) travaillent ensemble dans l'écosystème Arkalia Luna.
+
+### Scénarios de synchronisation
+
+#### Scénario 1 : Journal quotidien dans ARIA → Agrégats dans CIA
+
+> *"Je note ma douleur et mon humeur tous les jours dans ARIA. CIA ne voit que des agrégats pour les documents (ex: 'douleur moyenne cette semaine: 5/10'), pas tous les détails intimes de chaque entrée. Sauf si je choisis de partager plus."*
+
+**Fonctionnalité** :
+
+- ARIA stocke toutes les entrées détaillées localement
+- CIA reçoit des résumés périodiques (quotidien, hebdomadaire)
+- L'utilisateur contrôle le niveau de détail partagé
+
+#### Scénario 2 : Préparation de consultation → Rapport généré
+
+> *"Avant un RDV médical, CIA récupère les données pertinentes d'ARIA pour générer un rapport résumé. Le médecin voit l'évolution de la douleur, les déclencheurs identifiés, et l'efficacité des traitements, le tout intégré dans le dossier médical CIA."*
+
+**Fonctionnalité** :
+
+- Export ARIA → Import CIA avant consultation
+- Rapport unifié (documents CIA + données ARIA)
+- Partage sécurisé avec professionnel de santé
+
+#### Scénario 3 : Mode psychologue anonymisé
+
+> *"Pour ma séance avec mon psychologue, j'active le mode 'psy' dans ARIA. Les données sont anonymisées (pas de timestamps précis, pas de notes personnelles), puis exportées vers CIA pour partage sécurisé."*
+
+**Fonctionnalité** :
+
+- Anonymisation automatique (timestamps floutés, notes filtrées)
+- Export HTML prêt à imprimer
+- Synchronisation optionnelle avec CIA
+
+### État d'implémentation
+
+**✅ Implémenté** :
+
+- Module `cia_sync/` avec API de synchronisation
+- Endpoints de vérification de connexion CIA
+- Synchronisation sélective (douleur, patterns, prédictions)
+- Mode présentation psychologue
+- Push de données vers CIA
+
+**🚧 En développement** :
+
+- Synchronisation automatique périodique
+- Agrégation intelligente (résumés vs détails)
+- Interface utilisateur pour contrôle granularité
+- Intégration complète avec documents CIA
+
+---
+
+## Écosystème Arkalia Luna
+
+ARIA fait partie de l'écosystème **Arkalia Luna System**, un ensemble de projets interconnectés pour la santé personnelle.
+
+### Projets liés
+
+**CIA (Companion Intelligence Assistant)** : Coffre-fort santé familial
+
+- [GitHub](https://github.com/arkalia-luna-system/arkalia-cia)
+- Documents médicaux sécurisés, rappels, urgence
+- Point d'ancrage santé de l'écosystème
+
+**BBIA-SIM** : Moteur cognitif robotique pour Reachy Mini
+
+- [GitHub](https://github.com/arkalia-luna-system/bbia-sim)
+- 12 émotions robotiques, vision, voix
+- Interface incarnée pour l'écosystème (Phase 4)
+
+### 📚 Pour aller plus loin
+
+**Documentation détaillée côté CIA** :
+
+- **[ARIA Integration](https://github.com/arkalia-luna-system/arkalia-cia/blob/develop/docs/ARIA_INTEGRATION.md)** — Vision clinique complète de l'intégration CIA ↔ ARIA avec scénarios d'utilisation
+- **[Ecosystem Vision](https://github.com/arkalia-luna-system/arkalia-cia/blob/develop/docs/ECOSYSTEM_VISION.md)** — Vision stratégique de l'écosystème Arkalia Luna System
+- **[Use Cases](https://github.com/arkalia-luna-system/arkalia-cia/blob/develop/docs/USE_CASES.md)** — Cas d'usage concrets pour différents profils utilisateurs (senior, patient douleur chronique, famille, professionnel santé)
+
+### Vision système
+
+```text
+┌─────────────────────────────────────────────────────────┐
+│           ÉCOSYSTÈME ARKALIA LUNA                       │
+└─────────────────────────────────────────────────────────┘
+
+    ┌─────────────┐         ┌──────────────┐
+    │     CIA     │◄────────►│     ARIA     │
+    │ (Coffre-fort│         │ (Laboratoire │
+    │   santé)    │         │  personnel)  │
+    └──────┬──────┘         └──────┬───────┘
+           │                       │
+           │                       │
+           ▼                       ▼
+    ┌─────────────────────────────────────┐
+    │         BBIA-SIM                    │
+    │    (Robot compagnon Reachy)         │
+    │  - Émotions adaptatives            │
+    │  - Vision (YOLO, MediaPipe)        │
+    │  - Voix (Whisper, TTS)             │
+    └─────────────────────────────────────┘
+           │
+           ▼
+    ┌─────────────────────────────────────┐
+    │    Metrics Collector                │
+    │    (Collecte de métriques)         │
+    └─────────────────────────────────────┘
+```
+
+**Flux de données** :
+
+- **ARIA** → **CIA** : Données de douleur/psy agrégées pour documents
+- **CIA** → **ARIA** : Contexte santé (RDV, médicaments, historique)
+- **ARIA/CIA** → **BBIA** : État émotionnel et santé pour comportement adaptatif
+- **BBIA** → **ARIA/CIA** : Interactions et observations comportementales
+
+**Futures intégrations** :
+
+- BBIA adapte son comportement selon l'état ARIA (douleur élevée → empathie renforcée)
+- CIA génère des rappels basés sur les patterns ARIA
+- Métriques système collectées pour amélioration continue
+
+### Pour aller plus loin
+
+**Documentation détaillée côté CIA** :
+
+- [`docs/ARIA_INTEGRATION.md`](https://github.com/arkalia-luna-system/arkalia-cia/blob/develop/docs/ARIA_INTEGRATION.md) : Vision clinique de l'intégration ARIA ↔ CIA
+- [`docs/ECOSYSTEM_VISION.md`](https://github.com/arkalia-luna-system/arkalia-cia/blob/develop/docs/ECOSYSTEM_VISION.md) : Vision complète de l'écosystème Arkalia Luna
+- [`docs/USE_CASES.md`](https://github.com/arkalia-luna-system/arkalia-cia/blob/develop/docs/USE_CASES.md) : Cas d'usage par profils utilisateurs
+
+**Documentation ARIA** :
+
+- [`docs/API_REFERENCE.md`](docs/API_REFERENCE.md) : Documentation complète des endpoints
+- [`docs/DEVELOPER_GUIDE.md`](docs/DEVELOPER_GUIDE.md) : Guide développeur et contribution
+- [`docs/PROFESSIONAL_WORKFLOW.md`](docs/PROFESSIONAL_WORKFLOW.md) : Workflow pour professionnels de santé
 
 ---
 
@@ -150,7 +471,7 @@ L'application démarre sur `http://localhost:8000`
 
 ### Installation complète
 
-*Optionnel — Pour une utilisation complète avec synchronisation santé*
+#### Optionnel — Pour une utilisation complète avec synchronisation santé
 
 Pour une utilisation complète avec synchronisation santé :
 
@@ -178,7 +499,7 @@ Pour une utilisation complète avec synchronisation santé :
 
 ### Application mobile
 
-*En développement*
+#### En développement
 
 - Interface native Flutter
 - Synchronisation bidirectionnelle
@@ -203,6 +524,8 @@ Pour une utilisation complète avec synchronisation santé :
 
 ## Architecture
 
+### Structure du projet
+
 ```text
 arkalia-aria/
 ├── core/              # Module centralisé (DatabaseManager, Cache, Logging)
@@ -213,9 +536,67 @@ arkalia-aria/
 ├── metrics_collector/ # Dashboard web interactif
 ├── mobile_app/        # Application Flutter native
 ├── research_tools/    # Laboratoire personnel
-├── cia_sync/         # Synchronisation avec CIA si besoin
+├── cia_sync/         # Synchronisation avec CIA
 ├── audio_voice/      # Interface vocale
 └── docs/             # Documentation complète
+```
+
+### Diagramme d'architecture
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                    ARKALIA ARIA                              │
+│              (FastAPI + SQLite Local)                        │
+└─────────────────────────────────────────────────────────────┘
+                            │
+        ┌───────────────────┼───────────────────┐
+        │                   │                   │
+        ▼                   ▼                   ▼
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│   UI Layer   │   │  API Layer   │   │  Data Layer  │
+│              │   │              │   │              │
+│ - Dashboard  │   │ - FastAPI    │   │ - SQLite     │
+│   Web        │   │ - REST API   │   │ - Local DB   │
+│ - Mobile App │   │ - WebSocket  │   │ - Cache      │
+│   (Flutter)  │   │              │   │              │
+└──────┬───────┘   └──────┬───────┘   └──────┬───────┘
+       │                  │                  │
+       └──────────────────┼──────────────────┘
+                          │
+        ┌─────────────────┼─────────────────┐
+        │                 │                 │
+        ▼                 ▼                 ▼
+┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+│ Pain Tracking│  │   Pattern    │  │  Prediction  │
+│              │  │   Analysis   │  │   Engine     │
+│ - Quick Entry│  │              │  │              │
+│ - Detailed   │  │ - Corrélations│ │ - ML Models  │
+│ - History    │  │ - Patterns   │  │ - Alerts     │
+│ - Export     │  │ - Trends     │  │ - Forecasts │
+└──────┬───────┘  └──────┬───────┘  └──────┬───────┘
+       │                 │                 │
+       └─────────────────┼─────────────────┘
+                         │
+        ┌────────────────┼────────────────┐
+        │                │                │
+        ▼                ▼                ▼
+┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+│   Health     │ │   CIA Sync   │ │   Metrics   │
+│  Connectors  │ │              │ │  Collector  │
+│              │ │ - Selective  │ │              │
+│ - Samsung    │ │ - Bidirectional│ - Dashboard │
+│ - Google Fit │ │ - Anonymize  │ │ - Reports   │
+│ - iOS Health │ │              │ │ - Analytics │
+└──────┬───────┘ └──────┬───────┘ └──────┬───────┘
+       │                │                │
+       └────────────────┼────────────────┘
+                        │
+                        ▼
+              ┌──────────────────┐
+              │   External       │
+              │   - CIA API     │
+              │   - Health APIs │
+              └──────────────────┘
 ```
 
 ---
@@ -253,28 +634,160 @@ arkalia-aria/
 
 ---
 
+## CI/CD & Qualité
+
+ARIA suit les mêmes standards de qualité industrielle que CIA et BBIA.
+
+### Pipeline CI/CD
+
+**Workflows GitHub Actions** :
+
+- **CI/CD Principal** (`ci-cd.yml`) :
+  - Tests unitaires sur Python 3.10, 3.11, 3.12
+  - Formatage (Black), Linting (Ruff), Types (MyPy)
+  - Sécurité (Bandit, Safety)
+  - Couverture de code (Codecov)
+  - Build Docker
+  - Déploiement automatique
+
+- **Security Audit** (`security.yml`) :
+  - Analyse statique (Bandit)
+  - Vulnérabilités (Safety)
+  - Scan avancé (Semgrep)
+  - Audit des dépendances
+  - Vérification de licences
+
+- **Documentation** (`gh-pages.yml`) :
+  - Construction MkDocs
+  - Déploiement GitHub Pages
+
+### Métriques de qualité
+
+**Tests** :
+
+- 394 tests collectés (100% passent)
+- Couverture de code : Suivi via Codecov (badge affiche la branche `main`)
+- Tests d'intégration CIA/ARIA
+
+**Code Quality** :
+
+- **Black** : Formatage automatique (ligne 88)
+- **Ruff** : Linting rapide (E, F, W, I, B, C4, UP)
+- **MyPy** : Vérification de types
+- **Bandit** : Analyse de sécurité
+- **Safety** : Audit des dépendances
+
+**Standards** :
+
+- Code conforme PEP 8
+- Typage strict avec MyPy
+- Documentation des fonctions
+- Tests pour chaque module
+
+### Badges de statut
+
+Les badges en haut du README affichent :
+
+- Statut CI/CD (passing/failing)
+- Couverture de code (Codecov)
+- Versions Python supportées
+- Linters (Ruff, Black)
+- Nombre d'issues ouvertes
+- Licence (MIT)
+
+### Workflow de développement
+
+1. **Commit** : Pre-commit hooks (Black, Ruff, MyPy)
+2. **Push** : Déclenchement automatique du pipeline CI/CD
+3. **Tests** : Exécution sur 3 versions Python
+4. **Lint** : Vérification formatage et qualité
+5. **Sécurité** : Scan automatique
+6. **Merge** : Validation requise avant merge sur `main`
+
+### Documentation
+
+- **API Reference** : `docs/API_REFERENCE.md`
+- **Developer Guide** : `docs/DEVELOPER_GUIDE.md`
+- **Technical Reference** : `docs/TECHNICAL_REFERENCE.md`
+- **GitHub Actions** : `.github/README.md`
+
+---
+
 ## Sécurité et confidentialité
 
-- **Local** : Les données sont stockées en local (SQLite). Aucune transmission externe par défaut.
-- **Authentification** : Non activée en mode développement local.
-- **Partage** : Synchronisation CIA optionnelle, à l'initiative de l'utilisateur.
-- **Export** : CSV et rapports possibles ; anonymisation à réaliser côté utilisateur si nécessaire.
-- **RGPD** : Conforme RGPD avec endpoints de suppression (droit à l'oubli) implémentés.
+### Stockage local
+
+**100% local** : Les données sont stockées en local (SQLite). Aucune transmission externe par défaut.
+
+**Chiffrement** : Stockage local sécurisé (à venir : chiffrement AES-256 pour données sensibles)
+
+**Aucun cloud forcé** : Aucune donnée ne quitte votre machine sans consentement explicite
+
+### Contrôle utilisateur
+
+**Partage granular** : Synchronisation CIA optionnelle, à l'initiative de l'utilisateur
+
+**Filtrage export** : Vous choisissez ce qui est inclus dans les rapports
+
+**Anonymisation** : Mode spécial pour psychologues avec anonymisation automatique
+
+**Droit à l'oubli** : Endpoints RGPD implémentés pour suppression complète des données
+
+### Conformité
+
+**RGPD** : Conforme RGPD avec :
+
+- Droit d'accès (export de toutes vos données)
+- Droit de rectification (modification des entrées)
+- Droit à l'oubli (suppression complète)
+- Portabilité des données (export CSV/JSON)
+
+**Aucun tracking** : Aucune donnée analytique envoyée sans consentement
+
+**Transparence** : Code source ouvert, audit de sécurité possible
 
 ---
 
 ## Roadmap
 
-- [x] Phase 1 : Structure modulaire
-- [x] Phase 2 : Pain tracking (endpoints principaux)
-- [x] Phase 3 : Health connectors (Samsung/Google/iOS) ✅ **Terminé**
-- [x] Phase 4 : Dashboard web interactif ✅ **Terminé**
-- [x] Phase 5 : Application mobile Flutter (architecture) 🚧 **En développement**
-- [x] Phase 6 : Tests unitaires complets ✅ **Terminé**
-- [x] Phase 7 : Documentation complète ✅ **Terminé**
-- [ ] Phase 8 : Pattern analysis (itératif)
-- [ ] Phase 9 : Prediction engine (améliorations)
-- [ ] Phase 10 : Research tools (laboratoire)
+Roadmap alignée avec l'écosystème Arkalia Luna (CIA, BBIA).
+
+### Phase 1 : Journal douleur & export basique ✅ **Terminé**
+
+- [x] Structure modulaire
+- [x] Pain tracking (endpoints principaux)
+- [x] Saisie rapide (3 questions, 30 secondes)
+- [x] Export CSV/PDF/Excel pour professionnels
+- [x] Base de données locale SQLite
+
+### Phase 2 : Patterns psy & corrélations ✅ **Terminé**
+
+- [x] Health connectors (Samsung/Google/iOS) ✅ **Terminé**
+- [x] Dashboard web interactif ✅ **Terminé**
+- [x] Tests unitaires complets ✅ **Terminé**
+- [x] Pattern analysis avancé (corrélations sommeil, stress) ✅ **Terminé**
+- [x] Détection automatique de déclencheurs récurrents ✅ **Terminé**
+- [ ] Visualisations interactives (heatmaps, timelines) 🔮 **Planifié (Phase 4)**
+
+### Phase 3 : Synchro CIA + anonymisation ✅ **Terminé**
+
+- [x] Module `cia_sync/` avec API ✅ **Terminé**
+- [x] Synchronisation sélective (douleur, patterns, prédictions) ✅ **Terminé**
+- [x] Mode présentation psychologue (anonymisation) ✅ **Terminé**
+- [x] Synchronisation automatique périodique ✅ **Terminé**
+- [x] Agrégation intelligente (résumés vs détails) ✅ **Terminé**
+- [x] Système de configuration granularité ✅ **Terminé**
+- [x] Intégration complète avec documents CIA ✅ **Terminé**
+- [ ] Interface utilisateur pour contrôle granularité 🔮 **Planifié (Phase 4)**
+
+### Phase 4 : Boucle avec BBIA 🔮 **Planifié**
+
+- [ ] Application mobile Flutter native (architecture en place)
+- [ ] Prédiction engine amélioré (ML locaux)
+- [ ] Intégration BBIA (émotions, coaching adaptatif)
+- [ ] BBIA adapte comportement selon état ARIA
+- [ ] Research tools (laboratoire personnel avancé)
+- [ ] Intelligence artificielle pour patterns complexes
 
 ---
 
@@ -310,12 +823,14 @@ Vous êtes nouveau dans le projet ? Commencez par ces issues marquées `good fir
 ---
 
 <!-- Badges -->
+<!-- markdownlint-disable MD033 -->
 <p>
   <a href="https://github.com/arkalia-luna-system/arkalia-aria/actions/workflows/ci-cd.yml">
     <img alt="CI" src="https://github.com/arkalia-luna-system/arkalia-aria/actions/workflows/ci-cd.yml/badge.svg" />
   </a>
   <a href="https://codecov.io/gh/arkalia-luna-system/arkalia-aria">
     <img alt="Codecov" src="https://codecov.io/gh/arkalia-luna-system/arkalia-aria/branch/main/graph/badge.svg" />
+    <!-- Note: Badge affiche la couverture de la branche main (stable). Pour develop, voir le dashboard Codecov -->
   </a>
   <img alt="Python" src="https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12-3776AB" />
   <img alt="Ruff" src="https://img.shields.io/badge/lint-ruff-0A7BBB" />
@@ -325,6 +840,7 @@ Vous êtes nouveau dans le projet ? Commencez par ces issues marquées `good fir
   </a>
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blue" />
 </p>
+<!-- markdownlint-enable MD033 -->
 
 ---
 

@@ -2,6 +2,7 @@
 
 **ARKALIA ARIA** — Documentation technique complète
 
+**Version :** 1.0.0  
 *Dernière mise à jour :* Novembre 2025
 
 ---
@@ -469,6 +470,319 @@ class IOSHealthConnector(BaseHealthConnector):
         # Implémentation de la connexion iOS Health
         pass
 
+```
+
+---
+
+## Pattern Analysis
+
+### Vue d'ensemble
+
+Le module `pattern_analysis/` détecte automatiquement les corrélations entre douleur, sommeil, stress et autres facteurs.
+
+### CorrelationAnalyzer
+
+```python
+from pattern_analysis.correlation_analyzer import CorrelationAnalyzer
+
+analyzer = CorrelationAnalyzer()
+
+# Analyse corrélation sommeil ↔ douleur
+sleep_corr = analyzer.analyze_sleep_pain_correlation(days_back=30)
+
+# Analyse corrélation stress ↔ douleur
+stress_corr = analyzer.analyze_stress_pain_correlation(days_back=30)
+
+# Détection déclencheurs récurrents
+triggers = analyzer.detect_recurrent_triggers(days_back=30, min_occurrences=3)
+
+# Analyse complète
+comprehensive = analyzer.get_comprehensive_analysis(days_back=30)
+```
+
+### Endpoints API
+
+```python
+# Analyse complète
+GET /api/patterns/patterns/recent?days=30
+
+# Corrélations spécifiques
+GET /api/patterns/correlations/sleep-pain?days=30
+GET /api/patterns/correlations/stress-pain?days=30
+
+# Déclencheurs récurrents
+GET /api/patterns/triggers/recurrent?days=30&min_occurrences=3
+
+# Analyse personnalisée
+POST /api/patterns/analyze
+{
+  "days_back": 30,
+  "analysis_type": "comprehensive"  # "comprehensive", "sleep", "stress", "triggers"
+}
+```
+
+### Algorithmes
+
+- **Corrélation de Pearson** : Calcul simple et local pour corrélations sommeil/stress
+- **Détection de patterns** : Comptage de déclencheurs récurrents
+- **Patterns temporels** : Analyse par heure et jour de la semaine
+- **100% local** : Aucune donnée externe, traitement entièrement local
+
+---
+
+## Prediction Engine
+
+### Vue d'ensemble
+
+Le module `prediction_engine/` prédit les épisodes de douleur basés sur les patterns historiques et le contexte actuel.
+
+### ARIAMLAnalyzer
+
+```python
+from prediction_engine.ml_analyzer import ARIAMLAnalyzer
+
+ml_analyzer = ARIAMLAnalyzer()
+
+# Prédiction basée sur contexte
+context = {
+    "stress_level": 0.8,
+    "fatigue_level": 0.6,
+    "activity_intensity": 0.4
+}
+prediction = ml_analyzer.predict_pain_episode(context)
+
+# Analyse des patterns historiques
+patterns = ml_analyzer.analyze_pain_patterns(days=14)
+
+# Analytics
+summary = ml_analyzer.get_analytics_summary()
+```
+
+### Intégration avec Pattern Analysis
+
+Le `prediction_engine` utilise automatiquement les corrélations détectées par `pattern_analysis` :
+
+```python
+# Dans prediction_engine/api.py
+correlation_analyzer = CorrelationAnalyzer()
+sleep_corr = correlation_analyzer.analyze_sleep_pain_correlation(days_back=7)
+stress_corr = correlation_analyzer.analyze_stress_pain_correlation(days_back=7)
+
+# Ajustement de la prédiction selon corrélations
+if sleep_corr.get("correlation", 0) < -0.4:
+    # Manque de sommeil → risque élevé
+    predicted_intensity += 1
+```
+
+### Endpoints API
+
+```python
+# Prédictions actuelles
+GET /api/predictions/predictions/current?include_correlations=true
+
+# Prédiction personnalisée
+POST /api/predictions/predict
+{
+  "stress_level": 0.8,
+  "fatigue_level": 0.6,
+  "activity_intensity": 0.4,
+  "include_correlations": true
+}
+
+# Analytics
+GET /api/predictions/analytics
+
+# Entraînement (réanalyse)
+POST /api/predictions/train
+{
+  "days_back": 14
+}
+```
+
+### Algorithmes de Prédiction
+
+- **Règles basées sur patterns** : Utilise les patterns détectés historiquement
+- **Facteurs contextuels** : Stress, fatigue, activité, heure, jour
+- **Ajustement corrélations** : Enrichit avec corrélations sommeil/stress
+- **Confiance adaptative** : Plus de données = plus de confiance
+
+---
+
+## Synchronisation CIA et Granularité
+
+### Vue d'ensemble
+
+Le module `cia_sync/` gère la synchronisation bidirectionnelle avec ARKALIA CIA, avec un système de granularité permettant un contrôle fin de ce qui est synchronisé.
+
+### AutoSyncManager
+
+```python
+from cia_sync.auto_sync import get_auto_sync_manager
+
+# Récupérer le gestionnaire
+auto_sync = get_auto_sync_manager()
+
+# Démarrer la synchronisation automatique (60 min par défaut)
+auto_sync.start(interval_minutes=60)
+
+# Forcer une synchronisation immédiate
+auto_sync.sync_now()
+
+# Arrêter la synchronisation
+auto_sync.stop()
+
+# Obtenir le statut
+status = auto_sync.get_status()
+```
+
+### GranularityConfigManager
+
+```python
+from cia_sync.granularity_config import (
+    GranularityConfig,
+    SyncLevel,
+    DataType,
+    get_config_manager,
+)
+
+# Récupérer le gestionnaire
+config_manager = get_config_manager()
+
+# Créer une configuration personnalisée
+config = GranularityConfig(
+    pain_entries_level=SyncLevel.AGGREGATED,
+    patterns_level=SyncLevel.SUMMARY,
+    predictions_level=SyncLevel.NONE,
+    anonymize_personal_data=True,
+    anonymize_timestamps=True,
+    sync_period_days=7,
+)
+
+# Sauvegarder la configuration
+config_manager.save_config(config, config_name="psy_mode")
+
+# Charger une configuration
+config = config_manager.load_config("psy_mode")
+
+# Obtenir la configuration par défaut
+default_config = config_manager.get_default_config()
+```
+
+### Niveaux de Synchronisation
+
+```python
+from cia_sync.granularity_config import SyncLevel, DataType
+
+# Vérifier si un type de données doit être synchronisé
+if config.should_sync(DataType.PAIN_ENTRIES):
+    # Synchroniser les entrées de douleur
+    pass
+
+# Obtenir le niveau de synchronisation
+level = config.get_sync_level(DataType.PATTERNS)
+# Retourne: SyncLevel.SUMMARY, AGGREGATED, DETAILED, ou NONE
+```
+
+### Anonymisation
+
+```python
+# Appliquer l'anonymisation selon la configuration
+anonymized_data = config_manager.apply_anonymization(
+    data={"intensity": 7, "location": "maison", "notes": "douleur"},
+    config=config
+)
+# Résultat: {"intensity": 7, "location": None, "notes": None}
+```
+
+### Agrégation
+
+```python
+# Agrégation intelligente de données
+data_list = [
+    {"intensity": 7, "physical_trigger": "stress"},
+    {"intensity": 8, "physical_trigger": "stress"},
+    {"intensity": 6, "physical_trigger": "fatigue"},
+]
+
+aggregated = config_manager.aggregate_data(data_list, config)
+# Résultat:
+# {
+#   "count": 3,
+#   "statistics": {
+#     "avg_intensity": 7.0,
+#     "max_intensity": 8,
+#     "min_intensity": 6
+#   },
+#   "common_triggers": {"stress": 2, "fatigue": 1}
+# }
+```
+
+### Endpoints API
+
+```python
+# Récupérer une configuration
+GET /api/sync/granularity/config?config_name=default
+
+# Sauvegarder une configuration
+POST /api/sync/granularity/config?config_name=psy_mode
+{
+  "pain_entries_level": "summary",
+  "anonymize_personal_data": true,
+  ...
+}
+
+# Liste des configurations
+GET /api/sync/granularity/configs
+
+# Supprimer une configuration
+DELETE /api/sync/granularity/config?config_name=psy_mode
+
+# Niveaux disponibles
+GET /api/sync/granularity/sync-levels
+```
+
+### Intégration dans AutoSyncManager
+
+Le `AutoSyncManager` utilise automatiquement la configuration de granularité :
+
+```python
+# Dans _perform_sync()
+config = self.config_manager.get_default_config()
+
+# Synchroniser selon la granularité
+if config.should_sync(DataType.PAIN_ENTRIES):
+    pain_data = self._sync_pain_entries(config)
+    # Applique anonymisation et agrégation selon config
+```
+
+### Cas d'usage
+
+**Configuration pour psychologue** :
+```python
+psy_config = GranularityConfig(
+    pain_entries_level=SyncLevel.SUMMARY,
+    patterns_level=SyncLevel.SUMMARY,
+    predictions_level=SyncLevel.NONE,
+    anonymize_personal_data=True,
+    anonymize_timestamps=True,
+    anonymize_locations=True,
+    anonymize_notes=True,
+    sync_period_days=7,
+)
+```
+
+**Configuration pour médecin** :
+```python
+doctor_config = GranularityConfig(
+    pain_entries_level=SyncLevel.AGGREGATED,
+    patterns_level=SyncLevel.SUMMARY,
+    predictions_level=SyncLevel.SUMMARY,
+    anonymize_personal_data=False,
+    anonymize_timestamps=False,
+    anonymize_locations=False,
+    anonymize_notes=False,
+    sync_period_days=30,
+)
 ```
 
 ---
@@ -1112,4 +1426,4 @@ python -m devops_automation.security.aria_security_validator
 ---
 
 *Dernière mise à jour :* Novembre 2025  
-*Version du guide :* 2.0.0
+*Version du guide :* 1.0.0 (aligné avec version ARIA 1.0.0)

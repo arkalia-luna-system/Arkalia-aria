@@ -468,7 +468,10 @@ class ARIA_DevOpsAPI:
                 cmd = esc(str(a))
                 risk_level = ""
                 etype = ""
-            recent_rows += f"<tr><td>{ts}</td><td>{cmd}</td><td>{risk_level}</td><td>{etype}</td></tr>"
+            recent_rows += (
+                f"<tr><td>{ts}</td><td>{cmd}</td>"
+                f"<td>{risk_level}</td><td>{etype}</td></tr>"
+            )
 
         html = f"""
 <!doctype html>
@@ -485,7 +488,8 @@ class ARIA_DevOpsAPI:
     th, td {{ border: 1px solid #ddd; padding: 6px 8px; font-size: 13px; }}
     th {{ background: #fafafa; text-align: left; }}
     .grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }}
-    .badge {{ display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 12px; }}
+    .badge {{ display: inline-block; padding: 2px 8px;
+              border-radius: 12px; font-size: 12px; }}
     .b-low {{ background:#e7f7ee; color:#1e7f53 }}
     .b-med {{ background:#fff4cc; color:#a66b00 }}
     .b-hi {{ background:#fde2e1; color:#b42318 }}

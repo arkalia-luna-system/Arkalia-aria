@@ -13,6 +13,12 @@ from pydantic import BaseModel
 from core import BaseAPI, get_logger
 
 from .auto_sync import get_auto_sync_manager
+from .granularity_config import (
+    DataType,
+    GranularityConfig,
+    SyncLevel,
+    get_config_manager,
+)
 
 # Créer l'API avec BaseAPI
 api = BaseAPI("", ["CIA Sync"])  # Pas de préfixe ici, il sera ajouté dans main.py
@@ -356,3 +362,159 @@ async def update_sync_interval(interval_minutes: int) -> dict:
         raise HTTPException(
             status_code=500, detail=f"Erreur mise à jour intervalle: {str(e)}"
         ) from e
+
+
+@router.get("/granularity/config")
+async def get_granularity_config(config_name: str = "default") -> dict:
+    """
+    Récupère la configuration de granularité.
+
+    Args:
+        config_name: Nom de la configuration (défaut: "default")
+
+    Returns:
+        Configuration de granularité
+    """
+    try:
+        config_manager = get_config_manager()
+        config = config_manager.load_config(config_name)
+
+        if config is None:
+            raise HTTPException(
+                status_code=404, detail=f"Configuration '{config_name}' non trouvée"
+            )
+
+        return {
+            "config_name": config_name,
+            "config": config.to_dict(),
+            "timestamp": datetime.now().isoformat(),
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Erreur récupération config: {str(e)}"
+        ) from e
+
+
+@router.post("/granularity/config")
+async def save_granularity_config(
+    config: dict[str, Any], config_name: str = "default"
+) -> dict:
+    """
+    Sauvegarde une configuration de granularité.
+
+    Body attendu :
+    {
+        "pain_entries_level": "aggregated",
+        "patterns_level": "summary",
+        "anonymize_personal_data": false,
+        "sync_period_days": 30,
+        ...
+    }
+
+    Args:
+        config: Configuration de granularité
+        config_name: Nom de la configuration (défaut: "default")
+
+    Returns:
+        Confirmation de sauvegarde
+    """
+    try:
+        config_manager = get_config_manager()
+        granularity_config = GranularityConfig.from_dict(config)
+        success = config_manager.save_config(granularity_config, config_name)
+
+        if success:
+            return {
+                "message": f"Configuration '{config_name}' sauvegardée",
+                "status": "saved",
+                "config_name": config_name,
+                "timestamp": datetime.now().isoformat(),
+            }
+        else:
+            raise HTTPException(
+                status_code=500, detail="Erreur lors de la sauvegarde"
+            )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Erreur sauvegarde config: {str(e)}"
+        ) from e
+
+
+@router.get("/granularity/configs")
+async def list_granularity_configs() -> dict:
+    """
+    Liste toutes les configurations de granularité disponibles.
+
+    Returns:
+        Liste des configurations
+    """
+    try:
+        config_manager = get_config_manager()
+        configs = config_manager.list_configs()
+
+        return {
+            "configs": configs,
+            "total": len(configs),
+            "timestamp": datetime.now().isoformat(),
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Erreur liste configs: {str(e)}"
+        ) from e
+
+
+@router.delete("/granularity/config")
+async def delete_granularity_config(config_name: str) -> dict:
+    """
+    Supprime une configuration de granularité.
+
+    Args:
+        config_name: Nom de la configuration à supprimer
+
+    Returns:
+        Confirmation de suppression
+    """
+    try:
+        if config_name == "default":
+            raise HTTPException(
+                status_code=400, detail="Impossible de supprimer la config 'default'"
+            )
+
+        config_manager = get_config_manager()
+        success = config_manager.delete_config(config_name)
+
+        if success:
+            return {
+                "message": f"Configuration '{config_name}' supprimée",
+                "status": "deleted",
+                "config_name": config_name,
+                "timestamp": datetime.now().isoformat(),
+            }
+        else:
+            raise HTTPException(
+                status_code=500, detail="Erreur lors de la suppression"
+            )
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Erreur suppression config: {str(e)}"
+        ) from e
+
+
+@router.get("/granularity/sync-levels")
+async def get_sync_levels() -> dict:
+    """
+    Retourne les niveaux de synchronisation disponibles.
+
+    Returns:
+        Liste des niveaux et types de données
+    """
+    return {
+        "sync_levels": [level.value for level in SyncLevel],
+        "data_types": [data_type.value for data_type in DataType],
+        "default_config": get_config_manager().get_default_config().to_dict(),
+        "timestamp": datetime.now().isoformat(),
+    }

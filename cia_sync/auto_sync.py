@@ -9,6 +9,13 @@ from typing import Any
 
 from core import DatabaseManager, get_logger
 
+from .granularity_config import (
+    DataType,
+    GranularityConfig,
+    SyncLevel,
+    get_config_manager,
+)
+
 logger = get_logger("auto_sync")
 
 
@@ -48,6 +55,7 @@ class AutoSyncManager:
             "failed_syncs": 0,
             "last_error": None,
         }
+        self.config_manager = get_config_manager()
         logger.info("🔄 Auto Sync Manager initialisé")
 
     def start(self, interval_minutes: int = 60) -> bool:
@@ -135,7 +143,7 @@ class AutoSyncManager:
 
     def _perform_sync(self) -> bool:
         """
-        Effectue une synchronisation complète avec CIA.
+        Effectue une synchronisation complète avec CIA selon la granularité.
 
         Returns:
             True si la synchronisation a réussi
@@ -155,40 +163,139 @@ class AutoSyncManager:
                 logger.warning(f"CIA non accessible: {e}")
                 return False
 
-            # Récupérer les données à synchroniser (dernières 24h)
-            cutoff_date = (datetime.now() - timedelta(days=1)).isoformat()
-            pain_entries = self.db.execute_query(
-                """
-                SELECT * FROM pain_entries
-                WHERE timestamp >= ?
-                ORDER BY timestamp DESC
-                """,
-                (cutoff_date,),
-            )
+            # Charger la configuration de granularité
+            config = self.config_manager.get_default_config()
 
-            # Agrégation intelligente : créer un résumé
-            summary = self._create_summary(pain_entries)
+            # Synchroniser selon la granularité configurée
+            synced_data = {}
 
-            # Envoyer le résumé à CIA
-            try:
-                response = requests.post(
-                    f"{self.cia_base_url}/api/aria/sync-summary",
-                    json=summary,
-                    timeout=30,
-                )
-                if response.status_code in [200, 201]:
-                    logger.debug(f"Résumé synchronisé: {len(pain_entries)} entrées")
-                    return True
-                else:
-                    logger.warning(f"Erreur sync CIA: {response.status_code}")
+            # Synchronisation des entrées de douleur
+            if config.should_sync(DataType.PAIN_ENTRIES):
+                pain_data = self._sync_pain_entries(config)
+                if pain_data:
+                    synced_data["pain_entries"] = pain_data
+
+            # Synchronisation des patterns
+            if config.should_sync(DataType.PATTERNS):
+                patterns_data = self._sync_patterns(config)
+                if patterns_data:
+                    synced_data["patterns"] = patterns_data
+
+            # Synchronisation des prédictions
+            if config.should_sync(DataType.PREDICTIONS):
+                predictions_data = self._sync_predictions(config)
+                if predictions_data:
+                    synced_data["predictions"] = predictions_data
+
+            # Envoyer les données agrégées à CIA
+            if synced_data:
+                try:
+                    response = requests.post(
+                        f"{self.cia_base_url}/api/aria/sync-data",
+                        json={
+                            "synced_data": synced_data,
+                            "granularity": config.to_dict(),
+                            "timestamp": datetime.now().isoformat(),
+                        },
+                        timeout=30,
+                    )
+                    if response.status_code in [200, 201]:
+                        logger.debug(f"Données synchronisées: {list(synced_data.keys())}")
+                        return True
+                    else:
+                        logger.warning(f"Erreur sync CIA: {response.status_code}")
+                        return False
+                except Exception as e:
+                    logger.error(f"Erreur envoi données: {e}")
                     return False
-            except Exception as e:
-                logger.error(f"Erreur envoi résumé: {e}")
-                return False
+            else:
+                logger.debug("Aucune donnée à synchroniser selon la granularité")
+                return True
 
         except Exception as e:
             logger.error(f"Erreur lors de la synchronisation: {e}")
             return False
+
+    def _sync_pain_entries(self, config: GranularityConfig) -> dict[str, Any] | None:
+        """Synchronise les entrées de douleur selon la granularité."""
+        level = config.get_sync_level(DataType.PAIN_ENTRIES)
+        if level == SyncLevel.NONE:
+            return None
+
+        # Récupérer les données
+        cutoff_date = (
+            datetime.now() - timedelta(days=config.sync_period_days)
+        ).isoformat()
+        pain_entries = self.db.execute_query(
+            """
+            SELECT * FROM pain_entries
+            WHERE timestamp >= ?
+            ORDER BY timestamp DESC
+            """,
+            (cutoff_date,),
+        )
+
+        entries_list = [dict(row) for row in pain_entries]
+
+        # Appliquer anonymisation si nécessaire
+        if config.anonymize_personal_data or config.anonymize_timestamps:
+            entries_list = [
+                self.config_manager.apply_anonymization(entry, config)
+                for entry in entries_list
+            ]
+
+        # Appliquer le niveau de granularité
+        if level == SyncLevel.SUMMARY:
+            return self.config_manager.aggregate_data(entries_list, config)
+        elif level == SyncLevel.AGGREGATED:
+            # Agrégation par jour
+            return self._aggregate_by_day(entries_list, config)
+        else:  # DETAILED
+            return {"entries": entries_list, "count": len(entries_list)}
+
+    def _sync_patterns(self, config: GranularityConfig) -> dict[str, Any] | None:
+        """Synchronise les patterns selon la granularité."""
+        level = config.get_sync_level(DataType.PATTERNS)
+        if level == SyncLevel.NONE:
+            return None
+
+        # Pour l'instant, retourner un résumé simple
+        # TODO: intégrer avec pattern_analysis
+        return {"patterns_available": True, "level": level.value}
+
+    def _sync_predictions(self, config: GranularityConfig) -> dict[str, Any] | None:
+        """Synchronise les prédictions selon la granularité."""
+        level = config.get_sync_level(DataType.PREDICTIONS)
+        if level == SyncLevel.NONE:
+            return None
+
+        # Pour l'instant, retourner un résumé simple
+        # TODO: intégrer avec prediction_engine
+        return {"predictions_available": True, "level": level.value}
+
+    def _aggregate_by_day(
+        self, entries: list[dict[str, Any]], config: GranularityConfig
+    ) -> dict[str, Any]:
+        """Agrège les entrées par jour."""
+        from collections import defaultdict
+
+        daily_data: dict[str, list] = defaultdict(list)
+
+        for entry in entries:
+            timestamp_str = entry.get("timestamp", "")
+            if "T" in timestamp_str:
+                date_key = timestamp_str.split("T")[0]
+            else:
+                date_key = timestamp_str[:10]
+            daily_data[date_key].append(entry)
+
+        aggregated_days = []
+        for date, day_entries in daily_data.items():
+            day_summary = self.config_manager.aggregate_data(day_entries, config)
+            day_summary["date"] = date
+            aggregated_days.append(day_summary)
+
+        return {"days": aggregated_days, "total_days": len(aggregated_days)}
 
     def _create_summary(self, pain_entries: list) -> dict[str, Any]:
         """

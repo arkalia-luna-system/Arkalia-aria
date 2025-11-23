@@ -4,9 +4,8 @@
 
 ## Base URL
 
-```
-<http://localhost:8001>
-
+```text
+http://localhost:8001
 ```
 
 ## Endpoints Standardisés (BaseAPI)
@@ -17,9 +16,10 @@ Toutes les APIs ARIA héritent automatiquement de ces endpoints :
 
 ```http
 GET /api/{module}/health
-
 ```
+
 **Exemples :**
+
 - `GET /api/pain/health`
 - `GET /api/pattern/health`
 - `GET /api/prediction/health`
@@ -28,9 +28,10 @@ GET /api/{module}/health
 
 ```http
 GET /api/{module}/status
-
 ```
+
 **Exemples :**
+
 - `GET /api/pain/status`
 - `GET /api/pattern/status`
 
@@ -38,9 +39,10 @@ GET /api/{module}/status
 
 ```http
 GET /api/{module}/metrics
-
 ```
+
 **Exemples :**
+
 - `GET /api/pain/metrics`
 - `GET /api/pattern/metrics`
 
@@ -48,12 +50,12 @@ GET /api/{module}/metrics
 
 ## Endpoints Principaux
 
-### Health Check
+### Health Check Principal
 
 ```http
 GET /health
-
 ```
+
 **Réponse :**
 
 ```json
@@ -83,8 +85,8 @@ GET /health
 
 ```http
 GET /health/connectors/status
-
 ```
+
 **Réponse :**
 
 ```json
@@ -112,8 +114,8 @@ GET /health/connectors/status
 
 ```http
 POST /health/samsung/sync
-
 ```
+
 **Réponse :**
 
 ```json
@@ -130,8 +132,8 @@ POST /health/samsung/sync
 
 ```http
 POST /health/google/sync
-
 ```
+
 **Réponse :**
 
 ```json
@@ -148,8 +150,8 @@ POST /health/google/sync
 
 ```http
 POST /health/ios/sync
-
 ```
+
 **Réponse :**
 
 ```json
@@ -166,8 +168,8 @@ POST /health/ios/sync
 
 ```http
 POST /health/sync/all
-
 ```
+
 **Réponse :**
 
 ```json
@@ -189,8 +191,8 @@ POST /health/sync/all
 
 ```http
 GET /health/metrics/unified
-
 ```
+
 **Réponse :**
 
 ```json
@@ -233,8 +235,8 @@ GET /health/metrics/unified
 
 ```http
 GET /health/config
-
 ```
+
 **Réponse :**
 
 ```json
@@ -601,6 +603,172 @@ GET /api/sync/granularity/sync-levels
 - **`include_statistics`** : Inclut statistiques (moyenne, min, max)
 - **`include_trends`** : Inclut détection de tendances
 
+### 📄 **Intégration Documents Médicaux**
+
+#### 🔬 **Générer un Rapport Médical**
+
+```http
+POST /api/sync/documents/generate-report?period_days=30&include_patterns=true&include_predictions=true&anonymize=false
+```
+
+**Réponse :**
+
+```json
+{
+  "report_type": "medical",
+  "period_days": 30,
+  "generated_at": "2025-11-23T10:00:00",
+  "summary": {
+    "total_entries": 45,
+    "period_start": "2025-10-24T10:00:00",
+    "period_end": "2025-11-23T10:00:00"
+  },
+  "statistics": {
+    "avg_intensity": 6.2,
+    "max_intensity": 9,
+    "min_intensity": 3,
+    "total_entries": 45,
+    "most_common_triggers": {
+      "stress": 15,
+      "fatigue": 12,
+      "marche": 8
+    },
+    "most_effective_actions": {
+      "respiration": 10,
+      "repos": 8,
+      "chaleur": 5
+    }
+  },
+  "data": {
+    "pain_entries": [...]
+  },
+  "patterns": {
+    "sleep_pain_correlation": {...},
+    "stress_pain_correlation": {...},
+    "recurrent_triggers": {...}
+  },
+  "predictions": {
+    "total_events": 145,
+    "total_patterns": 8,
+    "prediction_accuracy": 0.78
+  }
+}
+```
+
+#### 📤 **Synchroniser un Rapport avec CIA**
+
+```http
+POST /api/sync/documents/sync-report?document_type=pain_report
+Content-Type: application/json
+
+{
+  "report": {
+    "report_type": "medical",
+    "statistics": {...},
+    "data": {...}
+  },
+  "document_type": "pain_report"
+}
+```
+
+**Réponse :**
+
+```json
+{
+  "success": true,
+  "message": "Rapport synchronisé avec CIA",
+  "cia_response": {
+    "document_id": "doc_123",
+    "synced_at": "2025-11-23T10:00:00"
+  }
+}
+```
+
+#### 🏥 **Rapport pour Consultation**
+
+```http
+POST /api/sync/documents/consultation-report?days_before=7&anonymize=true
+```
+
+**Réponse :**
+
+```json
+{
+  "report_type": "consultation",
+  "prepared_for": "medical_consultation",
+  "prepared_at": "2025-11-23T10:00:00",
+  "period_days": 7,
+  "summary": {
+    "total_entries": 12,
+    "period_start": "2025-11-16T10:00:00",
+    "period_end": "2025-11-23T10:00:00"
+  },
+  "statistics": {
+    "avg_intensity": 6.5,
+    "max_intensity": 8,
+    "min_intensity": 4,
+    "most_common_triggers": {
+      "stress": 5,
+      "fatigue": 4
+    },
+    "most_effective_actions": {
+      "respiration": 4,
+      "repos": 3
+    }
+  },
+  "key_findings": {
+    "average_pain_intensity": 6.5,
+    "most_common_triggers": {
+      "stress": 5,
+      "fatigue": 4
+    },
+    "effective_actions": {
+      "respiration": 4,
+      "repos": 3
+    }
+  },
+  "patterns": {
+    "sleep_pain_correlation": {
+      "correlation": -0.65,
+      "recommendations": [
+        "Manque de sommeil corrélé avec douleur élevée. Envisager d'améliorer la durée de sommeil."
+      ]
+    }
+  },
+  "recommendations": [
+    "Douleur moyenne élevée. Consultation médicale recommandée.",
+    "Corrélation négative entre sommeil et douleur. Améliorer la qualité du sommeil recommandé."
+  ]
+}
+```
+
+#### ⚡ **Générer et Synchroniser en Une Fois**
+
+```http
+POST /api/sync/documents/generate-and-sync?period_days=30&include_patterns=true&include_predictions=true&anonymize=false&document_type=pain_report
+```
+
+**Réponse :**
+
+```json
+{
+  "report_generated": true,
+  "report": {
+    "report_type": "medical",
+    "statistics": {...},
+    "data": {...}
+  },
+  "sync_result": {
+    "success": true,
+    "message": "Rapport synchronisé avec CIA",
+    "cia_response": {
+      "document_id": "doc_123"
+    }
+  },
+  "timestamp": "2025-11-23T10:00:00"
+}
+```
+
 ---
 
 ## 🩹 **Suivi de Douleur**
@@ -670,8 +838,8 @@ GET /api/pain/entries/recent?limit=20
 
 ```http
 GET /api/pain/suggestions?window=30
-
 ```
+
 Retourne des recommandations et questions de suivi basées sur les données récentes.
 
 ### 📤 **Exports**
@@ -679,8 +847,8 @@ Retourne des recommandations et questions de suivi basées sur les données réc
 ```http
 GET /api/pain/export/csv
 GET /api/pain/export/psy-report
-
 ```
+
 CSV: contenu et nom de fichier; Psy-report: HTML imprimable et métadonnées.
 
 > Note: l’endpoint de statistiques dédié n’est pas exposé; utiliser `/api/pain/suggestions` et les exports pour des synthèses.
@@ -876,8 +1044,8 @@ GET /api/predictions/analytics
 ```http
 GET /api/research/experiments
 POST /api/research/experiment/create
-
 ```
+
 **Réponse :**
 
 ```json
@@ -907,8 +1075,8 @@ Content-Type: application/json
   "analysis_type": "correlation",
   "focus_areas": ["pain_intensity", "stress_level", "sleep_quality"]
 }
-
 ```
+
 **Réponse :**
 
 ```json
@@ -937,8 +1105,8 @@ Content-Type: application/json
 
 ```http
 GET /metrics/system
-
 ```
+
 **Réponse :**
 
 ```json
@@ -958,8 +1126,8 @@ GET /metrics/system
 
 ```http
 GET /metrics/health
-
 ```
+
 **Réponse :**
 
 ```json
@@ -981,8 +1149,8 @@ GET /metrics/health
 
 ```http
 GET /dashboard/data
-
 ```
+
 **Réponse :**
 
 ```json
@@ -1020,16 +1188,16 @@ GET /dashboard/data
 ```http
 GET /api/export/csv?format=complete&start_date=2024-12-01&end_date=2024-12-24
 Accept: text/csv
-
 ```
+
 **Réponse :** Fichier CSV téléchargeable
 
 ### 📊 **Export JSON**
 
 ```http
 GET /api/export/json?format=summary&period=30_days
-
 ```
+
 **Réponse :**
 
 ```json
@@ -1053,8 +1221,8 @@ GET /api/export/json?format=summary&period=30_days
 
 ```http
 GET /api/export/medical-report?period=30_days&include_patterns=true
-
 ```
+
 **Réponse :**
 
 ```json
@@ -1092,8 +1260,8 @@ GET /api/export/medical-report?period=30_days&include_patterns=true
 
 ```http
 GET /config/system
-
 ```
+
 **Réponse :**
 
 ```json

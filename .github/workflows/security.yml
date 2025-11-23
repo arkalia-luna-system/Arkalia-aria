@@ -3,6 +3,11 @@ on:
   schedule:
     - cron: "0 2 * * *"
   workflow_dispatch: {}
+
+concurrency:
+  group: "security-audit"
+  cancel-in-progress: true
+
 jobs:
   security-audit:
     runs-on: ubuntu-latest

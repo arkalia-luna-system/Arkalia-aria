@@ -9,24 +9,20 @@ Ce répertoire contient les workflows GitHub Actions pour le projet ARKALIA ARIA
 
 - **Déclencheurs** : Push sur `main`/`develop`, Pull Requests, Déclenchement manuel
 - **Jobs** :
-  - 🔍 **Quality** : Formatage (Black), Linting (Ruff), Types (MyPy), Sécurité (Bandit, Safety)
   - 🧪 **Test** : Tests unitaires avec couverture sur Python 3.10/3.11/3.12
-  - 🔗 **Integration** : Tests d'intégration CIA/ARIA
-  - 📚 **Docs** : Construction de la documentation MkDocs
-  - 🚀 **Deploy** : Déploiement automatique sur GitHub Pages
-  - 📊 **Notify** : Notifications de statut
-  - 🔄 **Cleanup** : Nettoyage des artefacts
+  - 🔍 **Lint** : Formatage (Black), Linting (Ruff), Types (MyPy), Sécurité (Bandit, Safety)
+  - 🔒 **Security** : Scan de sécurité avec ARIA_SecurityValidator
+  - 🏗️ **Build** : Construction de l'image Docker
+  - 🚀 **Deploy** : Déploiement automatique (uniquement sur `main`)
 
 ### 🔒 Security Audit (`security.yml`)
 **Audit de sécurité automatisé**
 
-- **Déclencheurs** : Push, PR, Planification quotidienne (2h00 UTC), Déclenchement manuel
+- **Déclencheurs** : Planification quotidienne (2h00 UTC), Déclenchement manuel
 - **Jobs** :
-  - 🔒 **Security Audit** : Analyse statique (Bandit), Vulnérabilités (Safety), Scan avancé (Semgrep)
-  - 📦 **Dependency Audit** : Audit des dépendances obsolètes et vulnérables
-  - 📄 **License Check** : Vérification de conformité des licences
+  - 🔒 **Security Audit** : Audit de sécurité complet avec ARIA_SecurityValidator (scan de code, validation des commandes, détection de patterns dangereux)
 
-### 📚 GitHub Pages (`gh-pages.yml`)
+### 📚 GitHub Pages (`deploy-docs.yml`)
 **Déploiement de documentation**
 
 - **Déclencheurs** : Push sur `main`/`develop`, PR, Déclenchement manuel

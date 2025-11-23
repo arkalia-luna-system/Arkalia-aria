@@ -201,7 +201,7 @@ Un médecin recevrait un PDF contenant :
 
 ## ARIA vs CIA : Quelle différence ?
 
-ARIA et **CIA** (Companion Intelligence Assistant) sont complémentaires dans l'écosystème Arkalia Luna, mais servent des objectifs différents.
+ARIA et CIA (Companion Intelligence Assistant) sont complémentaires dans l'écosystème Arkalia Luna, mais servent des objectifs différents.
 
 ### Positionnement clair
 
@@ -333,7 +333,7 @@ ARIA fait partie de l'écosystème **Arkalia Luna System**, un ensemble de proje
 
 ### Vision système
 
-```
+```text
 ┌─────────────────────────────────────────────────────────┐
 │           ÉCOSYSTÈME ARKALIA LUNA                       │
 └─────────────────────────────────────────────────────────┘
@@ -540,7 +540,7 @@ arkalia-aria/
 
 ### Diagramme d'architecture
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                    ARKALIA ARIA                              │
 │              (FastAPI + SQLite Local)                        │

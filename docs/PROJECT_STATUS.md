@@ -8,7 +8,7 @@
 
 ## Vue d'Ensemble
 
-**ARKALIA ARIA** est un assistant de recherche intelligent pour le suivi de santé personnel. Le projet est techniquement prêt à 85% : architecture centralisée complète, 4 modules migrés vers BaseAPI, 4 modules avec logging/DB centralisé, 394 tests passent, nécessite validations fonctionnelles et déploiement production.
+**ARKALIA ARIA** est un assistant de recherche intelligent pour le suivi de santé personnel. Le projet est techniquement prêt à **90%** : architecture centralisée complète, 4 modules migrés vers BaseAPI, 4 modules avec logging/DB centralisé, 394 tests passent, workflows CI/CD optimisés, nécessite validations fonctionnelles et déploiement production.
 
 ### État Actuel
 
@@ -92,6 +92,7 @@
 - ✅ Tests d'intégration (394 tests collectés, mode rapide disponible)
 - ✅ Documentation MkDocs complète - **MISE À JOUR**
 - ✅ Pipeline CI/CD GitHub Actions (workflows YAML corrigés + optimisés)
+- 🆕 **Workflow GitHub Actions** : Correction doublon deploy-docs/gh-pages, optimisation concurrency
 - ✅ Qualité du code : Ruff, Black, MyPy (erreurs corrigées)
 - ✅ Sécurité : Bandit, Safety (CI corrigée + timeouts optimisés)
 - ✅ **RGPD** : Endpoints de suppression (droit à l'oubli) implémentés
@@ -109,7 +110,7 @@
 - **Tests** : 394 tests collectés (100% passent)
 - **Typage** : 44 fichiers sources avec mypy strict
 - **Qualité** : 0 erreur Ruff, 0 erreur Black, 0 erreur MyPy
-- **CI/CD** : 4 workflows GitHub Actions opérationnels
+- **CI/CD** : 3 workflows GitHub Actions opérationnels (ci-cd.yml, security.yml, deploy-docs.yml)
 - **Modules** : 8 modules principaux fonctionnels
 - **Migration** : 4 modules migrés vers BaseAPI (pain_tracking, health_connectors, audio_voice, cia_sync), 4 autres modules utilisent DatabaseManager/logging centralisé
 - **Performance** : 3x plus rapide (1 connexion DB vs 5)

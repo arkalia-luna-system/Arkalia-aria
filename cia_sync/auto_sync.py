@@ -305,54 +305,6 @@ class AutoSyncManager:
 
         return {"days": aggregated_days, "total_days": len(aggregated_days)}
 
-    def _create_summary(self, pain_entries: list) -> dict[str, Any]:
-        """
-        Crée un résumé agrégé des données pour la synchronisation.
-
-        Args:
-            pain_entries: Liste des entrées de douleur
-
-        Returns:
-            Dict avec résumé agrégé
-        """
-        if not pain_entries:
-            return {
-                "period": "24h",
-                "total_entries": 0,
-                "summary": {},
-            }
-
-        # Calculer des statistiques agrégées
-        intensities = [
-            entry["intensity"] for entry in pain_entries if entry.get("intensity")
-        ]
-        avg_intensity = sum(intensities) / len(intensities) if intensities else 0
-        max_intensity = max(intensities) if intensities else 0
-        min_intensity = min(intensities) if intensities else 0
-
-        # Compter les déclencheurs les plus fréquents
-        triggers: dict[str, int] = {}
-        for entry in pain_entries:
-            trigger = entry.get("physical_trigger") or entry.get("mental_trigger")
-            if trigger:
-                triggers[trigger] = triggers.get(trigger, 0) + 1
-
-        most_common_trigger = (
-            max(triggers.items(), key=lambda x: x[1])[0] if triggers else None
-        )
-
-        return {
-            "period": "24h",
-            "total_entries": len(pain_entries),
-            "summary": {
-                "avg_intensity": round(avg_intensity, 2),
-                "max_intensity": max_intensity,
-                "min_intensity": min_intensity,
-                "most_common_trigger": most_common_trigger,
-                "trigger_counts": triggers,
-            },
-            "timestamp": datetime.now().isoformat(),
-        }
 
     def sync_now(self) -> bool:
         """

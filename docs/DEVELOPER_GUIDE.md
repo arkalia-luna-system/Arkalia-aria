@@ -607,6 +607,185 @@ POST /api/predictions/train
 
 ---
 
+## Synchronisation CIA et Granularité
+
+### Vue d'ensemble
+
+Le module `cia_sync/` gère la synchronisation bidirectionnelle avec ARKALIA CIA, avec un système de granularité permettant un contrôle fin de ce qui est synchronisé.
+
+### AutoSyncManager
+
+```python
+from cia_sync.auto_sync import get_auto_sync_manager
+
+# Récupérer le gestionnaire
+auto_sync = get_auto_sync_manager()
+
+# Démarrer la synchronisation automatique (60 min par défaut)
+auto_sync.start(interval_minutes=60)
+
+# Forcer une synchronisation immédiate
+auto_sync.sync_now()
+
+# Arrêter la synchronisation
+auto_sync.stop()
+
+# Obtenir le statut
+status = auto_sync.get_status()
+```
+
+### GranularityConfigManager
+
+```python
+from cia_sync.granularity_config import (
+    GranularityConfig,
+    SyncLevel,
+    DataType,
+    get_config_manager,
+)
+
+# Récupérer le gestionnaire
+config_manager = get_config_manager()
+
+# Créer une configuration personnalisée
+config = GranularityConfig(
+    pain_entries_level=SyncLevel.AGGREGATED,
+    patterns_level=SyncLevel.SUMMARY,
+    predictions_level=SyncLevel.NONE,
+    anonymize_personal_data=True,
+    anonymize_timestamps=True,
+    sync_period_days=7,
+)
+
+# Sauvegarder la configuration
+config_manager.save_config(config, config_name="psy_mode")
+
+# Charger une configuration
+config = config_manager.load_config("psy_mode")
+
+# Obtenir la configuration par défaut
+default_config = config_manager.get_default_config()
+```
+
+### Niveaux de Synchronisation
+
+```python
+from cia_sync.granularity_config import SyncLevel, DataType
+
+# Vérifier si un type de données doit être synchronisé
+if config.should_sync(DataType.PAIN_ENTRIES):
+    # Synchroniser les entrées de douleur
+    pass
+
+# Obtenir le niveau de synchronisation
+level = config.get_sync_level(DataType.PATTERNS)
+# Retourne: SyncLevel.SUMMARY, AGGREGATED, DETAILED, ou NONE
+```
+
+### Anonymisation
+
+```python
+# Appliquer l'anonymisation selon la configuration
+anonymized_data = config_manager.apply_anonymization(
+    data={"intensity": 7, "location": "maison", "notes": "douleur"},
+    config=config
+)
+# Résultat: {"intensity": 7, "location": None, "notes": None}
+```
+
+### Agrégation
+
+```python
+# Agrégation intelligente de données
+data_list = [
+    {"intensity": 7, "physical_trigger": "stress"},
+    {"intensity": 8, "physical_trigger": "stress"},
+    {"intensity": 6, "physical_trigger": "fatigue"},
+]
+
+aggregated = config_manager.aggregate_data(data_list, config)
+# Résultat:
+# {
+#   "count": 3,
+#   "statistics": {
+#     "avg_intensity": 7.0,
+#     "max_intensity": 8,
+#     "min_intensity": 6
+#   },
+#   "common_triggers": {"stress": 2, "fatigue": 1}
+# }
+```
+
+### Endpoints API
+
+```python
+# Récupérer une configuration
+GET /api/sync/granularity/config?config_name=default
+
+# Sauvegarder une configuration
+POST /api/sync/granularity/config?config_name=psy_mode
+{
+  "pain_entries_level": "summary",
+  "anonymize_personal_data": true,
+  ...
+}
+
+# Liste des configurations
+GET /api/sync/granularity/configs
+
+# Supprimer une configuration
+DELETE /api/sync/granularity/config?config_name=psy_mode
+
+# Niveaux disponibles
+GET /api/sync/granularity/sync-levels
+```
+
+### Intégration dans AutoSyncManager
+
+Le `AutoSyncManager` utilise automatiquement la configuration de granularité :
+
+```python
+# Dans _perform_sync()
+config = self.config_manager.get_default_config()
+
+# Synchroniser selon la granularité
+if config.should_sync(DataType.PAIN_ENTRIES):
+    pain_data = self._sync_pain_entries(config)
+    # Applique anonymisation et agrégation selon config
+```
+
+### Cas d'usage
+
+**Configuration pour psychologue** :
+```python
+psy_config = GranularityConfig(
+    pain_entries_level=SyncLevel.SUMMARY,
+    patterns_level=SyncLevel.SUMMARY,
+    predictions_level=SyncLevel.NONE,
+    anonymize_personal_data=True,
+    anonymize_timestamps=True,
+    anonymize_locations=True,
+    anonymize_notes=True,
+    sync_period_days=7,
+)
+```
+
+**Configuration pour médecin** :
+```python
+doctor_config = GranularityConfig(
+    pain_entries_level=SyncLevel.AGGREGATED,
+    patterns_level=SyncLevel.SUMMARY,
+    predictions_level=SyncLevel.SUMMARY,
+    anonymize_personal_data=False,
+    anonymize_timestamps=False,
+    anonymize_locations=False,
+    anonymize_notes=False,
+    sync_period_days=30,
+)
+```
+
+---
+
 ## Dashboard Web
 
 ### Architecture Frontend

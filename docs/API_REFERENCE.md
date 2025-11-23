@@ -423,6 +423,184 @@ Content-Type: application/json
 }
 ```
 
+### ⚙️ **Configuration de Granularité**
+
+Le système de granularité permet un contrôle fin de ce qui est synchronisé avec CIA, avec différents niveaux de détail et options d'anonymisation.
+
+#### 📊 **Récupérer une Configuration**
+
+```http
+GET /api/sync/granularity/config?config_name=default
+```
+
+**Réponse :**
+
+```json
+{
+  "config_name": "default",
+  "config": {
+    "pain_entries_level": "aggregated",
+    "patterns_level": "summary",
+    "predictions_level": "summary",
+    "correlations_level": "summary",
+    "triggers_level": "aggregated",
+    "exports_level": "none",
+    "anonymize_personal_data": false,
+    "anonymize_timestamps": false,
+    "anonymize_locations": true,
+    "anonymize_notes": true,
+    "aggregate_by_day": true,
+    "aggregate_by_week": false,
+    "include_statistics": true,
+    "include_trends": true,
+    "sync_period_days": 30
+  },
+  "timestamp": "2025-11-23T10:00:00"
+}
+```
+
+#### 💾 **Sauvegarder une Configuration**
+
+```http
+POST /api/sync/granularity/config?config_name=psy_mode
+Content-Type: application/json
+
+{
+  "pain_entries_level": "summary",
+  "patterns_level": "summary",
+  "predictions_level": "none",
+  "correlations_level": "summary",
+  "triggers_level": "summary",
+  "exports_level": "none",
+  "anonymize_personal_data": true,
+  "anonymize_timestamps": true,
+  "anonymize_locations": true,
+  "anonymize_notes": true,
+  "aggregate_by_day": true,
+  "include_statistics": true,
+  "include_trends": false,
+  "sync_period_days": 7
+}
+```
+
+**Réponse :**
+
+```json
+{
+  "message": "Configuration 'psy_mode' sauvegardée",
+  "status": "saved",
+  "config_name": "psy_mode",
+  "timestamp": "2025-11-23T10:00:00"
+}
+```
+
+#### 📋 **Liste des Configurations**
+
+```http
+GET /api/sync/granularity/configs
+```
+
+**Réponse :**
+
+```json
+{
+  "configs": [
+    {
+      "config_name": "default",
+      "is_default": 1,
+      "created_at": "2025-11-20T10:00:00",
+      "updated_at": "2025-11-23T09:00:00"
+    },
+    {
+      "config_name": "psy_mode",
+      "is_default": 0,
+      "created_at": "2025-11-22T14:00:00",
+      "updated_at": "2025-11-22T14:00:00"
+    }
+  ],
+  "total": 2,
+  "timestamp": "2025-11-23T10:00:00"
+}
+```
+
+#### 🗑️ **Supprimer une Configuration**
+
+```http
+DELETE /api/sync/granularity/config?config_name=psy_mode
+```
+
+**Réponse :**
+
+```json
+{
+  "message": "Configuration 'psy_mode' supprimée",
+  "status": "deleted",
+  "config_name": "psy_mode",
+  "timestamp": "2025-11-23T10:00:00"
+}
+```
+
+#### 📖 **Niveaux de Synchronisation Disponibles**
+
+```http
+GET /api/sync/granularity/sync-levels
+```
+
+**Réponse :**
+
+```json
+{
+  "sync_levels": ["none", "summary", "aggregated", "detailed"],
+  "data_types": [
+    "pain_entries",
+    "patterns",
+    "predictions",
+    "correlations",
+    "triggers",
+    "exports"
+  ],
+  "default_config": {
+    "pain_entries_level": "aggregated",
+    "patterns_level": "summary",
+    "predictions_level": "summary",
+    "correlations_level": "summary",
+    "triggers_level": "aggregated",
+    "exports_level": "none",
+    "anonymize_personal_data": false,
+    "anonymize_timestamps": false,
+    "anonymize_locations": true,
+    "anonymize_notes": true,
+    "aggregate_by_day": true,
+    "aggregate_by_week": false,
+    "include_statistics": true,
+    "include_trends": true,
+    "sync_period_days": 30
+  },
+  "timestamp": "2025-11-23T10:00:00"
+}
+```
+
+#### 📝 **Explication des Niveaux**
+
+- **`none`** : Aucune synchronisation de ce type de données
+- **`summary`** : Résumé statistique uniquement (moyennes, tendances)
+- **`aggregated`** : Données agrégées par période (jour/semaine)
+- **`detailed`** : Toutes les données détaillées (entrées complètes)
+
+#### 🔒 **Options d'Anonymisation**
+
+- **`anonymize_personal_data`** : Supprime tous les identifiants personnels
+- **`anonymize_timestamps`** : Remplace les timestamps par "anonymized"
+- **`anonymize_locations`** : Supprime les localisations
+- **`anonymize_notes`** : Supprime les notes personnelles
+
+#### 📊 **Options d'Agrégation**
+
+- **`aggregate_by_day`** : Agrégation par jour
+- **`aggregate_by_week`** : Agrégation par semaine
+- **`include_statistics`** : Inclut statistiques (moyenne, min, max)
+- **`include_trends`** : Inclut détection de tendances
+
 ---
 
 ## 🩹 **Suivi de Douleur**

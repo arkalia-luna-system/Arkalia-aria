@@ -16,6 +16,9 @@ concurrency:
   group: "deploy-docs-${{ github.ref }}"
   cancel-in-progress: true
 
+# Workflow indépendant du CI/CD - peut s'exécuter en parallèle
+# Note: Ce workflow a une priorité plus basse et ne bloque pas le CI/CD
+
 jobs:
   build-docs:
     name: 📚 Build Documentation

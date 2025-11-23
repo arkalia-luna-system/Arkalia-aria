@@ -13,6 +13,8 @@ concurrency:
   group: "ci-cd-${{ github.ref }}-${{ github.event.pull_request.number || github.sha }}"
   cancel-in-progress: true
 
+# Les workflows CI/CD et documentation sont indépendants et peuvent s'exécuter en parallèle
+
 jobs:
   test:
     runs-on: ubuntu-latest

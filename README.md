@@ -344,6 +344,18 @@ ARIA fait partie de l'écosystème **Arkalia Luna System**, un ensemble de proje
 - CIA génère des rappels basés sur les patterns ARIA
 - Métriques système collectées pour amélioration continue
 
+### Pour aller plus loin
+
+**Documentation détaillée côté CIA** :
+- [`docs/ARIA_INTEGRATION.md`](https://github.com/arkalia-luna-system/arkalia-cia/blob/develop/docs/ARIA_INTEGRATION.md) : Vision clinique de l'intégration ARIA ↔ CIA
+- [`docs/ECOSYSTEM_VISION.md`](https://github.com/arkalia-luna-system/arkalia-cia/blob/develop/docs/ECOSYSTEM_VISION.md) : Vision complète de l'écosystème Arkalia Luna
+- [`docs/USE_CASES.md`](https://github.com/arkalia-luna-system/arkalia-cia/blob/develop/docs/USE_CASES.md) : Cas d'usage par profils utilisateurs
+
+**Documentation ARIA** :
+- [`docs/API_REFERENCE.md`](docs/API_REFERENCE.md) : Documentation complète des endpoints
+- [`docs/DEVELOPER_GUIDE.md`](docs/DEVELOPER_GUIDE.md) : Guide développeur et contribution
+- [`docs/PROFESSIONAL_WORKFLOW.md`](docs/PROFESSIONAL_WORKFLOW.md) : Workflow pour professionnels de santé
+
 ---
 
 ## Confidentialité
@@ -618,7 +630,7 @@ ARIA suit les mêmes standards de qualité industrielle que CIA et BBIA.
 
 **Tests** :
 - 394 tests collectés (100% passent)
-- Couverture de code : Suivi via Codecov
+- Couverture de code : Suivi via Codecov (badge affiche la branche `main`)
 - Tests d'intégration CIA/ARIA
 
 **Code Quality** :
@@ -776,6 +788,7 @@ Vous êtes nouveau dans le projet ? Commencez par ces issues marquées `good fir
   </a>
   <a href="https://codecov.io/gh/arkalia-luna-system/arkalia-aria">
     <img alt="Codecov" src="https://codecov.io/gh/arkalia-luna-system/arkalia-aria/branch/main/graph/badge.svg" />
+    <!-- Note: Badge affiche la couverture de la branche main (stable). Pour develop, voir le dashboard Codecov -->
   </a>
   <img alt="Python" src="https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12-3776AB" />
   <img alt="Ruff" src="https://img.shields.io/badge/lint-ruff-0A7BBB" />

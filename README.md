@@ -758,16 +758,16 @@ Roadmap alignée avec l'écosystème Arkalia Luna (CIA, BBIA).
 - [x] Export CSV/PDF/Excel pour professionnels
 - [x] Base de données locale SQLite
 
-### Phase 2 : Patterns psy & corrélations 🚧 **En cours**
+### Phase 2 : Patterns psy & corrélations ✅ **Terminé**
 
 - [x] Health connectors (Samsung/Google/iOS) ✅ **Terminé**
 - [x] Dashboard web interactif ✅ **Terminé**
 - [x] Tests unitaires complets ✅ **Terminé**
 - [x] Pattern analysis avancé (corrélations sommeil, stress) ✅ **Terminé**
 - [x] Détection automatique de déclencheurs récurrents ✅ **Terminé**
-- [ ] Visualisations interactives (heatmaps, timelines) 🚧 **En développement**
+- [ ] Visualisations interactives (heatmaps, timelines) 🔮 **Planifié (Phase 4)**
 
-### Phase 3 : Synchro CIA + anonymisation 🚧 **En cours**
+### Phase 3 : Synchro CIA + anonymisation ✅ **Terminé**
 
 - [x] Module `cia_sync/` avec API ✅ **Terminé**
 - [x] Synchronisation sélective (douleur, patterns, prédictions) ✅ **Terminé**
@@ -776,7 +776,7 @@ Roadmap alignée avec l'écosystème Arkalia Luna (CIA, BBIA).
 - [x] Agrégation intelligente (résumés vs détails) ✅ **Terminé**
 - [x] Système de configuration granularité ✅ **Terminé**
 - [x] Intégration complète avec documents CIA ✅ **Terminé**
-- [ ] Interface utilisateur pour contrôle granularité 🚧 **En développement**
+- [ ] Interface utilisateur pour contrôle granularité 🔮 **Planifié (Phase 4)**
 
 ### Phase 4 : Boucle avec BBIA 🔮 **Planifié**
 

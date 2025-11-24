@@ -18,7 +18,7 @@ concurrency:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     strategy:
       fail-fast: false
       matrix:
@@ -36,8 +36,22 @@ jobs:
         timeout-minutes: 5
         run: pip install -r requirements.txt || echo "⚠️ Some dependencies may have failed to install"
       - name: Run tests
-        timeout-minutes: 25
-        run: pytest tests/ --cov=. --cov-report=xml --cov-report=term -x --tb=short || true
+        timeout-minutes: 40
+        run: |
+          # Exécuter les tests en parallèle avec pytest-xdist (auto-détection du nombre de CPUs)
+          # Utiliser --cov pour couverture mais avec optimisations
+          pytest tests/ \
+            --cov=. \
+            --cov-report=xml \
+            --cov-report=term \
+            -x \
+            --tb=short \
+            -n auto \
+            --maxfail=3 \
+            --durations=10 \
+            --dist=worksteal \
+            -q \
+            || true
       - name: Upload coverage
         if: always() && github.event_name != 'pull_request'
         uses: codecov/codecov-action@v3

@@ -261,6 +261,59 @@ async def start_auto_sync(interval_minutes: int = 60) -> dict:
         ) from e
 
 
+@router.post("/sync/pull-from-cia")
+async def pull_data_from_cia(data_type: str = "all") -> dict:
+    """
+    Récupère des données depuis CIA vers ARIA (synchronisation bidirectionnelle).
+
+    Args:
+        data_type: Type de données à récupérer (all, appointments, medications, documents)
+
+    Returns:
+        Données récupérées depuis CIA
+    """
+    if not _check_cia_connection():
+        raise HTTPException(status_code=503, detail="CIA non disponible")
+
+    try:
+        pulled_data = {}
+
+        if data_type in ("all", "appointments"):
+            # Récupérer les rendez-vous médicaux depuis CIA
+            response = _make_cia_request("GET", "/api/aria/appointments")
+            if response.status_code == 200:
+                pulled_data["appointments"] = response.json()
+
+        if data_type in ("all", "medications"):
+            # Récupérer les médicaments depuis CIA
+            response = _make_cia_request("GET", "/api/aria/medications")
+            if response.status_code == 200:
+                pulled_data["medications"] = response.json()
+
+        if data_type in ("all", "documents"):
+            # Récupérer les documents médicaux depuis CIA
+            response = _make_cia_request("GET", "/api/aria/documents")
+            if response.status_code == 200:
+                pulled_data["documents"] = response.json()
+
+        if data_type in ("all", "health_context"):
+            # Récupérer le contexte santé depuis CIA
+            response = _make_cia_request("GET", "/api/aria/health-context")
+            if response.status_code == 200:
+                pulled_data["health_context"] = response.json()
+
+        return {
+            "message": f"Données récupérées depuis CIA ({data_type})",
+            "status": "success",
+            "pulled_data": pulled_data,
+            "timestamp": datetime.now().isoformat(),
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Erreur récupération données CIA: {str(e)}"
+        ) from e
+
+
 @router.post("/auto-sync/stop")
 async def stop_auto_sync() -> dict:
     """

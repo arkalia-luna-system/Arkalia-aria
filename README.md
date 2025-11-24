@@ -294,9 +294,11 @@ ARIA et **CIA** (Companion Intelligence Assistant) travaillent ensemble dans l'�
 **✅ Implémenté** :
 
 - Module `cia_sync/` avec API de synchronisation
+- **Synchronisation automatique** : Activée au démarrage si `ARIA_CIA_SYNC_ENABLED=true`
 - Endpoints de vérification de connexion CIA
 - Synchronisation sélective (douleur, patterns, prédictions)
 - Mode présentation psychologue
+- **Intégration BBIA** : Module `bbia_integration/` pour communication avec robot (mode simulation)
 - Push de données vers CIA
 
 **🚧 En développement** :
@@ -325,6 +327,7 @@ ARIA fait partie de l'écosystème **Arkalia Luna System**, un ensemble de proje
 - [GitHub](https://github.com/arkalia-luna-system/bbia-sim)
 - 12 émotions robotiques, vision, voix
 - Interface incarnée pour l'écosystème (Phase 4)
+- **Intégration ARIA** : État émotionnel adaptatif basé sur données douleur/stress
 
 ### 📚 Pour aller plus loin
 
@@ -366,10 +369,10 @@ ARIA fait partie de l'écosystème **Arkalia Luna System**, un ensemble de proje
 
 **Flux de données** :
 
-- **ARIA** → **CIA** : Données de douleur/psy agrégées pour documents
+- **ARIA** → **CIA** : Données de douleur/psy agrégées pour documents (synchronisation automatique)
 - **CIA** → **ARIA** : Contexte santé (RDV, médicaments, historique)
-- **ARIA/CIA** → **BBIA** : État émotionnel et santé pour comportement adaptatif
-- **BBIA** → **ARIA/CIA** : Interactions et observations comportementales
+- **ARIA** → **BBIA** : État émotionnel adaptatif basé sur douleur/stress/sommeil (mode simulation disponible)
+- **BBIA** → **ARIA/CIA** : Interactions et observations comportementales (futur)
 
 **Futures intégrations** :
 

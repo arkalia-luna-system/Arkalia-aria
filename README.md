@@ -6,8 +6,8 @@
 ## Assistant de recherche santé personnelle
 
 > **Mis à jour régulièrement** — Ce projet est maintenu activement et mis à jour chaque semaine.  
-> **Dernière mise à jour majeure** : 23 novembre 2025 — Documentation alignée avec CIA et écosystème Arkalia Luna.  
-> **Phase 2 & 3 terminées** : Pattern analysis avancé et synchronisation CIA complète.
+> **Dernière mise à jour majeure** : 24 novembre 2025 — Synchronisation automatique CIA, intégration BBIA (mode simulation), documentation complète.  
+> **Phase 2 & 3 terminées** : Pattern analysis avancé et synchronisation CIA complète (bidirectionnelle + auto-sync).
 
 ---
 
@@ -293,20 +293,20 @@ ARIA et **CIA** (Companion Intelligence Assistant) travaillent ensemble dans l'�
 
 **✅ Implémenté** :
 
-- Module `cia_sync/` avec API de synchronisation
-- **Synchronisation automatique** : Activée au démarrage si `ARIA_CIA_SYNC_ENABLED=true`
+- Module `cia_sync/` avec API de synchronisation complète
+- **Synchronisation automatique périodique** : Activée au démarrage si `ARIA_CIA_SYNC_ENABLED=true` (intervalle configurable)
+- **Synchronisation bidirectionnelle** : Push ARIA → CIA et Pull CIA → ARIA (endpoint `/api/sync/pull-from-cia`)
 - Endpoints de vérification de connexion CIA
 - Synchronisation sélective (douleur, patterns, prédictions)
-- Mode présentation psychologue
+- **Agrégation intelligente** : Résumés vs détails selon granularité configurée
+- Mode présentation psychologue (anonymisation automatique)
 - **Intégration BBIA** : Module `bbia_integration/` pour communication avec robot (mode simulation)
 - Push de données vers CIA
+- Intégration complète avec documents CIA
 
 **🚧 En développement** :
 
-- Synchronisation automatique périodique
-- Agrégation intelligente (résumés vs détails)
-- Interface utilisateur pour contrôle granularité
-- Intégration complète avec documents CIA
+- Interface utilisateur pour contrôle granularité (Phase 4)
 
 ---
 
@@ -340,39 +340,67 @@ ARIA fait partie de l'écosystème **Arkalia Luna System**, un ensemble de proje
 ### Vision système
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│           ÉCOSYSTÈME ARKALIA LUNA                       │
-└─────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│              ÉCOSYSTÈME ARKALIA LUNA SYSTEM                  │
+│         Trois composants interconnectés pour la santé       │
+└─────────────────────────────────────────────────────────────┘
 
-    ┌─────────────┐         ┌──────────────┐
-    │     CIA     │◄────────►│     ARIA     │
-    │ (Coffre-fort│         │ (Laboratoire │
-    │   santé)    │         │  personnel)  │
-    └──────┬──────┘         └──────┬───────┘
-           │                       │
-           │                       │
-           ▼                       ▼
-    ┌─────────────────────────────────────┐
-    │         BBIA-SIM                    │
-    │    (Robot compagnon Reachy)         │
-    │  - Émotions adaptatives            │
-    │  - Vision (YOLO, MediaPipe)        │
-    │  - Voix (Whisper, TTS)             │
-    └─────────────────────────────────────┘
-           │
-           ▼
-    ┌─────────────────────────────────────┐
-    │    Metrics Collector                │
-    │    (Collecte de métriques)         │
-    └─────────────────────────────────────┘
+    ┌──────────────────────────────────────────────────────┐
+    │                    ARIA                              │
+    │         (Research Intelligence Assistant)            │
+    │  • Journal douleur quotidien                        │
+    │  • Analyse patterns psychologiques                  │
+    │  • Prédictions ML locales                           │
+    │  • Base de données locale (SQLite)                   │
+    │  • Port: 8001                                        │
+    └───────────────┬──────────────────┬───────────────────┘
+                    │                  │
+        ┌───────────▼──────────┐       │
+        │   Synchronisation    │       │
+        │   Bidirectionnelle   │       │
+        │   • Auto-sync (60min)│       │
+        │   • Push agrégats    │       │
+        │   • Pull contexte    │       │
+        └───────────┬──────────┘       │
+                    │                  │
+    ┌───────────────▼──────────────────▼───────────────────┐
+    │                    CIA                                │
+    │    (Companion Intelligence Assistant)                │
+    │  • Coffre-fort santé familial                         │
+    │  • Documents médicaux sécurisés (AES-256)            │
+    │  • Rendez-vous médicaux                              │
+    │  • Contacts urgence (ICE)                            │
+    │  • Port: 8000                                        │
+    └───────────────┬──────────────────────────────────────┘
+                    │
+        ┌───────────▼──────────┐
+        │   État émotionnel   │
+        │   • Douleur → Empathie│
+        │   • Stress → Calmant │
+        │   • Sommeil → Support│
+        └───────────┬──────────┘
+                    │
+    ┌───────────────▼───────────────────────────────────────┐
+    │                  BBIA-SIM                              │
+    │         (Robot compagnon Reachy Mini)                  │
+    │  • 12 émotions robotiques adaptatives                 │
+    │  • Vision (YOLO, MediaPipe)                           │
+    │  • Voix (Whisper, TTS)                                 │
+    │  • Mode simulation disponible                          │
+    │  • Port: 8002                                          │
+    │  • Robot physique: janvier 2026                        │
+    └────────────────────────────────────────────────────────┘
 ```
 
-**Flux de données** :
+**Flux de données (implémentés)** :
 
-- **ARIA** → **CIA** : Données de douleur/psy agrégées pour documents (synchronisation automatique)
-- **CIA** → **ARIA** : Contexte santé (RDV, médicaments, historique)
-- **ARIA** → **BBIA** : État émotionnel adaptatif basé sur douleur/stress/sommeil (mode simulation disponible)
-- **BBIA** → **ARIA/CIA** : Interactions et observations comportementales (futur)
+- **ARIA** → **CIA** : Données de douleur/psy agrégées pour documents (synchronisation automatique périodique, intervalle configurable)
+- **CIA** → **ARIA** : Contexte santé (RDV médicaux, médicaments, documents, historique) via endpoint `/api/sync/pull-from-cia`
+- **ARIA** → **BBIA** : État émotionnel adaptatif basé sur douleur/stress/sommeil (mode simulation disponible, 4 endpoints API)
+
+**Flux de données (futurs)** :
+
+- **BBIA** → **ARIA/CIA** : Interactions et observations comportementales (nécessite robot physique)
 
 **Futures intégrations** :
 

@@ -11,6 +11,7 @@
 Ce guide vous accompagne dans le test d'**ARKALIA ARIA**, un laboratoire de recherche santé personnel qui permet de suivre votre douleur, analyser des patterns et prédire des tendances.
 
 ARIA fait partie de l'écosystème **Arkalia Luna System** et communique avec :
+
 - **CIA** (Companion Intelligence Assistant) : Coffre-fort santé familial
 - **BBIA-SIM** : Robot compagnon (intégration future)
 
@@ -78,13 +79,14 @@ BBIA_API_URL=http://127.0.0.1:8002
 python main.py
 ```
 
-L'API sera accessible sur : **http://127.0.0.1:8001**
+L'API sera accessible sur : <http://127.0.0.1:8001>
 
 ### Vérifier que tout fonctionne
 
 Ouvrez votre navigateur :
-- **Documentation API** : http://127.0.0.1:8001/docs
-- **Health Check** : http://127.0.0.1:8001/health
+
+- **Documentation API** : <http://127.0.0.1:8001/docs>
+- **Health Check** : <http://127.0.0.1:8001/health>
 
 ---
 
@@ -123,6 +125,7 @@ curl "http://127.0.0.1:8001/api/pain/stats"
 ```
 
 **Résultats attendus** :
+
 - ✅ Entrée créée avec succès
 - ✅ Entrées récupérées avec toutes les données
 - ✅ Statistiques calculées (moyenne, max, min)
@@ -179,7 +182,7 @@ curl "http://127.0.0.1:8001/api/predictions/trends?days=7"
 
 **Objectif** : Tester la communication avec CIA (si installé)
 
-**Prérequis** : CIA doit être lancé sur http://127.0.0.1:8000
+**Prérequis** : CIA doit être lancé sur <http://127.0.0.1:8000>
 
 **Étapes** :
 
@@ -308,15 +311,15 @@ curl "http://127.0.0.1:8001/api/sync/psy-mode"
 
 1. **Accéder au dashboard** :
 
-Ouvrez votre navigateur : http://127.0.0.1:8001/dashboard
+Ouvrez votre navigateur : <http://127.0.0.1:8001/dashboard>
 
 2. **Pages disponibles** :
 
-- Dashboard principal : http://127.0.0.1:8001/dashboard
-- Métriques santé : http://127.0.0.1:8001/dashboard/health
-- Analyse douleur : http://127.0.0.1:8001/dashboard/pain
-- Visualisation patterns : http://127.0.0.1:8001/dashboard/patterns
-- Rapports : http://127.0.0.1:8001/dashboard/reports
+- Dashboard principal : <http://127.0.0.1:8001/dashboard>
+- Métriques santé : <http://127.0.0.1:8001/dashboard/health>
+- Analyse douleur : <http://127.0.0.1:8001/dashboard/pain>
+- Visualisation patterns : <http://127.0.0.1:8001/dashboard/patterns>
+- Rapports : <http://127.0.0.1:8001/dashboard/reports>
 
 **Résultats attendus** :
 - ✅ Dashboard accessible
@@ -372,7 +375,7 @@ Les services suivants sont implémentés :
 
 ### Où signaler
 
-- **GitHub Issues** : https://github.com/arkalia-luna-system/arkalia-aria/issues
+- **GitHub Issues** : <https://github.com/arkalia-luna-system/arkalia-aria/issues>
 - **Email** : arkalia.luna.system@gmail.com
 
 ---
@@ -421,13 +424,12 @@ Les services suivants sont implémentés :
 
 ---
 
-## 🆘 Support
+## Support
 
 - **Documentation** : `docs/`
-- **Issues GitHub** : https://github.com/arkalia-luna-system/arkalia-aria/issues
+- **Issues GitHub** : <https://github.com/arkalia-luna-system/arkalia-aria/issues>
 - **Contact** : arkalia.luna.system@gmail.com
 
 ---
 
-**Merci de tester ARKALIA ARIA ! 🚀**
-
+Merci de tester ARKALIA ARIA ! 🚀

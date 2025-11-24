@@ -96,6 +96,7 @@
 - **Endpoints** :
   - `/api/sync/connection` : Vérification connexion
   - `/api/sync/selective` : Synchronisation sélective
+  - `/api/sync/pull-from-cia` : Récupération données depuis CIA (bidirectionnel)
   - `/api/sync/auto-sync/start` : Démarrage auto-sync
   - `/api/sync/auto-sync/stop` : Arrêt auto-sync
   - `/api/sync/medical-report` : Génération rapport médical

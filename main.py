@@ -18,6 +18,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # Imports des modules
 from audio_voice.api import router as audio_router
 from cia_sync.api import router as sync_router
+from cia_sync.bbia_api import router as bbia_router
 from devops_automation.api import ARIA_DevOpsAPI
 from health_connectors.api import HealthConnectorsAPI
 from metrics_collector.api import ARIA_MetricsAPI
@@ -64,6 +65,7 @@ app.include_router(
 )
 app.include_router(research_router, prefix="/api/research", tags=["Research Tools"])
 app.include_router(sync_router, prefix="/api/sync", tags=["CIA Sync"])
+app.include_router(bbia_router, prefix="/api/bbia", tags=["BBIA Integration"])
 app.include_router(audio_router, prefix="/api/audio", tags=["Audio/Voice"])
 # watch_router supprimé - doublon de health_connectors
 
@@ -94,6 +96,33 @@ try:
 except Exception as e:
     logger.warning(f"⚠️ DevOps désactivé: {e}")
 
+# Activation automatique de la synchronisation CIA si configurée
+if os.getenv("ARIA_CIA_SYNC_ENABLED", "0").lower() in ("1", "true"):
+    try:
+        from cia_sync.auto_sync import get_auto_sync_manager
+        from core.config import config
+
+        auto_sync = get_auto_sync_manager()
+        sync_interval = int(os.getenv("ARIA_CIA_SYNC_INTERVAL_MINUTES", "60"))
+        cia_url = config.get("cia_api_url", "http://127.0.0.1:8000")
+        
+        # Mettre à jour l'URL CIA si configurée
+        if cia_url != "http://127.0.0.1:8000":
+            auto_sync.cia_base_url = cia_url
+        
+        success = auto_sync.start(interval_minutes=sync_interval)
+        if success:
+            logger.info(
+                f"✅ Synchronisation automatique CIA activée "
+                f"(intervalle: {sync_interval} min, URL: {cia_url})"
+            )
+        else:
+            logger.warning("⚠️ Synchronisation automatique CIA déjà en cours")
+    except Exception as e:
+        logger.warning(f"⚠️ Synchronisation automatique CIA désactivée: {e}")
+else:
+    logger.info("ℹ️ Synchronisation automatique CIA désactivée (ARIA_CIA_SYNC_ENABLED=false)")
+
 
 @app.get("/")
 async def root():
@@ -108,6 +137,7 @@ async def root():
             "prediction_engine",
             "research_tools",
             "cia_sync",
+            "bbia_integration",
             "audio_voice",
             # "watch_integration", # supprimé - doublon de health_connectors
             "health_connectors",

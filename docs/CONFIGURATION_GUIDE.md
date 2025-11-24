@@ -226,6 +226,58 @@ RATE_LIMIT_CONFIG = {
 
 ---
 
+## Intégrations
+
+### Synchronisation CIA
+
+```bash
+# Configuration synchronisation automatique avec CIA
+export ARIA_CIA_SYNC_ENABLED=true
+export ARIA_CIA_SYNC_INTERVAL_MINUTES=60
+export CIA_API_URL=http://127.0.0.1:8000
+export CIA_API_KEY=your_cia_api_key_here
+```
+
+**Description** :
+
+- `ARIA_CIA_SYNC_ENABLED` : Active la synchronisation automatique au démarrage (true/false)
+- `ARIA_CIA_SYNC_INTERVAL_MINUTES` : Intervalle de synchronisation en minutes (défaut: 60)
+- `CIA_API_URL` : URL de base de l'API CIA (défaut: http://127.0.0.1:8000)
+- `CIA_API_KEY` : Clé API pour authentification (optionnel)
+
+**Fonctionnalités** :
+
+- Synchronisation automatique périodique (push ARIA → CIA)
+- Synchronisation bidirectionnelle (pull CIA → ARIA via `/api/sync/pull-from-cia`)
+- Agrégation intelligente selon granularité configurée
+- Mode psychologue avec anonymisation automatique
+
+### Intégration BBIA (Robot Compagnon)
+
+```bash
+# Configuration intégration BBIA
+export ARIA_BBIA_ENABLED=false
+export BBIA_API_URL=http://127.0.0.1:8002
+export BBIA_API_KEY=your_bbia_api_key_here
+```
+
+**Description** :
+
+- `ARIA_BBIA_ENABLED` : Active l'intégration BBIA (true/false, défaut: false)
+- `BBIA_API_URL` : URL de base de l'API BBIA-SIM (défaut: http://127.0.0.1:8002)
+- `BBIA_API_KEY` : Clé API pour authentification (optionnel)
+
+**Fonctionnalités** :
+
+- Mode simulation disponible (fonctionne sans robot physique)
+- Préparation état émotionnel basé sur douleur/stress/sommeil
+- Adaptation empathique du comportement robot
+- 4 endpoints API : `/api/bbia/status`, `/api/bbia/connection`, `/api/bbia/emotional-state`, `/api/bbia/emotional-state/from-latest-pain`
+
+**Note** : Robot physique Reachy Mini requis pour activation complète (arrivée prévue janvier 2026)
+
+---
+
 ## Monitoring
 
 ### Prometheus

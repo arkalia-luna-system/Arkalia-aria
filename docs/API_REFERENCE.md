@@ -396,6 +396,63 @@ GET /api/sync/psy-mode
 }
 ```
 
+### 📥 **Pull de Données depuis CIA (Bidirectionnel)**
+
+```http
+POST /api/sync/pull-from-cia?data_type=all
+```
+
+**Description** : Récupère des données depuis CIA vers ARIA (synchronisation bidirectionnelle).
+
+**Paramètres de requête** :
+
+- `data_type` (string, optionnel) : Type de données à récupérer
+  - `all` : Toutes les données (défaut)
+  - `appointments` : Rendez-vous médicaux
+  - `medications` : Médicaments
+  - `documents` : Documents médicaux
+  - `health_context` : Contexte santé
+
+**Réponse** :
+
+```json
+{
+  "message": "Données récupérées depuis CIA (all)",
+  "status": "success",
+  "pulled_data": {
+    "appointments": [
+      {
+        "id": "appt_123",
+        "date": "2025-12-15T10:00:00Z",
+        "doctor": "Dr. Martin",
+        "specialty": "Rhumatologie"
+      }
+    ],
+    "medications": [
+      {
+        "id": "med_456",
+        "name": "Paracétamol",
+        "dosage": "500mg",
+        "frequency": "3x/jour"
+      }
+    ],
+    "documents": [
+      {
+        "id": "doc_789",
+        "type": "prescription",
+        "date": "2025-11-20T14:30:00Z"
+      }
+    ],
+    "health_context": {
+      "last_consultation": "2025-11-20",
+      "active_conditions": ["Fibromyalgie"],
+      "current_treatments": 2
+    }
+  },
+  "timestamp": "2025-11-24T12:00:00Z"
+}
+```
+
 ### 📤 **Push de Données vers CIA**
 
 ```http
@@ -1252,6 +1309,140 @@ GET /api/export/medical-report?period=30_days&include_patterns=true
 }
 
 ```
+
+---
+
+## 🤖 **Intégration BBIA (Robot Compagnon)**
+
+### 📊 **Statut BBIA**
+
+```http
+GET /api/bbia/status
+```
+
+**Description** : Retourne le statut de l'intégration BBIA (connexion, mode, capacités).
+
+**Réponse** :
+
+```json
+{
+  "module": "bbia_integration",
+  "connected": false,
+  "bbia_url": "http://127.0.0.1:8002",
+  "mode": "simulation",
+  "capabilities": [
+    "emotional_state_preparation",
+    "behavior_recommendation",
+    "pain_based_adaptation",
+    "stress_based_adaptation",
+    "sleep_based_adaptation"
+  ],
+  "note": "Mode simulation - robot physique requis pour activation complète",
+  "timestamp": "2025-11-24T12:00:00Z"
+}
+```
+
+### 🔌 **Vérification Connexion**
+
+```http
+GET /api/bbia/connection
+```
+
+**Description** : Vérifie si BBIA-SIM est accessible.
+
+**Réponse** :
+
+```json
+{
+  "connected": false,
+  "bbia_url": "http://127.0.0.1:8002",
+  "mode": "simulation",
+  "timestamp": "2025-11-24T12:00:00Z"
+}
+```
+
+### 💭 **Envoi État Émotionnel**
+
+```http
+POST /api/bbia/emotional-state
+Content-Type: application/json
+
+{
+  "pain_intensity": 7,
+  "stress_level": 6,
+  "sleep_quality": 4
+}
+```
+
+**Description** : Envoie un état émotionnel à BBIA basé sur les données ARIA (douleur, stress, sommeil).
+
+**Paramètres** :
+
+- `pain_intensity` (float, requis) : Intensité de la douleur (0-10)
+- `stress_level` (float, optionnel) : Niveau de stress (0-10)
+- `sleep_quality` (float, optionnel) : Qualité du sommeil (0-10)
+
+**Réponse** :
+
+```json
+{
+  "message": "État émotionnel préparé et envoyé à BBIA",
+  "result": {
+    "success": false,
+    "mode": "simulation",
+    "message": "BBIA non accessible, état préparé mais non envoyé",
+    "emotional_state": {
+      "timestamp": "2025-11-24T12:00:00Z",
+      "source": "aria",
+      "pain_level": 7,
+      "emotional_state": "empathique_high",
+      "recommended_behavior": {
+        "primary_action": "comfort",
+        "voice_tone": "gentle",
+        "secondary_actions": ["show_concern", "offer_support"]
+      }
+    }
+  },
+  "timestamp": "2025-11-24T12:00:00Z"
+}
+```
+
+### 📝 **État Émotionnel depuis Dernière Douleur**
+
+```http
+POST /api/bbia/emotional-state/from-latest-pain
+```
+
+**Description** : Envoie un état émotionnel à BBIA basé sur la dernière entrée de douleur enregistrée.
+
+**Réponse** :
+
+```json
+{
+  "message": "État émotionnel envoyé depuis dernière entrée de douleur",
+  "pain_entry": {
+    "intensity": 7,
+    "location": "Dos",
+    "physical_trigger": "Position assise prolongée",
+    "timestamp": "2025-11-24T10:30:00Z"
+  },
+  "result": {
+    "success": false,
+    "mode": "simulation",
+    "emotional_state": {
+      "pain_level": 7,
+      "emotional_state": "empathique_high"
+    }
+  },
+  "timestamp": "2025-11-24T12:00:00Z"
+}
+```
+
+**Notes** :
+
+- Mode simulation : Fonctionne sans robot physique (préparation état émotionnel)
+- Mode connecté : Nécessite BBIA-SIM lancé et accessible
+- États émotionnels : `empathique_high`, `empathique_medium`, `calmant`, `encourageant`, `neutre`
 
 ---
 

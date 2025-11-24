@@ -71,35 +71,118 @@ Cette checklist permet de valider que ARKALIA ARIA est prêt pour la production.
 
 ## Validation Sécurité & RGPD
 
-### Conformité RGPD
+### Principes Clés RGPD
 
-- [ ] **Checklist RGPD** - Tous les points validés
-  - [ ] Consentement explicite recueilli
-  - [ ] Droits utilisateur implémentés (accès, rectification, effacement)
-  - [ ] Données chiffrées au repos
-  - [ ] Transport sécurisé (HTTPS)
-  - [ ] Politique de rétention définie
-  - [ ] Droit à l'oubli implémenté
+- [ ] Licéité, loyauté, transparence
+- [ ] Limitation des finalités et minimisation des données
+- [ ] Exactitude, limitation de la conservation, intégrité et confidentialité
 
-- [ ] **Endpoints RGPD** - Fonctionnels
-  - [ ] `GET /api/pain/entries` - Accès aux données
-  - [ ] `DELETE /api/pain/entries/{entry_id}` - Effacement d'une entrée
-  - [ ] `DELETE /api/pain/entries` - Suppression complète (toutes les entrées)
-  - [ ] `GET /api/pain/export/psy-report` - Export anonymisé pour professionnels
+### 1) Cartographie et Finalités
 
-### Sécurité Technique
+- [ ] Registre de traitement à jour pour: santé, douleur, analytics, mobile
+- [ ] Finalités documentées dans `docs/` (soins, suivi, recherche, UX)
+- [ ] Base légale: consentement explicite pour données santé
 
-- [ ] **Audit de sécurité** - 0 vulnérabilité critique
-  - [ ] Bandit scan - 0 erreur critique
-  - [ ] Safety check - 0 vulnérabilité
-  - [ ] Dépendances à jour
-  - [ ] Secrets en variables d'environnement
+### 2) Consentement et Droits
 
-- [ ] **Configuration sécurisée**
-  - [ ] CORS configuré correctement
-  - [ ] Limites de taille requêtes
-  - [ ] Journalisation sans PII
-  - [ ] Sauvegardes chiffrées
+- [ ] Recueil de consentement clair (mobile/web) avec preuve
+- [ ] Retrait du consentement simple, sans dégrader l'expérience
+- [ ] Droits: accès, rectification, effacement, limitation, portabilité, opposition
+- [ ] Procédure de réponse (<30 jours) documentée
+
+### 3) Minimisation des Données
+
+- [ ] Collecte strictement nécessaire (pas de données superflues)
+- [ ] Champs optionnels explicitement marqués
+- [ ] Pseudonymisation lorsque possible
+
+### 4) Sécurité Technique
+
+- [ ] Données locales chiffrées au repos (SQLite pragma chiffrage si activé)
+- [ ] Transport sécurisé (HTTPS en prod)
+- [ ] Secrets/API keys en variables d'environnement
+- [ ] Politique CORS minimale (`core/config.py`)
+- [ ] Limites de taille requêtes (`ARIA_MAX_REQUEST_SIZE`)
+- [ ] Journalisation sans PII sensible
+- [ ] Sauvegardes chiffrées, test de restauration périodique
+
+### 5) Rétention et Suppression
+
+- [ ] Politique de rétention (ex: 365 jours, configurable)
+- [ ] Endpoint/processus de purge + droit à l'oubli
+- [ ] Logs: rotation et durée limitée
+
+### 6) Notifications & Compatibilité Système
+
+- [ ] Permissions notifications (iOS/Android) conformes aux guidelines
+- [ ] Contenu non sensible dans les notifications
+- [ ] Scénarios testés: rappel douleur, sync, rapports
+
+### 7) Connecteurs Santé (Samsung/Google Fit/iOS)
+
+- [ ] Portées minimales, tokens chiffrés, rotation auto
+- [ ] Désactivation par connecteur (consentement granulaire)
+- [ ] Sync chiffrée, pas d'envoi tiers non autorisé
+
+### 8) Incidents & Conformité
+
+- [ ] Plan de gestion d'incidents (72h notification si applicable)
+- [ ] Revue régulière Bandit/Safety, dépendances à jour
+- [ ] Revue de code sécurité et pair review obligatoire
+
+### 9) Documentation & Revue
+
+- [ ] Doc harmonisée FastAPI/Flutter (endpoints, cas d'usage santé)
+- [ ] Mentions légales et politique privacy accessibles
+- [ ] Check de conformité avant release/merge
+
+### 10) Points de Contrôle Rapides
+
+- [ ] `black` + `ruff` OK
+- [ ] Tests unitaires critiques OK (pain, analytics)
+- [ ] Bandit/Safety OK (hors venv)
+- [ ] Lint docs: endpoints à jour (pain: quick-entry, entry, entries, recent, suggestions, exports)
+
+### 11) Tests de Validation Sécurité
+
+- [ ] Test end-to-end sur instance démo
+- [ ] Test des notifications mobile (iOS/Android)
+- [ ] Test des connecteurs santé (Samsung/Google/Apple)
+- [ ] Test des exports de données (CSV/PDF/Excel)
+- [ ] Test de la suppression des données (droit à l'oubli)
+- [ ] Test de la portabilité des données (export complet)
+
+### 12) Documentation Légale
+
+- [ ] Mentions légales complètes
+- [ ] Politique de confidentialité détaillée
+- [ ] Conditions d'utilisation
+- [ ] Politique de cookies
+- [ ] Informations sur les cookies tiers
+- [ ] Contact DPO (Délégué à la Protection des Données)
+
+### 13) Monitoring & Alertes Sécurité
+
+- [ ] Monitoring des accès aux données sensibles
+- [ ] Alertes en cas de violation de données
+- [ ] Logs d'audit des actions utilisateurs
+- [ ] Monitoring des performances de sécurité
+- [ ] Alertes de sécurité automatiques
+
+### Endpoints RGPD
+
+- [ ] `GET /api/pain/entries` - Accès aux données
+- [ ] `DELETE /api/pain/entries/{entry_id}` - Effacement d'une entrée
+- [ ] `DELETE /api/pain/entries` - Suppression complète (toutes les entrées)
+- [ ] `GET /api/pain/export/psy-report` - Export anonymisé pour professionnels
+
+### Audit de Sécurité
+
+- [ ] Bandit scan - 0 erreur critique
+- [ ] Safety check - 0 vulnérabilité
+- [ ] Dépendances à jour
+- [ ] Secrets en variables d'environnement
+- [ ] CORS configuré correctement
 
 ---
 

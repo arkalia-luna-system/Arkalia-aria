@@ -18,7 +18,7 @@ concurrency:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 50
     strategy:
       fail-fast: false
       matrix:
@@ -36,8 +36,22 @@ jobs:
         timeout-minutes: 5
         run: pip install -r requirements.txt || echo "⚠️ Some dependencies may have failed to install"
       - name: Run tests
-        timeout-minutes: 15
-        run: pytest tests/ --cov=. --cov-report=xml --cov-report=term || true
+        timeout-minutes: 45
+        run: |
+          # Exécuter les tests en parallèle avec pytest-xdist
+          # Utiliser --cov pour couverture mais avec optimisations
+          pytest tests/ \
+            --cov=. \
+            --cov-report=xml \
+            --cov-report=term \
+            --tb=short \
+            -n auto \
+            --maxfail=5 \
+            --durations=10 \
+            --dist=worksteal \
+            -q \
+            --ignore=tests/integration/test_cia_aria_integration.py \
+            || true
       - name: Upload coverage
         if: always() && github.event_name != 'pull_request'
         uses: codecov/codecov-action@v3

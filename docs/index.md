@@ -41,8 +41,17 @@ ARKALIA ARIA est un assistant de recherche intelligent conçu pour transformer v
 ### Intégration CIA
 
 - **Synchronisation bidirectionnelle** : Communication fluide avec ARKALIA CIA
+- **Synchronisation automatique** : Périodique et configurable (60 min par défaut)
 - **Mode psychologue** : Présentation anonymisée pour professionnels
 - **Données unifiées** : Cohérence entre tous vos outils de santé
+- **Pull depuis CIA** : Récupération RDV, médicaments, documents, contexte santé
+
+### Intégration BBIA (Robot Compagnon)
+
+- **Mode simulation** : Fonctionne sans robot physique (préparation état émotionnel)
+- **Adaptation empathique** : Comportement robot basé sur douleur/stress/sommeil
+- **4 endpoints API** : Status, connexion, envoi état émotionnel
+- **Robot physique** : Activation complète prévue janvier 2026
 
 ---
 

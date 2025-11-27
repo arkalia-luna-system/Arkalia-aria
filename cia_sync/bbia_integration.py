@@ -14,7 +14,7 @@ logger = get_logger("bbia_integration")
 class BBIAIntegration:
     """
     Gestionnaire d'intégration avec BBIA-SIM.
-    
+
     Fonctionnalités (sans robot physique) :
     - Préparation des données émotionnelles pour BBIA
     - Simulation des états émotionnels basés sur ARIA
@@ -46,9 +46,7 @@ class BBIAIntegration:
         try:
             import requests
 
-            response = requests.get(
-                f"{self.bbia_base_url}/health", timeout=5
-            )
+            response = requests.get(f"{self.bbia_base_url}/health", timeout=5)
             self.is_connected = response.status_code == 200
             return self.is_connected
         except Exception as e:
@@ -152,9 +150,7 @@ class BBIAIntegration:
 
         return behavior
 
-    def send_emotional_state(
-        self, emotional_state: dict[str, Any]
-    ) -> dict[str, Any]:
+    def send_emotional_state(self, emotional_state: dict[str, Any]) -> dict[str, Any]:
         """
         Envoie l'état émotionnel à BBIA-SIM (simulation sans robot).
 
@@ -239,4 +235,3 @@ def get_bbia_integration() -> BBIAIntegration:
     if _bbia_integration is None:
         _bbia_integration = BBIAIntegration()
     return _bbia_integration
-

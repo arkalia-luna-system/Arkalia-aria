@@ -499,18 +499,39 @@ class TestPerformance:
         import time
 
         async def make_request():
-            response = client.get("/health/metrics/unified?days_back=7")
-            return response.status_code == 200
+            try:
+                response = client.get("/health/metrics/unified?days_back=7")
+                return response.status_code == 200
+            except Exception as e:
+                # Logger l'erreur mais ne pas faire échouer le test immédiatement
+                print(f"Erreur dans make_request: {e}")
+                return False
 
-        start_time = time.time()
-        results = await asyncio.gather(*[make_request() for _ in range(10)])
-        end_time = time.time()
+        try:
+            start_time = time.time()
+            # Limiter le nombre de requêtes concurrentes pour éviter la surcharge
+            results = await asyncio.gather(
+                *[make_request() for _ in range(10)],
+                return_exceptions=True
+            )
+            end_time = time.time()
 
-        assert all(results)
-        duration = end_time - start_time
-        assert (
-            duration < 15
-        )  # 10 requêtes concurrentes doivent prendre moins de 15 secondes
+            # Filtrer les exceptions et vérifier les résultats
+            valid_results = [r for r in results if isinstance(r, bool)]
+            exceptions = [r for r in results if isinstance(r, Exception)]
+            
+            if exceptions:
+                print(f"Exceptions détectées: {exceptions}")
+            
+            assert len(valid_results) == 10
+            assert all(valid_results)
+            duration = end_time - start_time
+            assert (
+                duration < 15
+            )  # 10 requêtes concurrentes doivent prendre moins de 15 secondes
+        finally:
+            # Nettoyage : s'assurer que toutes les tâches sont terminées
+            await asyncio.sleep(0.1)  # Petite pause pour le nettoyage
 
 
 if __name__ == "__main__":

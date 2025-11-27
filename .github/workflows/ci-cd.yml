@@ -1,146 +1,77 @@
 name: ARKALIA ARIA CI/CD
-on:
+'on':
   push:
     branches:
-      - main
-      - develop
+    - main
+    - develop
   pull_request:
     branches:
-      - main
-      - develop
-
-concurrency:
-  group: "ci-cd-${{ github.ref }}-${{ github.event.pull_request.number || github.sha }}"
-  cancel-in-progress: true
-
-# Les workflows CI/CD et documentation sont indépendants et peuvent s'exécuter en parallèle
-
+    - main
+    - develop
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 50
     strategy:
-      fail-fast: false
       matrix:
         python-version:
-          - "3.10"
-          - "3.11"
-          - "3.12"
+        - '3.10'
+        - '3.11'
+        - '3.12'
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        timeout-minutes: 5
-        run: pip install -r requirements.txt || echo "⚠️ Some dependencies may have failed to install"
-      - name: Run tests
-        timeout-minutes: 45
-        run: |
-          # Exécuter les tests en parallèle avec pytest-xdist
-          # Utiliser --cov pour couverture mais avec optimisations
-          pytest tests/ \
-            --cov=. \
-            --cov-report=xml \
-            --cov-report=term \
-            --tb=short \
-            -n auto \
-            --maxfail=5 \
-            --durations=10 \
-            --dist=worksteal \
-            -q \
-            --ignore=tests/integration/test_cia_aria_integration.py \
-            || true
-      - name: Upload coverage
-        if: always() && github.event_name != 'pull_request'
-        uses: codecov/codecov-action@v3
-        continue-on-error: true
-        with:
-          files: ./coverage.xml
-          fail_ci_if_error: false
-          token: ${{ secrets.CODECOV_TOKEN }}
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+    - name: Run tests
+      run: pytest tests/ --cov=. --cov-report=xml
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
   lint:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-      - name: Install dependencies
-        timeout-minutes: 5
-        run: pip install black ruff mypy bandit safety types-PyYAML || echo "⚠️ Some linting dependencies may have failed to install"
-      - name: Run Black
-        timeout-minutes: 5
-        run: black --check . || true
-      - name: Run Ruff
-        timeout-minutes: 5
-        run: ruff check . || true
-      - name: Run MyPy
-        timeout-minutes: 10
-        run: mypy . || true
-      - name: Run Bandit
-        timeout-minutes: 10
-        run: |
-          # Supprimer les fichiers macOS cachés qui causent des erreurs de parsing
-          find . -name "._*.py" -delete 2>/dev/null || true
-          bandit -r . -f json -o bandit-report.json --skip B101,B105,B108,B311,B601,B603,B604,B605,B606,B607,B608,B609,B610 --exclude tests,venv,.venv,arkalia_aria_venv,archive,backups,logs,dacc,mobile_app,metrics_reports,reports,deployments,docs,__pycache__,.git,.pytest_cache,htmlcov,build,dist,.mypy_cache || true
-      - name: Run Safety
-        timeout-minutes: 5
-        run: safety check --json > safety-report.json || true
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Install dependencies
+      run: pip install black ruff mypy bandit safety
+    - name: Run Black
+      run: black --check .
+    - name: Run Ruff
+      run: ruff check .
+    - name: Run MyPy
+      run: mypy .
+    - name: Run Bandit
+      run: bandit -r . -f json -o bandit-report.json
+    - name: Run Safety
+      run: safety check --json --output safety-report.json
   security:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-      - name: Install dependencies
-        timeout-minutes: 5
-        run: pip install -r requirements.txt || echo "⚠️ Some dependencies may have failed to install"
-      - name: Run security scan
-        timeout-minutes: 5
-        run: |
-          python -c "
-          from devops_automation.security.aria_security_validator import ARIA_SecurityValidator
-          import sys
-          validator = ARIA_SecurityValidator()
-          print('✅ Security validator initialized successfully')
-          report = validator.get_security_report()
-          print(f'📊 Security report: {report[\"total_validations\"]} validations, {report[\"blocked_attempts\"]} blocked attempts')
-          sys.exit(0)
-          " || echo "⚠️ Security scan completed with warnings"
+    - uses: actions/checkout@v4
+    - name: Run security scan
+      run: python -m devops_automation.security.aria_security_validator
   build:
     runs-on: ubuntu-latest
-    needs: [test, lint, security]
-    if: always()
-    timeout-minutes: 20
+    needs:
+    - test
+    - lint
+    - security
     steps:
-      - uses: actions/checkout@v4
-      - name: Build Docker image
-        timeout-minutes: 15
-        run: docker build -t arkalia-aria:${{ github.sha }} . || echo "⚠️ Docker build completed with warnings"
-      - name: Push to registry
-        if: env.DOCKER_REGISTRY != ''
-        env:
-          DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
-        run: |
-          if [ -n "$DOCKER_REGISTRY" ]; then
-            docker tag arkalia-aria:${{ github.sha }} $DOCKER_REGISTRY/arkalia-aria:${{ github.sha }}
-            docker push $DOCKER_REGISTRY/arkalia-aria:${{ github.sha }}
-          else
-            echo "⚠️ DOCKER_REGISTRY secret non configuré - push Docker ignoré"
-          fi
+    - uses: actions/checkout@v4
+    - name: Build Docker image
+      run: docker build -t arkalia-aria:${{ github.sha }} .
+    - name: Push to registry
+      run: docker push arkalia-aria:${{ github.sha }}
   deploy:
     runs-on: ubuntu-latest
-    needs: [build]
-    if: always() && github.ref == 'refs/heads/main'
-    timeout-minutes: 10
+    needs:
+    - build
+    if: github.ref == 'refs/heads/main'
     steps:
-      - name: Deploy to production
-        timeout-minutes: 5
-        run: echo 'Deploying to production...'
+    - name: Deploy to production
+      run: echo 'Deploying to production...'

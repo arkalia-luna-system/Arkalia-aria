@@ -105,11 +105,11 @@ if os.getenv("ARIA_CIA_SYNC_ENABLED", "0").lower() in ("1", "true"):
         auto_sync = get_auto_sync_manager()
         sync_interval = int(os.getenv("ARIA_CIA_SYNC_INTERVAL_MINUTES", "60"))
         cia_url = config.get("cia_api_url", "http://127.0.0.1:8000")
-        
+
         # Mettre à jour l'URL CIA si configurée
         if cia_url != "http://127.0.0.1:8000":
             auto_sync.cia_base_url = cia_url
-        
+
         success = auto_sync.start(interval_minutes=sync_interval)
         if success:
             logger.info(
@@ -121,7 +121,9 @@ if os.getenv("ARIA_CIA_SYNC_ENABLED", "0").lower() in ("1", "true"):
     except Exception as e:
         logger.warning(f"⚠️ Synchronisation automatique CIA désactivée: {e}")
 else:
-    logger.info("ℹ️ Synchronisation automatique CIA désactivée (ARIA_CIA_SYNC_ENABLED=false)")
+    logger.info(
+        "ℹ️ Synchronisation automatique CIA désactivée (ARIA_CIA_SYNC_ENABLED=false)"
+    )
 
 
 @app.get("/")

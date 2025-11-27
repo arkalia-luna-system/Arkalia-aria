@@ -33,12 +33,47 @@ class TestSystemIntegration:
     @pytest.fixture
     def client(self):
         """Client de test FastAPI."""
-        return TestClient(app)
+        client = TestClient(app)
+        yield client
+        # Nettoyage : TestClient se nettoie automatiquement, mais on peut forcer
+        try:
+            client.close()
+        except Exception:
+            pass  # Ignorer les erreurs de nettoyage
 
     @pytest.fixture
     def sync_manager(self):
         """Gestionnaire de synchronisation pour les tests."""
-        return HealthSyncManager()
+        manager = HealthSyncManager()
+        yield manager
+        # Nettoyage : fermer toutes les connexions des connecteurs
+        try:
+            import asyncio
+
+            # Créer un event loop si nécessaire pour le nettoyage
+            try:
+                loop = asyncio.get_event_loop()
+            except RuntimeError:
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+
+            # Fermer toutes les connexions
+            async def cleanup():
+                for connector in manager.connectors.values():
+                    if hasattr(connector, "is_connected") and connector.is_connected:
+                        try:
+                            await connector.disconnect()
+                        except Exception:
+                            pass  # Ignorer les erreurs de déconnexion
+
+            if loop.is_running():
+                # Si la loop est déjà en cours, on ne peut pas l'utiliser
+                pass
+            else:
+                loop.run_until_complete(cleanup())
+                loop.close()
+        except Exception:
+            pass  # Ignorer les erreurs de nettoyage
 
     @pytest.fixture
     def sample_health_data(self):
@@ -430,9 +465,11 @@ class TestSystemIntegration:
     def test_concurrent_requests(self, client):
         """Test de requêtes concurrentes."""
         import threading
+        import time
 
         results = []
         errors = []
+        threads = []
 
         def make_request():
             try:
@@ -441,24 +478,36 @@ class TestSystemIntegration:
             except Exception as e:
                 errors.append(str(e))
 
-        # Lancement de 10 requêtes concurrentes
-        threads = []
-        for _ in range(10):
-            thread = threading.Thread(target=make_request)
-            threads.append(thread)
-            thread.start()
+        try:
+            # Lancement de 10 requêtes concurrentes
+            for _ in range(10):
+                thread = threading.Thread(target=make_request)
+                thread.daemon = True  # Thread daemon pour éviter les blocages
+                threads.append(thread)
+                thread.start()
 
-        # Attente de la fin de tous les threads
-        for thread in threads:
-            thread.join()
+            # Attente de la fin de tous les threads avec timeout
+            for thread in threads:
+                thread.join(timeout=30.0)  # Timeout de 30 secondes max
+                if thread.is_alive():
+                    errors.append(f"Thread {thread.name} n'a pas terminé dans le délai")
 
-        # Vérification des résultats
-        assert len(errors) == 0, f"Erreurs détectées: {errors}"
-        assert len(results) == 10
-        # Accepter 200 ou 404 si les métriques ne sont pas disponibles
-        assert all(status in [200, 404] for status in results)
+            # Vérification des résultats
+            assert len(errors) == 0, f"Erreurs détectées: {errors}"
+            assert len(results) == 10
+            # Accepter 200 ou 404 si les métriques ne sont pas disponibles
+            assert all(status in [200, 404] for status in results)
+        finally:
+            # Nettoyage supplémentaire : attendre que tous les threads soient terminés
+            for thread in threads:
+                if thread.is_alive():
+                    # Forcer l'arrêt si nécessaire (dans un vrai cas, on devrait gérer ça différemment)
+                    pass
+            # Petite pause pour s'assurer que tout est nettoyé
+            time.sleep(0.1)
 
-    def test_data_consistency(self, sync_manager):
+    @pytest.mark.asyncio
+    async def test_data_consistency(self, sync_manager):
         """Test de la cohérence des données."""
         with (
             patch.object(SamsungHealthConnector, "connect", return_value=True),
@@ -467,12 +516,10 @@ class TestSystemIntegration:
         ):
 
             # Test avec des données vides
-            result = sync_manager.sync_single_connector("samsung_health", days_back=7)
+            result = await sync_manager.sync_single_connector(
+                "samsung_health", days_back=7
+            )
 
-            # Le résultat est une coroutine, on doit l'attendre
-            import asyncio
-
-            result = asyncio.run(result)
             assert isinstance(result, dict)
             assert "data_counts" in result
             assert result["data_counts"]["health"] == 0
@@ -603,7 +650,13 @@ class TestEndToEndWorkflow:
     @pytest.fixture
     def client(self):
         """Client de test FastAPI."""
-        return TestClient(app)
+        client = TestClient(app)
+        yield client
+        # Nettoyage : TestClient se nettoie automatiquement, mais on peut forcer
+        try:
+            client.close()
+        except Exception:
+            pass  # Ignorer les erreurs de nettoyage
 
     def test_complete_health_tracking_workflow(self, client):
         """Test du workflow complet de suivi de santé."""

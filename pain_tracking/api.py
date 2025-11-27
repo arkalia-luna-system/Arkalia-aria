@@ -66,7 +66,9 @@ def _init_tables() -> None:
         except Exception:
             pass  # Colonne déjà existante
         try:
-            db.execute_update("ALTER TABLE pain_entries ADD COLUMN physical_symptoms TEXT")
+            db.execute_update(
+                "ALTER TABLE pain_entries ADD COLUMN physical_symptoms TEXT"
+            )
         except Exception:
             pass  # Colonne déjà existante
         logger.info("✅ Tables pain_entries initialisées")
@@ -173,16 +175,24 @@ class PainEntryIn(BaseModel):
     effectiveness: int | None = Field(default=None, ge=0, le=10)
     notes: str | None = Field(default=None, max_length=2000)
     who_present: str | None = Field(
-        default=None, max_length=500, description="Personnes présentes lors de l'épisode"
+        default=None,
+        max_length=500,
+        description="Personnes présentes lors de l'épisode",
     )
     interactions: str | None = Field(
-        default=None, max_length=1000, description="Qui dit/fait quoi - interactions observées"
+        default=None,
+        max_length=1000,
+        description="Qui dit/fait quoi - interactions observées",
     )
     emotions: str | None = Field(
-        default=None, max_length=1000, description="Ce que je ressens - émotions et sensations"
+        default=None,
+        max_length=1000,
+        description="Ce que je ressens - émotions et sensations",
     )
     thoughts: str | None = Field(
-        default=None, max_length=2000, description="Ce que je pense - pensées et réflexions"
+        default=None,
+        max_length=2000,
+        description="Ce que je pense - pensées et réflexions",
     )
     physical_symptoms: str | None = Field(
         default=None, max_length=1000, description="Symptômes physiques détaillés"

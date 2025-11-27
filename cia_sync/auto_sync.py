@@ -163,9 +163,7 @@ class AutoSyncManager:
 
             # Vérifier la connexion CIA
             try:
-                response = requests.get(
-                    f"{self.cia_base_url}/health", timeout=10
-                )
+                response = requests.get(f"{self.cia_base_url}/health", timeout=10)
                 if response.status_code != 200:
                     logger.warning("CIA non disponible")
                     return False
@@ -210,7 +208,9 @@ class AutoSyncManager:
                         timeout=30,
                     )
                     if response.status_code in [200, 201]:
-                        logger.debug(f"Données synchronisées: {list(synced_data.keys())}")
+                        logger.debug(
+                            f"Données synchronisées: {list(synced_data.keys())}"
+                        )
                         return True
                     else:
                         logger.warning(f"Erreur sync CIA: {response.status_code}")
@@ -307,7 +307,6 @@ class AutoSyncManager:
 
         return {"days": aggregated_days, "total_days": len(aggregated_days)}
 
-
     def sync_now(self) -> bool:
         """
         Force une synchronisation immédiate (hors cycle).
@@ -362,4 +361,3 @@ def get_auto_sync_manager() -> AutoSyncManager:
     if _auto_sync_manager is None:
         _auto_sync_manager = AutoSyncManager()
     return _auto_sync_manager
-

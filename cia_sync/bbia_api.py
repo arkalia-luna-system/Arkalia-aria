@@ -4,7 +4,6 @@ API REST pour communication avec le robot compagnon
 """
 
 from datetime import datetime
-from typing import Any
 
 from fastapi import HTTPException
 from pydantic import BaseModel
@@ -115,14 +114,12 @@ async def send_emotional_state_from_latest_pain() -> dict:
 
         # Récupérer la dernière entrée de douleur
         db = DatabaseManager()
-        latest_entry = db.execute_query(
-            """
+        latest_entry = db.execute_query("""
             SELECT intensity, physical_trigger, mental_trigger, timestamp
             FROM pain_entries
             ORDER BY timestamp DESC
             LIMIT 1
-            """
-        )
+            """)
 
         if not latest_entry:
             raise HTTPException(
@@ -160,4 +157,3 @@ async def send_emotional_state_from_latest_pain() -> dict:
             status_code=500,
             detail=f"Erreur envoi état émotionnel depuis douleur: {str(e)}",
         ) from e
-

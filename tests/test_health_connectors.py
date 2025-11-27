@@ -183,7 +183,24 @@ class TestSamsungHealthConnector:
     @pytest.fixture
     def connector(self):
         """Fixture pour le connecteur Samsung Health."""
-        return SamsungHealthConnector()
+        connector = SamsungHealthConnector()
+        yield connector
+        # Nettoyage : déconnecter après chaque test
+        try:
+            import asyncio
+
+            if connector.is_connected:
+                try:
+                    loop = asyncio.get_event_loop()
+                    if loop.is_running():
+                        # Si la loop est en cours, créer une nouvelle pour le nettoyage
+                        asyncio.run(connector.disconnect())
+                    else:
+                        loop.run_until_complete(connector.disconnect())
+                except RuntimeError:
+                    asyncio.run(connector.disconnect())
+        except Exception:
+            pass  # Ignorer les erreurs de déconnexion
 
     def test_connector_initialization(self, connector):
         """Test initialisation du connecteur."""
@@ -266,7 +283,23 @@ class TestGoogleFitConnector:
     @pytest.fixture
     def connector(self):
         """Fixture pour le connecteur Google Fit."""
-        return GoogleFitConnector()
+        connector = GoogleFitConnector()
+        yield connector
+        # Nettoyage : déconnecter après chaque test
+        try:
+            import asyncio
+
+            if connector.is_connected:
+                try:
+                    loop = asyncio.get_event_loop()
+                    if loop.is_running():
+                        asyncio.run(connector.disconnect())
+                    else:
+                        loop.run_until_complete(connector.disconnect())
+                except RuntimeError:
+                    asyncio.run(connector.disconnect())
+        except Exception:
+            pass  # Ignorer les erreurs de déconnexion
 
     def test_connector_initialization(self, connector):
         """Test initialisation du connecteur."""
@@ -345,7 +378,29 @@ class TestHealthSyncManager:
     @pytest.fixture
     def sync_manager(self):
         """Fixture pour le gestionnaire de synchronisation."""
-        return HealthSyncManager()
+        manager = HealthSyncManager()
+        yield manager
+        # Nettoyage : fermer toutes les connexions des connecteurs
+        try:
+            import asyncio
+            async def cleanup():
+                for connector in manager.connectors.values():
+                    if hasattr(connector, 'is_connected') and connector.is_connected:
+                        try:
+                            await connector.disconnect()
+                        except Exception:
+                            pass
+            
+            try:
+                loop = asyncio.get_event_loop()
+                if loop.is_running():
+                    asyncio.run(cleanup())
+                else:
+                    loop.run_until_complete(cleanup())
+            except RuntimeError:
+                asyncio.run(cleanup())
+        except Exception:
+            pass  # Ignorer les erreurs de nettoyage
 
     def test_sync_manager_initialization(self, sync_manager):
         """Test initialisation du gestionnaire."""

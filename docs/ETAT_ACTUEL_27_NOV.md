@@ -235,5 +235,28 @@ C'est la fonctionnalité qui aura le plus d'impact utilisateur (+20% utilisation
 ---
 
 **Date** : 27 novembre 2025  
+**Dernière mise à jour** : 27 novembre 2025  
 **Prochaine révision** : Après implémentation dashboard
+
+---
+
+## 🔗 Intégration avec Arkalia CIA
+
+**Note** : ARIA est conçu pour fonctionner en synergie avec Arkalia CIA.
+
+- ✅ Synchronisation automatique configurée (60 min)
+- ✅ Pull depuis CIA (RDV, médicaments, documents)
+- ✅ Push vers CIA (douleur, patterns, prédictions)
+- ✅ Mode psychologue anonymisé
+- ✅ Granularité configurable
+
+**État CIA** : 
+- ✅ Politique de confidentialité configurée (Google Play)
+- ✅ GitHub Pages activé
+- ⏳ Déploiement en cours
+
+**Prochaines étapes CIA** :
+- Compléter liste des magasins (nom, descriptions, captures)
+- Compléter autres sections (11 tâches)
+- Soumettre pour révision Google Play
 

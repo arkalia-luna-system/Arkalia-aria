@@ -1,0 +1,3788 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Research Intelligence Assistant - Laboratoire de recherche santé personnel">
+      
+      
+        <meta name="author" content="Arkalia Luna System">
+      
+      
+        <link rel="canonical" href="https://arkalia-luna-system.github.io/arkalia-aria/USER_GUIDE/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../API_REFERENCE/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Guide Utilisateur - ARKALIA ARIA Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#guide-utilisateur" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="ARKALIA ARIA Documentation" class="md-header__button md-logo" aria-label="ARKALIA ARIA Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ARKALIA ARIA Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Guide Utilisateur
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/arkalia-luna-system/arkalia-aria" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    arkalia-luna-system/arkalia-aria
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Guide Utilisateur
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../API_REFERENCE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Référence API
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../DEVELOPER_GUIDE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Guide Développeur
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../TECHNICAL_REFERENCE.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Référence Technique
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../PROJECT_STATUS/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Statut Projet
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../MODULE_STATUS.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Statut Modules
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../MOBILE_APP/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  App Mobile
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../HEALTH_CONNECTORS/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Connecteurs Santé
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../DASHBOARD_WEB/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Dashboard Web
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../PROFESSIONAL_WORKFLOW/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Workflow Professionnel
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../QUICK_COMMANDS/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Commandes Rapides
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../CONFIGURATION_GUIDE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Guide Configuration
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../VALIDATION_CHECKLIST/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Checklist Validation
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../SECURITY_RGPD_CHECKLIST.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Checklist RGPD
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../DAILY_CLOSING_CHECKLIST/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Checklist Quotidienne
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../LEGAL_MENTIONS/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Mentions Légales
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../PRIVACY_POLICY/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Politique de Confidentialité
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../TERMS_OF_USE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Conditions d'Utilisation
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../COOKIES_POLICY/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Politique Cookies
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../DPO_CONTACT/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contact DPO
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="ARKALIA ARIA Documentation" class="md-nav__button md-logo" aria-label="ARKALIA ARIA Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ARKALIA ARIA Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/arkalia-luna-system/arkalia-aria" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    arkalia-luna-system/arkalia-aria
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide Utilisateur
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide Utilisateur
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-des-matieres" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table des matières
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pour-qui-est-arkalia-aria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pour qui est ARKALIA ARIA ?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-et-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation et Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation et Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prérequis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation Web
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation-mobile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation Mobile
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation Mobile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ios-en-developpement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        iOS (En Développement)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#android-en-developpement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Android (En Développement)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interface-utilisateur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interface Utilisateur
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interface Utilisateur">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dashboard-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dashboard Web
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dashboard Web">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#navigation-principale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Navigation Principale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fonctionnalites-cles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fonctionnalités Clés
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#application-mobile-en-developpement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Application Mobile (En Développement)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Application Mobile (En Développement)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture-actuelle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Actuelle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fonctionnalites-prevues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fonctionnalités Prévues
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gestion-des-donnees-de-sante" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestion des Données de Santé
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gestion des Données de Santé">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connecteurs-disponibles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connecteurs Disponibles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connecteurs Disponibles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#samsung-health-montres-samsung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Samsung Health (Montres Samsung)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#google-fit-android" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Google Fit (Android)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ios-health-ipadiphone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        iOS Health (iPad/iPhone)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchronisation-des-donnees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronisation des Données
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Synchronisation des Données">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration-initiale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Initiale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchronisation-automatique" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronisation Automatique
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchronisation-manuelle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronisation Manuelle
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#suivi-de-la-douleur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Suivi de la Douleur
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Suivi de la Douleur">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#saisie-des-donnees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saisie des Données
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Saisie des Données">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#niveaux-de-douleur-0-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Niveaux de Douleur (0-10)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#types-de-douleur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types de Douleur
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#localisations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Localisations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#facteurs-declencheurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Facteurs Déclencheurs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Facteurs Déclencheurs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#saisie-rapide-vs-detaillee" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saisie Rapide vs Détaillée
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#facteurs-physiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Facteurs Physiques
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#facteurs-psychologiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Facteurs Psychologiques
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#facteurs-environnementaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Facteurs Environnementaux
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analyses-et-rapports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analyses et Rapports
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Analyses et Rapports">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#types-danalyses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types d'Analyses
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Types d&#39;Analyses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analyses-temporelles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analyses Temporelles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyses-comparatives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analyses Comparatives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyses-statistiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analyses Statistiques
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generation-de-rapports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Génération de Rapports
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Génération de Rapports">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formats-disponibles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formats Disponibles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#types-de-rapports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types de Rapports
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#personnalisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Personnalisation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#synchronisation-multi-plateforme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronisation Multi-Plateforme
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Synchronisation Multi-Plateforme">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture-de-synchronisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture de Synchronisation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture de Synchronisation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sources-de-donnees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sources de Données
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#processus-de-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Processus de Sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-des-conflits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestion des Conflits
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gestion des Conflits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#types-de-conflits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types de Conflits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resolution-automatique" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Résolution Automatique
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametres-et-personnalisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paramètres et Personnalisation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Paramètres et Personnalisation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parametres-generaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paramètres Généraux
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Paramètres Généraux">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notifications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confidentialite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confidentialité
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parametres-de-sante" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paramètres de Santé
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Paramètres de Santé">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connecteurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connecteurs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#douleur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Douleur
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resolution-de-problemes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Résolution de Problèmes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Résolution de Problèmes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problemes-courants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problèmes Courants
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Problèmes Courants">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#synchronisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronisation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#donnees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Données
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#support-technique" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Support Technique
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Support Technique">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ressources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ressources
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contact
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAQ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FAQ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#questions-generales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions Générales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions Techniques
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions-medicales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions Médicales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contact-et-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contact et Support
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Contact et Support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#support-utilisateur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Support Utilisateur
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#support-technique-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Support Technique (Détails)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#communaute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Communauté
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Référence API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEVELOPER_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide Développeur
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TECHNICAL_REFERENCE.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Référence Technique
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PROJECT_STATUS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Statut Projet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MODULE_STATUS.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Statut Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MOBILE_APP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    App Mobile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../HEALTH_CONNECTORS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Connecteurs Santé
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DASHBOARD_WEB/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard Web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PROFESSIONAL_WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Professionnel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../QUICK_COMMANDS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commandes Rapides
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONFIGURATION_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATION_CHECKLIST/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SECURITY_RGPD_CHECKLIST.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist RGPD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAILY_CLOSING_CHECKLIST/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Quotidienne
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LEGAL_MENTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mentions Légales
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PRIVACY_POLICY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Politique de Confidentialité
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TERMS_OF_USE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conditions d'Utilisation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COOKIES_POLICY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Politique Cookies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DPO_CONTACT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contact DPO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-des-matieres" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table des matières
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pour-qui-est-arkalia-aria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pour qui est ARKALIA ARIA ?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-et-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation et Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation et Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prérequis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation Web
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation-mobile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation Mobile
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation Mobile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ios-en-developpement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        iOS (En Développement)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#android-en-developpement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Android (En Développement)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interface-utilisateur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interface Utilisateur
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interface Utilisateur">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dashboard-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dashboard Web
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dashboard Web">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#navigation-principale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Navigation Principale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fonctionnalites-cles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fonctionnalités Clés
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#application-mobile-en-developpement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Application Mobile (En Développement)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Application Mobile (En Développement)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture-actuelle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Actuelle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fonctionnalites-prevues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fonctionnalités Prévues
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gestion-des-donnees-de-sante" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestion des Données de Santé
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gestion des Données de Santé">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connecteurs-disponibles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connecteurs Disponibles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connecteurs Disponibles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#samsung-health-montres-samsung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Samsung Health (Montres Samsung)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#google-fit-android" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Google Fit (Android)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ios-health-ipadiphone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        iOS Health (iPad/iPhone)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchronisation-des-donnees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronisation des Données
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Synchronisation des Données">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration-initiale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Initiale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchronisation-automatique" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronisation Automatique
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchronisation-manuelle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronisation Manuelle
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#suivi-de-la-douleur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Suivi de la Douleur
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Suivi de la Douleur">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#saisie-des-donnees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saisie des Données
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Saisie des Données">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#niveaux-de-douleur-0-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Niveaux de Douleur (0-10)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#types-de-douleur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types de Douleur
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#localisations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Localisations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#facteurs-declencheurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Facteurs Déclencheurs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Facteurs Déclencheurs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#saisie-rapide-vs-detaillee" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saisie Rapide vs Détaillée
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#facteurs-physiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Facteurs Physiques
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#facteurs-psychologiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Facteurs Psychologiques
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#facteurs-environnementaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Facteurs Environnementaux
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analyses-et-rapports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analyses et Rapports
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Analyses et Rapports">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#types-danalyses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types d'Analyses
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Types d&#39;Analyses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analyses-temporelles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analyses Temporelles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyses-comparatives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analyses Comparatives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyses-statistiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analyses Statistiques
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generation-de-rapports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Génération de Rapports
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Génération de Rapports">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formats-disponibles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formats Disponibles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#types-de-rapports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types de Rapports
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#personnalisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Personnalisation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#synchronisation-multi-plateforme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronisation Multi-Plateforme
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Synchronisation Multi-Plateforme">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture-de-synchronisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture de Synchronisation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture de Synchronisation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sources-de-donnees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sources de Données
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#processus-de-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Processus de Sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-des-conflits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestion des Conflits
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gestion des Conflits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#types-de-conflits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types de Conflits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resolution-automatique" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Résolution Automatique
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametres-et-personnalisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paramètres et Personnalisation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Paramètres et Personnalisation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parametres-generaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paramètres Généraux
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Paramètres Généraux">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notifications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confidentialite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confidentialité
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parametres-de-sante" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paramètres de Santé
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Paramètres de Santé">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connecteurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connecteurs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#douleur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Douleur
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resolution-de-problemes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Résolution de Problèmes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Résolution de Problèmes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problemes-courants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problèmes Courants
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Problèmes Courants">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#synchronisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronisation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#donnees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Données
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#support-technique" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Support Technique
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Support Technique">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ressources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ressources
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contact
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAQ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FAQ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#questions-generales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions Générales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions Techniques
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions-medicales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions Médicales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contact-et-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contact et Support
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Contact et Support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#support-utilisateur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Support Utilisateur
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#support-technique-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Support Technique (Détails)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#communaute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Communauté
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="guide-utilisateur">Guide Utilisateur<a class="headerlink" href="#guide-utilisateur" title="Permanent link">&para;</a></h1>
+<p><strong>ARKALIA ARIA</strong> — Guide complet pour psychologues, patients et utilisateurs</p>
+<p><strong>Version :</strong> 1.0.0<br />
+<em>Dernière mise à jour :</em> Novembre 2025</p>
+<hr />
+<h2 id="table-des-matieres">Table des matières<a class="headerlink" href="#table-des-matieres" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#installation-et-configuration">Installation et Configuration</a></li>
+<li><a href="#interface-utilisateur">Interface Utilisateur</a></li>
+<li><a href="#gestion-des-données-de-santé">Gestion des Données de Santé</a></li>
+<li><a href="#suivi-de-la-douleur">Suivi de la Douleur</a></li>
+<li><a href="#analyses-et-rapports">Analyses et Rapports</a></li>
+<li><a href="#synchronisation-multi-plateforme">Synchronisation Multi-Plateforme</a></li>
+<li><a href="#paramètres-et-personnalisation">Paramètres et Personnalisation</a></li>
+<li><a href="#résolution-de-problèmes">Résolution de Problèmes</a></li>
+<li><a href="#faq">FAQ</a></li>
+</ol>
+<hr />
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intelligence artificielle pour le suivi de la santé mentale et physique. Cette solution intègre des connecteurs de santé multi-plateforme, un dashboard web interactif et une application mobile native.</p>
+<h3 id="pour-qui-est-arkalia-aria">Pour qui est ARKALIA ARIA ?<a class="headerlink" href="#pour-qui-est-arkalia-aria" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Psychologues</strong> : Outils d'analyse avancés et rapports détaillés</li>
+<li><strong>Patients</strong> : Suivi personnel de la santé et de la douleur</li>
+<li><strong>Chercheurs</strong> : Données anonymisées et analyses statistiques</li>
+<li><strong>Médecins</strong> : Intégration avec les systèmes de santé existants</li>
+</ul>
+<hr />
+<h2 id="installation-et-configuration">Installation et Configuration<a class="headerlink" href="#installation-et-configuration" title="Permanent link">&para;</a></h2>
+<h3 id="prerequis">Prérequis<a class="headerlink" href="#prerequis" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Web Dashboard</strong> : Navigateur moderne (Chrome, Firefox, Safari, Edge)</li>
+<li><strong>Application Mobile</strong> : iOS 14+ ou Android 8+</li>
+<li><strong>Connecteurs Santé</strong> : Montre Samsung, Google Fit, ou Apple Health</li>
+</ul>
+<h3 id="installation-web">Installation Web<a class="headerlink" href="#installation-web" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Clonez le repository : <code>git clone &lt;https://github.com/arkalia-luna-system/arkalia-aria.git</code>&gt;</li>
+<li>Installez les dépendances : <code>pip install -r requirements.txt</code></li>
+<li>Lancez l'application : <code>python main.py</code></li>
+<li>Accédez à <a href="http://localhost:8000/dashboard">http://localhost:8000/dashboard</a></li>
+<li>Configurez vos connecteurs de santé</li>
+</ol>
+<h3 id="installation-mobile">Installation Mobile<a class="headerlink" href="#installation-mobile" title="Permanent link">&para;</a></h3>
+<h4 id="ios-en-developpement">iOS (En Développement)<a class="headerlink" href="#ios-en-developpement" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Naviguez vers <code>arkalia-aria/mobile_app/</code></li>
+<li>Installez Flutter SDK</li>
+<li>Exécutez <code>flutter pub get</code></li>
+<li>Lancez <code>flutter run</code> (simulateur iOS requis)</li>
+</ol>
+<h4 id="android-en-developpement">Android (En Développement)<a class="headerlink" href="#android-en-developpement" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Naviguez vers <code>arkalia-aria/mobile_app/</code></li>
+<li>Installez Flutter SDK</li>
+<li>Exécutez <code>flutter pub get</code></li>
+<li>Lancez <code>flutter run</code> (émulateur Android requis)</li>
+</ol>
+<hr />
+<h2 id="interface-utilisateur">Interface Utilisateur<a class="headerlink" href="#interface-utilisateur" title="Permanent link">&para;</a></h2>
+<h3 id="dashboard-web">Dashboard Web<a class="headerlink" href="#dashboard-web" title="Permanent link">&para;</a></h3>
+<h4 id="navigation-principale">Navigation Principale<a class="headerlink" href="#navigation-principale" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Accueil</strong> : Vue d'ensemble des métriques</li>
+<li><strong>Santé</strong> : Données de santé détaillées</li>
+<li><strong>Douleur</strong> : Suivi et analyse de la douleur</li>
+<li><strong>Patterns</strong> : Visualisation des tendances</li>
+<li><strong>Rapports</strong> : Génération de rapports</li>
+</ul>
+<h4 id="fonctionnalites-cles">Fonctionnalités Clés<a class="headerlink" href="#fonctionnalites-cles" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Thème Sombre/Clair</strong> : Basculement en un clic</li>
+<li><strong>Synchronisation</strong> : Mise à jour automatique des données</li>
+<li><strong>Exports</strong> : PDF, Excel, HTML</li>
+<li><strong>Temps Réel</strong> : Mise à jour automatique</li>
+</ul>
+<h3 id="application-mobile-en-developpement">Application Mobile (En Développement)<a class="headerlink" href="#application-mobile-en-developpement" title="Permanent link">&para;</a></h3>
+<h4 id="architecture-actuelle">Architecture Actuelle<a class="headerlink" href="#architecture-actuelle" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Services</strong> : Communication API, notifications, cache offline</li>
+<li><strong>Modèles</strong> : Gestion des données de santé</li>
+<li><strong>Configuration</strong> : Support Android et iOS</li>
+</ul>
+<h4 id="fonctionnalites-prevues">Fonctionnalités Prévues<a class="headerlink" href="#fonctionnalites-prevues" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Interface utilisateur</strong> : Écrans spécialisés (en développement)</li>
+<li><strong>Synchronisation</strong> : Bidirectionnelle avec l'API ARIA</li>
+<li><strong>Mode hors ligne</strong> : Cache intelligent local</li>
+<li><strong>Notifications</strong> : Push personnalisées</li>
+</ul>
+<hr />
+<h2 id="gestion-des-donnees-de-sante">Gestion des Données de Santé<a class="headerlink" href="#gestion-des-donnees-de-sante" title="Permanent link">&para;</a></h2>
+<h3 id="connecteurs-disponibles">Connecteurs Disponibles<a class="headerlink" href="#connecteurs-disponibles" title="Permanent link">&para;</a></h3>
+<h4 id="samsung-health-montres-samsung">Samsung Health (Montres Samsung)<a class="headerlink" href="#samsung-health-montres-samsung" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Fréquence cardiaque</strong> : Mesures continues</li>
+<li><strong>Activité physique</strong> : Pas, distance, calories</li>
+<li><strong>Sommeil</strong> : Durée et qualité</li>
+<li><strong>Stress</strong> : Niveaux de stress détectés</li>
+</ul>
+<h4 id="google-fit-android">Google Fit (Android)<a class="headerlink" href="#google-fit-android" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Activité</strong> : Exercices et mouvements</li>
+<li><strong>Santé</strong> : Poids, taille, IMC</li>
+<li><strong>Sommeil</strong> : Données de repos</li>
+<li><strong>Nutrition</strong> : Apport calorique</li>
+</ul>
+<h4 id="ios-health-ipadiphone">iOS Health (iPad/iPhone)<a class="headerlink" href="#ios-health-ipadiphone" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Santé générale</strong> : Métriques complètes</li>
+<li><strong>Activité</strong> : Exercices et objectifs</li>
+<li><strong>Sommeil</strong> : Analyse du sommeil</li>
+<li><strong>Médicaments</strong> : Rappels et suivi</li>
+</ul>
+<h3 id="synchronisation-des-donnees">Synchronisation des Données<a class="headerlink" href="#synchronisation-des-donnees" title="Permanent link">&para;</a></h3>
+<h4 id="configuration-initiale">Configuration Initiale<a class="headerlink" href="#configuration-initiale" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Sélectionnez vos connecteurs</li>
+<li>Autorisez l'accès aux données</li>
+<li>Configurez la fréquence de sync</li>
+<li>Testez la connexion</li>
+</ol>
+<h4 id="synchronisation-automatique">Synchronisation Automatique<a class="headerlink" href="#synchronisation-automatique" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Fréquence</strong> : Toutes les 6 heures</li>
+<li><strong>Conditions</strong> : Connexion réseau disponible</li>
+<li><strong>Batterie</strong> : Niveau suffisant</li>
+<li><strong>Données</strong> : Nouvelles données disponibles</li>
+</ul>
+<h4 id="synchronisation-manuelle">Synchronisation Manuelle<a class="headerlink" href="#synchronisation-manuelle" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Web</strong> : Bouton "Synchroniser" dans l'en-tête</li>
+<li><strong>Mobile</strong> : Pull-to-refresh ou bouton FAB</li>
+<li><strong>API</strong> : Endpoints de synchronisation</li>
+</ul>
+<hr />
+<h2 id="suivi-de-la-douleur">Suivi de la Douleur<a class="headerlink" href="#suivi-de-la-douleur" title="Permanent link">&para;</a></h2>
+<h3 id="saisie-des-donnees">Saisie des Données<a class="headerlink" href="#saisie-des-donnees" title="Permanent link">&para;</a></h3>
+<h4 id="niveaux-de-douleur-0-10">Niveaux de Douleur (0-10)<a class="headerlink" href="#niveaux-de-douleur-0-10" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>0</strong> : Aucune douleur</li>
+<li><strong>1-3</strong> : Légère</li>
+<li><strong>4-6</strong> : Modérée</li>
+<li><strong>7-8</strong> : Intense</li>
+<li><strong>9-10</strong> : Très intense à insupportable</li>
+</ul>
+<h4 id="types-de-douleur">Types de Douleur<a class="headerlink" href="#types-de-douleur" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Musculaire</strong> : Tensions, courbatures</li>
+<li><strong>Articulaire</strong> : Rhumatismes, arthrose</li>
+<li><strong>Nerveuse</strong> : Sciatique, névralgie</li>
+<li><strong>Migraine</strong> : Maux de tête sévères</li>
+<li><strong>Crampe</strong> : Contractions musculaires</li>
+<li><strong>Brûlure</strong> : Sensation de brûlure</li>
+<li><strong>Pression</strong> : Sensation de pression</li>
+<li><strong>Autre</strong> : Douleur non classée</li>
+</ul>
+<h4 id="localisations">Localisations<a class="headerlink" href="#localisations" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Tête</strong> : Crâne, visage, mâchoire</li>
+<li><strong>Cou</strong> : Cervicales, trapèzes</li>
+<li><strong>Épaules</strong> : Articulations, muscles</li>
+<li><strong>Dos</strong> : Dorsales, lombaires</li>
+<li><strong>Poitrine</strong> : Côtes, sternum</li>
+<li><strong>Abdomen</strong> : Viscères, muscles</li>
+<li><strong>Membres</strong> : Bras, jambes, mains, pieds</li>
+</ul>
+<h3 id="facteurs-declencheurs">Facteurs Déclencheurs<a class="headerlink" href="#facteurs-declencheurs" title="Permanent link">&para;</a></h3>
+<h4 id="saisie-rapide-vs-detaillee">Saisie Rapide vs Détaillée<a class="headerlink" href="#saisie-rapide-vs-detaillee" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Rapide</strong>: Intensité, déclencheur physique, action immédiate</li>
+<li><strong>Détaillée</strong>: Déclencheurs physiques/mentaux, activité, localisation, efficacité, notes</li>
+</ul>
+<h4 id="facteurs-physiques">Facteurs Physiques<a class="headerlink" href="#facteurs-physiques" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Mouvement</strong> : Certains gestes</li>
+<li><strong>Position</strong> : Assis, debout, couché</li>
+<li><strong>Temps</strong> : Heures, saisons</li>
+<li><strong>Météo</strong> : Pression, humidité</li>
+</ul>
+<h4 id="facteurs-psychologiques">Facteurs Psychologiques<a class="headerlink" href="#facteurs-psychologiques" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Stress</strong> : Tension, anxiété</li>
+<li><strong>Fatigue</strong> : Manque de sommeil</li>
+<li><strong>Émotions</strong> : Tristesse, colère</li>
+<li><strong>Concentration</strong> : Effort mental</li>
+</ul>
+<h4 id="facteurs-environnementaux">Facteurs Environnementaux<a class="headerlink" href="#facteurs-environnementaux" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Alimentation</strong> : Certains aliments</li>
+<li><strong>Médicaments</strong> : Effets secondaires</li>
+<li><strong>Sommeil</strong> : Qualité du repos</li>
+<li><strong>Activité</strong> : Exercice, travail</li>
+</ul>
+<hr />
+<h2 id="analyses-et-rapports">Analyses et Rapports<a class="headerlink" href="#analyses-et-rapports" title="Permanent link">&para;</a></h2>
+<h3 id="types-danalyses">Types d'Analyses<a class="headerlink" href="#types-danalyses" title="Permanent link">&para;</a></h3>
+<h4 id="analyses-temporelles">Analyses Temporelles<a class="headerlink" href="#analyses-temporelles" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Tendances</strong> : Évolution sur le temps</li>
+<li><strong>Cycles</strong> : Patterns récurrents</li>
+<li><strong>Corrélations</strong> : Liens entre facteurs</li>
+<li><strong>Prédictions</strong> : Anticipation des crises</li>
+</ul>
+<h4 id="analyses-comparatives">Analyses Comparatives<a class="headerlink" href="#analyses-comparatives" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Avant/Après</strong> : Efficacité des traitements</li>
+<li><strong>Périodes</strong> : Comparaison temporelle</li>
+<li><strong>Groupes</strong> : Comparaison avec d'autres patients</li>
+<li><strong>Objectifs</strong> : Progression vers les buts</li>
+</ul>
+<h4 id="analyses-statistiques">Analyses Statistiques<a class="headerlink" href="#analyses-statistiques" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Moyennes</strong> : Valeurs centrales</li>
+<li><strong>Médianes</strong> : Valeurs typiques</li>
+<li><strong>Écarts-types</strong> : Variabilité</li>
+<li><strong>Percentiles</strong> : Distribution des données</li>
+</ul>
+<h3 id="generation-de-rapports">Génération de Rapports<a class="headerlink" href="#generation-de-rapports" title="Permanent link">&para;</a></h3>
+<h4 id="formats-disponibles">Formats Disponibles<a class="headerlink" href="#formats-disponibles" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>PDF</strong> : Rapports professionnels</li>
+<li><strong>Excel</strong> : Données tabulaires</li>
+<li><strong>HTML</strong> : Rapports interactifs</li>
+<li><strong>CSV</strong> : Données brutes</li>
+</ul>
+<h4 id="types-de-rapports">Types de Rapports<a class="headerlink" href="#types-de-rapports" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Rapport Hebdomadaire</strong> : Synthèse de la semaine</li>
+<li><strong>Rapport Mensuel</strong> : Bilan du mois</li>
+<li><strong>Rapport de Traitement</strong> : Efficacité thérapeutique</li>
+<li><strong>Rapport Personnalisé</strong> : Selon vos besoins</li>
+</ul>
+<h4 id="personnalisation">Personnalisation<a class="headerlink" href="#personnalisation" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Période</strong> : Dates de début et fin</li>
+<li><strong>Métriques</strong> : Données à inclure</li>
+<li><strong>Format</strong> : Style et présentation</li>
+<li><strong>Destinataires</strong> : Partage avec professionnels</li>
+</ul>
+<hr />
+<h2 id="synchronisation-multi-plateforme">Synchronisation Multi-Plateforme<a class="headerlink" href="#synchronisation-multi-plateforme" title="Permanent link">&para;</a></h2>
+<h3 id="architecture-de-synchronisation">Architecture de Synchronisation<a class="headerlink" href="#architecture-de-synchronisation" title="Permanent link">&para;</a></h3>
+<h4 id="sources-de-donnees">Sources de Données<a class="headerlink" href="#sources-de-donnees" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Montres Samsung</strong> : Samsung Health</li>
+<li><strong>Android</strong> : Google Fit</li>
+<li><strong>iOS</strong> : Apple Health</li>
+<li><strong>Saisie Manuelle</strong> : Interface utilisateur</li>
+</ul>
+<h4 id="processus-de-sync">Processus de Sync<a class="headerlink" href="#processus-de-sync" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Collecte</strong> : Récupération des données</li>
+<li><strong>Validation</strong> : Vérification de la qualité</li>
+<li><strong>Normalisation</strong> : Format unifié</li>
+<li><strong>Stockage</strong> : Sauvegarde sécurisée</li>
+<li><strong>Synchronisation</strong> : Mise à jour des plateformes</li>
+</ol>
+<h3 id="gestion-des-conflits">Gestion des Conflits<a class="headerlink" href="#gestion-des-conflits" title="Permanent link">&para;</a></h3>
+<h4 id="types-de-conflits">Types de Conflits<a class="headerlink" href="#types-de-conflits" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Données Dupliquées</strong> : Même période, sources différentes</li>
+<li><strong>Données Incohérentes</strong> : Valeurs contradictoires</li>
+<li><strong>Données Manquantes</strong> : Périodes non couvertes</li>
+<li><strong>Données Corrompues</strong> : Erreurs de transmission</li>
+</ul>
+<h4 id="resolution-automatique">Résolution Automatique<a class="headerlink" href="#resolution-automatique" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Priorité</strong> : Source la plus fiable</li>
+<li><strong>Validation</strong> : Vérification de cohérence</li>
+<li><strong>Fusion</strong> : Combinaison intelligente</li>
+<li><strong>Notification</strong> : Alerte en cas de problème</li>
+</ul>
+<hr />
+<h2 id="parametres-et-personnalisation">Paramètres et Personnalisation<a class="headerlink" href="#parametres-et-personnalisation" title="Permanent link">&para;</a></h2>
+<h3 id="parametres-generaux">Paramètres Généraux<a class="headerlink" href="#parametres-generaux" title="Permanent link">&para;</a></h3>
+<h4 id="interface">Interface<a class="headerlink" href="#interface" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Thème</strong> : Clair, sombre, automatique</li>
+<li><strong>Langue</strong> : Français, Anglais, autres</li>
+<li><strong>Taille de Police</strong> : Petite, normale, grande</li>
+<li><strong>Animations</strong> : Activées, désactivées</li>
+</ul>
+<h4 id="notifications">Notifications<a class="headerlink" href="#notifications" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Synchronisation</strong> : Alertes de sync</li>
+<li><strong>Rappels</strong> : Saisie de données</li>
+<li><strong>Alertes</strong> : Niveaux critiques</li>
+<li><strong>Mises à jour</strong> : Nouvelles fonctionnalités</li>
+</ul>
+<h4 id="confidentialite">Confidentialité<a class="headerlink" href="#confidentialite" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Données Anonymes</strong> : Partage anonyme</li>
+<li><strong>Chiffrement</strong> : Protection des données</li>
+<li><strong>Rétention</strong> : Durée de conservation</li>
+<li><strong>Suppression</strong> : Droit à l'oubli</li>
+</ul>
+<h3 id="parametres-de-sante">Paramètres de Santé<a class="headerlink" href="#parametres-de-sante" title="Permanent link">&para;</a></h3>
+<h4 id="connecteurs">Connecteurs<a class="headerlink" href="#connecteurs" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Activation</strong> : Connecteurs actifs</li>
+<li><strong>Fréquence</strong> : Intervalle de synchronisation</li>
+<li><strong>Données</strong> : Types de données collectées</li>
+<li><strong>Seuils</strong> : Valeurs d'alerte</li>
+</ul>
+<h4 id="douleur">Douleur<a class="headerlink" href="#douleur" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Échelle</strong> : 0-6, 0-10, visuelle</li>
+<li><strong>Types</strong> : Types de douleur suivis</li>
+<li><strong>Fréquence</strong> : Saisie quotidienne, hebdomadaire</li>
+<li><strong>Rappels</strong> : Notifications de saisie</li>
+</ul>
+<hr />
+<h2 id="resolution-de-problemes">Résolution de Problèmes<a class="headerlink" href="#resolution-de-problemes" title="Permanent link">&para;</a></h2>
+<h3 id="problemes-courants">Problèmes Courants<a class="headerlink" href="#problemes-courants" title="Permanent link">&para;</a></h3>
+<h4 id="synchronisation">Synchronisation<a class="headerlink" href="#synchronisation" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Pas de données</strong> : Vérifiez la connexion</li>
+<li><strong>Données anciennes</strong> : Forcez la synchronisation</li>
+<li><strong>Erreurs de connexion</strong> : Redémarrez l'application</li>
+<li><strong>Permissions</strong> : Vérifiez les autorisations</li>
+</ul>
+<h4 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Lenteur</strong> : Vérifiez la connexion réseau</li>
+<li><strong>Plantages</strong> : Redémarrez l'application</li>
+<li><strong>Batterie</strong> : Optimisez les paramètres</li>
+<li><strong>Espace</strong> : Libérez de l'espace de stockage</li>
+</ul>
+<h4 id="donnees">Données<a class="headerlink" href="#donnees" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Données manquantes</strong> : Vérifiez les connecteurs</li>
+<li><strong>Données incorrectes</strong> : Vérifiez la saisie</li>
+<li><strong>Données dupliquées</strong> : Contactez le support</li>
+<li><strong>Données perdues</strong> : Vérifiez la sauvegarde</li>
+</ul>
+<h3 id="support-technique">Support Technique<a class="headerlink" href="#support-technique" title="Permanent link">&para;</a></h3>
+<h4 id="ressources">Ressources<a class="headerlink" href="#ressources" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Documentation</strong> : Guides détaillés</li>
+<li><strong>FAQ</strong> : Questions fréquentes</li>
+<li><strong>Tutoriels</strong> : Vidéos explicatives</li>
+<li><strong>Communauté</strong> : Forum utilisateurs</li>
+</ul>
+<h4 id="contact">Contact<a class="headerlink" href="#contact" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Email</strong> : <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#114;&#107;&#97;&#108;&#105;&#97;&#46;&#108;&#117;&#110;&#97;&#46;&#115;&#121;&#115;&#116;&#101;&#109;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#97;&#114;&#107;&#97;&#108;&#105;&#97;&#46;&#108;&#117;&#110;&#97;&#46;&#115;&#121;&#115;&#116;&#101;&#109;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a></li>
+<li><strong>Téléphone</strong> : +33 1 23 45 67 89</li>
+<li><strong>Chat</strong> : Support en ligne</li>
+<li><strong>Ticket</strong> : Système de tickets</li>
+</ul>
+<hr />
+<h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link">&para;</a></h2>
+<h3 id="questions-generales">Questions Générales<a class="headerlink" href="#questions-generales" title="Permanent link">&para;</a></h3>
+<p><strong>Q : ARKALIA ARIA est-il gratuit ?</strong>
+R : Oui, la version de base est gratuite. Des fonctionnalités avancées sont disponibles avec un abonnement premium.</p>
+<p><strong>Q : Mes données sont-elles sécurisées ?</strong>
+R : Oui, toutes les données sont chiffrées et stockées de manière sécurisée conformément au RGPD.</p>
+<p><strong>Q : Puis-je utiliser ARKALIA ARIA sans connecteur de santé ?</strong>
+R : Oui, vous pouvez saisir vos données manuellement via l'interface web ou mobile.</p>
+<h3 id="questions-techniques">Questions Techniques<a class="headerlink" href="#questions-techniques" title="Permanent link">&para;</a></h3>
+<p><strong>Q : Quels appareils sont compatibles ?</strong>
+R : ARKALIA ARIA fonctionne sur tous les navigateurs modernes, iOS 14+, et Android 8+.</p>
+<p><strong>Q : La synchronisation fonctionne-t-elle hors ligne ?</strong>
+R : Les données sont mises en cache localement et synchronisées dès que la connexion est rétablie.</p>
+<p><strong>Q : Puis-je exporter mes données ?</strong>
+R : Oui, vous pouvez exporter vos données en PDF, Excel, ou CSV à tout moment.</p>
+<h3 id="questions-medicales">Questions Médicales<a class="headerlink" href="#questions-medicales" title="Permanent link">&para;</a></h3>
+<p><strong>Q : ARKALIA ARIA remplace-t-il un médecin ?</strong>
+R : Non, ARKALIA ARIA est un outil de suivi qui complète mais ne remplace pas les soins médicaux.</p>
+<p><strong>Q : Les données peuvent-elles être partagées avec mon médecin ?</strong>
+R : Oui, vous pouvez générer des rapports à partager avec vos professionnels de santé.</p>
+<p><strong>Q : Que faire en cas d'urgence médicale ?</strong>
+R : En cas d'urgence, contactez immédiatement les services d'urgence (15 en France).</p>
+<hr />
+<h2 id="contact-et-support">Contact et Support<a class="headerlink" href="#contact-et-support" title="Permanent link">&para;</a></h2>
+<h3 id="support-utilisateur">Support Utilisateur<a class="headerlink" href="#support-utilisateur" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Email</strong> : <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#114;&#107;&#97;&#108;&#105;&#97;&#46;&#108;&#117;&#110;&#97;&#46;&#115;&#121;&#115;&#116;&#101;&#109;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#97;&#114;&#107;&#97;&#108;&#105;&#97;&#46;&#108;&#117;&#110;&#97;&#46;&#115;&#121;&#115;&#116;&#101;&#109;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a></li>
+<li><strong>Téléphone</strong> : +33 1 23 45 67 89</li>
+<li><strong>Horaires</strong> : Lundi-Vendredi 9h-18h</li>
+</ul>
+<h3 id="support-technique-details">Support Technique (Détails)<a class="headerlink" href="#support-technique-details" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Email</strong> : <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#114;&#107;&#97;&#108;&#105;&#97;&#46;&#108;&#117;&#110;&#97;&#46;&#115;&#121;&#115;&#116;&#101;&#109;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#97;&#114;&#107;&#97;&#108;&#105;&#97;&#46;&#108;&#117;&#110;&#97;&#46;&#115;&#121;&#115;&#116;&#101;&#109;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a></li>
+<li><strong>Documentation</strong> : <a href="https://docs.arkalia-aria.com">https://docs.arkalia-aria.com</a></li>
+<li><strong>GitHub</strong> : <a href="https://github.com/arkalia-aria">https://github.com/arkalia-aria</a></li>
+</ul>
+<h3 id="communaute">Communauté<a class="headerlink" href="#communaute" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Forum</strong> : <a href="https://community.arkalia-aria.com">https://community.arkalia-aria.com</a></li>
+<li><strong>Discord</strong> : <a href="https://discord.gg/arkalia-aria">https://discord.gg/arkalia-aria</a></li>
+<li><strong>Twitter</strong> : @ARKALIA_ARIA</li>
+</ul>
+<hr />
+<p><em>Dernière mise à jour :</em> Novembre 2025<br />
+<em>Version du guide :</em> 1.0.0 (aligné avec version ARIA 1.0.0)</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/arkalia-luna-system" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://pypi.org/project/arkalia-aria/" target="_blank" rel="noopener" title="pypi.org" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6M286.2 444.7a20.4 20.4 0 1 1 0-40.7 20.4 20.4 0 1 1 0 40.7M167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4m-6.6-183.4a20.4 20.4 0 1 1 0 40.8 20.4 20.4 0 1 1 0-40.8"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "search.highlight", "search.share", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

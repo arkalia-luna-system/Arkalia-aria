@@ -1,6 +1,7 @@
 # 📋 Ce qui Manque pour ARIA
 
 **Date** : 27 novembre 2025  
+**Dernière mise à jour** : 27 novembre 2025  
 **Version** : 1.0.0
 
 ---

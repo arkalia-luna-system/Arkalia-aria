@@ -10,7 +10,7 @@ Module central contenant les abstractions communes :
 - Exceptions personnalisées
 """
 
-from .alerts import ARIA_AlertsSystem, AlertSeverity, AlertType, get_alerts_system
+from .alerts import AlertSeverity, AlertType, ARIA_AlertsSystem, get_alerts_system
 from .api_base import BaseAPI
 from .cache import CacheManager
 from .config import Config

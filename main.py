@@ -16,6 +16,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 # Imports des modules
+from alerts.api import router as alerts_router
 from audio_voice.api import router as audio_router
 from cia_sync.api import router as sync_router
 from cia_sync.bbia_api import router as bbia_router
@@ -67,6 +68,7 @@ app.include_router(research_router, prefix="/api/research", tags=["Research Tool
 app.include_router(sync_router, prefix="/api/sync", tags=["CIA Sync"])
 app.include_router(bbia_router, prefix="/api/bbia", tags=["BBIA Integration"])
 app.include_router(audio_router, prefix="/api/audio", tags=["Audio/Voice"])
+app.include_router(alerts_router, tags=["Alerts"])
 # watch_router supprimé - doublon de health_connectors
 
 # Intégration des connecteurs santé
@@ -141,6 +143,7 @@ async def root():
             "cia_sync",
             "bbia_integration",
             "audio_voice",
+            "alerts",
             # "watch_integration", # supprimé - doublon de health_connectors
             "health_connectors",
         ],

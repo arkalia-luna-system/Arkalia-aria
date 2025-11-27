@@ -10,6 +10,7 @@ Module central contenant les abstractions communes :
 - Exceptions personnalisées
 """
 
+from .alerts import ARIA_AlertsSystem, AlertSeverity, AlertType, get_alerts_system
 from .api_base import BaseAPI
 from .cache import CacheManager
 from .config import Config
@@ -18,6 +19,10 @@ from .exceptions import APIError, ARIABaseException, DatabaseError
 from .logging import get_logger, setup_logging
 
 __all__ = [
+    "ARIA_AlertsSystem",
+    "AlertSeverity",
+    "AlertType",
+    "get_alerts_system",
     "BaseAPI",
     "DatabaseManager",
     "Config",

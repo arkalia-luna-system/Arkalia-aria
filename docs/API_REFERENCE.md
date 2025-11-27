@@ -1579,4 +1579,87 @@ User-Agent: ARIA-Client/1.0
 
 ---
 
+## 🔔 **Système d'Alertes**
+
+### **Statut**
+
+```http
+GET /api/alerts/status
+```
+
+**Réponse** : `200 OK` avec statut du système d'alertes
+
+### **Récupérer les Alertes**
+
+```http
+GET /api/alerts?limit=50&offset=0&unread_only=false&alert_type=pattern_detected
+```
+
+**Paramètres** :
+- `limit` : Nombre d'alertes (défaut: 50, max: 200)
+- `offset` : Offset pour pagination (défaut: 0)
+- `unread_only` : Uniquement non lues (défaut: false)
+- `alert_type` : Filtrer par type (optionnel)
+
+**Réponse** : `200 OK` avec objet paginé :
+```json
+{
+  "alerts": [...],
+  "total": 25,
+  "limit": 50,
+  "offset": 0,
+  "has_more": false
+}
+```
+
+### **Vérifier les Alertes**
+
+```http
+POST /api/alerts/check?days_back=30
+```
+
+**Réponse** : `200 OK` avec résumé des alertes créées :
+```json
+{
+  "patterns": 2,
+  "predictions": 1,
+  "correlations": 3,
+  "total": 6,
+  "timestamp": "2025-11-27T..."
+}
+```
+
+### **Marquer comme Lue**
+
+```http
+POST /api/alerts/{alert_id}/read
+```
+
+**Réponse** : `200 OK` avec confirmation
+
+### **Marquer Toutes comme Lues**
+
+```http
+POST /api/alerts/read-all
+```
+
+**Réponse** : `200 OK` avec nombre d'alertes marquées
+
+### **Comptage Non Lues**
+
+```http
+GET /api/alerts/unread/count
+```
+
+**Réponse** : `200 OK` avec `{"unread_count": 5}`
+
+**Types d'alertes** :
+- `pattern_detected` : Déclencheurs récurrents détectés
+- `prediction_crisis` : Risque de crise anticipé
+- `correlation_strong` : Corrélations importantes (sommeil/stress-douleur)
+- `health_sync` : Notifications basées sur données santé
+- `medical_appointment` : Alertes RDV médicaux (depuis CIA)
+
+---
+
 **ARKALIA ARIA** - API Reference ! 🔌📊

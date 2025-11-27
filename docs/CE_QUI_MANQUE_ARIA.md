@@ -39,11 +39,11 @@ ARIA est **techniquement prêt à 95%** mais manque de **fonctionnalités utilis
 
 **Ce qui manque** :
 
-- [ ] Alertes patterns détectés (déclencheurs récurrents)
-- [ ] Alertes prédictions (crises anticipées)
-- [ ] Alertes corrélations importantes (sommeil-douleur, stress-douleur)
-- [ ] Notifications basées sur données santé (sync auto)
-- [ ] Alertes RDV médicaux (depuis CIA)
+- [x] Alertes patterns détectés (déclencheurs récurrents) ✅ **FAIT**
+- [x] Alertes prédictions (crises anticipées) ✅ **FAIT**
+- [x] Alertes corrélations importantes (sommeil-douleur, stress-douleur) ✅ **FAIT**
+- [ ] Notifications basées sur données santé (sync auto) (à améliorer)
+- [ ] Alertes RDV médicaux (depuis CIA) (nécessite intégration CIA)
 
 **Impact** : +15% utilisation
 

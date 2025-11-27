@@ -878,16 +878,46 @@ Content-Type: application/json
   "action_taken": "respiration",
   "effectiveness": 6,
   "notes": "Douleur après travail",
+  "who_present": "Famille",
+  "interactions": "Conflit avec proche",
+  "emotions": "Anxiété, frustration",
+  "thoughts": "Je me sens dépassé",
+  "physical_symptoms": "Tension musculaire, maux de tête",
   "timestamp": "2025-09-25T13:59:00"
 }
 
 ```
 
+**Nouveaux champs (27 novembre 2025)** :
+
+- `who_present` : Personnes présentes lors de l'épisode de douleur
+- `interactions` : Qui dit/fait quoi - interactions observées
+- `emotions` : Ce que je ressens - émotions et sensations
+- `thoughts` : Ce que je pense - pensées et réflexions
+- `physical_symptoms` : Symptômes physiques détaillés
+
+Ces champs permettent un suivi plus complet inspiré des journaux de douleur structurés.
+
 ### 📋 **Liste des Entrées**
 
 ```http
-GET /api/pain/entries
+GET /api/pain/entries?limit=50&offset=0
 GET /api/pain/entries/recent?limit=20
+```
+
+**Paramètres de pagination** :
+- `limit` : Nombre d'entrées à retourner (défaut: 50, max: 200)
+- `offset` : Nombre d'entrées à sauter (défaut: 0)
+
+**Réponse (pagination)** : `200 OK` avec objet contenant :
+```json
+{
+  "entries": [...],
+  "total": 150,
+  "limit": 50,
+  "offset": 0,
+  "has_more": true
+}
 ```
 
 **Réponse (liste de PainEntryOut)** : `200 OK` avec tableau d'entrées triées par date (récentes d'abord)
@@ -1546,6 +1576,89 @@ User-Agent: ARIA-Client/1.0
 
 - **Limite** : 100 requêtes/minute par IP
 - **Headers** : `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`
+
+---
+
+## 🔔 **Système d'Alertes**
+
+### **Statut**
+
+```http
+GET /api/alerts/status
+```
+
+**Réponse** : `200 OK` avec statut du système d'alertes
+
+### **Récupérer les Alertes**
+
+```http
+GET /api/alerts?limit=50&offset=0&unread_only=false&alert_type=pattern_detected
+```
+
+**Paramètres** :
+- `limit` : Nombre d'alertes (défaut: 50, max: 200)
+- `offset` : Offset pour pagination (défaut: 0)
+- `unread_only` : Uniquement non lues (défaut: false)
+- `alert_type` : Filtrer par type (optionnel)
+
+**Réponse** : `200 OK` avec objet paginé :
+```json
+{
+  "alerts": [...],
+  "total": 25,
+  "limit": 50,
+  "offset": 0,
+  "has_more": false
+}
+```
+
+### **Vérifier les Alertes**
+
+```http
+POST /api/alerts/check?days_back=30
+```
+
+**Réponse** : `200 OK` avec résumé des alertes créées :
+```json
+{
+  "patterns": 2,
+  "predictions": 1,
+  "correlations": 3,
+  "total": 6,
+  "timestamp": "2025-11-27T..."
+}
+```
+
+### **Marquer comme Lue**
+
+```http
+POST /api/alerts/{alert_id}/read
+```
+
+**Réponse** : `200 OK` avec confirmation
+
+### **Marquer Toutes comme Lues**
+
+```http
+POST /api/alerts/read-all
+```
+
+**Réponse** : `200 OK` avec nombre d'alertes marquées
+
+### **Comptage Non Lues**
+
+```http
+GET /api/alerts/unread/count
+```
+
+**Réponse** : `200 OK` avec `{"unread_count": 5}`
+
+**Types d'alertes** :
+- `pattern_detected` : Déclencheurs récurrents détectés
+- `prediction_crisis` : Risque de crise anticipé
+- `correlation_strong` : Corrélations importantes (sommeil/stress-douleur)
+- `health_sync` : Notifications basées sur données santé
+- `medical_appointment` : Alertes RDV médicaux (depuis CIA)
 
 ---
 

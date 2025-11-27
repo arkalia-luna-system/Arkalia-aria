@@ -16,6 +16,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 # Imports des modules
+from alerts.api import router as alerts_router
 from audio_voice.api import router as audio_router
 from cia_sync.api import router as sync_router
 from cia_sync.bbia_api import router as bbia_router
@@ -67,6 +68,7 @@ app.include_router(research_router, prefix="/api/research", tags=["Research Tool
 app.include_router(sync_router, prefix="/api/sync", tags=["CIA Sync"])
 app.include_router(bbia_router, prefix="/api/bbia", tags=["BBIA Integration"])
 app.include_router(audio_router, prefix="/api/audio", tags=["Audio/Voice"])
+app.include_router(alerts_router, tags=["Alerts"])
 # watch_router supprimé - doublon de health_connectors
 
 # Intégration des connecteurs santé
@@ -105,11 +107,11 @@ if os.getenv("ARIA_CIA_SYNC_ENABLED", "0").lower() in ("1", "true"):
         auto_sync = get_auto_sync_manager()
         sync_interval = int(os.getenv("ARIA_CIA_SYNC_INTERVAL_MINUTES", "60"))
         cia_url = config.get("cia_api_url", "http://127.0.0.1:8000")
-        
+
         # Mettre à jour l'URL CIA si configurée
         if cia_url != "http://127.0.0.1:8000":
             auto_sync.cia_base_url = cia_url
-        
+
         success = auto_sync.start(interval_minutes=sync_interval)
         if success:
             logger.info(
@@ -121,7 +123,9 @@ if os.getenv("ARIA_CIA_SYNC_ENABLED", "0").lower() in ("1", "true"):
     except Exception as e:
         logger.warning(f"⚠️ Synchronisation automatique CIA désactivée: {e}")
 else:
-    logger.info("ℹ️ Synchronisation automatique CIA désactivée (ARIA_CIA_SYNC_ENABLED=false)")
+    logger.info(
+        "ℹ️ Synchronisation automatique CIA désactivée (ARIA_CIA_SYNC_ENABLED=false)"
+    )
 
 
 @app.get("/")
@@ -139,6 +143,7 @@ async def root():
             "cia_sync",
             "bbia_integration",
             "audio_voice",
+            "alerts",
             # "watch_integration", # supprimé - doublon de health_connectors
             "health_connectors",
         ],

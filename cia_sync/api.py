@@ -489,9 +489,7 @@ async def save_granularity_config(
                 "timestamp": datetime.now().isoformat(),
             }
         else:
-            raise HTTPException(
-                status_code=500, detail="Erreur lors de la sauvegarde"
-            )
+            raise HTTPException(status_code=500, detail="Erreur lors de la sauvegarde")
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"Erreur sauvegarde config: {str(e)}"
@@ -549,9 +547,7 @@ async def delete_granularity_config(config_name: str) -> dict:
                 "timestamp": datetime.now().isoformat(),
             }
         else:
-            raise HTTPException(
-                status_code=500, detail="Erreur lors de la suppression"
-            )
+            raise HTTPException(status_code=500, detail="Erreur lors de la suppression")
     except HTTPException:
         raise
     except Exception as e:

@@ -136,8 +136,7 @@ class GranularityConfigManager:
 
     def _init_database(self) -> None:
         """Initialise la table de configuration."""
-        self.db.execute_update(
-            """
+        self.db.execute_update("""
             CREATE TABLE IF NOT EXISTS sync_granularity_config (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 config_name TEXT NOT NULL UNIQUE,
@@ -146,8 +145,7 @@ class GranularityConfigManager:
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP,
                 updated_at TEXT DEFAULT CURRENT_TIMESTAMP
             )
-            """
-        )
+            """)
         logger.debug("✅ Table sync_granularity_config initialisée")
 
     def save_config(
@@ -251,13 +249,11 @@ class GranularityConfigManager:
             Liste des configurations avec métadonnées
         """
         try:
-            rows = self.db.execute_query(
-                """
+            rows = self.db.execute_query("""
                 SELECT config_name, is_default, created_at, updated_at
                 FROM sync_granularity_config
                 ORDER BY is_default DESC, config_name
-                """
-            )
+                """)
             return [dict(row) for row in rows]
         except Exception as e:
             logger.error(f"❌ Erreur liste configs: {e}")
@@ -393,4 +389,3 @@ def get_config_manager() -> GranularityConfigManager:
     if _config_manager is None:
         _config_manager = GranularityConfigManager()
     return _config_manager
-

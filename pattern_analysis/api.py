@@ -49,7 +49,7 @@ async def get_recent_patterns(
 ) -> dict:
     """
     Analyse des patterns récents.
-    
+
     Retourne une analyse complète avec :
     - Corrélations sommeil ↔ douleur
     - Corrélations stress ↔ douleur
@@ -72,7 +72,7 @@ async def get_sleep_pain_correlation(
 ) -> dict:
     """
     Analyse la corrélation entre sommeil et douleur.
-    
+
     Retourne :
     - Coefficient de corrélation (-1 à 1)
     - Niveau de confiance
@@ -95,7 +95,7 @@ async def get_stress_pain_correlation(
 ) -> dict:
     """
     Analyse la corrélation entre stress et douleur.
-    
+
     Retourne :
     - Coefficient de corrélation (-1 à 1)
     - Niveau de confiance
@@ -119,7 +119,7 @@ async def get_recurrent_triggers(
 ) -> dict:
     """
     Détecte les déclencheurs récurrents de douleur.
-    
+
     Retourne :
     - Déclencheurs physiques récurrents
     - Déclencheurs mentaux récurrents
@@ -142,7 +142,7 @@ async def get_recurrent_triggers(
 async def analyze_patterns(data: dict[str, Any]) -> dict:
     """
     Lance une analyse de patterns sur les données fournies.
-    
+
     Body attendu :
     {
         "days_back": 30,  # Optionnel, défaut 30

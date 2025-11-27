@@ -17,6 +17,11 @@ class TestDatabaseIndexes:
 
     def test_indexes_exist(self):
         """Test que les index existent sur les colonnes importantes."""
+        from pain_tracking.api import _init_tables
+
+        # Initialiser les tables (cela crée les index)
+        _init_tables()
+
         from core.database import DatabaseManager
 
         db = DatabaseManager()

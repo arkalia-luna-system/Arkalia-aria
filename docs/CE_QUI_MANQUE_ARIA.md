@@ -356,4 +356,3 @@ Toutes les fonctionnalités manquantes peuvent être implémentées avec :
 
 **Date** : 27 novembre 2025  
 **Prochaine mise à jour** : Après implémentation priorités
-

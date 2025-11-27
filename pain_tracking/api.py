@@ -7,7 +7,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any, TypedDict
 
-from fastapi import HTTPException
+from fastapi import HTTPException, Query
 from pydantic import BaseModel, Field
 
 from core import BaseAPI
@@ -40,10 +40,64 @@ def _init_tables() -> None:
                 action_taken TEXT,
                 effectiveness INTEGER CHECK (effectiveness >= 0 AND effectiveness <= 10),
                 notes TEXT,
+                who_present TEXT,
+                interactions TEXT,
+                emotions TEXT,
+                thoughts TEXT,
+                physical_symptoms TEXT,
                 created_at TEXT NOT NULL DEFAULT (DATETIME('now'))
             )
             """)
-        logger.info("✅ Tables pain_entries initialisées")
+        # Migration: ajouter les nouveaux champs si la table existe déjà
+        try:
+            db.execute_update("ALTER TABLE pain_entries ADD COLUMN who_present TEXT")
+        except Exception:
+            pass  # Colonne déjà existante
+        try:
+            db.execute_update("ALTER TABLE pain_entries ADD COLUMN interactions TEXT")
+        except Exception:
+            pass  # Colonne déjà existante
+        try:
+            db.execute_update("ALTER TABLE pain_entries ADD COLUMN emotions TEXT")
+        except Exception:
+            pass  # Colonne déjà existante
+        try:
+            db.execute_update("ALTER TABLE pain_entries ADD COLUMN thoughts TEXT")
+        except Exception:
+            pass  # Colonne déjà existante
+        try:
+            db.execute_update(
+                "ALTER TABLE pain_entries ADD COLUMN physical_symptoms TEXT"
+            )
+        except Exception:
+            pass  # Colonne déjà existante
+
+        # Créer les index pour optimiser les requêtes
+        try:
+            db.execute_update(
+                "CREATE INDEX IF NOT EXISTS idx_pain_entries_timestamp ON pain_entries(timestamp)"
+            )
+        except Exception:
+            pass
+        try:
+            db.execute_update(
+                "CREATE INDEX IF NOT EXISTS idx_pain_entries_intensity ON pain_entries(intensity)"
+            )
+        except Exception:
+            pass
+        try:
+            db.execute_update(
+                "CREATE INDEX IF NOT EXISTS idx_pain_entries_location ON pain_entries(location)"
+            )
+        except Exception:
+            pass
+        try:
+            db.execute_update(
+                "CREATE INDEX IF NOT EXISTS idx_pain_entries_timestamp_intensity ON pain_entries(timestamp, intensity)"
+            )
+        except Exception:
+            pass
+        logger.info("✅ Tables pain_entries initialisées avec index")
     except Exception as e:
         logger.error(f"❌ Erreur initialisation tables: {e}")
         raise
@@ -146,6 +200,29 @@ class PainEntryIn(BaseModel):
     action_taken: str | None = Field(default=None, min_length=1, max_length=128)
     effectiveness: int | None = Field(default=None, ge=0, le=10)
     notes: str | None = Field(default=None, max_length=2000)
+    who_present: str | None = Field(
+        default=None,
+        max_length=500,
+        description="Personnes présentes lors de l'épisode",
+    )
+    interactions: str | None = Field(
+        default=None,
+        max_length=1000,
+        description="Qui dit/fait quoi - interactions observées",
+    )
+    emotions: str | None = Field(
+        default=None,
+        max_length=1000,
+        description="Ce que je ressens - émotions et sensations",
+    )
+    thoughts: str | None = Field(
+        default=None,
+        max_length=2000,
+        description="Ce que je pense - pensées et réflexions",
+    )
+    physical_symptoms: str | None = Field(
+        default=None, max_length=1000, description="Symptômes physiques détaillés"
+    )
     timestamp: str | None = None  # ISO format
 
 
@@ -229,8 +306,9 @@ async def create_pain_entry(entry: PainEntryIn) -> PainEntryOut:
             """
             INSERT INTO pain_entries (
                 timestamp, intensity, physical_trigger, mental_trigger, activity,
-                location, action_taken, effectiveness, notes
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                location, action_taken, effectiveness, notes,
+                who_present, interactions, emotions, thoughts, physical_symptoms
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 ts,
@@ -242,6 +320,11 @@ async def create_pain_entry(entry: PainEntryIn) -> PainEntryOut:
                 entry.action_taken,
                 int(entry.effectiveness) if entry.effectiveness is not None else None,
                 entry.notes,
+                entry.who_present,
+                entry.interactions,
+                entry.emotions,
+                entry.thoughts,
+                entry.physical_symptoms,
             ),
         )
 
@@ -259,16 +342,42 @@ async def create_pain_entry(entry: PainEntryIn) -> PainEntryOut:
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
 
 
-@router.get("/entries", response_model=list[PainEntryOut])
-async def list_pain_entries() -> list[PainEntryOut]:
-    """Liste toutes les entrées de douleur"""
+@router.get("/entries", response_model=dict)
+async def list_pain_entries(
+    limit: int = Query(50, ge=1, le=200, description="Nombre d'entrées à retourner"),
+    offset: int = Query(0, ge=0, description="Nombre d'entrées à sauter"),
+) -> dict[str, Any]:
+    """
+    Liste les entrées de douleur avec pagination.
+
+    Args:
+        limit: Nombre d'entrées à retourner (défaut: 50, max: 200)
+        offset: Nombre d'entrées à sauter (défaut: 0)
+    """
     _init_tables()
     try:
+        # Limiter le nombre max pour éviter surcharge
+        limit = min(limit, 200)
+        offset = max(offset, 0)
+
+        # Récupérer les entrées avec pagination
         rows = db.execute_query(
-            "SELECT * FROM pain_entries ORDER BY timestamp DESC, id DESC"
+            "SELECT * FROM pain_entries ORDER BY timestamp DESC, id DESC LIMIT ? OFFSET ?",
+            (limit, offset),
         )
-        logger.info(f"📋 {len(rows)} entrées récupérées")
-        return [PainEntryOut(**dict(row)) for row in rows]
+
+        # Compter le total
+        total_rows = db.execute_query("SELECT COUNT(*) as count FROM pain_entries")
+        total = total_rows[0]["count"] if total_rows else 0
+
+        logger.info(f"📋 {len(rows)} entrées récupérées (total: {total})")
+        return {
+            "entries": [PainEntryOut(**dict(row)) for row in rows],
+            "total": total,
+            "limit": limit,
+            "offset": offset,
+            "has_more": (offset + limit) < total,
+        }
     except Exception as e:
         logger.error(f"❌ Erreur récupération entrées: {e}")
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
@@ -322,6 +431,11 @@ async def export_psy_report() -> dict[str, Any]:
             f"<td>{html_escape(str(r['action_taken'] or ''))}</td>"
             f"<td>{html_escape(str(r['effectiveness'] or ''))}</td>"
             f"<td>{html_escape(str(r['notes'] or ''))}</td>"
+            f"<td>{html_escape(str(r.get('who_present') or ''))}</td>"
+            f"<td>{html_escape(str(r.get('interactions') or ''))}</td>"
+            f"<td>{html_escape(str(r.get('emotions') or ''))}</td>"
+            f"<td>{html_escape(str(r.get('thoughts') or ''))}</td>"
+            f"<td>{html_escape(str(r.get('physical_symptoms') or ''))}</td>"
             f"</tr>"
         )
 
@@ -419,6 +533,7 @@ async def export_psy_report() -> dict[str, Any]:
       <tr>
         <th>Date/Heure</th><th>Intensité</th><th>Déclencheur</th><th>Mental</th>
         <th>Activité</th><th>Localisation</th><th>Action</th><th>Efficacité</th><th>Notes</th>
+        <th>Qui présent</th><th>Interactions</th><th>Émotions</th><th>Pensées</th><th>Symptômes physiques</th>
       </tr>
     </thead>
     <tbody>
@@ -500,12 +615,13 @@ async def export_csv():
         rows = db.execute_query("SELECT * FROM pain_entries ORDER BY timestamp DESC")
 
         # Génération CSV simple
-        csv_content = "Date,Heure,Intensité,Déclencheur Physique,Déclencheur Mental,Activité,Localisation,Action,Efficacité,Notes\n"
+        csv_content = "Date,Heure,Intensité,Déclencheur Physique,Déclencheur Mental,Activité,Localisation,Action,Efficacité,Notes,Qui présent,Interactions,Émotions,Pensées,Symptômes physiques\n"
 
         for row in rows:
-            timestamp = row["timestamp"]
+            row_dict = dict(row)
+            timestamp = row_dict["timestamp"]
             date, time = timestamp.split("T") if "T" in timestamp else (timestamp, "")
-            csv_content += f"{date},{time},{row['intensity']},{row['physical_trigger'] or ''},{row['mental_trigger'] or ''},{row['activity'] or ''},{row['location'] or ''},{row['action_taken'] or ''},{row['effectiveness'] or ''},{row['notes'] or ''}\n"
+            csv_content += f"{date},{time},{row_dict['intensity']},{row_dict.get('physical_trigger') or ''},{row_dict.get('mental_trigger') or ''},{row_dict.get('activity') or ''},{row_dict.get('location') or ''},{row_dict.get('action_taken') or ''},{row_dict.get('effectiveness') or ''},{row_dict.get('notes') or ''},{row_dict.get('who_present') or ''},{row_dict.get('interactions') or ''},{row_dict.get('emotions') or ''},{row_dict.get('thoughts') or ''},{row_dict.get('physical_symptoms') or ''}\n"
 
         logger.info(f"📊 Export CSV généré: {len(rows)} entrées")
         return {
@@ -533,14 +649,15 @@ Nombre d'entrées: {len(rows)}
 """
 
         # En-têtes
-        pdf_content += "DATE\tHEURE\tINTENSITÉ\tDÉCLENCHEUR PHYSIQUE\tDÉCLENCHEUR MENTAL\tACTIVITÉ\tLOCALISATION\tACTION\tEFFICACITÉ\tNOTES\n"
-        pdf_content += "-" * 120 + "\n"
+        pdf_content += "DATE\tHEURE\tINTENSITÉ\tDÉCLENCHEUR PHYSIQUE\tDÉCLENCHEUR MENTAL\tACTIVITÉ\tLOCALISATION\tACTION\tEFFICACITÉ\tNOTES\tQUI PRÉSENT\tINTERACTIONS\tÉMOTIONS\tPENSÉES\tSYMPTÔMES PHYSIQUES\n"
+        pdf_content += "-" * 200 + "\n"
 
         # Données
         for row in rows:
-            timestamp = row["timestamp"]
+            row_dict = dict(row)
+            timestamp = row_dict["timestamp"]
             date, time = timestamp.split("T") if "T" in timestamp else (timestamp, "")
-            pdf_content += f"{date}\t{time}\t{row['intensity']}\t{row['physical_trigger'] or ''}\t{row['mental_trigger'] or ''}\t{row['activity'] or ''}\t{row['location'] or ''}\t{row['action_taken'] or ''}\t{row['effectiveness'] or ''}\t{row['notes'] or ''}\n"
+            pdf_content += f"{date}\t{time}\t{row_dict['intensity']}\t{row_dict.get('physical_trigger') or ''}\t{row_dict.get('mental_trigger') or ''}\t{row_dict.get('activity') or ''}\t{row_dict.get('location') or ''}\t{row_dict.get('action_taken') or ''}\t{row_dict.get('effectiveness') or ''}\t{row_dict.get('notes') or ''}\t{row_dict.get('who_present') or ''}\t{row_dict.get('interactions') or ''}\t{row_dict.get('emotions') or ''}\t{row_dict.get('thoughts') or ''}\t{row_dict.get('physical_symptoms') or ''}\n"
 
         logger.info(f"📄 Export PDF généré: {len(rows)} entrées")
         return {
@@ -561,12 +678,13 @@ async def export_excel():
         rows = db.execute_query("SELECT * FROM pain_entries ORDER BY timestamp DESC")
 
         # Génération Excel (format CSV avec séparateur tab)
-        excel_content = "Date\tHeure\tIntensité\tDéclencheur Physique\tDéclencheur Mental\tActivité\tLocalisation\tAction\tEfficacité\tNotes\n"
+        excel_content = "Date\tHeure\tIntensité\tDéclencheur Physique\tDéclencheur Mental\tActivité\tLocalisation\tAction\tEfficacité\tNotes\tQui présent\tInteractions\tÉmotions\tPensées\tSymptômes physiques\n"
 
         for row in rows:
-            timestamp = row["timestamp"]
+            row_dict = dict(row)
+            timestamp = row_dict["timestamp"]
             date, time = timestamp.split("T") if "T" in timestamp else (timestamp, "")
-            excel_content += f"{date}\t{time}\t{row['intensity']}\t{row['physical_trigger'] or ''}\t{row['mental_trigger'] or ''}\t{row['activity'] or ''}\t{row['location'] or ''}\t{row['action_taken'] or ''}\t{row['effectiveness'] or ''}\t{row['notes'] or ''}\n"
+            excel_content += f"{date}\t{time}\t{row_dict['intensity']}\t{row_dict.get('physical_trigger') or ''}\t{row_dict.get('mental_trigger') or ''}\t{row_dict.get('activity') or ''}\t{row_dict.get('location') or ''}\t{row_dict.get('action_taken') or ''}\t{row_dict.get('effectiveness') or ''}\t{row_dict.get('notes') or ''}\t{row_dict.get('who_present') or ''}\t{row_dict.get('interactions') or ''}\t{row_dict.get('emotions') or ''}\t{row_dict.get('thoughts') or ''}\t{row_dict.get('physical_symptoms') or ''}\n"
 
         logger.info(f"📊 Export Excel généré: {len(rows)} entrées")
         return {

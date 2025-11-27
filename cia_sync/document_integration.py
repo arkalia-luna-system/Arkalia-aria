@@ -62,9 +62,7 @@ class DocumentIntegration:
             Rapport médical structuré
         """
         try:
-            cutoff_date = (
-                datetime.now() - timedelta(days=period_days)
-            ).isoformat()
+            cutoff_date = (datetime.now() - timedelta(days=period_days)).isoformat()
 
             # Récupérer les entrées de douleur
             pain_entries = self.db.execute_query(
@@ -136,9 +134,7 @@ class DocumentIntegration:
             logger.error(f"❌ Erreur génération rapport: {e}")
             return {"error": str(e)}
 
-    def _calculate_statistics(
-        self, entries: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def _calculate_statistics(self, entries: list[dict[str, Any]]) -> dict[str, Any]:
         """Calcule des statistiques depuis les entrées."""
         if not entries:
             return {
@@ -170,9 +166,9 @@ class DocumentIntegration:
                 actions[action] = actions.get(action, 0) + 1
 
         return {
-            "avg_intensity": round(sum(intensities) / len(intensities), 2)
-            if intensities
-            else 0,
+            "avg_intensity": (
+                round(sum(intensities) / len(intensities), 2) if intensities else 0
+            ),
             "max_intensity": max(intensities) if intensities else 0,
             "min_intensity": min(intensities) if intensities else 0,
             "total_entries": len(entries),
@@ -222,9 +218,7 @@ class DocumentIntegration:
         try:
             # Vérifier la connexion CIA
             try:
-                response = requests.get(
-                    f"{self.cia_base_url}/health", timeout=10
-                )
+                response = requests.get(f"{self.cia_base_url}/health", timeout=10)
                 if response.status_code != 200:
                     return {
                         "success": False,
@@ -304,14 +298,14 @@ class DocumentIntegration:
             "summary": report.get("summary", {}),
             "statistics": report.get("statistics", {}),
             "key_findings": {
-                "average_pain_intensity": report.get("statistics", {}).get(
-                    "avg_intensity", 0
+                "average_pain_intensity": (
+                    report.get("statistics", {}).get("avg_intensity", 0)
                 ),
-                "most_common_triggers": report.get("statistics", {}).get(
-                    "most_common_triggers", {}
+                "most_common_triggers": (
+                    report.get("statistics", {}).get("most_common_triggers", {})
                 ),
-                "effective_actions": report.get("statistics", {}).get(
-                    "most_effective_actions", {}
+                "effective_actions": (
+                    report.get("statistics", {}).get("most_effective_actions", {})
                 ),
             },
             "patterns": report.get("patterns", {}),
@@ -320,9 +314,7 @@ class DocumentIntegration:
 
         return consultation_report
 
-    def _generate_recommendations(
-        self, report: dict[str, Any]
-    ) -> list[str]:
+    def _generate_recommendations(self, report: dict[str, Any]) -> list[str]:
         """Génère des recommandations basées sur le rapport."""
         recommendations = []
 
@@ -334,9 +326,7 @@ class DocumentIntegration:
                 "Douleur moyenne élevée. Consultation médicale recommandée."
             )
         elif avg_intensity >= 5:
-            recommendations.append(
-                "Douleur modérée. Surveiller l'évolution."
-            )
+            recommendations.append("Douleur modérée. Surveiller l'évolution.")
 
         # Recommandations basées sur patterns
         patterns = report.get("patterns", {})
@@ -367,4 +357,3 @@ def get_document_integration() -> DocumentIntegration:
     if _document_integration is None:
         _document_integration = DocumentIntegration()
     return _document_integration
-

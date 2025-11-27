@@ -3,8 +3,7 @@ BBIA API - Endpoints pour intégration BBIA-SIM
 API REST pour communication avec le robot compagnon
 """
 
-from datetime import datetime
-from typing import Any
+from datetime import datetime, timedelta
 
 from fastapi import HTTPException
 from pydantic import BaseModel
@@ -115,14 +114,12 @@ async def send_emotional_state_from_latest_pain() -> dict:
 
         # Récupérer la dernière entrée de douleur
         db = DatabaseManager()
-        latest_entry = db.execute_query(
-            """
+        latest_entry = db.execute_query("""
             SELECT intensity, physical_trigger, mental_trigger, timestamp
             FROM pain_entries
             ORDER BY timestamp DESC
             LIMIT 1
-            """
-        )
+            """)
 
         if not latest_entry:
             raise HTTPException(
@@ -132,11 +129,46 @@ async def send_emotional_state_from_latest_pain() -> dict:
         entry = dict(latest_entry[0])
         pain_intensity = float(entry.get("intensity", 0))
 
-        # Estimer stress et sommeil si disponibles
+        # Récupérer stress et sommeil depuis health_connectors si disponible
         stress_level = None
         sleep_quality = None
 
-        # TODO: Récupérer depuis health_connectors si disponible
+        try:
+            from health_connectors.sync_manager import HealthSyncManager
+
+            sync_manager = HealthSyncManager()
+            end_date = datetime.now()
+            start_date = end_date - timedelta(days=1)  # Dernières 24h
+
+            # Récupérer données stress (dernière valeur)
+            try:
+                stress_data = await sync_manager.get_unified_stress_data(
+                    start_date, end_date
+                )
+                if stress_data:
+                    # Prendre la dernière valeur de stress
+                    latest_stress = stress_data[-1]
+                    stress_level = (
+                        float(latest_stress.stress_level) / 10.0
+                    )  # Normaliser 0-1
+            except Exception as e:
+                logger.debug(f"Données stress non disponibles: {e}")
+
+            # Récupérer données sommeil (dernière valeur)
+            try:
+                sleep_data = await sync_manager.get_unified_sleep_data(
+                    start_date, end_date
+                )
+                if sleep_data:
+                    # Prendre la dernière valeur de sommeil
+                    latest_sleep = sleep_data[-1]
+                    sleep_quality = (
+                        float(latest_sleep.quality_score) / 10.0
+                    )  # Normaliser 0-1
+            except Exception as e:
+                logger.debug(f"Données sommeil non disponibles: {e}")
+        except Exception as e:
+            logger.debug(f"Health connectors non disponibles: {e}")
 
         bbia = get_bbia_integration()
         emotional_state = bbia.prepare_emotional_state(
@@ -160,4 +192,3 @@ async def send_emotional_state_from_latest_pain() -> dict:
             status_code=500,
             detail=f"Erreur envoi état émotionnel depuis douleur: {str(e)}",
         ) from e
-

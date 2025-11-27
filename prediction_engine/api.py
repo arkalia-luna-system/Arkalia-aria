@@ -198,7 +198,8 @@ async def get_analytics() -> dict:
         return analytics
     except Exception as e:
         raise HTTPException(
-            status_code=500, detail=f"Erreur lors de la récupération analytics: {str(e)}"
+            status_code=500,
+            detail=f"Erreur lors de la récupération analytics: {str(e)}",
         ) from e
 
 

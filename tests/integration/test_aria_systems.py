@@ -175,9 +175,29 @@ def test_new_pain_endpoints():
             html = psy["html"].lstrip().lower()
             assert isinstance(html, str) and html.startswith("<!doctype html>")
 
-        asyncio.run(run_tests())
-        print("✅ Suggestions et Export Psy: OK")
-        return True
+        # Utiliser un event loop propre qui sera fermé après utilisation
+        loop = None
+        try:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            loop.run_until_complete(run_tests())
+            print("✅ Suggestions et Export Psy: OK")
+            return True
+        finally:
+            if loop:
+                try:
+                    # Nettoyer toutes les tâches en attente
+                    pending = asyncio.all_tasks(loop)
+                    for task in pending:
+                        task.cancel()
+                    # Attendre que les tâches soient annulées
+                    if pending:
+                        loop.run_until_complete(
+                            asyncio.gather(*pending, return_exceptions=True)
+                        )
+                    loop.close()
+                except Exception:
+                    pass  # Ignorer les erreurs de nettoyage
     except Exception as e:
         import traceback
 
@@ -234,9 +254,29 @@ def test_audio_voice_endpoints():
             note = await save_audio_note(AudioNoteRequest(content_base64=dummy))
             assert note.get("status") == "saved" and note.get("size_bytes") > 0
 
-        asyncio.run(run_tests())
-        print("✅ Audio/Voix: OK")
-        return True
+        # Utiliser un event loop propre qui sera fermé après utilisation
+        loop = None
+        try:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            loop.run_until_complete(run_tests())
+            print("✅ Audio/Voix: OK")
+            return True
+        finally:
+            if loop:
+                try:
+                    # Nettoyer toutes les tâches en attente
+                    pending = asyncio.all_tasks(loop)
+                    for task in pending:
+                        task.cancel()
+                    # Attendre que les tâches soient annulées
+                    if pending:
+                        loop.run_until_complete(
+                            asyncio.gather(*pending, return_exceptions=True)
+                        )
+                    loop.close()
+                except Exception:
+                    pass  # Ignorer les erreurs de nettoyage
     except Exception as e:
         import traceback
 

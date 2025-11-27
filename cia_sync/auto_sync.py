@@ -269,9 +269,45 @@ class AutoSyncManager:
         if level == SyncLevel.NONE:
             return None
 
-        # Pour l'instant, retourner un résumé simple
-        # TODO: intégrer avec pattern_analysis
-        return {"patterns_available": True, "level": level.value}
+        try:
+            from pattern_analysis.correlation_analyzer import CorrelationAnalyzer
+
+            analyzer = CorrelationAnalyzer()
+            days_back = 30  # Par défaut, peut être configuré
+
+            if level == SyncLevel.SUMMARY:
+                # Résumé simple : corrélations principales
+                sleep_corr = analyzer.analyze_sleep_pain_correlation(
+                    days_back=days_back
+                )
+                stress_corr = analyzer.analyze_stress_pain_correlation(
+                    days_back=days_back
+                )
+                return {
+                    "patterns_available": True,
+                    "level": level.value,
+                    "sleep_correlation": sleep_corr.get("correlation_strength", 0.0),
+                    "stress_correlation": stress_corr.get("correlation_strength", 0.0),
+                }
+            elif level == SyncLevel.AGGREGATED:
+                # Agrégation : patterns récurrents
+                triggers = analyzer.detect_recurrent_triggers(days_back=days_back)
+                return {
+                    "patterns_available": True,
+                    "level": level.value,
+                    "recurrent_triggers": triggers.get("triggers", [])[:5],  # Top 5
+                }
+            else:  # DETAILED
+                # Détails complets
+                comprehensive = analyzer.get_comprehensive_analysis(days_back=days_back)
+                return {
+                    "patterns_available": True,
+                    "level": level.value,
+                    "comprehensive_analysis": comprehensive,
+                }
+        except Exception as e:
+            logger.warning(f"Erreur intégration pattern_analysis: {e}")
+            return {"patterns_available": False, "error": str(e)}
 
     def _sync_predictions(self, config: GranularityConfig) -> dict[str, Any] | None:
         """Synchronise les prédictions selon la granularité."""
@@ -279,9 +315,52 @@ class AutoSyncManager:
         if level == SyncLevel.NONE:
             return None
 
-        # Pour l'instant, retourner un résumé simple
-        # TODO: intégrer avec prediction_engine
-        return {"predictions_available": True, "level": level.value}
+        try:
+            from prediction_engine.ml_analyzer import ARIAMLAnalyzer
+
+            ml_analyzer = ARIAMLAnalyzer()
+
+            if level == SyncLevel.SUMMARY:
+                # Résumé simple : probabilité de crise
+                context = {
+                    "stress_level": 0.5,
+                    "fatigue_level": 0.5,
+                    "activity_intensity": 0.5,
+                }
+                prediction = ml_analyzer.predict_pain_episode(context)
+                return {
+                    "predictions_available": True,
+                    "level": level.value,
+                    "crisis_probability": prediction.get("probability", 0.0),
+                    "risk_level": prediction.get("risk_level", "low"),
+                }
+            elif level == SyncLevel.AGGREGATED:
+                # Agrégation : tendances
+                analytics = ml_analyzer.get_analytics_summary()
+                return {
+                    "predictions_available": True,
+                    "level": level.value,
+                    "trends": analytics.get("trends", {}),
+                    "accuracy": analytics.get("model_accuracy", 0.0),
+                }
+            else:  # DETAILED
+                # Détails complets
+                analytics = ml_analyzer.get_analytics_summary()
+                context = {
+                    "stress_level": 0.5,
+                    "fatigue_level": 0.5,
+                    "activity_intensity": 0.5,
+                }
+                prediction = ml_analyzer.predict_pain_episode(context)
+                return {
+                    "predictions_available": True,
+                    "level": level.value,
+                    "current_prediction": prediction,
+                    "analytics": analytics,
+                }
+        except Exception as e:
+            logger.warning(f"Erreur intégration prediction_engine: {e}")
+            return {"predictions_available": False, "error": str(e)}
 
     def _aggregate_by_day(
         self, entries: list[dict[str, Any]], config: GranularityConfig

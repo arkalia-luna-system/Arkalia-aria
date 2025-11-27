@@ -901,8 +901,23 @@ Ces champs permettent un suivi plus complet inspiré des journaux de douleur str
 ### 📋 **Liste des Entrées**
 
 ```http
-GET /api/pain/entries
+GET /api/pain/entries?limit=50&offset=0
 GET /api/pain/entries/recent?limit=20
+```
+
+**Paramètres de pagination** :
+- `limit` : Nombre d'entrées à retourner (défaut: 50, max: 200)
+- `offset` : Nombre d'entrées à sauter (défaut: 0)
+
+**Réponse (pagination)** : `200 OK` avec objet contenant :
+```json
+{
+  "entries": [...],
+  "total": 150,
+  "limit": 50,
+  "offset": 0,
+  "has_more": true
+}
 ```
 
 **Réponse (liste de PainEntryOut)** : `200 OK` avec tableau d'entrées triées par date (récentes d'abord)

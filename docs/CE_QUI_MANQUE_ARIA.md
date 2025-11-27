@@ -75,10 +75,10 @@ ARIA est **techniquement prêt à 95%** mais manque de **fonctionnalités utilis
 
 **Ce qui manque** :
 
-- [ ] Index sur `timestamp` (requêtes fréquentes)
-- [ ] Index sur `intensity` (filtres)
-- [ ] Index sur `location` (recherches)
-- [ ] Index composite (timestamp + intensity)
+- [x] Index sur `timestamp` (requêtes fréquentes) ✅ **FAIT**
+- [x] Index sur `intensity` (filtres) ✅ **FAIT**
+- [x] Index sur `location` (recherches) ✅ **FAIT**
+- [x] Index composite (timestamp + intensity) ✅ **FAIT**
 
 **Impact** : +20% vitesse requêtes
 
@@ -105,9 +105,9 @@ ARIA est **techniquement prêt à 95%** mais manque de **fonctionnalités utilis
 
 **Ce qui manque** :
 
-- [ ] Pagination automatique pour grandes listes
-- [ ] Limites intelligentes (50/100/200)
-- [ ] Lazy loading pour dashboard
+- [x] Pagination automatique pour grandes listes ✅ **FAIT**
+- [x] Limites intelligentes (50/100/200) ✅ **FAIT**
+- [ ] Lazy loading pour dashboard (à faire plus tard)
 
 **Impact** : Réduction mémoire 50%
 
@@ -197,9 +197,9 @@ ARIA est **techniquement prêt à 95%** mais manque de **fonctionnalités utilis
 
 **Ce qui manque** :
 
-- [ ] Utiliser `pattern_analysis` pour enrichir sync CIA
-- [ ] Envoyer patterns détectés à CIA
-- [ ] Corrélations dans rapports médicaux
+- [x] Utiliser `pattern_analysis` pour enrichir sync CIA ✅ **FAIT**
+- [x] Envoyer patterns détectés à CIA ✅ **FAIT**
+- [x] Corrélations dans rapports médicaux ✅ **FAIT**
 
 **Impact** : +10% valeur sync
 
@@ -211,9 +211,9 @@ ARIA est **techniquement prêt à 95%** mais manque de **fonctionnalités utilis
 
 **Ce qui manque** :
 
-- [ ] Utiliser `prediction_engine` pour enrichir sync CIA
-- [ ] Envoyer prédictions à CIA
-- [ ] Alertes prédictives dans CIA
+- [x] Utiliser `prediction_engine` pour enrichir sync CIA ✅ **FAIT**
+- [x] Envoyer prédictions à CIA ✅ **FAIT**
+- [ ] Alertes prédictives dans CIA (à faire plus tard)
 
 **Impact** : +10% valeur sync
 
@@ -225,9 +225,9 @@ ARIA est **techniquement prêt à 95%** mais manque de **fonctionnalités utilis
 
 **Ce qui manque** :
 
-- [ ] Récupérer stress/sommeil depuis `health_connectors`
-- [ ] Utiliser pour enrichir état émotionnel BBIA
-- [ ] Corrélations automatiques
+- [x] Récupérer stress/sommeil depuis `health_connectors` ✅ **FAIT**
+- [x] Utiliser pour enrichir état émotionnel BBIA ✅ **FAIT**
+- [ ] Corrélations automatiques (à améliorer plus tard)
 
 **Impact** : +15% précision BBIA
 

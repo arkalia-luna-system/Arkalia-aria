@@ -7,7 +7,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any, TypedDict
 
-from fastapi import HTTPException
+from fastapi import HTTPException, Query
 from pydantic import BaseModel, Field
 
 from core import BaseAPI
@@ -71,7 +71,33 @@ def _init_tables() -> None:
             )
         except Exception:
             pass  # Colonne déjà existante
-        logger.info("✅ Tables pain_entries initialisées")
+
+        # Créer les index pour optimiser les requêtes
+        try:
+            db.execute_update(
+                "CREATE INDEX IF NOT EXISTS idx_pain_entries_timestamp ON pain_entries(timestamp)"
+            )
+        except Exception:
+            pass
+        try:
+            db.execute_update(
+                "CREATE INDEX IF NOT EXISTS idx_pain_entries_intensity ON pain_entries(intensity)"
+            )
+        except Exception:
+            pass
+        try:
+            db.execute_update(
+                "CREATE INDEX IF NOT EXISTS idx_pain_entries_location ON pain_entries(location)"
+            )
+        except Exception:
+            pass
+        try:
+            db.execute_update(
+                "CREATE INDEX IF NOT EXISTS idx_pain_entries_timestamp_intensity ON pain_entries(timestamp, intensity)"
+            )
+        except Exception:
+            pass
+        logger.info("✅ Tables pain_entries initialisées avec index")
     except Exception as e:
         logger.error(f"❌ Erreur initialisation tables: {e}")
         raise
@@ -316,16 +342,42 @@ async def create_pain_entry(entry: PainEntryIn) -> PainEntryOut:
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
 
 
-@router.get("/entries", response_model=list[PainEntryOut])
-async def list_pain_entries() -> list[PainEntryOut]:
-    """Liste toutes les entrées de douleur"""
+@router.get("/entries", response_model=dict)
+async def list_pain_entries(
+    limit: int = Query(50, ge=1, le=200, description="Nombre d'entrées à retourner"),
+    offset: int = Query(0, ge=0, description="Nombre d'entrées à sauter"),
+) -> dict[str, Any]:
+    """
+    Liste les entrées de douleur avec pagination.
+
+    Args:
+        limit: Nombre d'entrées à retourner (défaut: 50, max: 200)
+        offset: Nombre d'entrées à sauter (défaut: 0)
+    """
     _init_tables()
     try:
+        # Limiter le nombre max pour éviter surcharge
+        limit = min(limit, 200)
+        offset = max(offset, 0)
+
+        # Récupérer les entrées avec pagination
         rows = db.execute_query(
-            "SELECT * FROM pain_entries ORDER BY timestamp DESC, id DESC"
+            "SELECT * FROM pain_entries ORDER BY timestamp DESC, id DESC LIMIT ? OFFSET ?",
+            (limit, offset),
         )
-        logger.info(f"📋 {len(rows)} entrées récupérées")
-        return [PainEntryOut(**dict(row)) for row in rows]
+
+        # Compter le total
+        total_rows = db.execute_query("SELECT COUNT(*) as count FROM pain_entries")
+        total = total_rows[0]["count"] if total_rows else 0
+
+        logger.info(f"📋 {len(rows)} entrées récupérées (total: {total})")
+        return {
+            "entries": [PainEntryOut(**dict(row)) for row in rows],
+            "total": total,
+            "limit": limit,
+            "offset": offset,
+            "has_more": (offset + limit) < total,
+        }
     except Exception as e:
         logger.error(f"❌ Erreur récupération entrées: {e}")
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e

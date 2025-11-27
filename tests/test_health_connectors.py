@@ -383,14 +383,15 @@ class TestHealthSyncManager:
         # Nettoyage : fermer toutes les connexions des connecteurs
         try:
             import asyncio
+
             async def cleanup():
                 for connector in manager.connectors.values():
-                    if hasattr(connector, 'is_connected') and connector.is_connected:
+                    if hasattr(connector, "is_connected") and connector.is_connected:
                         try:
                             await connector.disconnect()
                         except Exception:
                             pass
-            
+
             try:
                 loop = asyncio.get_event_loop()
                 if loop.is_running():

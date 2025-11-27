@@ -511,18 +511,17 @@ class TestPerformance:
             start_time = time.time()
             # Limiter le nombre de requêtes concurrentes pour éviter la surcharge
             results = await asyncio.gather(
-                *[make_request() for _ in range(10)],
-                return_exceptions=True
+                *[make_request() for _ in range(10)], return_exceptions=True
             )
             end_time = time.time()
 
             # Filtrer les exceptions et vérifier les résultats
             valid_results = [r for r in results if isinstance(r, bool)]
             exceptions = [r for r in results if isinstance(r, Exception)]
-            
+
             if exceptions:
                 print(f"Exceptions détectées: {exceptions}")
-            
+
             assert len(valid_results) == 10
             assert all(valid_results)
             duration = end_time - start_time

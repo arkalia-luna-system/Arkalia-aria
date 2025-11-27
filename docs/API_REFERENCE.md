@@ -878,10 +878,25 @@ Content-Type: application/json
   "action_taken": "respiration",
   "effectiveness": 6,
   "notes": "Douleur après travail",
+  "who_present": "Famille",
+  "interactions": "Conflit avec proche",
+  "emotions": "Anxiété, frustration",
+  "thoughts": "Je me sens dépassé",
+  "physical_symptoms": "Tension musculaire, maux de tête",
   "timestamp": "2025-09-25T13:59:00"
 }
 
 ```
+
+**Nouveaux champs (27 novembre 2025)** :
+
+- `who_present` : Personnes présentes lors de l'épisode de douleur
+- `interactions` : Qui dit/fait quoi - interactions observées
+- `emotions` : Ce que je ressens - émotions et sensations
+- `thoughts` : Ce que je pense - pensées et réflexions
+- `physical_symptoms` : Symptômes physiques détaillés
+
+Ces champs permettent un suivi plus complet inspiré des journaux de douleur structurés.
 
 ### 📋 **Liste des Entrées**
 

@@ -286,6 +286,34 @@ class TestSystemIntegration:
             assert "connector" in result
             assert "data_counts" in result
 
+    def test_pain_entry_with_new_fields(self, client):
+        """Test création d'entrée de douleur avec les nouveaux champs (27 nov 2025)."""
+        # Test avec tous les nouveaux champs
+        entry_data = {
+            "intensity": 7,
+            "physical_trigger": "stress",
+            "mental_trigger": "anxiété",
+            "activity": "travail",
+            "location": "dos",
+            "action_taken": "respiration",
+            "effectiveness": 6,
+            "notes": "Douleur après conflit",
+            "who_present": "Famille",
+            "interactions": "Conflit avec proche",
+            "emotions": "Anxiété, frustration",
+            "thoughts": "Je me sens dépassé",
+            "physical_symptoms": "Tension musculaire, maux de tête",
+        }
+        response = client.post("/api/pain/entry", json=entry_data)
+        assert response.status_code == 200
+        data = response.json()
+        assert data["intensity"] == 7
+        assert data["who_present"] == "Famille"
+        assert data["interactions"] == "Conflit avec proche"
+        assert data["emotions"] == "Anxiété, frustration"
+        assert data["thoughts"] == "Je me sens dépassé"
+        assert data["physical_symptoms"] == "Tension musculaire, maux de tête"
+
     def test_data_models_validation(self, sample_health_data, sample_activity_data):
         """Test de validation des modèles de données."""
         # Test des données de santé

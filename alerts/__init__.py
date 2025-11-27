@@ -18,4 +18,3 @@ __all__ = [
     "AlertType",
     "get_alerts_system",
 ]
-

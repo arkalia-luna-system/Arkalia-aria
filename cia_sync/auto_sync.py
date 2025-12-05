@@ -159,7 +159,7 @@ class AutoSyncManager:
             True si la synchronisation a réussi
         """
         try:
-            import requests  # type: ignore[import-untyped]
+            import requests
 
             # Vérifier la connexion CIA
             try:

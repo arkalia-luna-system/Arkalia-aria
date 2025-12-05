@@ -162,9 +162,10 @@ async def send_emotional_state_from_latest_pain() -> dict:
                 if sleep_data:
                     # Prendre la dernière valeur de sommeil
                     latest_sleep = sleep_data[-1]
-                    sleep_quality = (
-                        float(latest_sleep.quality_score) / 10.0
-                    )  # Normaliser 0-1
+                    if latest_sleep.quality_score is not None:
+                        sleep_quality = (
+                            float(latest_sleep.quality_score) / 10.0
+                        )  # Normaliser 0-1
             except Exception as e:
                 logger.debug(f"Données sommeil non disponibles: {e}")
         except Exception as e:

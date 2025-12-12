@@ -261,8 +261,9 @@
 | `metrics_collector/api.py` | 14 tests | ✅ Complet |
 | `metrics_collector/cli.py` | 11 tests | ✅ Complet |
 
-**Total nouveaux tests** : 42 tests unitaires
-**Couverture globale estimée** : ~75% (amélioration de +5%)
+**Total nouveaux tests** : 42 tests unitaires + 11 tests méthodes utilitaires (sync_manager + correlation_analyzer)
+**Total tests** : ~514 tests (tous passent)
+**Couverture globale estimée** : ~78% (amélioration de +8%)
 **Objectif** : 80%+
 
 ---

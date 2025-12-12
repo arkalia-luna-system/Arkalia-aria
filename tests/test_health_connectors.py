@@ -538,14 +538,14 @@ class TestHealthSyncManager:
                 source="test",
                 steps=1000,
                 heart_rate_bpm=70,
-                calories=100,
+                calories_burned=100.0,
             ),
             ActivityData(
                 timestamp=datetime.now(),
                 source="test",
                 steps=2000,
                 heart_rate_bpm=80,
-                calories=200,
+                calories_burned=200.0,
             ),
         ]
         result = sync_manager._calculate_average_heart_rate(activity_data)
@@ -558,7 +558,7 @@ class TestHealthSyncManager:
                 source="test",
                 steps=1000,
                 heart_rate_bpm=None,
-                calories=100,
+                calories_burned=100.0,
             )
         ]
         result_empty = sync_manager._calculate_average_heart_rate(activity_data_empty)
@@ -568,18 +568,23 @@ class TestHealthSyncManager:
         """Test calcul moyenne durée sommeil."""
         from health_connectors.data_models import SleepData
 
+        now = datetime.now()
         sleep_data = [
             SleepData(
-                timestamp=datetime.now(),
+                sleep_start=now,
+                sleep_end=now,
                 duration_minutes=480,
-                quality_score=8.0,
+                quality_score=0.8,
                 deep_sleep_minutes=120,
+                source="test",
             ),
             SleepData(
-                timestamp=datetime.now(),
+                sleep_start=now,
+                sleep_end=now,
                 duration_minutes=420,
-                quality_score=7.0,
+                quality_score=0.7,
                 deep_sleep_minutes=100,
+                source="test",
             ),
         ]
         result = sync_manager._calculate_average_sleep_duration(sleep_data)
@@ -593,33 +598,42 @@ class TestHealthSyncManager:
         """Test calcul moyenne qualité sommeil."""
         from health_connectors.data_models import SleepData
 
+        now = datetime.now()
         sleep_data = [
             SleepData(
-                timestamp=datetime.now(),
+                sleep_start=now,
+                sleep_end=now,
                 duration_minutes=480,
-                quality_score=8.0,
+                quality_score=0.8,
                 deep_sleep_minutes=120,
+                source="test",
             ),
             SleepData(
-                timestamp=datetime.now(),
+                sleep_start=now,
+                sleep_end=now,
                 duration_minutes=420,
-                quality_score=7.0,
+                quality_score=0.7,
                 deep_sleep_minutes=100,
+                source="test",
             ),
         ]
         result = sync_manager._calculate_average_sleep_quality(sleep_data)
-        assert result == 7.5
+        assert result == 0.75
 
         # Données sans quality_score
         sleep_data_no_quality = [
             SleepData(
-                timestamp=datetime.now(),
+                sleep_start=now,
+                sleep_end=now,
                 duration_minutes=480,
                 quality_score=None,
                 deep_sleep_minutes=120,
+                source="test",
             )
         ]
-        result_empty = sync_manager._calculate_average_sleep_quality(sleep_data_no_quality)
+        result_empty = sync_manager._calculate_average_sleep_quality(
+            sleep_data_no_quality
+        )
         assert result_empty is None
 
     def test_calculate_average_stress_level(self, sync_manager):
@@ -627,8 +641,18 @@ class TestHealthSyncManager:
         from health_connectors.data_models import StressData
 
         stress_data = [
-            StressData(timestamp=datetime.now(), stress_level=5.0, heart_rate_variability=50.0),
-            StressData(timestamp=datetime.now(), stress_level=7.0, heart_rate_variability=45.0),
+            StressData(
+                timestamp=datetime.now(),
+                stress_level=5.0,
+                heart_rate_variability=50.0,
+                source="test",
+            ),
+            StressData(
+                timestamp=datetime.now(),
+                stress_level=7.0,
+                heart_rate_variability=45.0,
+                source="test",
+            ),
         ]
         result = sync_manager._calculate_average_stress_level(stress_data)
         assert result == 6.0
@@ -642,15 +666,30 @@ class TestHealthSyncManager:
         from health_connectors.data_models import StressData
 
         stress_data = [
-            StressData(timestamp=datetime.now(), stress_level=5.0, heart_rate_variability=50.0),
-            StressData(timestamp=datetime.now(), stress_level=7.0, heart_rate_variability=45.0),
+            StressData(
+                timestamp=datetime.now(),
+                stress_level=5.0,
+                heart_rate_variability=50.0,
+                source="test",
+            ),
+            StressData(
+                timestamp=datetime.now(),
+                stress_level=7.0,
+                heart_rate_variability=45.0,
+                source="test",
+            ),
         ]
         result = sync_manager._calculate_average_hrv(stress_data)
         assert result == 47.5
 
         # Données sans HRV
         stress_data_no_hrv = [
-            StressData(timestamp=datetime.now(), stress_level=5.0, heart_rate_variability=None)
+            StressData(
+                timestamp=datetime.now(),
+                stress_level=5.0,
+                heart_rate_variability=None,
+                source="test",
+            )
         ]
         result_empty = sync_manager._calculate_average_hrv(stress_data_no_hrv)
         assert result_empty is None
@@ -658,7 +697,6 @@ class TestHealthSyncManager:
     @pytest.mark.asyncio
     async def test_save_sync_history(self, sync_manager, tmp_path):
         """Test sauvegarde historique sync."""
-        import os
 
         # Changer le répertoire de données unifiées vers tmp
         sync_manager.unified_data_dir = tmp_path
@@ -700,7 +738,7 @@ class TestHealthSyncManager:
         # Initialiser last_sync à une valeur récente pour que _should_sync() retourne False
         sync_manager.last_sync = datetime.now()
         sync_manager.config.sync_interval_hours = 6
-        
+
         status = await sync_manager.get_all_connectors_status()
 
         assert isinstance(status, dict)

@@ -5,7 +5,6 @@ Tests pour l'API des métriques ARIA
 from datetime import datetime, timedelta
 from unittest.mock import MagicMock, patch
 
-import pytest
 from fastapi.testclient import TestClient
 
 from metrics_collector.api import ARIA_MetricsAPI

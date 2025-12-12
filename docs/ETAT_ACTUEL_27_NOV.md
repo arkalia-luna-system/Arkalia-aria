@@ -50,7 +50,7 @@
 - [x] Checklist `CE_QUI_MANQUE_ARIA.md` mise à jour ✅
 - [x] 0 erreur lint, 0 erreur black, 0 erreur mypy ✅
 
-**Total tests** : 503 tests (tous passent) - +42 nouveaux tests ajoutés le 12 décembre 2025
+**Total tests** : 532 tests (tous passent) - +53 nouveaux tests ajoutés le 12 décembre 2025
 
 ---
 

@@ -65,6 +65,8 @@
 - ❌ `GET /api/pain-records` (CIA attend) vs `GET /api/pain/entries` (ARIA expose)
 - ⚠️ **Action requise** : Ajouter endpoint de compatibilité
 
+
+
 ### Pattern Analysis (`/api/patterns`)
 
 | Endpoint | Statut | Priorité | Notes |
@@ -80,6 +82,7 @@
 
 - ⚠️ `GET /api/patterns` (CIA attend) vs `GET /api/patterns/patterns/recent` (ARIA expose)
 - ⚠️ **Action requise** : Ajouter endpoint de compatibilité
+
 
 ### Health Connectors (`/health`)
 
@@ -100,6 +103,7 @@
 
 - ⚠️ `GET /api/health-metrics` (CIA attend) vs `GET /health/metrics/unified` (ARIA expose)
 - ⚠️ **Action requise** : Ajouter endpoint de compatibilité
+
 
 ### CIA Sync (`/api/sync`)
 

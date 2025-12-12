@@ -41,7 +41,7 @@ class TestHealthReportGenerator:
 
     def test_generate_weekly_report(self, report_generator):
         """Test génération rapport hebdomadaire."""
-        with patch("health_connectors.report_generator.HealthSyncManager") as mock_sync:
+        with patch("health_connectors.sync_manager.HealthSyncManager") as mock_sync:
             mock_instance = MagicMock()
             mock_sync.return_value = mock_instance
 

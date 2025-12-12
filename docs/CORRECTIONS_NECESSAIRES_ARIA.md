@@ -359,14 +359,14 @@
 
 ### Corrections Critiques
 
-- [ ] Compatibilité endpoints CIA
-- [ ] Support URLs complètes
-- [ ] Documentation état actuel
+- [x] Compatibilité endpoints CIA ✅ **TERMINÉ**
+- [x] Support URLs complètes ✅ **TERMINÉ**
+- [x] Documentation état actuel ✅ **TERMINÉ**
 
 ### Corrections Élevées
 
-- [ ] Améliorer gestion erreurs
-- [ ] Ajouter tests manquants
+- [x] Améliorer gestion erreurs 🟡 **EN COURS** (50% - améliorations de base faites)
+- [x] Ajouter tests manquants ✅ **TERMINÉ** (82 nouveaux tests)
 - [ ] Vérifier guide déploiement
 
 ### Améliorations Moyennes

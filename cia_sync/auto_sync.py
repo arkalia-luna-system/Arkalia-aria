@@ -237,11 +237,13 @@ class AutoSyncManager:
         cutoff_date = (
             datetime.now() - timedelta(days=config.sync_period_days)
         ).isoformat()
+        # Limiter à 5000 entrées max pour éviter surcharge mémoire
         pain_entries = self.db.execute_query(
             """
             SELECT * FROM pain_entries
             WHERE timestamp >= ?
             ORDER BY timestamp DESC
+            LIMIT 5000
             """,
             (cutoff_date,),
         )

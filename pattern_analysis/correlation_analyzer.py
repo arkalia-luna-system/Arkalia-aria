@@ -42,6 +42,8 @@ class CorrelationAnalyzer:
 
     def _load_pain_entries(self, days_back: int = 30) -> list[dict[str, Any]]:
         """Charge les entrées de douleur des N derniers jours."""
+        # Limiter à 1000 entrées max pour éviter surcharge mémoire
+        max_entries = 1000
         try:
             cutoff_date = (datetime.now() - timedelta(days=days_back)).isoformat()
             rows = self.db.execute_query(
@@ -49,8 +51,9 @@ class CorrelationAnalyzer:
                 SELECT * FROM pain_entries
                 WHERE timestamp >= ?
                 ORDER BY timestamp DESC
+                LIMIT ?
                 """,
-                (cutoff_date,),
+                (cutoff_date, max_entries),
             )
             return [dict(row) for row in rows]
         except Exception as e:
@@ -59,8 +62,15 @@ class CorrelationAnalyzer:
 
     def _load_sleep_data(self, days_back: int = 30) -> list[dict[str, Any]]:
         """Charge les données de sommeil depuis les fichiers JSON."""
+        # Vérifier le cache pour éviter de recharger les fichiers
+        cache_key = f"sleep_data_{days_back}"
+        cached = self.cache.get(cache_key)
+        if cached is not None:
+            return cached
+        
         sleep_data = []
         start_date = datetime.now() - timedelta(days=days_back)
+        max_files = 200  # Limiter le nombre de fichiers à traiter
 
         try:
             # Chercher dans les sous-dossiers (samsung_health_data, ios_health_data, etc.)
@@ -69,8 +79,15 @@ class CorrelationAnalyzer:
                 if not data_dir.exists():
                     continue
 
-                for json_file in data_dir.glob("sleep_*.json"):
+                # Limiter le nombre de fichiers traités
+                json_files = list(data_dir.glob("sleep_*.json"))[:max_files]
+                for json_file in json_files:
                     try:
+                        # Vérifier la date du fichier avant de le charger
+                        file_mtime = datetime.fromtimestamp(json_file.stat().st_mtime)
+                        if file_mtime < start_date:
+                            continue  # Fichier trop ancien, skip
+                            
                         with open(json_file, encoding="utf-8") as f:
                             data = json.load(f)
                             # Convertir les timestamps string en datetime pour comparaison
@@ -84,6 +101,8 @@ class CorrelationAnalyzer:
                     except Exception as e:
                         logger.debug(f"Erreur lecture {json_file}: {e}")
 
+            # Mettre en cache pendant 30 minutes
+            self.cache.set(cache_key, sleep_data, ttl=1800)
             logger.debug(f"Chargé {len(sleep_data)} entrées de sommeil")
             return sleep_data
         except Exception as e:
@@ -92,8 +111,15 @@ class CorrelationAnalyzer:
 
     def _load_stress_data(self, days_back: int = 30) -> list[dict[str, Any]]:
         """Charge les données de stress depuis les fichiers JSON."""
+        # Vérifier le cache pour éviter de recharger les fichiers
+        cache_key = f"stress_data_{days_back}"
+        cached = self.cache.get(cache_key)
+        if cached is not None:
+            return cached
+        
         stress_data = []
         start_date = datetime.now() - timedelta(days=days_back)
+        max_files = 200  # Limiter le nombre de fichiers à traiter
 
         try:
             for subdir in ["samsung_health_data", "ios_health_data", "google_fit_data"]:
@@ -101,8 +127,15 @@ class CorrelationAnalyzer:
                 if not data_dir.exists():
                     continue
 
-                for json_file in data_dir.glob("stress_*.json"):
+                # Limiter le nombre de fichiers traités
+                json_files = list(data_dir.glob("stress_*.json"))[:max_files]
+                for json_file in json_files:
                     try:
+                        # Vérifier la date du fichier avant de le charger
+                        file_mtime = datetime.fromtimestamp(json_file.stat().st_mtime)
+                        if file_mtime < start_date:
+                            continue  # Fichier trop ancien, skip
+                            
                         with open(json_file, encoding="utf-8") as f:
                             data = json.load(f)
                             timestamp_str = data.get("timestamp", "")
@@ -115,6 +148,8 @@ class CorrelationAnalyzer:
                     except Exception as e:
                         logger.debug(f"Erreur lecture {json_file}: {e}")
 
+            # Mettre en cache pendant 30 minutes
+            self.cache.set(cache_key, stress_data, ttl=1800)
             logger.debug(f"Chargé {len(stress_data)} entrées de stress")
             return stress_data
         except Exception as e:
@@ -150,13 +185,16 @@ class CorrelationAnalyzer:
         sleep_data = self._load_sleep_data(days_back)
 
         if not pain_entries or not sleep_data:
-            return {
+            result = {
                 "correlation": 0.0,
                 "confidence": 0.0,
                 "patterns": [],
                 "recommendations": [],
                 "message": "Données insuffisantes pour analyse",
             }
+            # Mettre en cache même les résultats vides pour éviter recalculs
+            self.cache.set(cache_key, result, ttl=1800)  # Cache 30 min pour résultats vides
+            return result
 
         # Grouper par jour
         pain_by_date: dict[str, list[dict]] = defaultdict(list)
@@ -201,13 +239,16 @@ class CorrelationAnalyzer:
             )
 
         if len(correlations) < 3:
-            return {
+            result = {
                 "correlation": 0.0,
                 "confidence": 0.0,
                 "patterns": [],
                 "recommendations": [],
                 "message": "Données insuffisantes (minimum 3 jours)",
             }
+            # Mettre en cache même les résultats vides pour éviter recalculs
+            self.cache.set(cache_key, result, ttl=1800)  # Cache 30 min pour résultats vides
+            return result
 
         # Calculer corrélation simple (Pearson simplifié)
         pain_values = [c["avg_pain"] for c in correlations]
@@ -294,13 +335,16 @@ class CorrelationAnalyzer:
         stress_data = self._load_stress_data(days_back)
 
         if not pain_entries or not stress_data:
-            return {
+            result = {
                 "correlation": 0.0,
                 "confidence": 0.0,
                 "patterns": [],
                 "recommendations": [],
                 "message": "Données insuffisantes pour analyse",
             }
+            # Mettre en cache même les résultats vides pour éviter recalculs
+            self.cache.set(cache_key, result, ttl=1800)  # Cache 30 min pour résultats vides
+            return result
 
         # Grouper par jour/heure
         pain_by_hour: dict[str, list[dict]] = defaultdict(list)
@@ -350,13 +394,16 @@ class CorrelationAnalyzer:
             )
 
         if len(correlations_data) < 3:
-            return {
+            result = {
                 "correlation": 0.0,
                 "confidence": 0.0,
                 "patterns": [],
                 "recommendations": [],
                 "message": "Données insuffisantes (minimum 3 points)",
             }
+            # Mettre en cache même les résultats vides pour éviter recalculs
+            self.cache.set(cache_key, result, ttl=1800)  # Cache 30 min pour résultats vides
+            return result
 
         pain_values = [c["avg_pain"] for c in correlations_data]
         stress_values = [c["stress_level"] for c in correlations_data]

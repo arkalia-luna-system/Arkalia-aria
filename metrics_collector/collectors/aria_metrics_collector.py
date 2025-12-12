@@ -77,6 +77,9 @@ class ARIA_MetricsCollector:
         # Cache pour les fichiers Python (optimisation rglob)
         self._python_files_cache: list[Path] | None = None
         self._python_files_timestamp: float = 0.0
+        # Cache générique pour tous les résultats rglob (évite scans répétés)
+        self._rglob_cache: dict[str, tuple[list[Path], float]] = {}
+        self._rglob_cache_ttl: float = 120.0  # Cache valide 2 minutes
 
     def collect_all_metrics(self) -> dict[str, Any]:
         """
@@ -117,19 +120,36 @@ class ARIA_MetricsCollector:
             "platform": sys.platform,
         }
 
+    def _get_cached_rglob(self, pattern: str) -> list[Path]:
+        """
+        Récupère les résultats de rglob avec cache pour éviter scans répétés.
+        
+        Args:
+            pattern: Pattern glob à rechercher (ex: "*.py", "*api*.py")
+            
+        Returns:
+            Liste des fichiers correspondants
+        """
+        import time
+        
+        now = time.time()
+        cache_key = f"rglob_{pattern}"
+        
+        # Vérifier le cache
+        if cache_key in self._rglob_cache:
+            cached_files, cached_time = self._rglob_cache[cache_key]
+            if now - cached_time < self._rglob_cache_ttl:
+                return cached_files
+        
+        # Cache expiré ou inexistant, faire le scan
+        files = list(self.project_root.rglob(pattern))
+        self._rglob_cache[cache_key] = (files, now)
+        logger.debug(f"Scan rglob({pattern}): {len(files)} fichiers trouvés")
+        return files
+
     def _get_python_files(self) -> list[Path]:
         """Récupère les fichiers Python avec cache pour optimiser rglob()."""
-        import time
-
-        now = time.time()
-        # Cache valide pendant 60 secondes
-        if self._python_files_cache is None or now - self._python_files_timestamp > 60:
-            logger.debug("Scan des fichiers Python...")
-            self._python_files_cache = list(self.project_root.rglob("*.py"))
-            self._python_files_timestamp = now
-            logger.debug(f"Trouvé {len(self._python_files_cache)} fichiers Python")
-
-        return self._python_files_cache
+        return self._get_cached_rglob("*.py")
 
     def _collect_python_metrics(self) -> dict[str, Any]:
         """Collecte les métriques des fichiers Python."""
@@ -188,8 +208,8 @@ class ARIA_MetricsCollector:
 
     def _collect_ml_metrics(self) -> dict[str, Any]:
         """Collecte les métriques des modèles ML."""
-        ml_files = list(self.project_root.rglob("*ml*.py"))
-        model_files = list(self.project_root.rglob("*model*.py"))
+        ml_files = self._get_cached_rglob("*ml*.py")
+        model_files = self._get_cached_rglob("*model*.py")
 
         return {
             "ml_files_count": len(ml_files),
@@ -200,7 +220,7 @@ class ARIA_MetricsCollector:
 
     def _collect_api_metrics(self) -> dict[str, Any]:
         """Collecte les métriques des APIs."""
-        api_files = list(self.project_root.rglob("*api*.py"))
+        api_files = self._get_cached_rglob("*api*.py")
         endpoints = self._count_api_endpoints()
 
         return {
@@ -212,8 +232,8 @@ class ARIA_MetricsCollector:
 
     def _collect_test_metrics(self) -> dict[str, Any]:
         """Collecte les métriques des tests."""
-        test_files = list(self.project_root.rglob("test_*.py"))
-        test_dirs = [d for d in self.project_root.rglob("tests") if d.is_dir()]
+        test_files = self._get_cached_rglob("test_*.py")
+        test_dirs = [d for d in self._get_cached_rglob("tests") if d.is_dir()]
 
         # Essayer d'obtenir la couverture de tests
         coverage = self._get_test_coverage()
@@ -276,9 +296,9 @@ class ARIA_MetricsCollector:
 
     def _collect_documentation_metrics(self) -> dict[str, Any]:
         """Collecte les métriques de documentation."""
-        md_files = list(self.project_root.rglob("*.md"))
-        rst_files = list(self.project_root.rglob("*.rst"))
-        doc_dirs = [d for d in self.project_root.rglob("docs") if d.is_dir()]
+        md_files = self._get_cached_rglob("*.md")
+        rst_files = self._get_cached_rglob("*.rst")
+        doc_dirs = [d for d in self._get_cached_rglob("docs") if d.is_dir()]
 
         return {
             "markdown_files": len(md_files),
@@ -336,7 +356,7 @@ class ARIA_MetricsCollector:
     def _count_api_endpoints(self) -> int:
         """Compte le nombre d'endpoints API."""
         # Estimation basée sur les fichiers API
-        api_files = list(self.project_root.rglob("*api*.py"))
+        api_files = self._get_cached_rglob("*api*.py")
         return len(api_files) * 5  # Estimation moyenne
 
     def _count_cia_sync_endpoints(self) -> int:
@@ -372,7 +392,7 @@ class ARIA_MetricsCollector:
 
     def _count_integration_tests(self) -> int:
         """Compte les tests d'intégration."""
-        integration_tests = list(self.project_root.rglob("*integration*test*.py"))
+        integration_tests = self._get_cached_rglob("*integration*test*.py")
         return len(integration_tests)
 
     def _run_bandit_scan(self) -> dict[str, Any]:

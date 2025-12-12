@@ -220,6 +220,15 @@
 - `test_improvements.py`
 - `test_dashboard_web.py`
 - `test_metrics_collector.py`
+- `test_cia_compatibility.py`
+
+**Nouveaux tests unitaires** (`tests/unit/`) - 12 décembre 2025 :
+- `test_audio_voice_api.py` - 12 tests pour l'API Audio/Voice
+- `test_research_tools_api.py` - 5 tests pour l'API Research Tools
+- `test_metrics_collector_api.py` - 14 tests pour l'API Metrics Collector
+- `test_metrics_collector_cli.py` - 11 tests pour le CLI Metrics Collector
+
+**Total** : 42 nouveaux tests unitaires ajoutés
 
 ### ⚠️ Tests Manquants
 
@@ -239,9 +248,10 @@
 
 ### 📊 Couverture de Code
 
-- **Estimation** : ~70% de couverture
+- **Estimation** : ~75% de couverture (amélioration de +5%)
 - **Objectif** : 80%+ recommandé
 - **Priorité** : Ajouter tests pour endpoints critiques
+- **Dernière mise à jour** : 12 décembre 2025 - 42 nouveaux tests ajoutés
 
 ---
 

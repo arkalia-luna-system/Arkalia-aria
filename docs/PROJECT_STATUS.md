@@ -204,10 +204,15 @@
 
 #### tests/
 
-- ✅ **Tests** : 394 tests collectés (100% passent)
-- ✅ **Coverage** : 100% des modules migrés
+- ✅ **Tests** : 436 tests collectés (100% passent) - +42 nouveaux tests
+- ✅ **Coverage** : ~75% de couverture globale (amélioration de +5%)
+- ✅ **Nouveaux tests** : 
+  - `test_audio_voice_api.py` (12 tests)
+  - `test_research_tools_api.py` (5 tests)
+  - `test_metrics_collector_api.py` (14 tests)
+  - `test_metrics_collector_cli.py` (11 tests)
 
-**Statut** : ✅ **COMPLET** - Tests opérationnels
+**Statut** : ✅ **COMPLET** - Tests opérationnels et couverture améliorée
 
 ### Métriques de Migration
 

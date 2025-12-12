@@ -247,12 +247,22 @@
 
 | Test | Priorité | Notes |
 |------|----------|-------|
-| Tests endpoints critiques | 🔴 | `/api/pain/entry`, `/api/patterns/analyze` |
-| Tests cas limites | 🟠 | Données invalides, base vide |
+| Tests endpoints critiques | 🟡 | `/api/pain/entry`, `/api/patterns/analyze` (partiellement couverts) |
+| Tests cas limites | 🟡 | Données invalides, base vide (partiellement couverts) |
 | Tests performance | 🟡 | Charge, pagination |
 | Tests erreurs réseau | 🟠 | CIA indisponible, timeout |
 
-**Couverture globale estimée** : ~70%  
+### Nouveaux Tests Ajoutés (12 décembre 2025)
+
+| Module | Tests | Statut |
+|--------|-------|--------|
+| `audio_voice/api.py` | 12 tests | ✅ Complet |
+| `research_tools/api.py` | 5 tests | ✅ Complet |
+| `metrics_collector/api.py` | 14 tests | ✅ Complet |
+| `metrics_collector/cli.py` | 11 tests | ✅ Complet |
+
+**Total nouveaux tests** : 42 tests unitaires  
+**Couverture globale estimée** : ~75% (amélioration de +5%)  
 **Objectif** : 80%+
 
 ---

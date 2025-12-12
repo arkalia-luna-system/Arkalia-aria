@@ -61,6 +61,7 @@
 | `DELETE /entries` | ✅ | Élevée | Suppression complète RGPD |
 
 **Compatibilité CIA** :
+
 - ❌ `GET /api/pain-records` (CIA attend) vs `GET /api/pain/entries` (ARIA expose)
 - ⚠️ **Action requise** : Ajouter endpoint de compatibilité
 
@@ -76,6 +77,7 @@
 | `POST /analyze` | ✅ | Critique | Analyse personnalisée |
 
 **Compatibilité CIA** :
+
 - ⚠️ `GET /api/patterns` (CIA attend) vs `GET /api/patterns/patterns/recent` (ARIA expose)
 - ⚠️ **Action requise** : Ajouter endpoint de compatibilité
 
@@ -95,6 +97,7 @@
 | `GET /metrics/unified` | ✅ | Critique | Métriques unifiées |
 
 **Compatibilité CIA** :
+
 - ⚠️ `GET /api/health-metrics` (CIA attend) vs `GET /health/metrics/unified` (ARIA expose)
 - ⚠️ **Action requise** : Ajouter endpoint de compatibilité
 
@@ -384,4 +387,3 @@
 
 **Date de mise à jour** : 12 décembre 2025
 **Prochaine révision** : Après corrections critiques
-

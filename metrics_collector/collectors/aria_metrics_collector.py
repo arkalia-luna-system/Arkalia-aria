@@ -131,7 +131,7 @@ class ARIA_MetricsCollector:
             Liste des fichiers correspondants
         """
         import time
-        
+
         now = time.time()
         cache_key = f"rglob_{pattern}"
         

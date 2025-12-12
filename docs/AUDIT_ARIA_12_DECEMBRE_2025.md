@@ -252,7 +252,7 @@
 - **Nouveaux tests** : 11 tests méthodes utilitaires (sync_manager + correlation_analyzer)
 - **Objectif** : 80%+ recommandé
 - **Priorité** : Ajouter tests pour endpoints critiques
-- **Dernière mise à jour** : 12 décembre 2025 - 42 nouveaux tests ajoutés
+- **Dernière mise à jour** : 12 décembre 2025 - 53 nouveaux tests ajoutés (42 unitaires + 11 méthodes utilitaires)
 
 ---
 

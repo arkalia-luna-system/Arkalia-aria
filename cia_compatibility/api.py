@@ -15,8 +15,24 @@ Endpoints de compatibilité :
 from typing import Any
 
 from fastapi import APIRouter, HTTPException, Query, Request
+from httpx import ASGITransport, AsyncClient
 
 router = APIRouter(tags=["CIA Compatibility"])
+
+
+def _get_app_client() -> AsyncClient:
+    """
+    Crée un client HTTP asynchrone pour appeler l'application FastAPI.
+    Évite l'import circulaire en important l'app de manière lazy.
+    """
+    # Import lazy pour éviter l'import circulaire
+    from main import app
+    
+    # Utiliser ASGITransport pour appeler l'application directement
+    # sans passer par HTTP (plus efficace et évite les problèmes de port)
+    # FastAPI est une application ASGI valide (hérite de Starlette)
+    transport = ASGITransport(app=app)  # type: ignore[arg-type]
+    return AsyncClient(transport=transport, base_url="http://testserver")
 
 
 @router.get("/api/pain-records")
@@ -29,28 +45,26 @@ async def get_pain_records_compat(
     Endpoint de compatibilité CIA : GET /api/pain-records
     Redirige vers GET /api/pain/entries
     """
-    try:
-        # Faire une requête interne vers l'endpoint ARIA
-        from fastapi.testclient import TestClient
+    async with _get_app_client() as client:
+        try:
+            # Faire une requête interne vers l'endpoint ARIA
+            response = await client.get(
+                f"/api/pain/entries?limit={limit}&offset={offset}",
+                headers=dict(request.headers),
+            )
 
-        from main import app
+            if response.status_code != 200:
+                raise HTTPException(
+                    status_code=response.status_code, detail=response.text
+                )
 
-        client = TestClient(app)
-        response = client.get(
-            f"/api/pain/entries?limit={limit}&offset={offset}",
-            headers=dict(request.headers),
-        )
-
-        if response.status_code != 200:
-            raise HTTPException(status_code=response.status_code, detail=response.text)
-
-        return response.json()
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Erreur compatibilité pain-records: {str(e)}"
-        ) from e
+            return response.json()
+        except HTTPException:
+            raise
+        except Exception as e:
+            raise HTTPException(
+                status_code=500, detail=f"Erreur compatibilité pain-records: {str(e)}"
+            ) from e
 
 
 @router.get("/api/patterns")
@@ -62,27 +76,25 @@ async def get_patterns_compat(
     Endpoint de compatibilité CIA : GET /api/patterns
     Redirige vers GET /api/patterns/patterns/recent
     """
-    try:
-        from fastapi.testclient import TestClient
+    async with _get_app_client() as client:
+        try:
+            response = await client.get(
+                f"/api/patterns/patterns/recent?days={days}",
+                headers=dict(request.headers),
+            )
 
-        from main import app
+            if response.status_code != 200:
+                raise HTTPException(
+                    status_code=response.status_code, detail=response.text
+                )
 
-        client = TestClient(app)
-        response = client.get(
-            f"/api/patterns/patterns/recent?days={days}",
-            headers=dict(request.headers),
-        )
-
-        if response.status_code != 200:
-            raise HTTPException(status_code=response.status_code, detail=response.text)
-
-        return response.json()
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Erreur compatibilité patterns: {str(e)}"
-        ) from e
+            return response.json()
+        except HTTPException:
+            raise
+        except Exception as e:
+            raise HTTPException(
+                status_code=500, detail=f"Erreur compatibilité patterns: {str(e)}"
+            ) from e
 
 
 @router.get("/api/health-metrics")
@@ -91,24 +103,25 @@ async def get_health_metrics_compat(request: Request) -> dict[str, Any]:
     Endpoint de compatibilité CIA : GET /api/health-metrics
     Redirige vers GET /health/metrics/unified
     """
-    try:
-        from fastapi.testclient import TestClient
+    async with _get_app_client() as client:
+        try:
+            response = await client.get(
+                "/health/metrics/unified", headers=dict(request.headers)
+            )
 
-        from main import app
+            if response.status_code != 200:
+                raise HTTPException(
+                    status_code=response.status_code, detail=response.text
+                )
 
-        client = TestClient(app)
-        response = client.get("/health/metrics/unified", headers=dict(request.headers))
-
-        if response.status_code != 200:
-            raise HTTPException(status_code=response.status_code, detail=response.text)
-
-        return response.json()
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Erreur compatibilité health-metrics: {str(e)}"
-        ) from e
+            return response.json()
+        except HTTPException:
+            raise
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Erreur compatibilité health-metrics: {str(e)}",
+            ) from e
 
 
 @router.post("/api/pain/entries")
@@ -119,25 +132,24 @@ async def post_pain_entries_compat(
     Endpoint de compatibilité CIA : POST /api/pain/entries
     Redirige vers POST /api/pain/entry
     """
-    try:
-        from fastapi.testclient import TestClient
+    async with _get_app_client() as client:
+        try:
+            response = await client.post(
+                "/api/pain/entry",
+                json=entry_data,
+                headers=dict(request.headers),
+            )
 
-        from main import app
+            if response.status_code not in [200, 201]:
+                raise HTTPException(
+                    status_code=response.status_code, detail=response.text
+                )
 
-        client = TestClient(app)
-        response = client.post(
-            "/api/pain/entry",
-            json=entry_data,
-            headers=dict(request.headers),
-        )
-
-        if response.status_code not in [200, 201]:
-            raise HTTPException(status_code=response.status_code, detail=response.text)
-
-        return response.json()
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Erreur compatibilité pain/entries: {str(e)}"
-        ) from e
+            return response.json()
+        except HTTPException:
+            raise
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Erreur compatibilité pain/entries: {str(e)}",
+            ) from e

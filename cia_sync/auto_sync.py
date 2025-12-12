@@ -440,6 +440,93 @@ class AutoSyncManager:
         logger.info(f"⏱️ Intervalle de sync mis à jour: {interval_minutes} min")
         return True
 
+    def _check_medical_appointments(self) -> None:
+        """Récupère les appointments depuis CIA et crée des alertes."""
+        try:
+            import requests
+
+            from core.alerts import AlertSeverity, AlertType, ARIA_AlertsSystem
+
+            # Récupérer appointments depuis CIA
+            response = requests.get(
+                f"{self.cia_base_url}/api/sync/pull-from-cia",
+                params={"data_type": "appointments"},
+                timeout=10,
+            )
+
+            if response.status_code != 200:
+                return
+
+            data = response.json()
+            appointments = data.get("appointments", [])
+
+            if not appointments:
+                return
+
+            alerts_system = ARIA_AlertsSystem()
+            now = datetime.now()
+
+            for appointment in appointments:
+                try:
+                    # Parser la date du rendez-vous
+                    appt_date_str = appointment.get("date") or appointment.get(
+                        "appointment_date"
+                    )
+                    if not appt_date_str:
+                        continue
+
+                    appt_date = datetime.fromisoformat(
+                        appt_date_str.replace("Z", "+00:00")
+                    )
+
+                    # Créer alerte si RDV dans les 7 prochains jours
+                    days_until = (appt_date - now).days
+                    if 0 <= days_until <= 7:
+                        title = (
+                            appointment.get("title")
+                            or appointment.get("description")
+                            or "Rendez-vous médical"
+                        )
+                        doctor = (
+                            appointment.get("doctor")
+                            or appointment.get("provider")
+                            or "Médecin"
+                        )
+
+                        if days_until == 0:
+                            severity = AlertSeverity.CRITICAL
+                            message = f"Rendez-vous médical AUJOURD'HUI avec {doctor}: {title}"
+                        elif days_until == 1:
+                            severity = AlertSeverity.WARNING
+                            message = (
+                                f"Rendez-vous médical DEMAIN avec {doctor}: {title}"
+                            )
+                        else:
+                            severity = AlertSeverity.INFO
+                            message = f"Rendez-vous médical dans {days_until} jours avec {doctor}: {title}"
+
+                        alerts_system.create_alert(
+                            AlertType.MEDICAL_APPOINTMENT,
+                            severity,
+                            f"RDV Médical - {title}",
+                            message,
+                            {
+                                "appointment_date": appt_date.isoformat(),
+                                "days_until": days_until,
+                                "doctor": doctor,
+                            },
+                        )
+
+                except Exception as e:
+                    logger.debug(f"Erreur parsing appointment: {e}")
+                    continue
+
+        except ImportError:
+            # Module alerts non disponible, ignorer
+            pass
+        except Exception as e:
+            logger.warning(f"⚠️ Erreur vérification appointments: {e}")
+
 
 # Instance globale (singleton)
 _auto_sync_manager: AutoSyncManager | None = None

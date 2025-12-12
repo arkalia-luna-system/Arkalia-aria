@@ -41,7 +41,7 @@ class TestHealthAlerts:
             "activity": {"avg_heart_rate": 70.0},
         }
 
-        with patch("health_connectors.sync_manager.ARIA_AlertsSystem") as mock_alerts:
+        with patch("core.alerts.ARIA_AlertsSystem") as mock_alerts:
             mock_instance = MagicMock()
             mock_alerts.return_value = mock_instance
             sync_manager._create_health_alerts(metrics)
@@ -57,7 +57,7 @@ class TestHealthAlerts:
             "activity": {"avg_heart_rate": 110.0},
         }
 
-        with patch("health_connectors.sync_manager.ARIA_AlertsSystem") as mock_alerts:
+        with patch("core.alerts.ARIA_AlertsSystem") as mock_alerts:
             mock_instance = MagicMock()
             mock_alerts.return_value = mock_instance
             sync_manager._create_health_alerts(metrics)
@@ -73,7 +73,7 @@ class TestHealthAlerts:
             "activity": {"avg_heart_rate": 70.0},
         }
 
-        with patch("health_connectors.sync_manager.ARIA_AlertsSystem") as mock_alerts:
+        with patch("core.alerts.ARIA_AlertsSystem") as mock_alerts:
             mock_instance = MagicMock()
             mock_alerts.return_value = mock_instance
             sync_manager._create_health_alerts(metrics)

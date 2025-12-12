@@ -20,7 +20,7 @@ class TestMedicalAppointmentsAlerts:
 
     def test_check_medical_appointments_no_appointments(self, auto_sync):
         """Test vérification appointments sans RDV."""
-        with patch("cia_sync.auto_sync.requests.get") as mock_get:
+        with patch("requests.get") as mock_get:
             mock_response = MagicMock()
             mock_response.status_code = 200
             mock_response.json.return_value = {"appointments": []}
@@ -41,8 +41,8 @@ class TestMedicalAppointmentsAlerts:
         ]
 
         with (
-            patch("cia_sync.auto_sync.requests.get") as mock_get,
-            patch("cia_sync.auto_sync.ARIA_AlertsSystem") as mock_alerts,
+            patch("requests.get") as mock_get,
+            patch("core.alerts.ARIA_AlertsSystem") as mock_alerts,
         ):
             mock_response = MagicMock()
             mock_response.status_code = 200
@@ -59,7 +59,7 @@ class TestMedicalAppointmentsAlerts:
 
     def test_check_medical_appointments_cia_unavailable(self, auto_sync):
         """Test gestion CIA indisponible."""
-        with patch("cia_sync.auto_sync.requests.get") as mock_get:
+        with patch("requests.get") as mock_get:
             mock_response = MagicMock()
             mock_response.status_code = 503
             mock_get.return_value = mock_response

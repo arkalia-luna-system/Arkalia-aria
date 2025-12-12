@@ -204,7 +204,7 @@
 
 #### tests/
 
-- ✅ **Tests** : 436 tests collectés (100% passent) - +42 nouveaux tests
+- ✅ **Tests** : 503 tests collectés (100% passent) - +42 nouveaux tests ajoutés le 12 décembre 2025
 - ✅ **Coverage** : ~75% de couverture globale (amélioration de +5%)
 - ✅ **Nouveaux tests** : 
   - `test_audio_voice_api.py` (12 tests)

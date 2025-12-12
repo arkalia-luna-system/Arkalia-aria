@@ -385,5 +385,5 @@ BBIA_API_URL=http://127.0.0.1:8002
 
 ---
 
-**Date de l'audit** : 24 novembre 2025  
+**Date de l'audit** : 12 décembre 2025  
 **Prochaine révision** : Après tests PlayCode Dev

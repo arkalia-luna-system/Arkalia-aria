@@ -18,6 +18,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # Imports des modules
 from alerts.api import router as alerts_router
 from audio_voice.api import router as audio_router
+from cia_compatibility.api import router as cia_compat_router
 from cia_sync.api import router as sync_router
 from cia_sync.bbia_api import router as bbia_router
 from devops_automation.api import ARIA_DevOpsAPI
@@ -43,16 +44,25 @@ app = FastAPI(
 )
 
 # CORS pour intégration mobile/web
+# Support URLs complètes : localhost, IPs locales, Render.com (HTTPS)
+cors_origins = [
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:8000",  # CIA local
+    "http://127.0.0.1:8000",  # CIA local
+    "file://",
+    "null",
+]
+
+# Ajouter origines CORS depuis variables d'environnement (pour Render.com)
+env_cors_origins = os.getenv("ARIA_CORS_ORIGINS", "").split(",")
+cors_origins.extend([origin.strip() for origin in env_cors_origins if origin.strip()])
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:8080",
-        "http://127.0.0.1:8080",
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "file://",
-        "null",
-    ],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
@@ -69,6 +79,8 @@ app.include_router(sync_router, prefix="/api/sync", tags=["CIA Sync"])
 app.include_router(bbia_router, prefix="/api/bbia", tags=["BBIA Integration"])
 app.include_router(audio_router, prefix="/api/audio", tags=["Audio/Voice"])
 app.include_router(alerts_router, tags=["Alerts"])
+# Router de compatibilité CIA (endpoints attendus par CIA)
+app.include_router(cia_compat_router, tags=["CIA Compatibility"])
 # watch_router supprimé - doublon de health_connectors
 
 # Intégration des connecteurs santé
@@ -141,6 +153,7 @@ async def root():
             "prediction_engine",
             "research_tools",
             "cia_sync",
+            "cia_compatibility",
             "bbia_integration",
             "audio_voice",
             "alerts",

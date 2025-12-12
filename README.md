@@ -6,14 +6,17 @@
 ## Assistant de recherche santé personnelle
 
 > **Mis à jour régulièrement** — Ce projet est maintenu activement et mis à jour chaque semaine.  
-> **Dernière mise à jour majeure** : 24 novembre 2025 — Synchronisation automatique CIA, intégration BBIA (mode simulation), documentation complète.  
-> **Phase 2 & 3 terminées** : Pattern analysis avancé et synchronisation CIA complète (bidirectionnelle + auto-sync).
+> **Dernière mise à jour majeure** : 12 décembre 2025 — Audit complet ARIA, corrections compatibilité CIA, documentation mise à jour.  
+> **Phase 2 & 3 terminées** : Pattern analysis avancé et synchronisation CIA complète (bidirectionnelle + auto-sync).  
+> **Audit 12 décembre 2025** : Voir [`docs/AUDIT_ARIA_12_DECEMBRE_2025.md`](docs/AUDIT_ARIA_12_DECEMBRE_2025.md) pour le détail complet.
 
 ---
 
 ## Vision
 
 ARKALIA ARIA transforme vos données médicales en insights actionnables, tout en conservant un contrôle total sur vos informations sensibles. Un laboratoire personnel de recherche santé qui travaille exclusivement pour vous, localement, sans jamais partager vos informations sans votre consentement explicite.
+
+> **📋 Audit Complet - 12 Décembre 2025** : Un audit complet du projet ARIA a été réalisé le 12 décembre 2025 suite aux corrections importantes apportées à CIA. Voir [`docs/AUDIT_ARIA_12_DECEMBRE_2025.md`](docs/AUDIT_ARIA_12_DECEMBRE_2025.md) pour le détail complet, [`docs/STATUT_IMPLEMENTATION_ARIA.md`](docs/STATUT_IMPLEMENTATION_ARIA.md) pour le statut d'implémentation, et [`docs/CORRECTIONS_NECESSAIRES_ARIA.md`](docs/CORRECTIONS_NECESSAIRES_ARIA.md) pour la liste des corrections nécessaires.
 
 ---
 
@@ -304,9 +307,15 @@ ARIA et **CIA** (Companion Intelligence Assistant) travaillent ensemble dans l'�
 - Push de données vers CIA
 - Intégration complète avec documents CIA
 
+**⚠️ Incompatibilités identifiées (12 décembre 2025)** :
+
+- **Endpoints** : CIA attend `/api/pain-records` mais ARIA expose `/api/pain/entries` - Voir [`docs/CORRECTIONS_NECESSAIRES_ARIA.md`](docs/CORRECTIONS_NECESSAIRES_ARIA.md) pour les détails
+- **Support URLs** : Vérifier compatibilité avec `https://xxx.onrender.com` et `127.0.0.1:8080` (CIA supporte maintenant ces formats)
+
 **🚧 En développement** :
 
 - Interface utilisateur pour contrôle granularité (Phase 4)
+- Endpoints de compatibilité CIA (à implémenter)
 
 ---
 
@@ -421,6 +430,12 @@ ARIA fait partie de l'écosystème **Arkalia Luna System**, un ensemble de proje
 - [`docs/API_REFERENCE.md`](docs/API_REFERENCE.md) : Documentation complète des endpoints
 - [`docs/DEVELOPER_GUIDE.md`](docs/DEVELOPER_GUIDE.md) : Guide développeur et contribution
 - [`docs/PROFESSIONAL_WORKFLOW.md`](docs/PROFESSIONAL_WORKFLOW.md) : Workflow pour professionnels de santé
+
+**Audits et Statut** :
+
+- [`docs/AUDIT_ARIA_12_DECEMBRE_2025.md`](docs/AUDIT_ARIA_12_DECEMBRE_2025.md) : Audit complet du 12 décembre 2025
+- [`docs/STATUT_IMPLEMENTATION_ARIA.md`](docs/STATUT_IMPLEMENTATION_ARIA.md) : Statut d'implémentation détaillé
+- [`docs/CORRECTIONS_NECESSAIRES_ARIA.md`](docs/CORRECTIONS_NECESSAIRES_ARIA.md) : Liste des corrections nécessaires priorisées
 
 ---
 

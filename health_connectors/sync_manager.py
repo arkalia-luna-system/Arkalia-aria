@@ -476,11 +476,25 @@ class HealthSyncManager:
 
                         # Corrélations automatiques après sync (seulement si activé)
                         # Désactivé par défaut pour éviter surcharge CPU
-                        if os.getenv("ARIA_AUTO_CORRELATIONS_ENABLED", "0").lower() in ("1", "true"):
+                        if os.getenv("ARIA_AUTO_CORRELATIONS_ENABLED", "0").lower() in (
+                            "1",
+                            "true",
+                        ):
                             try:
                                 self._trigger_correlations()
                             except Exception as e:
-                                logger.warning(f"⚠️ Erreur corrélations automatiques: {e}")
+                                logger.warning(
+                                    f"⚠️ Erreur corrélations automatiques: {e}"
+                                )
+
+                        # Créer alertes basées sur données santé
+                        try:
+                            metrics = loop.run_until_complete(
+                                self._generate_unified_metrics(days_back=7)
+                            )
+                            self._create_health_alerts(metrics)
+                        except Exception as e:
+                            logger.warning(f"⚠️ Erreur création alertes santé: {e}")
 
                     finally:
                         loop.close()
@@ -530,3 +544,61 @@ class HealthSyncManager:
         except Exception:
             # Erreur non critique, ignorer
             pass
+
+    def _create_health_alerts(self, metrics: dict[str, Any]) -> None:
+        """Crée des alertes basées sur les données de santé synchronisées."""
+        from core import get_logger
+
+        logger = get_logger("health_sync")
+        try:
+            from core.alerts import AlertSeverity, AlertType, ARIA_AlertsSystem
+
+            alerts_system = ARIA_AlertsSystem()
+
+            # Vérifier sommeil insuffisant
+            sleep_duration = metrics.get("sleep", {}).get("avg_duration_hours")
+            if sleep_duration and sleep_duration < 6:
+                alerts_system.create_alert(
+                    AlertType.HEALTH_SYNC,
+                    AlertSeverity.WARNING,
+                    "Sommeil Insuffisant",
+                    f"Votre durée moyenne de sommeil est de {sleep_duration:.1f}h, ce qui est inférieur à la recommandation (7-9h).",
+                    {"sleep_duration": sleep_duration, "recommended_min": 7},
+                )
+
+            # Vérifier stress élevé
+            stress_level = metrics.get("stress", {}).get("avg_stress_level")
+            if stress_level and stress_level > 70:
+                alerts_system.create_alert(
+                    AlertType.HEALTH_SYNC,
+                    AlertSeverity.WARNING,
+                    "Niveau de Stress Élevé",
+                    f"Votre niveau de stress moyen est de {stress_level:.1f}/100, ce qui est élevé. Considérez des techniques de relaxation.",
+                    {"stress_level": stress_level, "threshold": 70},
+                )
+
+            # Vérifier fréquence cardiaque anormale
+            heart_rate = metrics.get("activity", {}).get("avg_heart_rate")
+            if heart_rate:
+                if heart_rate > 100:
+                    alerts_system.create_alert(
+                        AlertType.HEALTH_SYNC,
+                        AlertSeverity.WARNING,
+                        "Fréquence Cardiaque Élevée",
+                        f"Votre fréquence cardiaque moyenne est de {heart_rate:.0f} bpm, ce qui est élevé. Consultez un médecin si cela persiste.",
+                        {"heart_rate": heart_rate, "threshold": 100},
+                    )
+                elif heart_rate < 50:
+                    alerts_system.create_alert(
+                        AlertType.HEALTH_SYNC,
+                        AlertSeverity.INFO,
+                        "Fréquence Cardiaque Basse",
+                        f"Votre fréquence cardiaque moyenne est de {heart_rate:.0f} bpm. Si vous êtes sportif, c'est normal. Sinon, consultez un médecin.",
+                        {"heart_rate": heart_rate, "threshold": 50},
+                    )
+
+        except ImportError:
+            # Module alerts non disponible, ignorer
+            pass
+        except Exception as e:
+            logger.warning(f"⚠️ Erreur création alertes santé: {e}")

@@ -146,7 +146,9 @@ class AutoSyncManager:
             wait_event = threading.Event()
             remaining_seconds = sleep_seconds
             while remaining_seconds > 0 and self.is_running:
-                wait_time = min(60, remaining_seconds)  # Vérifier toutes les 60 secondes max
+                wait_time = min(
+                    60, remaining_seconds
+                )  # Vérifier toutes les 60 secondes max
                 wait_event.wait(wait_time)
                 remaining_seconds -= wait_time
 
@@ -195,6 +197,12 @@ class AutoSyncManager:
                 predictions_data = self._sync_predictions(config)
                 if predictions_data:
                     synced_data["predictions"] = predictions_data
+
+            # Récupérer appointments depuis CIA et créer alertes
+            try:
+                self._check_medical_appointments()
+            except Exception as e:
+                logger.warning(f"⚠️ Erreur vérification appointments: {e}")
 
             # Envoyer les données agrégées à CIA
             if synced_data:

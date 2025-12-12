@@ -160,6 +160,30 @@ else:
         "ℹ️ Synchronisation automatique santé désactivée (ARIA_HEALTH_AUTO_SYNC_ENABLED=false)"
     )
 
+# Activation automatique des rapports si configurée
+if os.getenv("ARIA_AUTO_REPORTS_ENABLED", "0").lower() in ("1", "true"):
+    try:
+        from health_connectors.report_generator import get_report_generator
+
+        report_generator = get_report_generator()
+        success = report_generator.start_weekly_reports()
+        if success:
+            logger.info("✅ Rapports hebdomadaires automatiques activés")
+    except Exception as e:
+        logger.warning(f"⚠️ Erreur activation rapports auto: {e}")
+
+# Activation automatique des exports si configurée
+if os.getenv("ARIA_AUTO_EXPORT_ENABLED", "0").lower() in ("1", "true"):
+    try:
+        from health_connectors.auto_export import get_auto_exporter
+
+        auto_exporter = get_auto_exporter()
+        success = auto_exporter.start_weekly_export()
+        if success:
+            logger.info("✅ Exports hebdomadaires automatiques activés")
+    except Exception as e:
+        logger.warning(f"⚠️ Erreur activation exports auto: {e}")
+
 
 @app.get("/")
 async def root():

@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/static/dashboard.js"></script>
     <script src="/static/charts.js"></script>
+    <script src="/static/exports.js"></script>
     <script src="/static/realtime.js"></script>
 </head>
 
@@ -316,29 +317,53 @@
             localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
         }
 
-        function exportData(format) {
+        // Instance globale pour exports
+        let ariaExports = null;
+
+        // Initialiser exports au chargement
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof ARIAExports !== 'undefined') {
+                ariaExports = new ARIAExports();
+            }
+        });
+
+        /**
+         * Export rapide en un clic (Excel par défaut)
+         */
+        async function quickExport(format = 'excel') {
             showLoading();
-            fetch(`/dashboard/export/${format}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
+            try {
+                if (!ariaExports) {
+                    ariaExports = new ARIAExports();
                 }
-            })
-                .then(response => response.blob())
-                .then(blob => {
-                    hideLoading();
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `aria-dashboard-${new Date().toISOString().split('T')[0]}.${format}`;
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                })
-                .catch(error => {
-                    hideLoading();
-                    showNotification('Erreur d\'export', 'error');
-                    console.error('Error:', error);
-                });
+
+                // Collecter toutes les données du dashboard
+                const dashboardData = await ariaExports.collectDashboardData();
+
+                // Exporter selon le format
+                if (format === 'excel') {
+                    await ariaExports.exportToExcel(dashboardData, {
+                        filename: `aria-dashboard-${new Date().toISOString().split('T')[0]}.xlsx`
+                    });
+                } else if (format === 'pdf') {
+                    await ariaExports.exportToPDF(dashboardData, {
+                        filename: `aria-dashboard-${new Date().toISOString().split('T')[0]}.pdf`
+                    });
+                } else {
+                    await ariaExports.exportDashboard({ format: format });
+                }
+
+                hideLoading();
+                showNotification('Export réussi', 'success');
+            } catch (error) {
+                hideLoading();
+                showNotification('Erreur d\'export: ' + error.message, 'error');
+                console.error('Error:', error);
+            }
+        }
+
+        function exportData(format) {
+            quickExport(format);
         }
 
         function showNotification(message, type) {

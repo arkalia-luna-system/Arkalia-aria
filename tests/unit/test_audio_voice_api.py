@@ -78,9 +78,8 @@ class TestAudioVoiceAPI:
             "content_base64": encoded_audio,
         }
 
-        with patch("audio_voice.api.Path.mkdir") as mock_mkdir:
-            with patch("builtins.open", create=True) as mock_open:
-                mock_file = mock_open.return_value.__enter__.return_value
+        with patch("audio_voice.api.Path.mkdir"):
+            with patch("builtins.open", create=True):
                 response = client.post("/audio/note", json=request_data)
 
                 assert response.status_code == 200

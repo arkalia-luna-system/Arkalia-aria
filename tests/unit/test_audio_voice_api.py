@@ -20,8 +20,8 @@ class TestAudioVoiceAPI:
     """Tests pour l'API Audio/Voice"""
 
     def test_audio_status(self):
-        """Test GET /audio/status"""
-        response = client.get("/audio/status")
+        """Test GET /api/audio/status"""
+        response = client.get("/api/audio/status")
         assert response.status_code == 200
         data = response.json()
         assert data["module"] == "audio_voice"
@@ -30,9 +30,9 @@ class TestAudioVoiceAPI:
         assert "timestamp" in data
 
     def test_synthesize_speech_success(self):
-        """Test POST /audio/tts avec texte valide"""
+        """Test POST /api/audio/tts avec texte valide"""
         request_data = {"text": "Bonjour, ceci est un test", "voice": "amelie"}
-        response = client.post("/audio/tts", json=request_data)
+        response = client.post("/api/audio/tts", json=request_data)
         assert response.status_code == 200
         data = response.json()
         assert data["status"] == "ok"

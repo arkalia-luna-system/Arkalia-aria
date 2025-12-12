@@ -3,6 +3,7 @@ Tests pour l'API des métriques ARIA
 """
 
 from datetime import datetime, timedelta
+from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 from fastapi.testclient import TestClient

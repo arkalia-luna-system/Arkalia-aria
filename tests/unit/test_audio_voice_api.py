@@ -41,34 +41,34 @@ class TestAudioVoiceAPI:
         assert "message" in data
 
     def test_synthesize_speech_default_voice(self):
-        """Test POST /audio/tts sans spécifier de voix"""
+        """Test POST /api/audio/tts sans spécifier de voix"""
         request_data = {"text": "Test sans voix spécifiée"}
-        response = client.post("/audio/tts", json=request_data)
+        response = client.post("/api/audio/tts", json=request_data)
         assert response.status_code == 200
         data = response.json()
         assert data["voice"] == "amelie"  # Voix par défaut
 
     def test_synthesize_speech_empty_text(self):
-        """Test POST /audio/tts avec texte vide"""
+        """Test POST /api/audio/tts avec texte vide"""
         request_data = {"text": "   ", "voice": "amelie"}
-        response = client.post("/audio/tts", json=request_data)
+        response = client.post("/api/audio/tts", json=request_data)
         assert response.status_code == 400
 
     def test_synthesize_speech_missing_text(self):
-        """Test POST /audio/tts sans texte"""
+        """Test POST /api/audio/tts sans texte"""
         request_data = {"voice": "amelie"}
-        response = client.post("/audio/tts", json=request_data)
+        response = client.post("/api/audio/tts", json=request_data)
         assert response.status_code == 422  # Validation error
 
     def test_synthesize_speech_text_too_long(self):
-        """Test POST /audio/tts avec texte trop long"""
+        """Test POST /api/audio/tts avec texte trop long"""
         long_text = "a" * 2001  # Plus de 2000 caractères
         request_data = {"text": long_text, "voice": "amelie"}
-        response = client.post("/audio/tts", json=request_data)
+        response = client.post("/api/audio/tts", json=request_data)
         assert response.status_code == 422  # Validation error
 
     def test_save_audio_note_success(self):
-        """Test POST /audio/note avec audio valide"""
+        """Test POST /api/audio/note avec audio valide"""
         # Créer un audio factice encodé en base64
         fake_audio = b"fake audio data for testing"
         encoded_audio = base64.b64encode(fake_audio).decode("utf-8")
@@ -80,7 +80,7 @@ class TestAudioVoiceAPI:
 
         with patch("audio_voice.api.Path.mkdir"):
             with patch("builtins.open", create=True):
-                response = client.post("/audio/note", json=request_data)
+                response = client.post("/api/audio/note", json=request_data)
 
                 assert response.status_code == 200
                 data = response.json()
@@ -90,7 +90,7 @@ class TestAudioVoiceAPI:
                 assert "timestamp" in data
 
     def test_save_audio_note_auto_filename(self):
-        """Test POST /audio/note sans nom de fichier (génération automatique)"""
+        """Test POST /api/audio/note sans nom de fichier (génération automatique)"""
         fake_audio = b"fake audio data"
         encoded_audio = base64.b64encode(fake_audio).decode("utf-8")
 
@@ -98,7 +98,7 @@ class TestAudioVoiceAPI:
 
         with patch("audio_voice.api.Path.mkdir"):
             with patch("builtins.open", create=True):
-                response = client.post("/audio/note", json=request_data)
+                response = client.post("/api/audio/note", json=request_data)
 
                 assert response.status_code == 200
                 data = response.json()

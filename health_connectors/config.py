@@ -123,8 +123,8 @@ class GoogleFitConfig:
         self.enabled = config.google_fit_enabled
 
         # URLs Google Fit
-        self.auth_url = "https://accounts.google.com/o/oauth2/v2/auth"  # nosec B105:hardcoded_password_string
-        self.token_url = "https://oauth2.googleapis.com/token"  # nosec B105:hardcoded_password_string
+        self.auth_url = "https://accounts.google.com/o/oauth2/v2/auth"
+        self.token_url = "https://oauth2.googleapis.com/token"
         self.api_base_url = "https://www.googleapis.com/fitness/v1"
 
         # Endpoints Google Fit
@@ -157,11 +157,9 @@ class IOSHealthConfig:
         self.enabled = config.ios_health_enabled
 
         # URLs Apple Health
-        self.base_url = (
-            "https://api.apple.com/health"  # nosec B105:hardcoded_password_string
-        )
-        self.auth_url = "https://appleid.apple.com/auth/authorize"  # nosec B105:hardcoded_password_string
-        self.token_url = "https://appleid.apple.com/auth/token"  # nosec B105:hardcoded_password_string
+        self.base_url = "https://api.apple.com/health"
+        self.auth_url = "https://appleid.apple.com/auth/authorize"
+        self.token_url = "https://appleid.apple.com/auth/token"
 
         # Types de données iOS Health
         self.data_types = {

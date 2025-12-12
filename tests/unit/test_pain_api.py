@@ -92,7 +92,7 @@ class TestPainEntryEndpoints:
     def test_get_entries_pagination(self):
         """Test GET /api/pain/entries avec pagination"""
         # Créer quelques entrées
-        for i in range(5):
+        for _ in range(5):
             client.post(
                 "/api/pain/quick-entry",
                 json={

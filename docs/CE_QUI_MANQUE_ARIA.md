@@ -24,11 +24,11 @@ ARIA est **techniquement prêt à 95%** mais manque de **fonctionnalités utilis
 
 **Ce qui manque** :
 
-- [ ] Visualisation des nouveaux champs journal (who_present, interactions, emotions, thoughts, physical_symptoms)
+- [x] Visualisation des nouveaux champs journal (who_present, interactions, emotions, thoughts, physical_symptoms) ✅ **FAIT - 12 déc 2025**
 - [ ] Graphiques interactifs pour corrélations
-- [ ] Filtres avancés (date, intensité, localisation, personnes présentes)
-- [ ] Export depuis dashboard (un clic)
-- [ ] Alertes visuelles (patterns détectés, prédictions)
+- [x] Filtres avancés (date, intensité, localisation, personnes présentes) ✅ **FAIT - 12 déc 2025**
+- [ ] Export depuis dashboard (un clic) - Partiellement fait
+- [x] Alertes visuelles (patterns détectés, prédictions) ✅ **FAIT - 12 déc 2025**
 
 **Impact** : +20% utilisation
 
@@ -56,9 +56,9 @@ ARIA est **techniquement prêt à 95%** mais manque de **fonctionnalités utilis
 
 **Ce qui manque** :
 
-- [ ] Synchronisation santé quotidienne automatique
-- [ ] Synchronisation intelligente (seulement si nouvelles données)
-- [ ] Corrélations automatiques après sync
+- [x] Synchronisation santé quotidienne automatique ✅ **FAIT - 12 déc 2025**
+- [x] Synchronisation intelligente (seulement si nouvelles données) ✅ **FAIT - 12 déc 2025**
+- [x] Corrélations automatiques après sync ✅ **FAIT - 12 déc 2025**
 - [ ] Rapports automatiques périodiques
 - [ ] Export automatique (hebdomadaire/mensuel)
 

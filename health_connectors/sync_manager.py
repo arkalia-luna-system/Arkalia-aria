@@ -6,6 +6,7 @@ Gestionnaire central pour orchestrer la synchronisation de tous les connecteurs 
 Assure la cohérence et l'unification des données entre Samsung Health, Google Fit et iOS Health.
 """
 
+import threading
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -52,6 +53,11 @@ class HealthSyncManager:
         self.sync_history: list[dict[str, Any]] = []
         self.unified_data_dir = Path("dacc/unified_health_data")
         self.unified_data_dir.mkdir(parents=True, exist_ok=True)
+
+        # Synchronisation automatique
+        self.is_running = False
+        self.sync_thread: threading.Thread | None = None
+        self.last_sync: datetime | None = None
 
         # Initialiser les connecteurs selon la configuration
         self._initialize_connectors()
@@ -412,3 +418,109 @@ class HealthSyncManager:
         )
         with open(file_path, "w", encoding="utf-8") as f:
             json.dump(metrics, f, default=str, indent=2)
+
+    def start_auto_sync(self) -> bool:
+        """
+        Démarre la synchronisation automatique périodique.
+
+        Returns:
+            True si le démarrage a réussi, False si déjà en cours
+        """
+        if not self.config.auto_sync_enabled:
+            return False
+
+        if self.is_running:
+            return False
+
+        self.is_running = True
+        self.sync_thread = threading.Thread(target=self._sync_loop, daemon=True)
+        self.sync_thread.start()
+        return True
+
+    def stop_auto_sync(self) -> bool:
+        """
+        Arrête la synchronisation automatique.
+
+        Returns:
+            True si l'arrêt a réussi
+        """
+        if not self.is_running:
+            return False
+
+        self.is_running = False
+        if self.sync_thread and self.sync_thread.is_alive():
+            self.sync_thread.join(timeout=5.0)
+        return True
+
+    def _sync_loop(self) -> None:
+        """Boucle principale de synchronisation automatique."""
+        from core import get_logger
+
+        logger = get_logger("health_sync")
+        logger.info("🔄 Synchronisation santé automatique démarrée")
+
+        while self.is_running:
+            try:
+                # Vérifier si sync intelligente (seulement nouvelles données)
+                if self._should_sync():
+                    import asyncio
+
+                    # Exécuter sync asynchrone dans un thread
+                    loop = asyncio.new_event_loop()
+                    asyncio.set_event_loop(loop)
+                    try:
+                        loop.run_until_complete(self.sync_all_connectors())
+                        self.last_sync = datetime.now()
+                        logger.info("✅ Synchronisation santé automatique réussie")
+
+                        # Corrélations automatiques après sync
+                        try:
+                            self._trigger_correlations()
+                        except Exception as e:
+                            logger.warning(f"⚠️ Erreur corrélations automatiques: {e}")
+
+                    finally:
+                        loop.close()
+                else:
+                    logger.debug("⏭️ Pas de nouvelles données, sync ignorée")
+
+            except Exception as e:
+                logger.error(f"❌ Erreur dans la boucle de sync santé: {e}")
+
+            # Attendre l'intervalle avant la prochaine sync
+            wait_event = threading.Event()
+            remaining_seconds = self.config.sync_interval_hours * 3600
+            while remaining_seconds > 0 and self.is_running:
+                wait_event.wait(1)
+                remaining_seconds -= 1
+
+        logger.info("🔄 Synchronisation santé automatique arrêtée")
+
+    def _should_sync(self) -> bool:
+        """
+        Vérifie si une synchronisation est nécessaire (sync intelligente).
+
+        Returns:
+            True si sync nécessaire, False sinon
+        """
+        if self.last_sync is None:
+            return True
+
+        # Sync si dernière sync > intervalle configuré
+        time_since_last_sync = datetime.now() - self.last_sync
+        return time_since_last_sync >= timedelta(hours=self.config.sync_interval_hours)
+
+    def _trigger_correlations(self) -> None:
+        """Déclenche l'analyse de corrélations après sync."""
+        try:
+            from pattern_analysis.correlation_analyzer import CorrelationAnalyzer
+
+            analyzer = CorrelationAnalyzer()
+            # Analyser corrélations avec données récentes
+            analyzer.get_comprehensive_analysis(days_back=30)
+        except ImportError:
+            # Module non disponible, ignorer
+            pass
+        except Exception:
+            # Erreur non critique, ignorer
+            pass

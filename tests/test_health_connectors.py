@@ -474,6 +474,53 @@ class TestHealthSyncManager:
         assert isinstance(data, list)
         # Les données peuvent être vides si aucun connecteur n'est configuré
 
+    def test_start_auto_sync(self, sync_manager):
+        """Test démarrage de la synchronisation automatique."""
+        # S'assurer que auto_sync n'est pas déjà en cours
+        if sync_manager.is_running:
+            sync_manager.stop_auto_sync()
+
+        # Activer auto_sync dans la config
+        sync_manager.config.auto_sync_enabled = True
+
+        result = sync_manager.start_auto_sync()
+        assert result is True
+        assert sync_manager.is_running is True
+        assert sync_manager.sync_thread is not None
+        assert sync_manager.sync_thread.is_alive()
+
+        # Nettoyer
+        sync_manager.stop_auto_sync()
+
+    def test_stop_auto_sync(self, sync_manager):
+        """Test arrêt de la synchronisation automatique."""
+        # Démarrer d'abord
+        sync_manager.config.auto_sync_enabled = True
+        sync_manager.start_auto_sync()
+
+        # Vérifier qu'il est en cours
+        assert sync_manager.is_running is True
+
+        # Arrêter
+        result = sync_manager.stop_auto_sync()
+        assert result is True
+        assert sync_manager.is_running is False
+
+    def test_should_sync(self, sync_manager):
+        """Test vérification si sync nécessaire (sync intelligente)."""
+        # Première fois : devrait sync
+        sync_manager.last_sync = None
+        assert sync_manager._should_sync() is True
+
+        # Sync récente : ne devrait pas sync
+        sync_manager.last_sync = datetime.now()
+        sync_manager.config.sync_interval_hours = 6
+        assert sync_manager._should_sync() is False
+
+        # Sync ancienne : devrait sync
+        sync_manager.last_sync = datetime.now() - timedelta(hours=7)
+        assert sync_manager._should_sync() is True
+
     @pytest.mark.asyncio
     async def test_get_health_data(self, sync_manager):
         """Test récupération des données de santé unifiées."""
@@ -487,6 +534,11 @@ class TestHealthSyncManager:
         status = await sync_manager.get_all_connectors_status()
 
         assert isinstance(status, dict)
+        assert sync_manager._should_sync() is False
+
+        # Avec sync ancienne, doit retourner True
+        sync_manager.last_sync = datetime.now() - timedelta(hours=7)
+        assert sync_manager._should_sync() is True
         # Le statut peut être vide si aucun connecteur n'est configuré
 
 

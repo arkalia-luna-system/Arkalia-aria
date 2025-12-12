@@ -96,3 +96,51 @@ class TestPatternsEndpoints:
         response = client.post("/api/patterns/analyze", json=data)
         # Peut retourner 200, 422 (validation) ou 500 (erreur interne)
         assert response.status_code in [200, 422, 500]
+
+    def test_correlation_cache(self):
+        """Test que le cache fonctionne pour les corrélations."""
+        from pattern_analysis.correlation_analyzer import CorrelationAnalyzer
+
+        analyzer = CorrelationAnalyzer()
+        cache_key = "sleep_pain_correlation_30"
+
+        # Premier appel - pas de cache
+        result1 = analyzer.analyze_sleep_pain_correlation(days_back=30)
+        assert isinstance(result1, dict)
+
+        # Vérifier que le résultat est en cache
+        cached = analyzer.cache.get(cache_key)
+        assert cached is not None
+        assert cached == result1
+
+    def test_stress_correlation_cache(self):
+        """Test que le cache fonctionne pour les corrélations stress."""
+        from pattern_analysis.correlation_analyzer import CorrelationAnalyzer
+
+        analyzer = CorrelationAnalyzer()
+        cache_key = "stress_pain_correlation_30"
+
+        # Premier appel
+        result1 = analyzer.analyze_stress_pain_correlation(days_back=30)
+        assert isinstance(result1, dict)
+
+        # Vérifier que le résultat est en cache
+        cached = analyzer.cache.get(cache_key)
+        assert cached is not None
+        assert cached == result1
+
+    def test_recurrent_triggers_cache(self):
+        """Test que le cache fonctionne pour les déclencheurs récurrents."""
+        from pattern_analysis.correlation_analyzer import CorrelationAnalyzer
+
+        analyzer = CorrelationAnalyzer()
+        cache_key = "recurrent_triggers_30_3"
+
+        # Premier appel
+        result1 = analyzer.detect_recurrent_triggers(days_back=30, min_occurrences=3)
+        assert isinstance(result1, dict)
+
+        # Vérifier que le résultat est en cache
+        cached = analyzer.cache.get(cache_key)
+        assert cached is not None
+        assert cached == result1

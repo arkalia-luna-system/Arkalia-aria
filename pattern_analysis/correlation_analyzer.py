@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from core import DatabaseManager, get_logger
+from core.cache import CacheManager
 
 logger = get_logger("correlation_analyzer")
 
@@ -36,6 +37,7 @@ class CorrelationAnalyzer:
         """
         self.db = DatabaseManager(db_path)
         self.health_data_dir = Path(health_data_dir)
+        self.cache = CacheManager(default_ttl=3600, max_size=100)  # Cache 1h
         logger.info("🔍 Correlation Analyzer initialisé")
 
     def _load_pain_entries(self, days_back: int = 30) -> list[dict[str, Any]]:
@@ -137,6 +139,13 @@ class CorrelationAnalyzer:
         Returns:
             Dict avec corrélations, patterns et recommandations
         """
+        # Vérifier le cache
+        cache_key = f"sleep_pain_correlation_{days_back}"
+        cached_result = self.cache.get(cache_key)
+        if cached_result is not None:
+            logger.debug("📦 Résultat depuis cache")
+            return cached_result
+
         pain_entries = self._load_pain_entries(days_back)
         sleep_data = self._load_sleep_data(days_back)
 
@@ -233,7 +242,7 @@ class CorrelationAnalyzer:
                 "Envisager d'améliorer la durée de sommeil."
             )
 
-        return {
+        result = {
             "correlation": round(correlation, 3),
             "confidence": min(len(correlations) / 30.0, 1.0),
             "data_points": len(correlations),
@@ -241,6 +250,10 @@ class CorrelationAnalyzer:
             "recommendations": recommendations,
             "correlations": correlations[:10],  # Limiter pour la réponse
         }
+
+        # Mettre en cache
+        self.cache.set(cache_key, result, ttl=3600)  # Cache 1h
+        return result
 
     def _simple_correlation(self, x: list[float], y: list[float]) -> float:
         """Calcul simple de corrélation de Pearson."""
@@ -270,6 +283,13 @@ class CorrelationAnalyzer:
         Returns:
             Dict avec corrélations, patterns et recommandations
         """
+        # Vérifier le cache
+        cache_key = f"stress_pain_correlation_{days_back}"
+        cached_result = self.cache.get(cache_key)
+        if cached_result is not None:
+            logger.debug("📦 Résultat depuis cache")
+            return cached_result
+
         pain_entries = self._load_pain_entries(days_back)
         stress_data = self._load_stress_data(days_back)
 
@@ -362,7 +382,7 @@ class CorrelationAnalyzer:
                 "Envisager des techniques de gestion du stress."
             )
 
-        return {
+        result = {
             "correlation": round(correlation, 3),
             "confidence": min(len(correlations_data) / 30.0, 1.0),
             "data_points": len(correlations_data),
@@ -370,6 +390,10 @@ class CorrelationAnalyzer:
             "recommendations": recommendations,
             "correlations": correlations_data[:10],
         }
+
+        # Mettre en cache
+        self.cache.set(cache_key, result, ttl=3600)  # Cache 1h
+        return result
 
     def detect_recurrent_triggers(
         self, days_back: int = 30, min_occurrences: int = 3
@@ -384,6 +408,13 @@ class CorrelationAnalyzer:
         Returns:
             Dict avec déclencheurs récurrents et patterns temporels
         """
+        # Vérifier le cache
+        cache_key = f"recurrent_triggers_{days_back}_{min_occurrences}"
+        cached_result = self.cache.get(cache_key)
+        if cached_result is not None:
+            logger.debug("📦 Résultat depuis cache")
+            return cached_result
+
         pain_entries = self._load_pain_entries(days_back)
 
         if not pain_entries:
@@ -444,7 +475,7 @@ class CorrelationAnalyzer:
         top_hours = [{"hour": h, "count": c} for h, c in hour_patterns.most_common(5)]
         top_days = [{"day": d, "count": c} for d, c in day_patterns.most_common(7)]
 
-        return {
+        result = {
             "triggers": {
                 "physical": recurrent_physical,
                 "mental": recurrent_mental,
@@ -457,6 +488,10 @@ class CorrelationAnalyzer:
             "total_entries": len(pain_entries),
         }
 
+        # Mettre en cache
+        self.cache.set(cache_key, result, ttl=3600)  # Cache 1h
+        return result
+
     def get_comprehensive_analysis(self, days_back: int = 30) -> dict[str, Any]:
         """
         Analyse complète : toutes les corrélations et patterns.
@@ -464,13 +499,20 @@ class CorrelationAnalyzer:
         Returns:
             Dict avec toutes les analyses combinées
         """
+        # Vérifier le cache
+        cache_key = f"comprehensive_analysis_{days_back}"
+        cached_result = self.cache.get(cache_key)
+        if cached_result is not None:
+            logger.debug("📦 Résultat depuis cache")
+            return cached_result
+
         logger.info(f"🔍 Analyse complète sur {days_back} jours")
 
         sleep_correlation = self.analyze_sleep_pain_correlation(days_back)
         stress_correlation = self.analyze_stress_pain_correlation(days_back)
         triggers = self.detect_recurrent_triggers(days_back)
 
-        return {
+        result = {
             "period_days": days_back,
             "analysis_date": datetime.now().isoformat(),
             "sleep_pain_correlation": sleep_correlation,
@@ -489,3 +531,7 @@ class CorrelationAnalyzer:
                 ),
             },
         }
+
+        # Mettre en cache
+        self.cache.set(cache_key, result, ttl=3600)  # Cache 1h
+        return result

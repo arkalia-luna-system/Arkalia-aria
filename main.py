@@ -139,6 +139,27 @@ else:
         "ℹ️ Synchronisation automatique CIA désactivée (ARIA_CIA_SYNC_ENABLED=false)"
     )
 
+# Activation automatique de la synchronisation santé si configurée
+if os.getenv("ARIA_HEALTH_AUTO_SYNC_ENABLED", "0").lower() in ("1", "true"):
+    try:
+        from health_connectors.sync_manager import HealthSyncManager
+
+        health_sync_manager = HealthSyncManager()
+        success = health_sync_manager.start_auto_sync()
+        if success:
+            logger.info(
+                f"✅ Synchronisation automatique santé activée "
+                f"(intervalle: {health_sync_manager.config.sync_interval_hours}h)"
+            )
+        else:
+            logger.warning("⚠️ Synchronisation automatique santé déjà en cours")
+    except Exception as e:
+        logger.warning(f"⚠️ Synchronisation automatique santé désactivée: {e}")
+else:
+    logger.info(
+        "ℹ️ Synchronisation automatique santé désactivée (ARIA_HEALTH_AUTO_SYNC_ENABLED=false)"
+    )
+
 
 @app.get("/")
 async def root():

@@ -37,30 +37,30 @@
 - ✅ API endpoints pour données
 
 **Ce qui MANQUE** :
-- [ ] **Visualisation nouveaux champs journal** : who_present, interactions, emotions, thoughts, physical_symptoms
+- [x] **Visualisation nouveaux champs journal** : who_present, interactions, emotions, thoughts, physical_symptoms ✅ **FAIT**
   - **Où** : `metrics_collector/dashboard/templates/pain_analytics.html`
-  - **Action** : Ajouter sections pour afficher ces champs
-  - **Temps** : 2-3 heures
+  - **Action** : Sections ajoutées dans tableau et modal
+  - **Date** : 12 décembre 2025
 
 - [ ] **Graphiques interactifs pour corrélations**
   - **Où** : `metrics_collector/dashboard/static/charts.js`
   - **Action** : Ajouter graphiques corrélations (sommeil-douleur, stress-douleur)
   - **Temps** : 3-4 heures
 
-- [ ] **Filtres avancés** (date, intensité, localisation, personnes présentes)
+- [x] **Filtres avancés** (date, intensité, localisation, personnes présentes) ✅ **FAIT**
   - **Où** : `metrics_collector/dashboard/templates/pain_analytics.html`
-  - **Action** : Ajouter formulaires de filtres avec JavaScript
-  - **Temps** : 2-3 heures
+  - **Action** : Filtres ajoutés avec JavaScript
+  - **Date** : 12 décembre 2025
 
 - [ ] **Export depuis dashboard (un clic)**
   - **Où** : `metrics_collector/dashboard/static/exports.js`
-  - **Action** : Ajouter boutons export CSV/PDF/Excel
+  - **Action** : Améliorer boutons export existants
   - **Temps** : 1-2 heures
 
-- [ ] **Alertes visuelles** (patterns détectés, prédictions)
+- [x] **Alertes visuelles** (patterns détectés, prédictions) ✅ **FAIT**
   - **Où** : `metrics_collector/dashboard/templates/dashboard.html`
-  - **Action** : Ajouter section alertes avec badges visuels
-  - **Temps** : 2-3 heures
+  - **Action** : Section alertes ajoutée avec chargement depuis API
+  - **Date** : 12 décembre 2025
 
 **Impact** : +20% utilisation  
 **Temps total estimé** : 10-15 heures (1-2 semaines)  
@@ -77,20 +77,20 @@
 - ✅ Endpoint API `/api/health/sync/all`
 
 **Ce qui MANQUE** :
-- [ ] **Synchronisation santé quotidienne automatique**
-  - **Où** : `health_connectors/sync_manager.py` ou `main.py`
-  - **Action** : Créer thread/task qui appelle `sync_all_connectors()` quotidiennement
-  - **Temps** : 2-3 heures
+- [x] **Synchronisation santé quotidienne automatique** ✅ **FAIT**
+  - **Où** : `health_connectors/sync_manager.py` et `main.py`
+  - **Action** : Thread automatique avec `start_auto_sync()` et `_sync_loop()`
+  - **Date** : 12 décembre 2025
 
-- [ ] **Synchronisation intelligente** (seulement si nouvelles données)
+- [x] **Synchronisation intelligente** (seulement si nouvelles données) ✅ **FAIT**
   - **Où** : `health_connectors/sync_manager.py`
-  - **Action** : Vérifier timestamp dernière sync et ne sync que si nouvelles données
-  - **Temps** : 2-3 heures
+  - **Action** : Méthode `_should_sync()` qui vérifie timestamp dernière sync
+  - **Date** : 12 décembre 2025
 
-- [ ] **Corrélations automatiques après sync**
-  - **Où** : `health_connectors/sync_manager.py` ou `pattern_analysis/`
-  - **Action** : Appeler `analyze_correlations()` après chaque sync
-  - **Temps** : 1-2 heures
+- [x] **Corrélations automatiques après sync** ✅ **FAIT**
+  - **Où** : `health_connectors/sync_manager.py`
+  - **Action** : Méthode `_trigger_correlations()` appelée après chaque sync
+  - **Date** : 12 décembre 2025
 
 - [ ] **Rapports automatiques périodiques**
   - **Où** : Nouveau module ou `health_connectors/sync_manager.py`
@@ -141,15 +141,15 @@
 - ✅ TTL, invalidation, LRU
 
 **Ce qui MANQUE** :
-- [ ] **Cache résultats corrélations**
+- [x] **Cache résultats corrélations** ✅ **FAIT**
   - **Où** : `pattern_analysis/correlation_analyzer.py`
-  - **Action** : Utiliser `CacheManager` pour mettre en cache résultats corrélations
-  - **Temps** : 1-2 heures
+  - **Action** : Cache ajouté dans `analyze_sleep_pain_correlation`, `analyze_stress_pain_correlation`, `detect_recurrent_triggers`, `get_comprehensive_analysis`
+  - **Date** : 12 décembre 2025
 
-- [ ] **Cache patterns détectés**
-  - **Où** : `pattern_analysis/api.py`
-  - **Action** : Mettre en cache patterns détectés avec TTL approprié
-  - **Temps** : 1-2 heures
+- [x] **Cache patterns détectés** ✅ **FAIT**
+  - **Où** : `pattern_analysis/correlation_analyzer.py`
+  - **Action** : Cache intégré dans toutes les méthodes d'analyse (TTL 1h)
+  - **Date** : 12 décembre 2025
 
 - [ ] **Cache métriques système**
   - **Où** : `metrics_collector/api.py` (déjà partiellement fait avec `_metrics_cache`)

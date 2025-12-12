@@ -6,6 +6,7 @@ Tests complets pour tous les connecteurs santé et leurs fonctionnalités.
 """
 
 from datetime import datetime, timedelta
+from typing import Any
 from unittest.mock import patch
 
 import pytest
@@ -539,6 +540,9 @@ class TestHealthSyncManager:
                 steps=1000,
                 heart_rate_bpm=70,
                 calories_burned=100.0,
+                distance_meters=None,
+                active_minutes=None,
+                raw_data=None,
             ),
             ActivityData(
                 timestamp=datetime.now(),
@@ -546,6 +550,9 @@ class TestHealthSyncManager:
                 steps=2000,
                 heart_rate_bpm=80,
                 calories_burned=200.0,
+                distance_meters=None,
+                active_minutes=None,
+                raw_data=None,
             ),
         ]
         result = sync_manager._calculate_average_heart_rate(activity_data)
@@ -559,6 +566,9 @@ class TestHealthSyncManager:
                 steps=1000,
                 heart_rate_bpm=None,
                 calories_burned=100.0,
+                distance_meters=None,
+                active_minutes=None,
+                raw_data=None,
             )
         ]
         result_empty = sync_manager._calculate_average_heart_rate(activity_data_empty)
@@ -577,6 +587,10 @@ class TestHealthSyncManager:
                 quality_score=0.8,
                 deep_sleep_minutes=120,
                 source="test",
+                light_sleep_minutes=None,
+                rem_sleep_minutes=None,
+                awakenings_count=None,
+                raw_data=None,
             ),
             SleepData(
                 sleep_start=now,
@@ -585,6 +599,10 @@ class TestHealthSyncManager:
                 quality_score=0.7,
                 deep_sleep_minutes=100,
                 source="test",
+                light_sleep_minutes=None,
+                rem_sleep_minutes=None,
+                awakenings_count=None,
+                raw_data=None,
             ),
         ]
         result = sync_manager._calculate_average_sleep_duration(sleep_data)
@@ -607,6 +625,10 @@ class TestHealthSyncManager:
                 quality_score=0.8,
                 deep_sleep_minutes=120,
                 source="test",
+                light_sleep_minutes=None,
+                rem_sleep_minutes=None,
+                awakenings_count=None,
+                raw_data=None,
             ),
             SleepData(
                 sleep_start=now,
@@ -615,6 +637,10 @@ class TestHealthSyncManager:
                 quality_score=0.7,
                 deep_sleep_minutes=100,
                 source="test",
+                light_sleep_minutes=None,
+                rem_sleep_minutes=None,
+                awakenings_count=None,
+                raw_data=None,
             ),
         ]
         result = sync_manager._calculate_average_sleep_quality(sleep_data)
@@ -629,6 +655,10 @@ class TestHealthSyncManager:
                 quality_score=None,
                 deep_sleep_minutes=120,
                 source="test",
+                light_sleep_minutes=None,
+                rem_sleep_minutes=None,
+                awakenings_count=None,
+                raw_data=None,
             )
         ]
         result_empty = sync_manager._calculate_average_sleep_quality(
@@ -646,12 +676,16 @@ class TestHealthSyncManager:
                 stress_level=5.0,
                 heart_rate_variability=50.0,
                 source="test",
+                resting_heart_rate=None,
+                raw_data=None,
             ),
             StressData(
                 timestamp=datetime.now(),
                 stress_level=7.0,
                 heart_rate_variability=45.0,
                 source="test",
+                resting_heart_rate=None,
+                raw_data=None,
             ),
         ]
         result = sync_manager._calculate_average_stress_level(stress_data)
@@ -671,12 +705,16 @@ class TestHealthSyncManager:
                 stress_level=5.0,
                 heart_rate_variability=50.0,
                 source="test",
+                resting_heart_rate=None,
+                raw_data=None,
             ),
             StressData(
                 timestamp=datetime.now(),
                 stress_level=7.0,
                 heart_rate_variability=45.0,
                 source="test",
+                resting_heart_rate=None,
+                raw_data=None,
             ),
         ]
         result = sync_manager._calculate_average_hrv(stress_data)
@@ -689,6 +727,8 @@ class TestHealthSyncManager:
                 stress_level=5.0,
                 heart_rate_variability=None,
                 source="test",
+                resting_heart_rate=None,
+                raw_data=None,
             )
         ]
         result_empty = sync_manager._calculate_average_hrv(stress_data_no_hrv)
@@ -718,7 +758,7 @@ class TestHealthSyncManager:
         # Changer le répertoire de données unifiées vers tmp
         sync_manager.unified_data_dir = tmp_path
 
-        metrics = {"activity": {}, "sleep": {}, "stress": {}}
+        metrics: dict[str, Any] = {"activity": {}, "sleep": {}, "stress": {}}
         await sync_manager._save_unified_metrics(metrics)
 
         # Vérifier qu'un fichier a été créé

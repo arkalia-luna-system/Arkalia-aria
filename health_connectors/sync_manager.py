@@ -6,6 +6,7 @@ Gestionnaire central pour orchestrer la synchronisation de tous les connecteurs 
 Assure la cohérence et l'unification des données entre Samsung Health, Google Fit et iOS Health.
 """
 
+import os
 import threading
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -473,11 +474,13 @@ class HealthSyncManager:
                         self.last_sync = datetime.now()
                         logger.info("✅ Synchronisation santé automatique réussie")
 
-                        # Corrélations automatiques après sync
-                        try:
-                            self._trigger_correlations()
-                        except Exception as e:
-                            logger.warning(f"⚠️ Erreur corrélations automatiques: {e}")
+                        # Corrélations automatiques après sync (seulement si activé)
+                        # Désactivé par défaut pour éviter surcharge CPU
+                        if os.getenv("ARIA_AUTO_CORRELATIONS_ENABLED", "0").lower() in ("1", "true"):
+                            try:
+                                self._trigger_correlations()
+                            except Exception as e:
+                                logger.warning(f"⚠️ Erreur corrélations automatiques: {e}")
 
                     finally:
                         loop.close()
@@ -488,11 +491,14 @@ class HealthSyncManager:
                 logger.error(f"❌ Erreur dans la boucle de sync santé: {e}")
 
             # Attendre l'intervalle avant la prochaine sync
+            # Utiliser wait() directement au lieu de boucle pour économiser CPU
             wait_event = threading.Event()
-            remaining_seconds = self.config.sync_interval_hours * 3600
-            while remaining_seconds > 0 and self.is_running:
-                wait_event.wait(1)
-                remaining_seconds -= 1
+            wait_seconds = self.config.sync_interval_hours * 3600
+            # Attendre par blocs de 60 secondes pour permettre l'arrêt rapide
+            while wait_seconds > 0 and self.is_running:
+                wait_time = min(60, wait_seconds)  # Vérifier toutes les 60 secondes max
+                wait_event.wait(wait_time)
+                wait_seconds -= wait_time
 
         logger.info("🔄 Synchronisation santé automatique arrêtée")
 

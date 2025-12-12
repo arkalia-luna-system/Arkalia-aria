@@ -142,12 +142,13 @@ class AutoSyncManager:
             sleep_seconds = self.sync_interval_minutes * 60
             logger.debug(f"⏳ Prochaine sync dans {self.sync_interval_minutes} min")
             # Attendre avec vérification périodique de is_running
-            # Note: self.is_running peut changer pendant wait() si stop() est appelé
+            # Utiliser wait() par blocs pour économiser CPU
             wait_event = threading.Event()
             remaining_seconds = sleep_seconds
             while remaining_seconds > 0 and self.is_running:
-                wait_event.wait(1)
-                remaining_seconds -= 1
+                wait_time = min(60, remaining_seconds)  # Vérifier toutes les 60 secondes max
+                wait_event.wait(wait_time)
+                remaining_seconds -= wait_time
 
         logger.info("🔄 Boucle de synchronisation arrêtée")
 

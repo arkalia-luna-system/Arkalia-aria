@@ -92,9 +92,9 @@ ARIA est **techniquement prêt à 95%** mais manque de **fonctionnalités utilis
 **Ce qui manque** :
 
 - [ ] Cache Redis local (optionnel mais gratuit)
-- [ ] Cache résultats corrélations
-- [ ] Cache patterns détectés
-- [ ] Cache métriques système
+- [x] Cache résultats corrélations ✅ **FAIT - 12 déc 2025**
+- [x] Cache patterns détectés ✅ **FAIT - 12 déc 2025**
+- [ ] Cache métriques système - Partiellement fait
 
 **Impact** : +40% vitesse
 

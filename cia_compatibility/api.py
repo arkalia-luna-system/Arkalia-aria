@@ -31,7 +31,7 @@ def _get_app_client() -> AsyncClient:
     # Utiliser ASGITransport pour appeler l'application directement
     # sans passer par HTTP (plus efficace et évite les problèmes de port)
     # FastAPI est une application ASGI valide (hérite de Starlette)
-    transport = ASGITransport(app=app)  # type: ignore[arg-type]
+    transport = ASGITransport(app=app)
     return AsyncClient(transport=transport, base_url="http://testserver")
 
 

@@ -1,7 +1,7 @@
 # Audit Complet - ARKALIA ARIA
 
-**Date** : 12 décembre 2025  
-**Version** : 1.0.0  
+**Date** : 12 décembre 2025
+**Version** : 1.0.0
 **Auditeur** : Auto-audit système
 
 ---
@@ -385,5 +385,5 @@ BBIA_API_URL=http://127.0.0.1:8002
 
 ---
 
-**Date de l'audit** : 12 décembre 2025  
+**Date de l'audit** : 12 décembre 2025
 **Prochaine révision** : Après tests PlayCode Dev

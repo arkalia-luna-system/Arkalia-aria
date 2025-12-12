@@ -1,7 +1,7 @@
 # 🔧 Corrections Nécessaires ARKALIA ARIA
 
-**Date** : 12 décembre 2025  
-**Version ARIA** : 1.0.0  
+**Date** : 12 décembre 2025
+**Version ARIA** : 1.0.0
 **Contexte** : Liste priorisée des corrections à effectuer suite à l'audit du 12 décembre 2025
 
 ---
@@ -385,6 +385,6 @@
 
 ---
 
-**Date de création** : 12 décembre 2025  
+**Date de création** : 12 décembre 2025
 **Prochaine révision** : Après corrections critiques
 

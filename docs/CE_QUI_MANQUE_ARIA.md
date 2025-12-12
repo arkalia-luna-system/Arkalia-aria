@@ -1,7 +1,7 @@
 # 📋 Ce qui Manque pour ARIA
 
-**Date** : 12 décembre 2025  
-**Dernière mise à jour** : 12 décembre 2025  
+**Date** : 12 décembre 2025
+**Dernière mise à jour** : 12 décembre 2025
 **Version** : 1.0.0
 
 ---
@@ -10,8 +10,8 @@
 
 ARIA est **techniquement prêt à 95%** mais manque de **fonctionnalités utilisateur** et d'**automatisations** pour maximiser son utilisation.
 
-**Utilisation actuelle** : 35%  
-**Potentiel actuel** : 60%  
+**Utilisation actuelle** : 35%
+**Potentiel actuel** : 60%
 **Potentiel futur** : 95%
 
 ---
@@ -355,5 +355,5 @@ Toutes les fonctionnalités manquantes peuvent être implémentées avec :
 
 ---
 
-**Date** : 12 décembre 2025  
+**Date** : 12 décembre 2025
 **Prochaine mise à jour** : Après implémentation priorités

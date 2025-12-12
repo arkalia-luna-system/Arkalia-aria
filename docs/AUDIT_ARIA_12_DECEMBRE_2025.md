@@ -1,8 +1,8 @@
 # 🔍 Audit Complet ARKALIA ARIA - 12 Décembre 2025
 
-**Date** : 12 décembre 2025  
-**Version ARIA** : 1.0.0  
-**Version CIA** : 1.3.1+6  
+**Date** : 12 décembre 2025
+**Version ARIA** : 1.0.0
+**Version CIA** : 1.3.1+6
 **Contexte** : Mise à jour documentation ARIA avec corrections CIA + Audit complet projet ARIA
 
 ---
@@ -530,6 +530,6 @@
 
 ---
 
-**Date de l'audit** : 12 décembre 2025  
+**Date de l'audit** : 12 décembre 2025
 **Prochaine révision** : À planifier après corrections
 

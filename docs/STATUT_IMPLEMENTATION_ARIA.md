@@ -1,7 +1,7 @@
 # 📊 Statut d'Implémentation ARKALIA ARIA
 
-**Date** : 12 décembre 2025  
-**Version ARIA** : 1.0.0  
+**Date** : 12 décembre 2025
+**Version ARIA** : 1.0.0
 **Dernière mise à jour** : 12 décembre 2025
 
 ---
@@ -261,8 +261,8 @@
 | `metrics_collector/api.py` | 14 tests | ✅ Complet |
 | `metrics_collector/cli.py` | 11 tests | ✅ Complet |
 
-**Total nouveaux tests** : 42 tests unitaires  
-**Couverture globale estimée** : ~75% (amélioration de +5%)  
+**Total nouveaux tests** : 42 tests unitaires
+**Couverture globale estimée** : ~75% (amélioration de +5%)
 **Objectif** : 80%+
 
 ---
@@ -381,6 +381,6 @@
 
 ---
 
-**Date de mise à jour** : 12 décembre 2025  
+**Date de mise à jour** : 12 décembre 2025
 **Prochaine révision** : Après corrections critiques
 

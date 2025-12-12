@@ -1,6 +1,6 @@
 # 🔌 Référence API - ARKALIA ARIA
 
-**Version :** 1.0.0  
+**Version :** 1.0.0
 **Dernière mise à jour :** 12 décembre 2025
 
 ## Base URL
@@ -98,7 +98,7 @@ GET /health/connectors/status
     "data_count": 1250
   },
   "google": {
-    "status": "connected", 
+    "status": "connected",
     "last_sync": "2024-12-24T17:25:00Z",
     "data_count": 890
   },

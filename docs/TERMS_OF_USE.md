@@ -70,18 +70,18 @@ Nous nous réservons le droit de :
 
 ## Contact
 
-**ARKALIA**  
-123 Avenue de la Santé  
-75013 Paris  
-France  
+**ARKALIA**
+123 Avenue de la Santé
+75013 Paris
+France
 
-**Email :** <arkalia.luna.system@gmail.com>  
-**Support :** <arkalia.luna.system@gmail.com>  
+**Email :** <arkalia.luna.system@gmail.com>
+**Support :** <arkalia.luna.system@gmail.com>
 
 ## Version
 
-**Version :** 1.0.0  
-**Date :** Novembre 2025  
+**Version :** 1.0.0
+**Date :** Novembre 2025
 
 ---
 

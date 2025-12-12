@@ -79,13 +79,13 @@ L'application mobile utilise des technologies similaires :
 
 ## Contact
 
-**ARKALIA**  
-123 Avenue de la Santé  
-75013 Paris  
-France  
+**ARKALIA**
+123 Avenue de la Santé
+75013 Paris
+France
 
-**Email :** <arkalia.luna.system@gmail.com>  
-**DPO :** <arkalia.luna.system@gmail.com>  
+**Email :** <arkalia.luna.system@gmail.com>
+**DPO :** <arkalia.luna.system@gmail.com>
 
 ## Modifications
 

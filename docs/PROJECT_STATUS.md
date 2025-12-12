@@ -2,7 +2,7 @@
 
 **ARKALIA ARIA** — État actuel, métriques et vue d'ensemble
 
-**Version :** 1.0.0  
+**Version :** 1.0.0
 **Dernière mise à jour :** 12 décembre 2025
 
 ---
@@ -206,7 +206,7 @@
 
 - ✅ **Tests** : 503 tests collectés (100% passent) - +42 nouveaux tests ajoutés le 12 décembre 2025
 - ✅ **Coverage** : ~75% de couverture globale (amélioration de +5%)
-- ✅ **Nouveaux tests** : 
+- ✅ **Nouveaux tests** :
   - `test_audio_voice_api.py` (12 tests)
   - `test_research_tools_api.py` (5 tests)
   - `test_metrics_collector_api.py` (14 tests)

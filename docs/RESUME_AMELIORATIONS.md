@@ -1,4 +1,4 @@
-# Résumé des Améliorations - 24 Novembre 2025
+# Résumé des Améliorations - 12 Décembre 2025
 
 ## Ce qui a été fait SANS PlayCode et SANS robot physique
 
@@ -134,7 +134,7 @@
 - ✅ 0 erreur de lint dans le code Python
 - ✅ 0 erreur de lint dans les MD (après corrections)
 - ✅ Tous les modules fonctionnels
-- ✅ Tests passent (394 tests)
+- ✅ Tests passent (503 tests - +42 nouveaux tests ajoutés le 12 décembre 2025)
 
 ### Documentation
 

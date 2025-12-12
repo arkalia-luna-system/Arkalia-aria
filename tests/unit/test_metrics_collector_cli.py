@@ -102,7 +102,9 @@ class TestARIA_MetricsCLI:
             metrics_file = f.name
 
         try:
-            result = cli.run(["export", "--format", "json", "--metrics-file", metrics_file])
+            result = cli.run(
+                ["export", "--format", "json", "--metrics-file", metrics_file]
+            )
             assert result == 0
         finally:
             Path(metrics_file).unlink(missing_ok=True)
@@ -200,4 +202,3 @@ class TestARIA_MetricsCLI:
 
         result = cli.run(["collect"])
         assert result == 1  # Erreur retournée
-

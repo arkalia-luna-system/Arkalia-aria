@@ -13,8 +13,8 @@ class TestResearchToolsAPI:
     """Tests pour l'API Research Tools"""
 
     def test_research_tools_status(self):
-        """Test GET /research/status"""
-        response = client.get("/research/status")
+        """Test GET /api/research/status"""
+        response = client.get("/api/research/status")
         assert response.status_code == 200
         data = response.json()
         assert data["module"] == "research_tools"
@@ -26,8 +26,8 @@ class TestResearchToolsAPI:
         assert "controlled_experiments" in data["features"]
 
     def test_list_experiments(self):
-        """Test GET /research/experiments"""
-        response = client.get("/research/experiments")
+        """Test GET /api/research/experiments"""
+        response = client.get("/api/research/experiments")
         assert response.status_code == 200
         data = response.json()
         assert "message" in data
@@ -37,13 +37,13 @@ class TestResearchToolsAPI:
         assert data["active_count"] == 0
 
     def test_create_experiment(self):
-        """Test POST /research/experiment/create"""
+        """Test POST /api/research/experiment/create"""
         experiment_data = {
             "name": "Test Experiment",
             "description": "Test description",
             "parameters": {"param1": "value1"},
         }
-        response = client.post("/research/experiment/create", json=experiment_data)
+        response = client.post("/api/research/experiment/create", json=experiment_data)
         assert response.status_code == 200
         data = response.json()
         assert "message" in data
@@ -52,14 +52,14 @@ class TestResearchToolsAPI:
         assert data["status"] == "pending"
 
     def test_create_experiment_empty_data(self):
-        """Test POST /research/experiment/create avec données vides"""
-        response = client.post("/research/experiment/create", json={})
+        """Test POST /api/research/experiment/create avec données vides"""
+        response = client.post("/api/research/experiment/create", json={})
         assert response.status_code == 200
         data = response.json()
         assert data["status"] == "pending"
 
     def test_create_experiment_complex_data(self):
-        """Test POST /research/experiment/create avec données complexes"""
+        """Test POST /api/research/experiment/create avec données complexes"""
         complex_data = {
             "name": "Complex Experiment",
             "description": "A complex experiment",
@@ -71,7 +71,7 @@ class TestResearchToolsAPI:
             },
             "metadata": {"author": "test", "version": "1.0"},
         }
-        response = client.post("/research/experiment/create", json=complex_data)
+        response = client.post("/api/research/experiment/create", json=complex_data)
         assert response.status_code == 200
         data = response.json()
         assert data["status"] == "pending"

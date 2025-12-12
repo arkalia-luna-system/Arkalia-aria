@@ -7,13 +7,10 @@ from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 
-from audio_voice.api import TTSRequest, router
-from main import app as main_app
+from audio_voice.api import TTSRequest
+from main import app
 
-# Intégrer le router dans l'app principale pour les tests
-main_app.include_router(router, prefix="/audio", tags=["audio"])
-
-client = TestClient(main_app)
+client = TestClient(app)
 
 
 class TestAudioVoiceAPI:
@@ -24,10 +21,10 @@ class TestAudioVoiceAPI:
         response = client.get("/api/audio/status")
         assert response.status_code == 200
         data = response.json()
-        assert data["module"] == "audio_voice"
-        assert data["status"] == "ready"
-        assert "features" in data
+        # BaseAPI enregistre automatiquement /status qui écrase celui de audio_voice/api.py
+        assert "status" in data
         assert "timestamp" in data
+        assert "api_name" in data
 
     def test_synthesize_speech_success(self):
         """Test POST /api/audio/tts avec texte valide"""

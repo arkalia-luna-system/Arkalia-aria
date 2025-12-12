@@ -318,4 +318,3 @@ class TestARIA_MetricsAPI:
 
         # Vérifier que le router est inclus
         assert len(test_app.routes) > 0
-

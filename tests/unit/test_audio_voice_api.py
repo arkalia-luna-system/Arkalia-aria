@@ -106,20 +106,20 @@ class TestAudioVoiceAPI:
                 assert "audio_note_" in data["file_path"]  # Nom généré automatiquement
 
     def test_save_audio_note_invalid_base64(self):
-        """Test POST /audio/note avec base64 invalide"""
+        """Test POST /api/audio/note avec base64 invalide"""
         request_data = {
             "filename": "test.wav",
             "content_base64": "invalid base64!!!",
         }
 
-        response = client.post("/audio/note", json=request_data)
+        response = client.post("/api/audio/note", json=request_data)
         assert response.status_code == 400
         assert "base64" in response.json()["detail"].lower()
 
     def test_save_audio_note_missing_content(self):
-        """Test POST /audio/note sans contenu"""
+        """Test POST /api/audio/note sans contenu"""
         request_data = {"filename": "test.wav"}
-        response = client.post("/audio/note", json=request_data)
+        response = client.post("/api/audio/note", json=request_data)
         assert response.status_code == 422  # Validation error
 
     def test_tts_request_model_validation(self):

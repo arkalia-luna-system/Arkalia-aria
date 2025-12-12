@@ -6,8 +6,6 @@ import sys
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-import pytest
-
 from metrics_collector.cli import ARIA_MetricsCLI, main
 
 
@@ -73,8 +71,8 @@ class TestARIA_MetricsCLI:
         cli.validator = mock_validator
 
         # Créer un fichier JSON temporaire pour les tests
-        import tempfile
         import json
+        import tempfile
 
         with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
             json.dump({"test": "data"}, f)
@@ -96,8 +94,8 @@ class TestARIA_MetricsCLI:
         cli = ARIA_MetricsCLI()
         cli.exporter = mock_exporter
 
-        import tempfile
         import json
+        import tempfile
 
         with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
             json.dump({"test": "data"}, f)
@@ -119,8 +117,8 @@ class TestARIA_MetricsCLI:
         cli = ARIA_MetricsCLI()
         cli.dashboard = mock_dashboard
 
-        import tempfile
         import json
+        import tempfile
 
         with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
             json.dump({"test": "data"}, f)
@@ -154,8 +152,8 @@ class TestARIA_MetricsCLI:
         cli = ARIA_MetricsCLI()
         cli.validator = mock_validator
 
-        import tempfile
         import json
+        import tempfile
 
         with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
             json.dump({"test": "data"}, f)

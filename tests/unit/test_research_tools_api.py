@@ -5,10 +5,6 @@ Tests pour l'API Research Tools
 from fastapi.testclient import TestClient
 
 from main import app
-from research_tools.api import router
-
-# Intégrer le router dans l'app principale pour les tests
-app.include_router(router, prefix="/research", tags=["research"])
 
 client = TestClient(app)
 

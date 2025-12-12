@@ -1,6 +1,6 @@
-# 📊 État Actuel ARIA - 27 Novembre 2025
+# 📊 État Actuel ARIA - 12 Décembre 2025
 
-**Date** : 27 novembre 2025  
+**Date** : 12 décembre 2025  
 **Version** : 1.0.0
 
 ---
@@ -50,7 +50,7 @@
 - [x] Checklist `CE_QUI_MANQUE_ARIA.md` mise à jour ✅
 - [x] 0 erreur lint, 0 erreur black, 0 erreur mypy ✅
 
-**Total tests** : 420 tests (tous passent)
+**Total tests** : 503 tests (tous passent) - +42 nouveaux tests ajoutés le 12 décembre 2025
 
 ---
 
@@ -218,7 +218,7 @@
 
 ### Code
 
-- ✅ 420 tests (tous passent)
+- ✅ 503 tests (tous passent) - +42 nouveaux tests ajoutés le 12 décembre 2025
 - ✅ 0 erreur lint (Ruff, Black, MyPy)
 - ✅ Indexation DB complète
 - ✅ Pagination complète
@@ -257,8 +257,8 @@ C'est la fonctionnalité qui aura le plus d'impact utilisateur (+20% utilisation
 
 ---
 
-**Date** : 27 novembre 2025  
-**Dernière mise à jour** : 27 novembre 2025  
+**Date** : 12 décembre 2025  
+**Dernière mise à jour** : 12 décembre 2025  
 **Prochaine révision** : Après implémentation dashboard
 
 ---

@@ -1,7 +1,7 @@
 # 📋 Ce qui Manque pour ARIA
 
-**Date** : 27 novembre 2025  
-**Dernière mise à jour** : 27 novembre 2025  
+**Date** : 12 décembre 2025  
+**Dernière mise à jour** : 12 décembre 2025  
 **Version** : 1.0.0
 
 ---
@@ -328,7 +328,7 @@ Toutes les fonctionnalités manquantes peuvent être implémentées avec :
 - [x] 0 erreur Bandit (code propre)
 - [x] 0 erreur lint MD
 - [x] Tous imports utilisés
-- [x] Tests passent (395 tests)
+- [x] Tests passent (503 tests)
 
 ### Fonctionnalités
 
@@ -348,12 +348,12 @@ Toutes les fonctionnalités manquantes peuvent être implémentées avec :
 
 ### Tests
 
-- [x] Tests unitaires (395 tests)
-- [ ] Tests intégration complets
-- [ ] Tests performance
-- [ ] Tests mobile
+- [x] Tests unitaires (503 tests) - +42 nouveaux tests ajoutés le 12 décembre 2025
+- [x] Tests intégration complets (tests/integration/)
+- [ ] Tests performance (à ajouter)
+- [ ] Tests mobile (à ajouter)
 
 ---
 
-**Date** : 27 novembre 2025  
+**Date** : 12 décembre 2025  
 **Prochaine mise à jour** : Après implémentation priorités

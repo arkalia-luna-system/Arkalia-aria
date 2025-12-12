@@ -120,7 +120,9 @@
 - ✅ `tests/integration/test_cia_sync.py` - 12 tests sync CIA
 - ✅ `tests/test_cia_compatibility.py` - 6 tests compatibilité CIA
 
-**Total** : 40 nouveaux tests créés, tous passent
+**Total** : 82 nouveaux tests créés (40 + 42), tous passent
+- 40 tests créés le 12 décembre 2025 (pain, patterns, sync)
+- 42 tests créés le 12 décembre 2025 (audio_voice, research_tools, metrics_collector)
 
 **Date de complétion** : 12 décembre 2025
 

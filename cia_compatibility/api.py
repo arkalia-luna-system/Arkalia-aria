@@ -42,9 +42,7 @@ async def get_pain_records_compat(
         )
 
         if response.status_code != 200:
-            raise HTTPException(
-                status_code=response.status_code, detail=response.text
-            )
+            raise HTTPException(status_code=response.status_code, detail=response.text)
 
         return response.json()
     except HTTPException:
@@ -76,9 +74,7 @@ async def get_patterns_compat(
         )
 
         if response.status_code != 200:
-            raise HTTPException(
-                status_code=response.status_code, detail=response.text
-            )
+            raise HTTPException(status_code=response.status_code, detail=response.text)
 
         return response.json()
     except HTTPException:
@@ -101,14 +97,10 @@ async def get_health_metrics_compat(request: Request) -> dict[str, Any]:
         from main import app
 
         client = TestClient(app)
-        response = client.get(
-            "/health/metrics/unified", headers=dict(request.headers)
-        )
+        response = client.get("/health/metrics/unified", headers=dict(request.headers))
 
         if response.status_code != 200:
-            raise HTTPException(
-                status_code=response.status_code, detail=response.text
-            )
+            raise HTTPException(status_code=response.status_code, detail=response.text)
 
         return response.json()
     except HTTPException:
@@ -140,9 +132,7 @@ async def post_pain_entries_compat(
         )
 
         if response.status_code not in [200, 201]:
-            raise HTTPException(
-                status_code=response.status_code, detail=response.text
-            )
+            raise HTTPException(status_code=response.status_code, detail=response.text)
 
         return response.json()
     except HTTPException:
@@ -151,4 +141,3 @@ async def post_pain_entries_compat(
         raise HTTPException(
             status_code=500, detail=f"Erreur compatibilité pain/entries: {str(e)}"
         ) from e
-

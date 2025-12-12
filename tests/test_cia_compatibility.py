@@ -65,4 +65,3 @@ class TestCIACompatibility:
         response = client.post("/api/pain/entries", json=entry_data)
         # Devrait retourner 422 (validation error) ou 500
         assert response.status_code in [422, 500]
-

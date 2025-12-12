@@ -289,9 +289,16 @@ async def create_quick_entry(entry: QuickEntry) -> PainEntryOut:
 
         logger.info(f"✅ Entrée rapide créée: intensité {entry.intensity}")
         return PainEntryOut(**dict(rows[0]))
+    except HTTPException:
+        raise
+    except ValueError as e:
+        logger.error(f"❌ Erreur validation données: {e}")
+        raise HTTPException(
+            status_code=400, detail=f"Données invalides: {str(e)}"
+        ) from e
     except Exception as e:
         logger.error(f"❌ Erreur création entrée rapide: {e}")
-        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
+        raise HTTPException(status_code=500, detail=f"Erreur serveur: {str(e)}") from e
 
 
 @router.post("/entry", response_model=PainEntryOut)
@@ -337,9 +344,16 @@ async def create_pain_entry(entry: PainEntryIn) -> PainEntryOut:
 
         logger.info(f"✅ Entrée détaillée créée: intensité {entry.intensity}")
         return PainEntryOut(**dict(rows[0]))
+    except HTTPException:
+        raise
+    except ValueError as e:
+        logger.error(f"❌ Erreur validation données: {e}")
+        raise HTTPException(
+            status_code=400, detail=f"Données invalides: {str(e)}"
+        ) from e
     except Exception as e:
         logger.error(f"❌ Erreur création entrée détaillée: {e}")
-        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
+        raise HTTPException(status_code=500, detail=f"Erreur serveur: {str(e)}") from e
 
 
 @router.get("/entries", response_model=dict)

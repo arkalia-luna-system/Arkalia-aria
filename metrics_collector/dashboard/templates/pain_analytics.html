@@ -515,6 +515,7 @@
             loadPainData();
             updatePainCharts();
             loadPainEntries();
+            loadCorrelationCharts();
             analyzePatterns();
         });
 
@@ -791,6 +792,89 @@
                 .catch(error => {
                     showNotification('Erreur lors de l\'enregistrement', 'error');
                     console.error('Error:', error);
+                });
+        }
+
+        let sleepPainChart = null;
+        let stressPainChart = null;
+
+        function loadCorrelationCharts() {
+            const days = document.getElementById('correlation-period')?.value || 30;
+
+            // Charger corrélation sommeil-douleur
+            fetch(`/api/patterns/correlations/sleep-pain?days=${days}`)
+                .then(response => response.json())
+                .then(data => {
+                    const canvas = document.getElementById('sleepPainCorrelationChart');
+                    if (canvas) {
+                        const ctx = canvas.getContext('2d');
+                        if (sleepPainChart) {
+                            sleepPainChart.destroy();
+                        }
+                        sleepPainChart = createSleepPainCorrelationChart('sleepPainCorrelationChart', {
+                            correlation: data.correlation || 0,
+                            sleep_data: data.sleep_data || [],
+                            pain_data: data.pain_data || []
+                        });
+                        const info = document.getElementById('sleepPainCorrelationInfo');
+                        if (info) {
+                            const corr = data.correlation || 0;
+                            let interpretation = '';
+                            if (Math.abs(corr) > 0.7) {
+                                interpretation = 'Corrélation forte';
+                            } else if (Math.abs(corr) > 0.4) {
+                                interpretation = 'Corrélation modérée';
+                            } else {
+                                interpretation = 'Corrélation faible';
+                            }
+                            info.innerHTML = `<p><strong>Corrélation:</strong> ${corr.toFixed(3)} - ${interpretation}</p>`;
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading sleep-pain correlation:', error);
+                    const info = document.getElementById('sleepPainCorrelationInfo');
+                    if (info) {
+                        info.innerHTML = '<p>Erreur lors du chargement des données</p>';
+                    }
+                });
+
+            // Charger corrélation stress-douleur
+            fetch(`/api/patterns/correlations/stress-pain?days=${days}`)
+                .then(response => response.json())
+                .then(data => {
+                    const canvas = document.getElementById('stressPainCorrelationChart');
+                    if (canvas) {
+                        const ctx = canvas.getContext('2d');
+                        if (stressPainChart) {
+                            stressPainChart.destroy();
+                        }
+                        stressPainChart = createStressPainCorrelationChart('stressPainCorrelationChart', {
+                            correlation: data.correlation || 0,
+                            stress_data: data.stress_data || [],
+                            pain_data: data.pain_data || []
+                        });
+                        const info = document.getElementById('stressPainCorrelationInfo');
+                        if (info) {
+                            const corr = data.correlation || 0;
+                            let interpretation = '';
+                            if (Math.abs(corr) > 0.7) {
+                                interpretation = 'Corrélation forte';
+                            } else if (Math.abs(corr) > 0.4) {
+                                interpretation = 'Corrélation modérée';
+                            } else {
+                                interpretation = 'Corrélation faible';
+                            }
+                            info.innerHTML = `<p><strong>Corrélation:</strong> ${corr.toFixed(3)} - ${interpretation}</p>`;
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading stress-pain correlation:', error);
+                    const info = document.getElementById('stressPainCorrelationInfo');
+                    if (info) {
+                        info.innerHTML = '<p>Erreur lors du chargement des données</p>';
+                    }
                 });
         }
 

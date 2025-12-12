@@ -123,10 +123,10 @@ class ARIA_MetricsCollector:
     def _get_cached_rglob(self, pattern: str) -> list[Path]:
         """
         Récupère les résultats de rglob avec cache pour éviter scans répétés.
-        
+
         Args:
             pattern: Pattern glob à rechercher (ex: "*.py", "*api*.py")
-            
+
         Returns:
             Liste des fichiers correspondants
         """
@@ -134,13 +134,13 @@ class ARIA_MetricsCollector:
 
         now = time.time()
         cache_key = f"rglob_{pattern}"
-        
+
         # Vérifier le cache
         if cache_key in self._rglob_cache:
             cached_files, cached_time = self._rglob_cache[cache_key]
             if now - cached_time < self._rglob_cache_ttl:
                 return cached_files
-        
+
         # Cache expiré ou inexistant, faire le scan
         files = list(self.project_root.rglob(pattern))
         self._rglob_cache[cache_key] = (files, now)

@@ -67,7 +67,7 @@ class CorrelationAnalyzer:
         cached = self.cache.get(cache_key)
         if cached is not None:
             return cached
-        
+
         sleep_data = []
         start_date = datetime.now() - timedelta(days=days_back)
         max_files = 200  # Limiter le nombre de fichiers à traiter
@@ -87,7 +87,7 @@ class CorrelationAnalyzer:
                         file_mtime = datetime.fromtimestamp(json_file.stat().st_mtime)
                         if file_mtime < start_date:
                             continue  # Fichier trop ancien, skip
-                            
+
                         with open(json_file, encoding="utf-8") as f:
                             data = json.load(f)
                             # Convertir les timestamps string en datetime pour comparaison
@@ -116,7 +116,7 @@ class CorrelationAnalyzer:
         cached = self.cache.get(cache_key)
         if cached is not None:
             return cached
-        
+
         stress_data = []
         start_date = datetime.now() - timedelta(days=days_back)
         max_files = 200  # Limiter le nombre de fichiers à traiter
@@ -135,7 +135,7 @@ class CorrelationAnalyzer:
                         file_mtime = datetime.fromtimestamp(json_file.stat().st_mtime)
                         if file_mtime < start_date:
                             continue  # Fichier trop ancien, skip
-                            
+
                         with open(json_file, encoding="utf-8") as f:
                             data = json.load(f)
                             timestamp_str = data.get("timestamp", "")
@@ -193,7 +193,9 @@ class CorrelationAnalyzer:
                 "message": "Données insuffisantes pour analyse",
             }
             # Mettre en cache même les résultats vides pour éviter recalculs
-            self.cache.set(cache_key, result, ttl=1800)  # Cache 30 min pour résultats vides
+            self.cache.set(
+                cache_key, result, ttl=1800
+            )  # Cache 30 min pour résultats vides
             return result
 
         # Grouper par jour
@@ -247,7 +249,9 @@ class CorrelationAnalyzer:
                 "message": "Données insuffisantes (minimum 3 jours)",
             }
             # Mettre en cache même les résultats vides pour éviter recalculs
-            self.cache.set(cache_key, result, ttl=1800)  # Cache 30 min pour résultats vides
+            self.cache.set(
+                cache_key, result, ttl=1800
+            )  # Cache 30 min pour résultats vides
             return result
 
         # Calculer corrélation simple (Pearson simplifié)
@@ -343,7 +347,9 @@ class CorrelationAnalyzer:
                 "message": "Données insuffisantes pour analyse",
             }
             # Mettre en cache même les résultats vides pour éviter recalculs
-            self.cache.set(cache_key, result, ttl=1800)  # Cache 30 min pour résultats vides
+            self.cache.set(
+                cache_key, result, ttl=1800
+            )  # Cache 30 min pour résultats vides
             return result
 
         # Grouper par jour/heure
@@ -402,7 +408,9 @@ class CorrelationAnalyzer:
                 "message": "Données insuffisantes (minimum 3 points)",
             }
             # Mettre en cache même les résultats vides pour éviter recalculs
-            self.cache.set(cache_key, result, ttl=1800)  # Cache 30 min pour résultats vides
+            self.cache.set(
+                cache_key, result, ttl=1800
+            )  # Cache 30 min pour résultats vides
             return result
 
         pain_values = [c["avg_pain"] for c in correlations_data]

@@ -41,7 +41,7 @@ class TestAutoExporter:
 
     def test_export_weekly_data_json(self, auto_exporter):
         """Test export données hebdomadaires en JSON."""
-        with patch("health_connectors.auto_export.HealthSyncManager") as mock_sync:
+        with patch("health_connectors.sync_manager.HealthSyncManager") as mock_sync:
             mock_instance = MagicMock()
             mock_sync.return_value = mock_instance
 

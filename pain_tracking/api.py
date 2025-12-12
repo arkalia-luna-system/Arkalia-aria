@@ -628,7 +628,9 @@ async def export_csv():
     _init_tables()
     try:
         # Limiter à 10000 entrées max pour éviter surcharge mémoire lors de l'export
-        rows = db.execute_query("SELECT * FROM pain_entries ORDER BY timestamp DESC LIMIT 10000")
+        rows = db.execute_query(
+            "SELECT * FROM pain_entries ORDER BY timestamp DESC LIMIT 10000"
+        )
 
         # Génération CSV simple
         csv_content = "Date,Heure,Intensité,Déclencheur Physique,Déclencheur Mental,Activité,Localisation,Action,Efficacité,Notes,Qui présent,Interactions,Émotions,Pensées,Symptômes physiques\n"
@@ -656,7 +658,9 @@ async def export_pdf():
     _init_tables()
     try:
         # Limiter à 10000 entrées max pour éviter surcharge mémoire lors de l'export
-        rows = db.execute_query("SELECT * FROM pain_entries ORDER BY timestamp DESC LIMIT 10000")
+        rows = db.execute_query(
+            "SELECT * FROM pain_entries ORDER BY timestamp DESC LIMIT 10000"
+        )
 
         # Génération PDF simple (format texte)
         pdf_content = f"""RAPPORT DE DOULEUR - ARKALIA ARIA
@@ -693,7 +697,9 @@ async def export_excel():
     _init_tables()
     try:
         # Limiter à 10000 entrées max pour éviter surcharge mémoire lors de l'export
-        rows = db.execute_query("SELECT * FROM pain_entries ORDER BY timestamp DESC LIMIT 10000")
+        rows = db.execute_query(
+            "SELECT * FROM pain_entries ORDER BY timestamp DESC LIMIT 10000"
+        )
 
         # Génération Excel (format CSV avec séparateur tab)
         excel_content = "Date\tHeure\tIntensité\tDéclencheur Physique\tDéclencheur Mental\tActivité\tLocalisation\tAction\tEfficacité\tNotes\tQui présent\tInteractions\tÉmotions\tPensées\tSymptômes physiques\n"

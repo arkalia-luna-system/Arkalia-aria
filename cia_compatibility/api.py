@@ -27,7 +27,7 @@ def _get_app_client() -> AsyncClient:
     """
     # Import lazy pour éviter l'import circulaire
     from main import app
-    
+
     # Utiliser ASGITransport pour appeler l'application directement
     # sans passer par HTTP (plus efficace et évite les problèmes de port)
     # FastAPI est une application ASGI valide (hérite de Starlette)

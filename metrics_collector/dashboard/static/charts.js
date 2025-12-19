@@ -310,6 +310,200 @@ function createCorrelationChart(canvasId, correlations) {
 }
 
 /**
+ * Crée un graphique de corrélation sommeil-douleur interactif
+ */
+function createSleepPainCorrelationChart(canvasId, correlationData) {
+    const ctx = document.getElementById(canvasId).getContext('2d');
+
+    // Préparer les données pour un graphique scatter ou line
+    const sleepData = correlationData.sleep_data || [];
+    const painData = correlationData.pain_data || [];
+    const correlation = correlationData.correlation || 0;
+
+    // Créer des labels de dates
+    const labels = sleepData.map((_, index) => `Jour ${index + 1}`);
+
+    const data = {
+        labels: labels,
+        datasets: [
+            {
+                label: 'Sommeil (heures)',
+                data: sleepData.map(d => d.duration_hours || 0),
+                borderColor: ARIA_COLORS.secondary,
+                backgroundColor: ARIA_COLORS.secondary + '20',
+                yAxisID: 'y',
+                tension: 0.4
+            },
+            {
+                label: 'Douleur (intensité)',
+                data: painData.map(d => d.intensity || 0),
+                borderColor: ARIA_COLORS.danger,
+                backgroundColor: ARIA_COLORS.danger + '20',
+                yAxisID: 'y1',
+                tension: 0.4
+            }
+        ]
+    };
+
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+            mode: 'index',
+            intersect: false
+        },
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top'
+            },
+            tooltip: {
+                mode: 'index',
+                intersect: false
+            },
+            title: {
+                display: true,
+                text: `Corrélation Sommeil-Douleur: ${correlation.toFixed(3)}`
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Temps'
+                }
+            },
+            y: {
+                type: 'linear',
+                display: true,
+                position: 'left',
+                title: {
+                    display: true,
+                    text: 'Sommeil (heures)'
+                },
+                beginAtZero: true
+            },
+            y1: {
+                type: 'linear',
+                display: true,
+                position: 'right',
+                title: {
+                    display: true,
+                    text: 'Douleur (intensité)'
+                },
+                beginAtZero: true,
+                grid: {
+                    drawOnChartArea: false
+                }
+            }
+        }
+    };
+
+    return new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: options
+    });
+}
+
+/**
+ * Crée un graphique de corrélation stress-douleur interactif
+ */
+function createStressPainCorrelationChart(canvasId, correlationData) {
+    const ctx = document.getElementById(canvasId).getContext('2d');
+
+    const stressData = correlationData.stress_data || [];
+    const painData = correlationData.pain_data || [];
+    const correlation = correlationData.correlation || 0;
+
+    const labels = stressData.map((_, index) => `Jour ${index + 1}`);
+
+    const data = {
+        labels: labels,
+        datasets: [
+            {
+                label: 'Stress (niveau)',
+                data: stressData.map(d => d.stress_level || 0),
+                borderColor: ARIA_COLORS.warning,
+                backgroundColor: ARIA_COLORS.warning + '20',
+                yAxisID: 'y',
+                tension: 0.4
+            },
+            {
+                label: 'Douleur (intensité)',
+                data: painData.map(d => d.intensity || 0),
+                borderColor: ARIA_COLORS.danger,
+                backgroundColor: ARIA_COLORS.danger + '20',
+                yAxisID: 'y1',
+                tension: 0.4
+            }
+        ]
+    };
+
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+            mode: 'index',
+            intersect: false
+        },
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top'
+            },
+            tooltip: {
+                mode: 'index',
+                intersect: false
+            },
+            title: {
+                display: true,
+                text: `Corrélation Stress-Douleur: ${correlation.toFixed(3)}`
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Temps'
+                }
+            },
+            y: {
+                type: 'linear',
+                display: true,
+                position: 'left',
+                title: {
+                    display: true,
+                    text: 'Stress (niveau)'
+                },
+                beginAtZero: true
+            },
+            y1: {
+                type: 'linear',
+                display: true,
+                position: 'right',
+                title: {
+                    display: true,
+                    text: 'Douleur (intensité)'
+                },
+                beginAtZero: true,
+                grid: {
+                    drawOnChartArea: false
+                }
+            }
+        }
+    };
+
+    return new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: options
+    });
+}
+
+/**
  * Crée un graphique de tendance temporelle
  */
 function createTrendChart(canvasId, data, trendType = 'linear') {

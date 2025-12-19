@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from core import DatabaseManager, get_logger
+from core.cache import CacheManager
 
 logger = get_logger("correlation_analyzer")
 
@@ -36,10 +37,13 @@ class CorrelationAnalyzer:
         """
         self.db = DatabaseManager(db_path)
         self.health_data_dir = Path(health_data_dir)
+        self.cache = CacheManager(default_ttl=3600, max_size=100)  # Cache 1h
         logger.info("🔍 Correlation Analyzer initialisé")
 
     def _load_pain_entries(self, days_back: int = 30) -> list[dict[str, Any]]:
         """Charge les entrées de douleur des N derniers jours."""
+        # Limiter à 1000 entrées max pour éviter surcharge mémoire
+        max_entries = 1000
         try:
             cutoff_date = (datetime.now() - timedelta(days=days_back)).isoformat()
             rows = self.db.execute_query(
@@ -47,8 +51,9 @@ class CorrelationAnalyzer:
                 SELECT * FROM pain_entries
                 WHERE timestamp >= ?
                 ORDER BY timestamp DESC
+                LIMIT ?
                 """,
-                (cutoff_date,),
+                (cutoff_date, max_entries),
             )
             return [dict(row) for row in rows]
         except Exception as e:
@@ -57,8 +62,15 @@ class CorrelationAnalyzer:
 
     def _load_sleep_data(self, days_back: int = 30) -> list[dict[str, Any]]:
         """Charge les données de sommeil depuis les fichiers JSON."""
+        # Vérifier le cache pour éviter de recharger les fichiers
+        cache_key = f"sleep_data_{days_back}"
+        cached = self.cache.get(cache_key)
+        if cached is not None:
+            return cached
+
         sleep_data = []
         start_date = datetime.now() - timedelta(days=days_back)
+        max_files = 200  # Limiter le nombre de fichiers à traiter
 
         try:
             # Chercher dans les sous-dossiers (samsung_health_data, ios_health_data, etc.)
@@ -67,8 +79,15 @@ class CorrelationAnalyzer:
                 if not data_dir.exists():
                     continue
 
-                for json_file in data_dir.glob("sleep_*.json"):
+                # Limiter le nombre de fichiers traités
+                json_files = list(data_dir.glob("sleep_*.json"))[:max_files]
+                for json_file in json_files:
                     try:
+                        # Vérifier la date du fichier avant de le charger
+                        file_mtime = datetime.fromtimestamp(json_file.stat().st_mtime)
+                        if file_mtime < start_date:
+                            continue  # Fichier trop ancien, skip
+
                         with open(json_file, encoding="utf-8") as f:
                             data = json.load(f)
                             # Convertir les timestamps string en datetime pour comparaison
@@ -82,6 +101,8 @@ class CorrelationAnalyzer:
                     except Exception as e:
                         logger.debug(f"Erreur lecture {json_file}: {e}")
 
+            # Mettre en cache pendant 30 minutes
+            self.cache.set(cache_key, sleep_data, ttl=1800)
             logger.debug(f"Chargé {len(sleep_data)} entrées de sommeil")
             return sleep_data
         except Exception as e:
@@ -90,8 +111,15 @@ class CorrelationAnalyzer:
 
     def _load_stress_data(self, days_back: int = 30) -> list[dict[str, Any]]:
         """Charge les données de stress depuis les fichiers JSON."""
+        # Vérifier le cache pour éviter de recharger les fichiers
+        cache_key = f"stress_data_{days_back}"
+        cached = self.cache.get(cache_key)
+        if cached is not None:
+            return cached
+
         stress_data = []
         start_date = datetime.now() - timedelta(days=days_back)
+        max_files = 200  # Limiter le nombre de fichiers à traiter
 
         try:
             for subdir in ["samsung_health_data", "ios_health_data", "google_fit_data"]:
@@ -99,8 +127,15 @@ class CorrelationAnalyzer:
                 if not data_dir.exists():
                     continue
 
-                for json_file in data_dir.glob("stress_*.json"):
+                # Limiter le nombre de fichiers traités
+                json_files = list(data_dir.glob("stress_*.json"))[:max_files]
+                for json_file in json_files:
                     try:
+                        # Vérifier la date du fichier avant de le charger
+                        file_mtime = datetime.fromtimestamp(json_file.stat().st_mtime)
+                        if file_mtime < start_date:
+                            continue  # Fichier trop ancien, skip
+
                         with open(json_file, encoding="utf-8") as f:
                             data = json.load(f)
                             timestamp_str = data.get("timestamp", "")
@@ -113,6 +148,8 @@ class CorrelationAnalyzer:
                     except Exception as e:
                         logger.debug(f"Erreur lecture {json_file}: {e}")
 
+            # Mettre en cache pendant 30 minutes
+            self.cache.set(cache_key, stress_data, ttl=1800)
             logger.debug(f"Chargé {len(stress_data)} entrées de stress")
             return stress_data
         except Exception as e:
@@ -137,17 +174,29 @@ class CorrelationAnalyzer:
         Returns:
             Dict avec corrélations, patterns et recommandations
         """
+        # Vérifier le cache
+        cache_key = f"sleep_pain_correlation_{days_back}"
+        cached_result = self.cache.get(cache_key)
+        if cached_result is not None:
+            logger.debug("📦 Résultat depuis cache")
+            return cached_result
+
         pain_entries = self._load_pain_entries(days_back)
         sleep_data = self._load_sleep_data(days_back)
 
         if not pain_entries or not sleep_data:
-            return {
+            result = {
                 "correlation": 0.0,
                 "confidence": 0.0,
                 "patterns": [],
                 "recommendations": [],
                 "message": "Données insuffisantes pour analyse",
             }
+            # Mettre en cache même les résultats vides pour éviter recalculs
+            self.cache.set(
+                cache_key, result, ttl=1800
+            )  # Cache 30 min pour résultats vides
+            return result
 
         # Grouper par jour
         pain_by_date: dict[str, list[dict]] = defaultdict(list)
@@ -192,13 +241,18 @@ class CorrelationAnalyzer:
             )
 
         if len(correlations) < 3:
-            return {
+            result = {
                 "correlation": 0.0,
                 "confidence": 0.0,
                 "patterns": [],
                 "recommendations": [],
                 "message": "Données insuffisantes (minimum 3 jours)",
             }
+            # Mettre en cache même les résultats vides pour éviter recalculs
+            self.cache.set(
+                cache_key, result, ttl=1800
+            )  # Cache 30 min pour résultats vides
+            return result
 
         # Calculer corrélation simple (Pearson simplifié)
         pain_values = [c["avg_pain"] for c in correlations]
@@ -233,7 +287,7 @@ class CorrelationAnalyzer:
                 "Envisager d'améliorer la durée de sommeil."
             )
 
-        return {
+        result = {
             "correlation": round(correlation, 3),
             "confidence": min(len(correlations) / 30.0, 1.0),
             "data_points": len(correlations),
@@ -241,6 +295,10 @@ class CorrelationAnalyzer:
             "recommendations": recommendations,
             "correlations": correlations[:10],  # Limiter pour la réponse
         }
+
+        # Mettre en cache
+        self.cache.set(cache_key, result, ttl=3600)  # Cache 1h
+        return result
 
     def _simple_correlation(self, x: list[float], y: list[float]) -> float:
         """Calcul simple de corrélation de Pearson."""
@@ -270,17 +328,29 @@ class CorrelationAnalyzer:
         Returns:
             Dict avec corrélations, patterns et recommandations
         """
+        # Vérifier le cache
+        cache_key = f"stress_pain_correlation_{days_back}"
+        cached_result = self.cache.get(cache_key)
+        if cached_result is not None:
+            logger.debug("📦 Résultat depuis cache")
+            return cached_result
+
         pain_entries = self._load_pain_entries(days_back)
         stress_data = self._load_stress_data(days_back)
 
         if not pain_entries or not stress_data:
-            return {
+            result = {
                 "correlation": 0.0,
                 "confidence": 0.0,
                 "patterns": [],
                 "recommendations": [],
                 "message": "Données insuffisantes pour analyse",
             }
+            # Mettre en cache même les résultats vides pour éviter recalculs
+            self.cache.set(
+                cache_key, result, ttl=1800
+            )  # Cache 30 min pour résultats vides
+            return result
 
         # Grouper par jour/heure
         pain_by_hour: dict[str, list[dict]] = defaultdict(list)
@@ -330,13 +400,18 @@ class CorrelationAnalyzer:
             )
 
         if len(correlations_data) < 3:
-            return {
+            result = {
                 "correlation": 0.0,
                 "confidence": 0.0,
                 "patterns": [],
                 "recommendations": [],
                 "message": "Données insuffisantes (minimum 3 points)",
             }
+            # Mettre en cache même les résultats vides pour éviter recalculs
+            self.cache.set(
+                cache_key, result, ttl=1800
+            )  # Cache 30 min pour résultats vides
+            return result
 
         pain_values = [c["avg_pain"] for c in correlations_data]
         stress_values = [c["stress_level"] for c in correlations_data]
@@ -362,7 +437,7 @@ class CorrelationAnalyzer:
                 "Envisager des techniques de gestion du stress."
             )
 
-        return {
+        result = {
             "correlation": round(correlation, 3),
             "confidence": min(len(correlations_data) / 30.0, 1.0),
             "data_points": len(correlations_data),
@@ -370,6 +445,10 @@ class CorrelationAnalyzer:
             "recommendations": recommendations,
             "correlations": correlations_data[:10],
         }
+
+        # Mettre en cache
+        self.cache.set(cache_key, result, ttl=3600)  # Cache 1h
+        return result
 
     def detect_recurrent_triggers(
         self, days_back: int = 30, min_occurrences: int = 3
@@ -384,6 +463,13 @@ class CorrelationAnalyzer:
         Returns:
             Dict avec déclencheurs récurrents et patterns temporels
         """
+        # Vérifier le cache
+        cache_key = f"recurrent_triggers_{days_back}_{min_occurrences}"
+        cached_result = self.cache.get(cache_key)
+        if cached_result is not None:
+            logger.debug("📦 Résultat depuis cache")
+            return cached_result
+
         pain_entries = self._load_pain_entries(days_back)
 
         if not pain_entries:
@@ -444,7 +530,7 @@ class CorrelationAnalyzer:
         top_hours = [{"hour": h, "count": c} for h, c in hour_patterns.most_common(5)]
         top_days = [{"day": d, "count": c} for d, c in day_patterns.most_common(7)]
 
-        return {
+        result = {
             "triggers": {
                 "physical": recurrent_physical,
                 "mental": recurrent_mental,
@@ -457,6 +543,10 @@ class CorrelationAnalyzer:
             "total_entries": len(pain_entries),
         }
 
+        # Mettre en cache
+        self.cache.set(cache_key, result, ttl=3600)  # Cache 1h
+        return result
+
     def get_comprehensive_analysis(self, days_back: int = 30) -> dict[str, Any]:
         """
         Analyse complète : toutes les corrélations et patterns.
@@ -464,13 +554,20 @@ class CorrelationAnalyzer:
         Returns:
             Dict avec toutes les analyses combinées
         """
+        # Vérifier le cache
+        cache_key = f"comprehensive_analysis_{days_back}"
+        cached_result = self.cache.get(cache_key)
+        if cached_result is not None:
+            logger.debug("📦 Résultat depuis cache")
+            return cached_result
+
         logger.info(f"🔍 Analyse complète sur {days_back} jours")
 
         sleep_correlation = self.analyze_sleep_pain_correlation(days_back)
         stress_correlation = self.analyze_stress_pain_correlation(days_back)
         triggers = self.detect_recurrent_triggers(days_back)
 
-        return {
+        result = {
             "period_days": days_back,
             "analysis_date": datetime.now().isoformat(),
             "sleep_pain_correlation": sleep_correlation,
@@ -489,3 +586,7 @@ class CorrelationAnalyzer:
                 ),
             },
         }
+
+        # Mettre en cache
+        self.cache.set(cache_key, result, ttl=3600)  # Cache 1h
+        return result

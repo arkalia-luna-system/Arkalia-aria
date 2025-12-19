@@ -49,6 +49,7 @@ dev = [
     "pytest-mock>=3.10.0",
     "pre-commit>=3.0.0",
     "types-PyYAML>=6.0.0",
+    "types-requests>=2.28.0",
 ]
 docs = [
     "mkdocs>=1.4.0",

@@ -107,8 +107,9 @@ def _fetch_all_entries() -> list[dict]:
     """Récupère toutes les entrées triées par date (récentes d'abord)."""
     _init_tables()
     try:
+        # Limiter à 10000 entrées max pour éviter surcharge mémoire
         rows = db.execute_query(
-            "SELECT * FROM pain_entries ORDER BY timestamp DESC, id DESC"
+            "SELECT * FROM pain_entries ORDER BY timestamp DESC, id DESC LIMIT 10000"
         )
         return [dict(row) for row in rows]
     except Exception as e:
@@ -289,9 +290,16 @@ async def create_quick_entry(entry: QuickEntry) -> PainEntryOut:
 
         logger.info(f"✅ Entrée rapide créée: intensité {entry.intensity}")
         return PainEntryOut(**dict(rows[0]))
+    except HTTPException:
+        raise
+    except ValueError as e:
+        logger.error(f"❌ Erreur validation données: {e}")
+        raise HTTPException(
+            status_code=400, detail=f"Données invalides: {str(e)}"
+        ) from e
     except Exception as e:
         logger.error(f"❌ Erreur création entrée rapide: {e}")
-        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
+        raise HTTPException(status_code=500, detail=f"Erreur serveur: {str(e)}") from e
 
 
 @router.post("/entry", response_model=PainEntryOut)
@@ -337,9 +345,16 @@ async def create_pain_entry(entry: PainEntryIn) -> PainEntryOut:
 
         logger.info(f"✅ Entrée détaillée créée: intensité {entry.intensity}")
         return PainEntryOut(**dict(rows[0]))
+    except HTTPException:
+        raise
+    except ValueError as e:
+        logger.error(f"❌ Erreur validation données: {e}")
+        raise HTTPException(
+            status_code=400, detail=f"Données invalides: {str(e)}"
+        ) from e
     except Exception as e:
         logger.error(f"❌ Erreur création entrée détaillée: {e}")
-        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
+        raise HTTPException(status_code=500, detail=f"Erreur serveur: {str(e)}") from e
 
 
 @router.get("/entries", response_model=dict)
@@ -612,7 +627,10 @@ async def export_csv():
     """Export CSV pour professionnels de santé"""
     _init_tables()
     try:
-        rows = db.execute_query("SELECT * FROM pain_entries ORDER BY timestamp DESC")
+        # Limiter à 10000 entrées max pour éviter surcharge mémoire lors de l'export
+        rows = db.execute_query(
+            "SELECT * FROM pain_entries ORDER BY timestamp DESC LIMIT 10000"
+        )
 
         # Génération CSV simple
         csv_content = "Date,Heure,Intensité,Déclencheur Physique,Déclencheur Mental,Activité,Localisation,Action,Efficacité,Notes,Qui présent,Interactions,Émotions,Pensées,Symptômes physiques\n"
@@ -639,7 +657,10 @@ async def export_pdf():
     """Export PDF pour professionnels de santé"""
     _init_tables()
     try:
-        rows = db.execute_query("SELECT * FROM pain_entries ORDER BY timestamp DESC")
+        # Limiter à 10000 entrées max pour éviter surcharge mémoire lors de l'export
+        rows = db.execute_query(
+            "SELECT * FROM pain_entries ORDER BY timestamp DESC LIMIT 10000"
+        )
 
         # Génération PDF simple (format texte)
         pdf_content = f"""RAPPORT DE DOULEUR - ARKALIA ARIA
@@ -675,7 +696,10 @@ async def export_excel():
     """Export Excel pour professionnels de santé"""
     _init_tables()
     try:
-        rows = db.execute_query("SELECT * FROM pain_entries ORDER BY timestamp DESC")
+        # Limiter à 10000 entrées max pour éviter surcharge mémoire lors de l'export
+        rows = db.execute_query(
+            "SELECT * FROM pain_entries ORDER BY timestamp DESC LIMIT 10000"
+        )
 
         # Génération Excel (format CSV avec séparateur tab)
         excel_content = "Date\tHeure\tIntensité\tDéclencheur Physique\tDéclencheur Mental\tActivité\tLocalisation\tAction\tEfficacité\tNotes\tQui présent\tInteractions\tÉmotions\tPensées\tSymptômes physiques\n"

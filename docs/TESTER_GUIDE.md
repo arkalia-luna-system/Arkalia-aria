@@ -1,7 +1,7 @@
 # Guide Testeur - ARKALIA ARIA
 
-**Version**: 1.0.0  
-**Date**: 24 novembre 2025  
+**Version**: 1.0.0
+**Date**: 24 novembre 2025
 **Pour**: Testeurs PlayCode Dev
 
 ---

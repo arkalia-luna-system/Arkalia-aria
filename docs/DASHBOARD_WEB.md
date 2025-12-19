@@ -399,7 +399,7 @@ class PDFExportHandler:
 async def dashboard_health(request: Request):
     """Page des métriques de santé."""
     return templates.TemplateResponse(
-        "health_metrics.html", 
+        "health_metrics.html",
         {"request": request, "title": "Métriques Santé ARIA"}
     )
 
@@ -408,7 +408,7 @@ async def dashboard_health(request: Request):
 async def dashboard_pain(request: Request):
     """Page d'analyse de la douleur."""
     return templates.TemplateResponse(
-        "pain_analytics.html", 
+        "pain_analytics.html",
         {"request": request, "title": "Analyse Douleur ARIA"}
     )
 
@@ -417,7 +417,7 @@ async def dashboard_pain(request: Request):
 async def dashboard_patterns(request: Request):
     """Page de visualisation des patterns."""
     return templates.TemplateResponse(
-        "patterns_visualization.html", 
+        "patterns_visualization.html",
         {"request": request, "title": "Patterns ARIA"}
     )
 
@@ -426,7 +426,7 @@ async def dashboard_patterns(request: Request):
 async def dashboard_reports(request: Request):
     """Page de génération de rapports."""
     return templates.TemplateResponse(
-        "reports.html", 
+        "reports.html",
         {"request": request, "title": "Rapports ARIA"}
     )
 

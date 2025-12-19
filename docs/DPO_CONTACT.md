@@ -6,23 +6,23 @@
 
 ## Informations de contact
 
-**Nom :** [Nom du DPO]  
-**Titre :** Délégué à la Protection des Données  
-**Email :** <arkalia.luna.system@gmail.com>  
-**Téléphone :** +33 1 23 45 67 89  
+**Nom :** [Nom du DPO]
+**Titre :** Délégué à la Protection des Données
+**Email :** <arkalia.luna.system@gmail.com>
+**Téléphone :** +33 1 23 45 67 89
 
 ## Adresse
 
-**ARKALIA**  
-123 Avenue de la Santé  
-75013 Paris  
-France  
+**ARKALIA**
+123 Avenue de la Santé
+75013 Paris
+France
 
 ## Horaires de contact
 
-**Lundi - Vendredi :** 9h00 - 18h00  
-**Samedi :** 9h00 - 12h00  
-**Dimanche :** Fermé  
+**Lundi - Vendredi :** 9h00 - 18h00
+**Samedi :** 9h00 - 12h00
+**Dimanche :** Fermé
 
 ## 📧 **Types de demandes**
 
@@ -74,14 +74,14 @@ Lors de votre demande, veuillez indiquer :
 
 ## Confidentialité
 
-Votre demande est traitée de manière confidentielle.  
+Votre demande est traitée de manière confidentielle.
 Seul le DPO et son équipe y ont accès.
 
 ## Urgences
 
 Pour les urgences liées à la protection des données :
-**Email :** <arkalia.luna.system@gmail.com>  
-**Téléphone :** +33 1 23 45 67 90  
+**Email :** <arkalia.luna.system@gmail.com>
+**Téléphone :** +33 1 23 45 67 90
 
 ## Formulaires
 

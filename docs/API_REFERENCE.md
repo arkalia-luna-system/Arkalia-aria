@@ -1,7 +1,7 @@
 # 🔌 Référence API - ARKALIA ARIA
 
-**Version :** 1.0.0  
-**Dernière mise à jour :** Novembre 2025
+**Version :** 1.0.0
+**Dernière mise à jour :** 12 décembre 2025
 
 ## Base URL
 
@@ -98,7 +98,7 @@ GET /health/connectors/status
     "data_count": 1250
   },
   "google": {
-    "status": "connected", 
+    "status": "connected",
     "last_sync": "2024-12-24T17:25:00Z",
     "data_count": 890
   },
@@ -1659,6 +1659,47 @@ GET /api/alerts/unread/count
 - `correlation_strong` : Corrélations importantes (sommeil/stress-douleur)
 - `health_sync` : Notifications basées sur données santé
 - `medical_appointment` : Alertes RDV médicaux (depuis CIA)
+
+---
+
+## 🔗 **Endpoints de Compatibilité CIA**
+
+ARIA expose des endpoints de compatibilité pour permettre à CIA de communiquer avec ARIA en utilisant les endpoints attendus par CIA.
+
+**Note** : Ces endpoints sont des wrappers qui redirigent vers les endpoints ARIA standards. Ils sont maintenus pour assurer la compatibilité avec CIA.
+
+### **GET /api/pain-records** (Compatibilité CIA)
+
+Endpoint de compatibilité pour `GET /api/pain/entries`.
+
+**Paramètres de requête** :
+- `limit` : Nombre d'entrées à retourner (défaut: 50, max: 200)
+- `offset` : Nombre d'entrées à sauter (défaut: 0)
+
+**Réponse** : Identique à `GET /api/pain/entries`
+
+### **GET /api/patterns** (Compatibilité CIA)
+
+Endpoint de compatibilité pour `GET /api/patterns/patterns/recent`.
+
+**Paramètres de requête** :
+- `days` : Nombre de jours à analyser (défaut: 30, max: 365)
+
+**Réponse** : Identique à `GET /api/patterns/patterns/recent`
+
+### **GET /api/health-metrics** (Compatibilité CIA)
+
+Endpoint de compatibilité pour `GET /health/metrics/unified`.
+
+**Réponse** : Identique à `GET /health/metrics/unified`
+
+### **POST /api/pain/entries** (Compatibilité CIA)
+
+Endpoint de compatibilité pour `POST /api/pain/entry`.
+
+**Body** : Identique à `POST /api/pain/entry`
+
+**Réponse** : Identique à `POST /api/pain/entry`
 
 ---
 

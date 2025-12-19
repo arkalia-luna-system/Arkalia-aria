@@ -49,6 +49,21 @@ jobs:
           echo "📚 Building documentation with MkDocs..."
           mkdocs build --clean --strict || (echo "⚠️ Documentation build completed with warnings" && exit 0)
 
+      - name: 🧹 Nettoyer répertoire site
+        if: always()
+        run: |
+          if [ -d "site" ]; then
+            echo "🧹 Nettoyage du répertoire site..."
+            # Supprimer les liens symboliques
+            find site -type l -delete
+            # Supprimer les fichiers cachés
+            find site -name ".*" -type f -delete
+            find site -name ".*" -type d -exec rm -rf {} + 2>/dev/null || true
+            # Vérifier la taille
+            du -sh site
+            echo "✅ Nettoyage terminé"
+          fi
+
       - name: 📤 Upload GitHub Pages artifact
         if: always()
         continue-on-error: true
@@ -57,6 +72,7 @@ jobs:
           name: github-pages
           path: site/
           retention-days: 1
+          if-no-files-found: warn
 
   deploy-docs:
     name: 🚀 Deploy to GitHub Pages
@@ -86,6 +102,9 @@ jobs:
         id: deployment
         timeout-minutes: 5
         uses: actions/deploy-pages@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
 
       - name: 📢 Résultat du déploiement
         if: failure()

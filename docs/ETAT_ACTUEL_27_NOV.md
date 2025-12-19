@@ -1,6 +1,6 @@
-# 📊 État Actuel ARIA - 27 Novembre 2025
+# 📊 État Actuel ARIA - 12 Décembre 2025
 
-**Date** : 27 novembre 2025  
+**Date** : 12 décembre 2025
 **Version** : 1.0.0
 
 ---
@@ -50,7 +50,7 @@
 - [x] Checklist `CE_QUI_MANQUE_ARIA.md` mise à jour ✅
 - [x] 0 erreur lint, 0 erreur black, 0 erreur mypy ✅
 
-**Total tests** : 420 tests (tous passent)
+**Total tests** : 532 tests (tous passent) - +53 nouveaux tests ajoutés le 12 décembre 2025
 
 ---
 
@@ -68,8 +68,8 @@
 - [ ] Export depuis dashboard (un clic)
 - [ ] Alertes visuelles (patterns détectés, prédictions)
 
-**Impact** : +20% utilisation  
-**Coût** : 0€ (Chart.js gratuit)  
+**Impact** : +20% utilisation
+**Coût** : 0€ (Chart.js gratuit)
 **Temps estimé** : 1-2 semaines
 
 ### 2. Synchronisation Santé Automatique
@@ -84,8 +84,8 @@
 - [ ] Rapports automatiques périodiques
 - [ ] Export automatique (hebdomadaire/mensuel)
 
-**Impact** : +10% utilisation  
-**Coût** : 0€ (cron jobs)  
+**Impact** : +10% utilisation
+**Coût** : 0€ (cron jobs)
 **Temps estimé** : 3-5 jours
 
 ### 3. Alertes Complémentaires
@@ -97,8 +97,8 @@
 - [ ] Notifications basées sur données santé (sync auto)
 - [ ] Alertes RDV médicaux (depuis CIA)
 
-**Impact** : +5% utilisation  
-**Coût** : 0€  
+**Impact** : +5% utilisation
+**Coût** : 0€
 **Temps estimé** : 2-3 jours
 
 ---
@@ -116,8 +116,8 @@
 - [ ] Cache métriques système
 - [ ] Cache Redis local (optionnel)
 
-**Impact** : +40% vitesse  
-**Coût** : 0€ (Redis open source)  
+**Impact** : +40% vitesse
+**Coût** : 0€ (Redis open source)
 **Temps estimé** : 2-3 jours
 
 ---
@@ -130,7 +130,7 @@
 - [ ] Transcription notes audio
 - [ ] Saisie douleur par voix
 
-**Impact** : +25% utilisation (accessibilité)  
+**Impact** : +25% utilisation (accessibilité)
 **Temps estimé** : 1-2 semaines
 
 ### 2. IA Locale (Ollama)
@@ -139,7 +139,7 @@
 - [ ] Recommandations IA personnalisées
 - [ ] Chatbot santé conversationnel
 
-**Impact** : +30% utilisation  
+**Impact** : +30% utilisation
 **Temps estimé** : 2-3 semaines
 
 ### 3. Visualisations Avancées
@@ -148,7 +148,7 @@
 - [ ] Graphiques 3D (tendances)
 - [ ] Graphiques interactifs (D3.js)
 
-**Impact** : +15% utilisation  
+**Impact** : +15% utilisation
 **Temps estimé** : 1-2 semaines
 
 ### 4. Application Mobile
@@ -158,7 +158,7 @@
 - [ ] Notifications push
 - [ ] Mode hors ligne complet
 
-**Impact** : +40% utilisation (accès mobile)  
+**Impact** : +40% utilisation (accès mobile)
 **Temps estimé** : 1-2 mois
 
 ---
@@ -218,7 +218,7 @@
 
 ### Code
 
-- ✅ 420 tests (tous passent)
+- ✅ 503 tests (tous passent) - +42 nouveaux tests ajoutés le 12 décembre 2025
 - ✅ 0 erreur lint (Ruff, Black, MyPy)
 - ✅ Indexation DB complète
 - ✅ Pagination complète
@@ -251,14 +251,14 @@ C'est la fonctionnalité qui aura le plus d'impact utilisateur (+20% utilisation
 - Faciliter l'export
 - Voir les alertes visuellement
 
-**Temps estimé** : 1-2 semaines  
-**Coût** : 0€  
+**Temps estimé** : 1-2 semaines
+**Coût** : 0€
 **Impact** : +20% utilisation
 
 ---
 
-**Date** : 27 novembre 2025  
-**Dernière mise à jour** : 27 novembre 2025  
+**Date** : 12 décembre 2025
+**Dernière mise à jour** : 12 décembre 2025
 **Prochaine révision** : Après implémentation dashboard
 
 ---

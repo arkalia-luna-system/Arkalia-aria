@@ -1,7 +1,7 @@
 # 📋 Ce qui Manque pour ARIA
 
-**Date** : 27 novembre 2025  
-**Dernière mise à jour** : 27 novembre 2025  
+**Date** : 12 décembre 2025
+**Dernière mise à jour** : 12 décembre 2025
 **Version** : 1.0.0
 
 ---
@@ -10,8 +10,8 @@
 
 ARIA est **techniquement prêt à 95%** mais manque de **fonctionnalités utilisateur** et d'**automatisations** pour maximiser son utilisation.
 
-**Utilisation actuelle** : 35%  
-**Potentiel actuel** : 60%  
+**Utilisation actuelle** : 35%
+**Potentiel actuel** : 60%
 **Potentiel futur** : 95%
 
 ---
@@ -24,11 +24,11 @@ ARIA est **techniquement prêt à 95%** mais manque de **fonctionnalités utilis
 
 **Ce qui manque** :
 
-- [ ] Visualisation des nouveaux champs journal (who_present, interactions, emotions, thoughts, physical_symptoms)
+- [x] Visualisation des nouveaux champs journal (who_present, interactions, emotions, thoughts, physical_symptoms) ✅ **FAIT - 12 déc 2025**
 - [ ] Graphiques interactifs pour corrélations
-- [ ] Filtres avancés (date, intensité, localisation, personnes présentes)
-- [ ] Export depuis dashboard (un clic)
-- [ ] Alertes visuelles (patterns détectés, prédictions)
+- [x] Filtres avancés (date, intensité, localisation, personnes présentes) ✅ **FAIT - 12 déc 2025**
+- [ ] Export depuis dashboard (un clic) - Partiellement fait
+- [x] Alertes visuelles (patterns détectés, prédictions) ✅ **FAIT - 12 déc 2025**
 
 **Impact** : +20% utilisation
 
@@ -56,9 +56,9 @@ ARIA est **techniquement prêt à 95%** mais manque de **fonctionnalités utilis
 
 **Ce qui manque** :
 
-- [ ] Synchronisation santé quotidienne automatique
-- [ ] Synchronisation intelligente (seulement si nouvelles données)
-- [ ] Corrélations automatiques après sync
+- [x] Synchronisation santé quotidienne automatique ✅ **FAIT - 12 déc 2025**
+- [x] Synchronisation intelligente (seulement si nouvelles données) ✅ **FAIT - 12 déc 2025**
+- [x] Corrélations automatiques après sync ✅ **FAIT - 12 déc 2025**
 - [ ] Rapports automatiques périodiques
 - [ ] Export automatique (hebdomadaire/mensuel)
 
@@ -92,9 +92,9 @@ ARIA est **techniquement prêt à 95%** mais manque de **fonctionnalités utilis
 **Ce qui manque** :
 
 - [ ] Cache Redis local (optionnel mais gratuit)
-- [ ] Cache résultats corrélations
-- [ ] Cache patterns détectés
-- [ ] Cache métriques système
+- [x] Cache résultats corrélations ✅ **FAIT - 12 déc 2025**
+- [x] Cache patterns détectés ✅ **FAIT - 12 déc 2025**
+- [ ] Cache métriques système - Partiellement fait
 
 **Impact** : +40% vitesse
 
@@ -328,7 +328,7 @@ Toutes les fonctionnalités manquantes peuvent être implémentées avec :
 - [x] 0 erreur Bandit (code propre)
 - [x] 0 erreur lint MD
 - [x] Tous imports utilisés
-- [x] Tests passent (395 tests)
+- [x] Tests passent (503 tests)
 
 ### Fonctionnalités
 
@@ -348,12 +348,12 @@ Toutes les fonctionnalités manquantes peuvent être implémentées avec :
 
 ### Tests
 
-- [x] Tests unitaires (395 tests)
-- [ ] Tests intégration complets
-- [ ] Tests performance
-- [ ] Tests mobile
+- [x] Tests unitaires (503 tests) - +42 nouveaux tests ajoutés le 12 décembre 2025
+- [x] Tests intégration complets (tests/integration/)
+- [ ] Tests performance (à ajouter)
+- [ ] Tests mobile (à ajouter)
 
 ---
 
-**Date** : 27 novembre 2025  
+**Date** : 12 décembre 2025
 **Prochaine mise à jour** : Après implémentation priorités

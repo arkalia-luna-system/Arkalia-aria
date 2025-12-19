@@ -6,6 +6,7 @@ Tests complets pour tous les connecteurs santé et leurs fonctionnalités.
 """
 
 from datetime import datetime, timedelta
+from typing import Any
 from unittest.mock import patch
 
 import pytest
@@ -474,6 +475,296 @@ class TestHealthSyncManager:
         assert isinstance(data, list)
         # Les données peuvent être vides si aucun connecteur n'est configuré
 
+    def test_start_auto_sync(self, sync_manager):
+        """Test démarrage de la synchronisation automatique."""
+        # S'assurer que auto_sync n'est pas déjà en cours
+        if sync_manager.is_running:
+            sync_manager.stop_auto_sync()
+
+        # Activer auto_sync dans la config
+        sync_manager.config.auto_sync_enabled = True
+
+        result = sync_manager.start_auto_sync()
+        assert result is True
+        assert sync_manager.is_running is True
+        assert sync_manager.sync_thread is not None
+        assert sync_manager.sync_thread.is_alive()
+
+        # Nettoyer
+        sync_manager.stop_auto_sync()
+
+    def test_stop_auto_sync(self, sync_manager):
+        """Test arrêt de la synchronisation automatique."""
+        # Démarrer d'abord
+        sync_manager.config.auto_sync_enabled = True
+        sync_manager.start_auto_sync()
+
+        # Vérifier qu'il est en cours
+        assert sync_manager.is_running is True
+
+        # Arrêter
+        result = sync_manager.stop_auto_sync()
+        assert result is True
+        assert sync_manager.is_running is False
+
+    def test_should_sync(self, sync_manager):
+        """Test vérification si sync nécessaire (sync intelligente)."""
+        # Première fois : devrait sync
+        sync_manager.last_sync = None
+        assert sync_manager._should_sync() is True
+
+        # Sync récente : ne devrait pas sync
+        sync_manager.last_sync = datetime.now()
+        sync_manager.config.sync_interval_hours = 6
+        assert sync_manager._should_sync() is False
+
+        # Sync ancienne : devrait sync
+        sync_manager.last_sync = datetime.now() - timedelta(hours=7)
+        assert sync_manager._should_sync() is True
+
+    def test_trigger_correlations(self, sync_manager):
+        """Test déclenchement corrélations automatiques."""
+        # Devrait s'exécuter sans erreur
+        sync_manager._trigger_correlations()
+        # Pas d'assertion car méthode peut échouer silencieusement si module non disponible
+
+    def test_calculate_average_heart_rate(self, sync_manager):
+        """Test calcul moyenne fréquence cardiaque."""
+        from health_connectors.data_models import ActivityData
+
+        # Données avec heart_rate
+        activity_data = [
+            ActivityData(
+                timestamp=datetime.now(),
+                source="test",
+                steps=1000,
+                heart_rate_bpm=70,
+                calories_burned=100.0,
+                distance_meters=None,
+                active_minutes=None,
+                raw_data=None,
+            ),
+            ActivityData(
+                timestamp=datetime.now(),
+                source="test",
+                steps=2000,
+                heart_rate_bpm=80,
+                calories_burned=200.0,
+                distance_meters=None,
+                active_minutes=None,
+                raw_data=None,
+            ),
+        ]
+        result = sync_manager._calculate_average_heart_rate(activity_data)
+        assert result == 75.0
+
+        # Données sans heart_rate
+        activity_data_empty = [
+            ActivityData(
+                timestamp=datetime.now(),
+                source="test",
+                steps=1000,
+                heart_rate_bpm=None,
+                calories_burned=100.0,
+                distance_meters=None,
+                active_minutes=None,
+                raw_data=None,
+            )
+        ]
+        result_empty = sync_manager._calculate_average_heart_rate(activity_data_empty)
+        assert result_empty is None
+
+    def test_calculate_average_sleep_duration(self, sync_manager):
+        """Test calcul moyenne durée sommeil."""
+        from health_connectors.data_models import SleepData
+
+        now = datetime.now()
+        sleep_data = [
+            SleepData(
+                sleep_start=now,
+                sleep_end=now,
+                duration_minutes=480,
+                quality_score=0.8,
+                deep_sleep_minutes=120,
+                source="test",
+                light_sleep_minutes=None,
+                rem_sleep_minutes=None,
+                awakenings_count=None,
+                raw_data=None,
+            ),
+            SleepData(
+                sleep_start=now,
+                sleep_end=now,
+                duration_minutes=420,
+                quality_score=0.7,
+                deep_sleep_minutes=100,
+                source="test",
+                light_sleep_minutes=None,
+                rem_sleep_minutes=None,
+                awakenings_count=None,
+                raw_data=None,
+            ),
+        ]
+        result = sync_manager._calculate_average_sleep_duration(sleep_data)
+        assert result == 450.0
+
+        # Liste vide
+        result_empty = sync_manager._calculate_average_sleep_duration([])
+        assert result_empty is None
+
+    def test_calculate_average_sleep_quality(self, sync_manager):
+        """Test calcul moyenne qualité sommeil."""
+        from health_connectors.data_models import SleepData
+
+        now = datetime.now()
+        sleep_data = [
+            SleepData(
+                sleep_start=now,
+                sleep_end=now,
+                duration_minutes=480,
+                quality_score=0.8,
+                deep_sleep_minutes=120,
+                source="test",
+                light_sleep_minutes=None,
+                rem_sleep_minutes=None,
+                awakenings_count=None,
+                raw_data=None,
+            ),
+            SleepData(
+                sleep_start=now,
+                sleep_end=now,
+                duration_minutes=420,
+                quality_score=0.7,
+                deep_sleep_minutes=100,
+                source="test",
+                light_sleep_minutes=None,
+                rem_sleep_minutes=None,
+                awakenings_count=None,
+                raw_data=None,
+            ),
+        ]
+        result = sync_manager._calculate_average_sleep_quality(sleep_data)
+        assert result == 0.75
+
+        # Données sans quality_score
+        sleep_data_no_quality = [
+            SleepData(
+                sleep_start=now,
+                sleep_end=now,
+                duration_minutes=480,
+                quality_score=None,
+                deep_sleep_minutes=120,
+                source="test",
+                light_sleep_minutes=None,
+                rem_sleep_minutes=None,
+                awakenings_count=None,
+                raw_data=None,
+            )
+        ]
+        result_empty = sync_manager._calculate_average_sleep_quality(
+            sleep_data_no_quality
+        )
+        assert result_empty is None
+
+    def test_calculate_average_stress_level(self, sync_manager):
+        """Test calcul moyenne niveau stress."""
+        from health_connectors.data_models import StressData
+
+        stress_data = [
+            StressData(
+                timestamp=datetime.now(),
+                stress_level=5.0,
+                heart_rate_variability=50.0,
+                source="test",
+                resting_heart_rate=None,
+                raw_data=None,
+            ),
+            StressData(
+                timestamp=datetime.now(),
+                stress_level=7.0,
+                heart_rate_variability=45.0,
+                source="test",
+                resting_heart_rate=None,
+                raw_data=None,
+            ),
+        ]
+        result = sync_manager._calculate_average_stress_level(stress_data)
+        assert result == 6.0
+
+        # Liste vide
+        result_empty = sync_manager._calculate_average_stress_level([])
+        assert result_empty is None
+
+    def test_calculate_average_hrv(self, sync_manager):
+        """Test calcul moyenne HRV."""
+        from health_connectors.data_models import StressData
+
+        stress_data = [
+            StressData(
+                timestamp=datetime.now(),
+                stress_level=5.0,
+                heart_rate_variability=50.0,
+                source="test",
+                resting_heart_rate=None,
+                raw_data=None,
+            ),
+            StressData(
+                timestamp=datetime.now(),
+                stress_level=7.0,
+                heart_rate_variability=45.0,
+                source="test",
+                resting_heart_rate=None,
+                raw_data=None,
+            ),
+        ]
+        result = sync_manager._calculate_average_hrv(stress_data)
+        assert result == 47.5
+
+        # Données sans HRV
+        stress_data_no_hrv = [
+            StressData(
+                timestamp=datetime.now(),
+                stress_level=5.0,
+                heart_rate_variability=None,
+                source="test",
+                resting_heart_rate=None,
+                raw_data=None,
+            )
+        ]
+        result_empty = sync_manager._calculate_average_hrv(stress_data_no_hrv)
+        assert result_empty is None
+
+    @pytest.mark.asyncio
+    async def test_save_sync_history(self, sync_manager, tmp_path):
+        """Test sauvegarde historique sync."""
+
+        # Changer le répertoire de données unifiées vers tmp
+        sync_manager.unified_data_dir = tmp_path
+
+        sync_summary = {
+            "connectors": ["samsung_health"],
+            "days_back": 7,
+            "duration_seconds": 1.5,
+        }
+        await sync_manager._save_sync_history(sync_summary)
+
+        # Vérifier qu'un fichier a été créé
+        files = list(tmp_path.glob("sync_history_*.json"))
+        assert len(files) > 0
+
+    @pytest.mark.asyncio
+    async def test_save_unified_metrics(self, sync_manager, tmp_path):
+        """Test sauvegarde métriques unifiées."""
+        # Changer le répertoire de données unifiées vers tmp
+        sync_manager.unified_data_dir = tmp_path
+
+        metrics: dict[str, Any] = {"activity": {}, "sleep": {}, "stress": {}}
+        await sync_manager._save_unified_metrics(metrics)
+
+        # Vérifier qu'un fichier a été créé
+        files = list(tmp_path.glob("unified_metrics_*.json"))
+        assert len(files) > 0
+
     @pytest.mark.asyncio
     async def test_get_health_data(self, sync_manager):
         """Test récupération des données de santé unifiées."""
@@ -484,9 +775,18 @@ class TestHealthSyncManager:
     @pytest.mark.asyncio
     async def test_get_connectors_status(self, sync_manager):
         """Test récupération du statut des connecteurs."""
+        # Initialiser last_sync à une valeur récente pour que _should_sync() retourne False
+        sync_manager.last_sync = datetime.now()
+        sync_manager.config.sync_interval_hours = 6
+
         status = await sync_manager.get_all_connectors_status()
 
         assert isinstance(status, dict)
+        assert sync_manager._should_sync() is False
+
+        # Avec sync ancienne, doit retourner True
+        sync_manager.last_sync = datetime.now() - timedelta(hours=7)
+        assert sync_manager._should_sync() is True
         # Le statut peut être vide si aucun connecteur n'est configuré
 
 

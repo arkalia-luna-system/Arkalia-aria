@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/static/dashboard.js"></script>
     <script src="/static/charts.js"></script>
+    <script src="/static/exports.js"></script>
     <script src="/static/realtime.js"></script>
 </head>
 
@@ -41,6 +42,9 @@
                     </a>
                 </nav>
                 <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="quickExport()" title="Export rapide (Excel)">
+                        <i class="fas fa-download"></i> Export
+                    </button>
                     <button class="btn btn-primary" onclick="syncAllData()">
                         <i class="fas fa-sync"></i> Synchroniser
                     </button>
@@ -117,6 +121,25 @@
                         <div class="metric">
                             <span class="metric-value" id="pain-frequency">--</span>
                             <span class="metric-label">Fréquence</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Alerts Section -->
+            <section class="alerts-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-bell"></i> Alertes et Notifications</h3>
+                        <button class="btn btn-secondary" onclick="refreshAlerts()">
+                            <i class="fas fa-sync"></i> Actualiser
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="alerts-list" id="alerts-list">
+                            <div class="alert-item loading">
+                                <i class="fas fa-spinner fa-spin"></i> Chargement des alertes...
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -258,7 +281,8 @@
             initializeDashboard();
             loadDashboardData();
             checkConnectorsStatus();
-            startRealTimeUpdates();
+            loadAlerts();
+            // startRealTimeUpdates(); // À implémenter si nécessaire
         });
 
         // Fonctions globales
@@ -293,29 +317,53 @@
             localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
         }
 
-        function exportData(format) {
+        // Instance globale pour exports
+        let ariaExports = null;
+
+        // Initialiser exports au chargement
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof ARIAExports !== 'undefined') {
+                ariaExports = new ARIAExports();
+            }
+        });
+
+        /**
+         * Export rapide en un clic (Excel par défaut)
+         */
+        async function quickExport(format = 'excel') {
             showLoading();
-            fetch(`/dashboard/export/${format}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
+            try {
+                if (!ariaExports) {
+                    ariaExports = new ARIAExports();
                 }
-            })
-                .then(response => response.blob())
-                .then(blob => {
-                    hideLoading();
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `aria-dashboard-${new Date().toISOString().split('T')[0]}.${format}`;
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                })
-                .catch(error => {
-                    hideLoading();
-                    showNotification('Erreur d\'export', 'error');
-                    console.error('Error:', error);
-                });
+
+                // Collecter toutes les données du dashboard
+                const dashboardData = await ariaExports.collectDashboardData();
+
+                // Exporter selon le format
+                if (format === 'excel') {
+                    await ariaExports.exportToExcel(dashboardData, {
+                        filename: `aria-dashboard-${new Date().toISOString().split('T')[0]}.xlsx`
+                    });
+                } else if (format === 'pdf') {
+                    await ariaExports.exportToPDF(dashboardData, {
+                        filename: `aria-dashboard-${new Date().toISOString().split('T')[0]}.pdf`
+                    });
+                } else {
+                    await ariaExports.exportDashboard({ format: format });
+                }
+
+                hideLoading();
+                showNotification('Export réussi', 'success');
+            } catch (error) {
+                hideLoading();
+                showNotification('Erreur d\'export: ' + error.message, 'error');
+                console.error('Error:', error);
+            }
+        }
+
+        function exportData(format) {
+            quickExport(format);
         }
 
         function showNotification(message, type) {
@@ -338,6 +386,65 @@
 
         function hideLoading() {
             document.getElementById('loading-overlay').style.display = 'none';
+        }
+
+        function loadAlerts() {
+            fetch('/api/alerts')
+                .then(response => response.json())
+                .then(data => {
+                    updateAlertsDisplay(data);
+                })
+                .catch(error => {
+                    console.error('Error loading alerts:', error);
+                    document.getElementById('alerts-list').innerHTML =
+                        '<div class="alert-item error"><i class="fas fa-exclamation-circle"></i> Erreur de chargement des alertes</div>';
+                });
+        }
+
+        function refreshAlerts() {
+            loadAlerts();
+        }
+
+        function updateAlertsDisplay(alerts) {
+            const alertsList = document.getElementById('alerts-list');
+            alertsList.innerHTML = '';
+
+            if (!alerts || alerts.length === 0) {
+                alertsList.innerHTML = '<div class="alert-item info"><i class="fas fa-info-circle"></i> Aucune alerte</div>';
+                return;
+            }
+
+            alerts.forEach(alert => {
+                const alertItem = document.createElement('div');
+                alertItem.className = `alert-item alert-${alert.severity || 'info'}`;
+
+                const iconMap = {
+                    'critical': 'fa-exclamation-triangle',
+                    'high': 'fa-exclamation-circle',
+                    'medium': 'fa-info-circle',
+                    'low': 'fa-info',
+                    'info': 'fa-info-circle'
+                };
+
+                const icon = iconMap[alert.severity] || 'fa-info-circle';
+
+                alertItem.innerHTML = `
+                    <div class="alert-icon">
+                        <i class="fas ${icon}"></i>
+                    </div>
+                    <div class="alert-content">
+                        <div class="alert-title">${alert.title || alert.type || 'Alerte'}</div>
+                        <div class="alert-description">${alert.message || alert.description || ''}</div>
+                        <div class="alert-timestamp">${new Date(alert.timestamp || alert.created_at).toLocaleString()}</div>
+                    </div>
+                `;
+                alertsList.appendChild(alertItem);
+            });
+        }
+
+        function loadDashboardData() {
+            loadAlerts();
+            // Charger autres données du dashboard
         }
     </script>
 </body>

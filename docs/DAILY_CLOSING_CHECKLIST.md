@@ -143,7 +143,7 @@ echo "✅ Nettoyage terminé !"
 - **Problèmes rencontrés** : Bugs ou blocages
 - **Espace disque** : `du -sh .`
 
-### Exemple de Log Quotidien 
+### Exemple de Log Quotidien
 
 ```markdown
 ## 25/09/2025 18:30

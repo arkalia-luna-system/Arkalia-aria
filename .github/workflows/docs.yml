@@ -1,38 +1,38 @@
 name: Build Documentation
-'on':
+"on":
   push:
     branches:
-    - main
-    - develop
+      - main
+      - develop
   pull_request:
     branches:
-    - main
+      - main
 jobs:
   build-docs:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-    - name: Install dependencies
-      run: pip install mkdocs mkdocs-material
-    - name: Build documentation
-      run: mkdocs build --clean
-    - name: 🧹 Nettoyer répertoire site
-      run: |
-        if [ -d "site" ]; then
-          echo "🧹 Nettoyage du répertoire site..."
-          find site -type l -delete
-          find site -name ".*" -type f -delete
-          find site -name ".*" -type d -exec rm -rf {} + 2>/dev/null || true
-          du -sh site
-        fi
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      if: github.ref == 'refs/heads/main'
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./site
-        exclude_assets: '*.pyc,*.pyo,*.pyd,__pycache__,*.db,*.sqlite,*.log'
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: pip install mkdocs mkdocs-material
+      - name: Build documentation
+        run: mkdocs build --clean
+      - name: 🧹 Nettoyer répertoire site
+        run: |
+          if [ -d "site" ]; then
+            echo "🧹 Nettoyage du répertoire site..."
+            find site -type l -delete
+            find site -name ".*" -type f -delete
+            find site -name ".*" -type d -exec rm -rf {} + 2>/dev/null || true
+            du -sh site
+          fi
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          exclude_assets: "*.pyc,*.pyo,*.pyd,__pycache__,*.db,*.sqlite,*.log"

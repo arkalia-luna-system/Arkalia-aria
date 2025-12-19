@@ -88,7 +88,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github-pages
-          path: site/
+          path: ./
 
       - name: ⚠️ Vérification GitHub Pages
         run: |
@@ -102,9 +102,6 @@ jobs:
         id: deployment
         timeout-minutes: 5
         uses: actions/deploy-pages@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site
 
       - name: 📢 Résultat du déploiement
         if: failure()

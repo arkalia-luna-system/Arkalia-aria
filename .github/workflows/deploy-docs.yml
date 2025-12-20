@@ -108,27 +108,12 @@ jobs:
             fi
           fi
 
-      - name: 📦 Créer archive sans liens pour artefact
-        if: always()
-        run: |
-          if [ -d "site" ]; then
-            echo "📦 Création d'une archive tar.gz sans liens..."
-            # Créer une archive tar qui ne préserve pas les liens
-            # Utiliser --dereference pour suivre les liens symboliques
-            tar -czf site.tar.gz --dereference -C site .
-            echo "✅ Archive créée"
-            ls -lh site.tar.gz
-          fi
-
       - name: 📤 Upload GitHub Pages artifact
         if: always()
         continue-on-error: true
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v1
         with:
-          name: github-pages
-          path: site.tar.gz
-          retention-days: 1
-          if-no-files-found: warn
+          path: site/
 
   deploy-docs:
     name: 🚀 Deploy to GitHub Pages
@@ -140,32 +125,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: 📥 Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: github-pages
-          path: ./
-
-      - name: 📦 Extraire archive sans liens
-        run: |
-          echo "📦 Extraction de l'archive..."
-          if [ -f "site.tar.gz" ]; then
-            # Extraire l'archive dans le répertoire site
-            mkdir -p site
-            tar -xzf site.tar.gz -C site
-            rm -f site.tar.gz
-            echo "✅ Archive extraite"
-            echo "📊 Contenu:"
-            ls -la site/ | head -15
-            echo ""
-            echo "📊 Taille:"
-            du -sh site
-          else
-            echo "❌ ERREUR: Archive site.tar.gz introuvable"
-            ls -la
-            exit 1
-          fi
-
       - name: 🧹 Nettoyage final agressif avant déploiement
         run: |
           if [ ! -d "site" ]; then
@@ -234,6 +193,25 @@ jobs:
           echo "   https://github.com/arkalia-luna-system/Arkalia-aria/settings/pages"
           echo "   → Source: 'GitHub Actions'"
           echo ""
+
+      - name: 🔍 Vérification finale avant déploiement
+        run: |
+          echo "🔍 Vérification finale du répertoire site..."
+          if [ ! -d "site" ]; then
+            echo "❌ ERREUR: Répertoire site introuvable"
+            exit 1
+          fi
+          echo "📊 Structure du répertoire site:"
+          ls -la site/ | head -20
+          echo ""
+          echo "📊 Vérification des fichiers essentiels:"
+          [ -f "site/index.html" ] && echo "✅ index.html présent" || echo "❌ index.html manquant"
+          [ -d "site/assets" ] && echo "✅ assets/ présent" || echo "⚠️ assets/ manquant"
+          echo ""
+          echo "📊 Taille totale:"
+          du -sh site
+          echo ""
+          echo "✅ Répertoire site prêt pour déploiement"
 
       - name: 🚀 Deploy to GitHub Pages
         id: deployment

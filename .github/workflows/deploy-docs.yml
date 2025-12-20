@@ -257,6 +257,7 @@ jobs:
       - name: 🚀 Deploy to GitHub Pages
         id: deployment
         timeout-minutes: 5
+        working-directory: ./site
         uses: actions/deploy-pages@v4
 
       - name: 📢 Résultat du déploiement

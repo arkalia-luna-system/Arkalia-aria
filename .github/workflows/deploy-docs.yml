@@ -165,26 +165,56 @@ jobs:
             fi
           fi
 
-      - name: 🧹 Vérification et nettoyage final avant déploiement
+      - name: 🧹 Nettoyage final agressif avant déploiement
         run: |
           if [ ! -d "site" ]; then
             echo "❌ ERREUR: Répertoire site introuvable après traitement"
             exit 1
           fi
 
-          echo "🔍 Vérification finale avant déploiement..."
+          echo "🔍 Nettoyage final agressif avant déploiement..."
+
+          # Créer une copie complète sans aucun lien
+          echo "📦 Création d'une copie finale sans liens..."
+          rm -rf site_final
+          mkdir -p site_final
+
+          # Copier en suivant tous les liens symboliques (les convertir en copies)
+          cp -rL site/* site_final/ 2>/dev/null || cp -r site/* site_final/ 2>/dev/null || true
+
+          # Supprimer l'ancien et utiliser le nouveau
+          rm -rf site
+          mv site_final site
+
+          # Suppression finale de tout lien restant
+          find site -type l -delete 2>/dev/null || true
+
           # Vérifier les liens symboliques
           SYMLINKS=$(find site -type l 2>/dev/null | wc -l)
           if [ "$SYMLINKS" -gt 0 ]; then
-            echo "⚠️ $SYMLINKS liens symboliques trouvés - suppression..."
-            find site -type l -print0 | xargs -0 rm -f
+            echo "❌ ERREUR: $SYMLINKS liens symboliques encore présents après nettoyage"
+            find site -type l -ls
+            exit 1
           fi
+
           # Vérifier les liens physiques
           HARD_LINKS=$(find site -type f -links +1 2>/dev/null | wc -l)
           if [ "$HARD_LINKS" -gt 0 ]; then
-            echo "⚠️ $HARD_LINKS fichiers avec liens physiques - conversion..."
+            echo "⚠️ $HARD_LINKS fichiers avec liens physiques - conversion finale..."
             find site -type f -links +1 -exec sh -c 'cp "$1" "$1.tmp" && mv "$1.tmp" "$1"' _ {} \;
           fi
+
+          # Vérification finale
+          FINAL_SYMLINKS=$(find site -type l 2>/dev/null | wc -l)
+          FINAL_HARD_LINKS=$(find site -type f -links +1 2>/dev/null | wc -l)
+
+          if [ "$FINAL_SYMLINKS" -gt 0 ] || [ "$FINAL_HARD_LINKS" -gt 0 ]; then
+            echo "❌ ERREUR: Liens encore présents après nettoyage final"
+            echo "   Symboliques: $FINAL_SYMLINKS"
+            echo "   Physiques: $FINAL_HARD_LINKS"
+            exit 1
+          fi
+
           # Vérifier la taille
           SIZE=$(du -sh site | cut -f1)
           SIZE_BYTES=$(du -sb site | cut -f1)
@@ -193,7 +223,8 @@ jobs:
             echo "❌ ERREUR: Taille supérieure à 10GB"
             exit 1
           fi
-          echo "✅ Vérification terminée - prêt pour déploiement"
+
+          echo "✅ Vérification terminée - Aucun lien restant, prêt pour déploiement"
 
       - name: ⚠️ Vérification GitHub Pages
         run: |

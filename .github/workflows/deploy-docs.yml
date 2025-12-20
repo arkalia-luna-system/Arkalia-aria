@@ -125,9 +125,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: 📥 Download artifact
-        uses: actions/download-pages-artifact@v1
-
       - name: 🧹 Nettoyage final agressif avant déploiement
         run: |
           if [ ! -d "site" ]; then

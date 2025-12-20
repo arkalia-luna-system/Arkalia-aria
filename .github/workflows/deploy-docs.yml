@@ -53,14 +53,28 @@ jobs:
         if: always()
         run: |
           if [ -d "site" ]; then
-            echo "🧹 Nettoyage du répertoire site..."
-            # Supprimer les liens symboliques
-            find site -type l -delete
+            echo "🧹 Nettoyage approfondi du répertoire site..."
+            # Supprimer tous les liens symboliques récursivement
+            find site -type l -print0 | xargs -0 rm -f 2>/dev/null || true
             # Supprimer les fichiers cachés
-            find site -name ".*" -type f -delete
+            find site -name ".*" -type f -delete 2>/dev/null || true
             find site -name ".*" -type d -exec rm -rf {} + 2>/dev/null || true
+            # Supprimer les liens physiques (hard links) - copier les fichiers à la place
+            find site -type f -links +1 -exec sh -c 'cp "$1" "$1.tmp" && mv "$1.tmp" "$1"' _ {} \; 2>/dev/null || true
+            # Vérifier qu'il ne reste plus de liens
+            SYMLINKS=$(find site -type l | wc -l)
+            if [ "$SYMLINKS" -gt 0 ]; then
+              echo "⚠️ Attention: $SYMLINKS liens symboliques restants"
+              find site -type l -ls
+            fi
             # Vérifier la taille
-            du -sh site
+            SIZE=$(du -sh site | cut -f1)
+            echo "📊 Taille du répertoire site: $SIZE"
+            # Vérifier que la taille est raisonnable (< 1GB)
+            SIZE_BYTES=$(du -sb site | cut -f1)
+            if [ "$SIZE_BYTES" -gt 1073741824 ]; then
+              echo "⚠️ Attention: Taille supérieure à 1GB ($SIZE_BYTES bytes)"
+            fi
             echo "✅ Nettoyage terminé"
           fi
 
@@ -73,6 +87,7 @@ jobs:
           path: site/
           retention-days: 1
           if-no-files-found: warn
+          compression-level: 6
 
   deploy-docs:
     name: 🚀 Deploy to GitHub Pages
@@ -89,6 +104,36 @@ jobs:
         with:
           name: github-pages
           path: ./
+
+      - name: 🧹 Vérification et nettoyage final avant déploiement
+        run: |
+          if [ -d "site" ]; then
+            echo "🔍 Vérification finale avant déploiement..."
+            # Vérifier les liens symboliques
+            SYMLINKS=$(find site -type l 2>/dev/null | wc -l)
+            if [ "$SYMLINKS" -gt 0 ]; then
+              echo "❌ ERREUR: $SYMLINKS liens symboliques trouvés - suppression..."
+              find site -type l -print0 | xargs -0 rm -f
+            fi
+            # Vérifier les liens physiques
+            HARD_LINKS=$(find site -type f -links +1 2>/dev/null | wc -l)
+            if [ "$HARD_LINKS" -gt 0 ]; then
+              echo "⚠️ $HARD_LINKS fichiers avec liens physiques - conversion..."
+              find site -type f -links +1 -exec sh -c 'cp "$1" "$1.tmp" && mv "$1.tmp" "$1"' _ {} \;
+            fi
+            # Vérifier la taille
+            SIZE=$(du -sh site | cut -f1)
+            SIZE_BYTES=$(du -sb site | cut -f1)
+            echo "📊 Taille finale: $SIZE ($SIZE_BYTES bytes)"
+            if [ "$SIZE_BYTES" -gt 10737418240 ]; then
+              echo "❌ ERREUR: Taille supérieure à 10GB"
+              exit 1
+            fi
+            echo "✅ Vérification terminée - prêt pour déploiement"
+          else
+            echo "❌ ERREUR: Répertoire site introuvable"
+            exit 1
+          fi
 
       - name: ⚠️ Vérification GitHub Pages
         run: |

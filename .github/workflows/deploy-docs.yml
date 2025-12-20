@@ -108,27 +108,12 @@ jobs:
             fi
           fi
 
-      - name: 📦 Créer archive sans liens pour artefact
-        if: always()
-        run: |
-          if [ -d "site" ]; then
-            echo "📦 Création d'une archive tar.gz sans liens..."
-            # Créer une archive tar qui ne préserve pas les liens
-            # Utiliser --dereference pour suivre les liens symboliques
-            tar -czf site.tar.gz --dereference -C site .
-            echo "✅ Archive créée"
-            ls -lh site.tar.gz
-          fi
-
       - name: 📤 Upload GitHub Pages artifact
         if: always()
         continue-on-error: true
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v1
         with:
-          name: github-pages
-          path: site.tar.gz
-          retention-days: 1
-          if-no-files-found: warn
+          path: site/
 
   deploy-docs:
     name: 🚀 Deploy to GitHub Pages
@@ -141,30 +126,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: 📥 Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: github-pages
-          path: ./
-
-      - name: 📦 Extraire archive sans liens
-        run: |
-          echo "📦 Extraction de l'archive..."
-          if [ -f "site.tar.gz" ]; then
-            # Extraire l'archive dans le répertoire site
-            mkdir -p site
-            tar -xzf site.tar.gz -C site
-            rm -f site.tar.gz
-            echo "✅ Archive extraite"
-            echo "📊 Contenu:"
-            ls -la site/ | head -15
-            echo ""
-            echo "📊 Taille:"
-            du -sh site
-          else
-            echo "❌ ERREUR: Archive site.tar.gz introuvable"
-            ls -la
-            exit 1
-          fi
+        uses: actions/download-pages-artifact@v1
 
       - name: 🧹 Nettoyage final agressif avant déploiement
         run: |
@@ -257,7 +219,6 @@ jobs:
       - name: 🚀 Deploy to GitHub Pages
         id: deployment
         timeout-minutes: 5
-        working-directory: ./site
         uses: actions/deploy-pages@v4
 
       - name: 📢 Résultat du déploiement

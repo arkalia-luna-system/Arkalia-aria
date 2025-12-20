@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1745,14 +1745,14 @@
 
 
 <h1 id="ce-qui-manque-pour-aria">📋 Ce qui Manque pour ARIA<a class="headerlink" href="#ce-qui-manque-pour-aria" title="Permanent link">&para;</a></h1>
-<p><strong>Date</strong> : 27 novembre 2025<br />
-<strong>Dernière mise à jour</strong> : 27 novembre 2025<br />
+<p><strong>Date</strong> : 12 décembre 2025
+<strong>Dernière mise à jour</strong> : 12 décembre 2025
 <strong>Version</strong> : 1.0.0</p>
 <hr />
 <h2 id="resume-executif">🎯 Résumé Exécutif<a class="headerlink" href="#resume-executif" title="Permanent link">&para;</a></h2>
 <p>ARIA est <strong>techniquement prêt à 95%</strong> mais manque de <strong>fonctionnalités utilisateur</strong> et d'<strong>automatisations</strong> pour maximiser son utilisation.</p>
-<p><strong>Utilisation actuelle</strong> : 35%<br />
-<strong>Potentiel actuel</strong> : 60%<br />
+<p><strong>Utilisation actuelle</strong> : 35%
+<strong>Potentiel actuel</strong> : 60%
 <strong>Potentiel futur</strong> : 95%</p>
 <hr />
 <h2 id="priorite-1-fonctionnalites-manquantes-critiques">🔴 Priorité 1 : Fonctionnalités Manquantes Critiques<a class="headerlink" href="#priorite-1-fonctionnalites-manquantes-critiques" title="Permanent link">&para;</a></h2>
@@ -1760,11 +1760,11 @@
 <p><strong>Statut actuel</strong> : Dashboard basique existe mais peu utilisé (30%)</p>
 <p><strong>Ce qui manque</strong> :</p>
 <ul>
-<li>[ ] Visualisation des nouveaux champs journal (who_present, interactions, emotions, thoughts, physical_symptoms)</li>
+<li>[x] Visualisation des nouveaux champs journal (who_present, interactions, emotions, thoughts, physical_symptoms) ✅ <strong>FAIT - 12 déc 2025</strong></li>
 <li>[ ] Graphiques interactifs pour corrélations</li>
-<li>[ ] Filtres avancés (date, intensité, localisation, personnes présentes)</li>
-<li>[ ] Export depuis dashboard (un clic)</li>
-<li>[ ] Alertes visuelles (patterns détectés, prédictions)</li>
+<li>[x] Filtres avancés (date, intensité, localisation, personnes présentes) ✅ <strong>FAIT - 12 déc 2025</strong></li>
+<li>[ ] Export depuis dashboard (un clic) - Partiellement fait</li>
+<li>[x] Alertes visuelles (patterns détectés, prédictions) ✅ <strong>FAIT - 12 déc 2025</strong></li>
 </ul>
 <p><strong>Impact</strong> : +20% utilisation</p>
 <p><strong>Coût</strong> : 0€ (Chart.js gratuit)</p>
@@ -1784,9 +1784,9 @@
 <p><strong>Statut actuel</strong> : Sync CIA auto existe (60 min), mais sync santé manuelle</p>
 <p><strong>Ce qui manque</strong> :</p>
 <ul>
-<li>[ ] Synchronisation santé quotidienne automatique</li>
-<li>[ ] Synchronisation intelligente (seulement si nouvelles données)</li>
-<li>[ ] Corrélations automatiques après sync</li>
+<li>[x] Synchronisation santé quotidienne automatique ✅ <strong>FAIT - 12 déc 2025</strong></li>
+<li>[x] Synchronisation intelligente (seulement si nouvelles données) ✅ <strong>FAIT - 12 déc 2025</strong></li>
+<li>[x] Corrélations automatiques après sync ✅ <strong>FAIT - 12 déc 2025</strong></li>
 <li>[ ] Rapports automatiques périodiques</li>
 <li>[ ] Export automatique (hebdomadaire/mensuel)</li>
 </ul>
@@ -1810,9 +1810,9 @@
 <p><strong>Ce qui manque</strong> :</p>
 <ul>
 <li>[ ] Cache Redis local (optionnel mais gratuit)</li>
-<li>[ ] Cache résultats corrélations</li>
-<li>[ ] Cache patterns détectés</li>
-<li>[ ] Cache métriques système</li>
+<li>[x] Cache résultats corrélations ✅ <strong>FAIT - 12 déc 2025</strong></li>
+<li>[x] Cache patterns détectés ✅ <strong>FAIT - 12 déc 2025</strong></li>
+<li>[ ] Cache métriques système - Partiellement fait</li>
 </ul>
 <p><strong>Impact</strong> : +40% vitesse</p>
 <p><strong>Coût</strong> : 0€ (Redis open source)</p>
@@ -1997,7 +1997,7 @@
 <li>[x] 0 erreur Bandit (code propre)</li>
 <li>[x] 0 erreur lint MD</li>
 <li>[x] Tous imports utilisés</li>
-<li>[x] Tests passent (395 tests)</li>
+<li>[x] Tests passent (503 tests)</li>
 </ul>
 <h3 id="fonctionnalites">Fonctionnalités<a class="headerlink" href="#fonctionnalites" title="Permanent link">&para;</a></h3>
 <ul>
@@ -2017,13 +2017,13 @@
 </ul>
 <h3 id="tests">Tests<a class="headerlink" href="#tests" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[x] Tests unitaires (395 tests)</li>
-<li>[ ] Tests intégration complets</li>
-<li>[ ] Tests performance</li>
-<li>[ ] Tests mobile</li>
+<li>[x] Tests unitaires (503 tests) - +42 nouveaux tests ajoutés le 12 décembre 2025</li>
+<li>[x] Tests intégration complets (tests/integration/)</li>
+<li>[ ] Tests performance (à ajouter)</li>
+<li>[ ] Tests mobile (à ajouter)</li>
 </ul>
 <hr />
-<p><strong>Date</strong> : 27 novembre 2025<br />
+<p><strong>Date</strong> : 12 décembre 2025
 <strong>Prochaine mise à jour</strong> : Après implémentation priorités</p>
 
 
@@ -2107,10 +2107,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "search.highlight", "search.share", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "search.highlight", "search.share", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

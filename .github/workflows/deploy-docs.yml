@@ -49,33 +49,63 @@ jobs:
           echo "📚 Building documentation with MkDocs..."
           mkdocs build --clean --strict || (echo "⚠️ Documentation build completed with warnings" && exit 0)
 
-      - name: 🧹 Nettoyer répertoire site
+      - name: 🧹 Nettoyer répertoire site (supprimer tous les liens)
         if: always()
         run: |
           if [ -d "site" ]; then
             echo "🧹 Nettoyage approfondi du répertoire site..."
-            # Supprimer tous les liens symboliques récursivement
-            find site -type l -print0 | xargs -0 rm -f 2>/dev/null || true
-            # Supprimer les fichiers cachés
-            find site -name ".*" -type f -delete 2>/dev/null || true
-            find site -name ".*" -type d -exec rm -rf {} + 2>/dev/null || true
-            # Supprimer les liens physiques (hard links) - copier les fichiers à la place
-            find site -type f -links +1 -exec sh -c 'cp "$1" "$1.tmp" && mv "$1.tmp" "$1"' _ {} \; 2>/dev/null || true
+            echo "📊 Taille initiale:"
+            du -sh site
+            
+            # Créer une copie complète sans liens symboliques ni physiques
+            echo "📦 Création d'une copie propre sans liens..."
+            rm -rf site_clean
+            mkdir -p site_clean
+            
+            # Copier tous les fichiers en suivant les liens symboliques (convertir en copies)
+            # Utiliser cp -rL pour suivre les liens symboliques et les convertir
+            cp -rL site/* site_clean/ 2>/dev/null || cp -r site/* site_clean/ 2>/dev/null || true
+            cp -rL site/.[!.]* site_clean/ 2>/dev/null || true
+            
+            # Supprimer l'ancien répertoire et renommer le nouveau
+            rm -rf site
+            mv site_clean site
+            
+            # Vérification finale : supprimer tout lien restant
+            find site -type l -delete 2>/dev/null || true
+            
             # Vérifier qu'il ne reste plus de liens
-            SYMLINKS=$(find site -type l | wc -l)
+            SYMLINKS=$(find site -type l 2>/dev/null | wc -l)
+            HARD_LINKS=$(find site -type f -links +1 2>/dev/null | wc -l)
+            
             if [ "$SYMLINKS" -gt 0 ]; then
-              echo "⚠️ Attention: $SYMLINKS liens symboliques restants"
-              find site -type l -ls
+              echo "⚠️ Attention: $SYMLINKS liens symboliques restants - suppression forcée..."
+              find site -type l -delete
             fi
+            
+            if [ "$HARD_LINKS" -gt 0 ]; then
+              echo "⚠️ Attention: $HARD_LINKS fichiers avec liens physiques - conversion..."
+              find site -type f -links +1 -exec sh -c 'cp "$1" "$1.tmp" && mv "$1.tmp" "$1"' _ {} \;
+            fi
+            
             # Vérifier la taille
             SIZE=$(du -sh site | cut -f1)
-            echo "📊 Taille du répertoire site: $SIZE"
-            # Vérifier que la taille est raisonnable (< 1GB)
             SIZE_BYTES=$(du -sb site | cut -f1)
+            echo "📊 Taille finale: $SIZE ($SIZE_BYTES bytes)"
+            
             if [ "$SIZE_BYTES" -gt 1073741824 ]; then
               echo "⚠️ Attention: Taille supérieure à 1GB ($SIZE_BYTES bytes)"
             fi
-            echo "✅ Nettoyage terminé"
+            
+            # Vérification finale
+            FINAL_SYMLINKS=$(find site -type l 2>/dev/null | wc -l)
+            FINAL_HARD_LINKS=$(find site -type f -links +1 2>/dev/null | wc -l)
+            
+            if [ "$FINAL_SYMLINKS" -eq 0 ] && [ "$FINAL_HARD_LINKS" -eq 0 ]; then
+              echo "✅ Nettoyage terminé - Aucun lien restant"
+            else
+              echo "⚠️ Liens restants: $FINAL_SYMLINKS symboliques, $FINAL_HARD_LINKS physiques"
+            fi
           fi
 
       - name: 📤 Upload GitHub Pages artifact

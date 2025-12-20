@@ -105,8 +105,42 @@ jobs:
           name: github-pages
           path: ./
 
+      - name: 🔍 Vérifier contenu artefact
+        run: |
+          echo "📂 Contenu du répertoire courant:"
+          ls -la
+          echo ""
+          echo "📂 Recherche du répertoire site:"
+          find . -type d -name "site" 2>/dev/null | head -5
+          echo ""
+          if [ -d "site" ]; then
+            echo "✅ Répertoire site trouvé"
+            ls -la site/ | head -10
+          else
+            echo "⚠️ Répertoire site non trouvé à la racine, recherche dans les sous-répertoires..."
+            find . -type d -name "site" -exec ls -la {} \; | head -20
+          fi
+
       - name: 🧹 Vérification et nettoyage final avant déploiement
         run: |
+          # Trouver le répertoire site (peut être dans un sous-répertoire après download)
+          SITE_DIR=$(find . -type d -name "site" -not -path "*/.*" | head -1)
+          if [ -z "$SITE_DIR" ]; then
+            echo "❌ ERREUR: Répertoire site introuvable après téléchargement de l'artefact"
+            echo "📂 Contenu actuel:"
+            ls -la
+            exit 1
+          fi
+
+          # Si site n'est pas à la racine, le déplacer
+          if [ "$SITE_DIR" != "./site" ] && [ "$SITE_DIR" != "site" ]; then
+            echo "📦 Déplacement de $SITE_DIR vers ./site"
+            if [ -d "site" ]; then
+              rm -rf site
+            fi
+            mv "$SITE_DIR" ./site
+          fi
+
           if [ -d "site" ]; then
             echo "🔍 Vérification finale avant déploiement..."
             # Vérifier les liens symboliques
@@ -131,7 +165,7 @@ jobs:
             fi
             echo "✅ Vérification terminée - prêt pour déploiement"
           else
-            echo "❌ ERREUR: Répertoire site introuvable"
+            echo "❌ ERREUR: Répertoire site introuvable après traitement"
             exit 1
           fi
 

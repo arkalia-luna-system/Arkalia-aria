@@ -235,6 +235,25 @@ jobs:
           echo "   → Source: 'GitHub Actions'"
           echo ""
 
+      - name: 🔍 Vérification finale avant déploiement
+        run: |
+          echo "🔍 Vérification finale du répertoire site..."
+          if [ ! -d "site" ]; then
+            echo "❌ ERREUR: Répertoire site introuvable"
+            exit 1
+          fi
+          echo "📊 Structure du répertoire site:"
+          ls -la site/ | head -20
+          echo ""
+          echo "📊 Vérification des fichiers essentiels:"
+          [ -f "site/index.html" ] && echo "✅ index.html présent" || echo "❌ index.html manquant"
+          [ -d "site/assets" ] && echo "✅ assets/ présent" || echo "⚠️ assets/ manquant"
+          echo ""
+          echo "📊 Taille totale:"
+          du -sh site
+          echo ""
+          echo "✅ Répertoire site prêt pour déploiement"
+
       - name: 🚀 Deploy to GitHub Pages
         id: deployment
         timeout-minutes: 5

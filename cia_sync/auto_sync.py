@@ -441,7 +441,13 @@ class AutoSyncManager:
         return True
 
     def _check_medical_appointments(self) -> None:
-        """Récupère les appointments depuis CIA et crée des alertes."""
+        """
+        Récupère les appointments depuis CIA et crée des alertes.
+
+        Crée des alertes pour :
+        - RDV dans les 7 prochains jours (alerte générale)
+        - Rappel 24h avant le RDV (alerte de rappel)
+        """
         try:
             import requests
 
@@ -455,16 +461,22 @@ class AutoSyncManager:
             )
 
             if response.status_code != 200:
+                logger.debug("CIA non disponible ou erreur récupération appointments")
                 return
 
             data = response.json()
-            appointments = data.get("appointments", [])
+            appointments = data.get("pulled_data", {}).get("appointments", [])
+            # Fallback pour format direct
+            if not appointments:
+                appointments = data.get("appointments", [])
 
             if not appointments:
+                logger.debug("Aucun appointment trouvé depuis CIA")
                 return
 
             alerts_system = ARIA_AlertsSystem()
             now = datetime.now()
+            created_alerts = 0
 
             for appointment in appointments:
                 try:
@@ -475,24 +487,87 @@ class AutoSyncManager:
                     if not appt_date_str:
                         continue
 
-                    appt_date = datetime.fromisoformat(
-                        appt_date_str.replace("Z", "+00:00")
+                    # Gérer différents formats de date
+                    try:
+                        # Format ISO standard
+                        appt_date_str_clean = appt_date_str.replace("Z", "+00:00")
+                        appt_date = datetime.fromisoformat(appt_date_str_clean)
+                    except ValueError:
+                        # Essayer format sans fuseau horaire
+                        try:
+                            appt_date_str_clean = appt_date_str.split(".")[0].replace(
+                                "Z", ""
+                            )
+                            appt_date = datetime.fromisoformat(appt_date_str_clean)
+                        except ValueError:
+                            # Format simple YYYY-MM-DD HH:MM:SS
+                            try:
+                                appt_date = datetime.strptime(
+                                    appt_date_str.split("T")[0], "%Y-%m-%d"
+                                )
+                            except Exception:
+                                logger.debug(
+                                    f"Format de date invalide: {appt_date_str}"
+                                )
+                                continue
+
+                    # Normaliser les fuseaux horaires pour comparaison
+                    if appt_date.tzinfo is None:
+                        # Si pas de fuseau horaire, considérer comme local
+                        appt_date = appt_date.replace(tzinfo=now.tzinfo)
+                    if now.tzinfo is None:
+                        now = now.replace(tzinfo=appt_date.tzinfo)
+
+                    # Calculer le temps jusqu'au RDV
+                    time_until = appt_date - now
+                    hours_until = time_until.total_seconds() / 3600
+                    days_until = time_until.days
+
+                    # Extraire les informations du RDV
+                    title = (
+                        appointment.get("title")
+                        or appointment.get("description")
+                        or "Rendez-vous médical"
                     )
+                    doctor = (
+                        appointment.get("doctor")
+                        or appointment.get("provider")
+                        or appointment.get("practitioner")
+                        or "Médecin"
+                    )
+                    location = appointment.get("location") or appointment.get("address")
 
-                    # Créer alerte si RDV dans les 7 prochains jours
-                    days_until = (appt_date - now).days
-                    if 0 <= days_until <= 7:
-                        title = (
-                            appointment.get("title")
-                            or appointment.get("description")
-                            or "Rendez-vous médical"
-                        )
-                        doctor = (
-                            appointment.get("doctor")
-                            or appointment.get("provider")
-                            or "Médecin"
-                        )
+                    # Vérifier si une alerte existe déjà pour ce RDV
+                    existing_alerts = alerts_system.get_alerts(
+                        limit=100,
+                        alert_type=AlertType.MEDICAL_APPOINTMENT,
+                        unread_only=False,
+                    )
+                    appointment_id = appointment.get("id") or appointment.get(
+                        "appointment_id"
+                    )
+                    alert_exists = False
+                    if appointment_id:
+                        for alert in existing_alerts.get("alerts", []):
+                            alert_data = alert.get("data", {})
+                            if isinstance(alert_data, str):
+                                import json
 
+                                try:
+                                    alert_data = json.loads(alert_data)
+                                except Exception:
+                                    pass
+                            if (
+                                isinstance(alert_data, dict)
+                                and alert_data.get("appointment_id") == appointment_id
+                                and alert_data.get("appointment_date")
+                                == appt_date.isoformat()
+                            ):
+                                alert_exists = True
+                                break
+
+                    # Créer alerte générale si RDV dans les 7 prochains jours
+                    if 0 <= days_until <= 7 and not alert_exists:
                         if days_until == 0:
                             severity = AlertSeverity.CRITICAL
                             message = f"Rendez-vous médical AUJOURD'HUI avec {doctor}: {title}"
@@ -503,7 +578,13 @@ class AutoSyncManager:
                             )
                         else:
                             severity = AlertSeverity.INFO
-                            message = f"Rendez-vous médical dans {days_until} jours avec {doctor}: {title}"
+                            message = (
+                                f"Rendez-vous médical dans {days_until} jours "
+                                f"avec {doctor}: {title}"
+                            )
+
+                        if location:
+                            message += f" - {location}"
 
                         alerts_system.create_alert(
                             AlertType.MEDICAL_APPOINTMENT,
@@ -511,18 +592,72 @@ class AutoSyncManager:
                             f"RDV Médical - {title}",
                             message,
                             {
+                                "appointment_id": appointment_id,
                                 "appointment_date": appt_date.isoformat(),
                                 "days_until": days_until,
+                                "hours_until": hours_until,
                                 "doctor": doctor,
+                                "location": location,
+                                "alert_type": "general",
                             },
                         )
+                        created_alerts += 1
+
+                    # Créer alerte de rappel 24h avant (entre 23h et 25h avant)
+                    if 23 <= hours_until <= 25:
+                        # Vérifier si alerte de rappel existe déjà
+                        reminder_exists = False
+                        for alert in existing_alerts.get("alerts", []):
+                            alert_data = alert.get("data", {})
+                            if isinstance(alert_data, str):
+                                import json
+
+                                try:
+                                    alert_data = json.loads(alert_data)
+                                except Exception:
+                                    pass
+                            if (
+                                isinstance(alert_data, dict)
+                                and alert_data.get("appointment_id") == appointment_id
+                                and alert_data.get("alert_type") == "reminder_24h"
+                            ):
+                                reminder_exists = True
+                                break
+
+                        if not reminder_exists:
+                            alerts_system.create_alert(
+                                AlertType.MEDICAL_APPOINTMENT,
+                                AlertSeverity.WARNING,
+                                f"Rappel RDV - {title}",
+                                (
+                                    f"Rappel : Rendez-vous médical DEMAIN à "
+                                    f"{appt_date.strftime('%H:%M')} avec {doctor}: {title}"
+                                )
+                                + (f" - {location}" if location else ""),
+                                {
+                                    "appointment_id": appointment_id,
+                                    "appointment_date": appt_date.isoformat(),
+                                    "hours_until": hours_until,
+                                    "doctor": doctor,
+                                    "location": location,
+                                    "alert_type": "reminder_24h",
+                                },
+                            )
+                            created_alerts += 1
+                            logger.info(f"✅ Alerte rappel 24h créée pour RDV: {title}")
 
                 except Exception as e:
                     logger.debug(f"Erreur parsing appointment: {e}")
                     continue
 
+            if created_alerts > 0:
+                logger.info(
+                    f"✅ {created_alerts} alerte(s) créée(s) pour les RDV médicaux"
+                )
+
         except ImportError:
             # Module alerts non disponible, ignorer
+            logger.debug("Module alerts non disponible")
             pass
         except Exception as e:
             logger.warning(f"⚠️ Erreur vérification appointments: {e}")

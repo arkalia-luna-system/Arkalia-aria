@@ -263,3 +263,4 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](https://github.com/ark
 ---
 
 **ARKALIA ARIA** — Transformez vos données de santé en insights intelligents
+

@@ -2,9 +2,17 @@ name: 📚 Deploy Documentation - GitHub Pages
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
+      - ".github/workflows/deploy-docs.yml"
   pull_request:
-    branches: [main, develop]
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
+      - ".github/workflows/deploy-docs.yml"
   workflow_dispatch:
 
 permissions:
@@ -111,7 +119,7 @@ jobs:
       - name: 📤 Upload GitHub Pages artifact
         if: always()
         continue-on-error: true
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           path: site/
 
@@ -119,7 +127,7 @@ jobs:
     name: 🚀 Deploy to GitHub Pages
     runs-on: ubuntu-latest
     needs: [build-docs]
-    if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: always() && (github.ref == 'refs/heads/main' && github.event_name == 'push') || github.event_name == 'workflow_dispatch'
     timeout-minutes: 10
     environment:
       name: github-pages

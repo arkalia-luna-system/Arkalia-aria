@@ -178,9 +178,9 @@ if os.getenv("ARIA_AUTO_EXPORT_ENABLED", "0").lower() in ("1", "true"):
         from health_connectors.auto_export import get_auto_exporter
 
         auto_exporter = get_auto_exporter()
-        success = auto_exporter.start_weekly_export()
+        success = auto_exporter.start_auto_exports()
         if success:
-            logger.info("✅ Exports hebdomadaires automatiques activés")
+            logger.info("✅ Exports automatiques activés (hebdomadaire et mensuel)")
     except Exception as e:
         logger.warning(f"⚠️ Erreur activation exports auto: {e}")
 

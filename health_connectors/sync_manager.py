@@ -514,7 +514,7 @@ class HealthSyncManager:
     def start_auto_sync(self) -> bool:
         """
         Démarre la synchronisation automatique périodique.
-        
+
         Démarre aussi les exports automatiques si configuré.
 
         Returns:
@@ -550,7 +550,7 @@ class HealthSyncManager:
     def stop_auto_sync(self) -> bool:
         """
         Arrête la synchronisation automatique.
-        
+
         Arrête aussi les exports automatiques.
 
         Returns:

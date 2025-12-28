@@ -137,6 +137,15 @@ class HealthSyncManager:
         try:
             unified_metrics = await self._generate_unified_metrics(days_back)
             sync_summary["unified_metrics"] = unified_metrics
+
+            # Créer alertes basées sur données santé après sync
+            try:
+                self._create_health_alerts(unified_metrics)
+            except Exception as e:
+                from core import get_logger
+
+                logger = get_logger("health_sync")
+                logger.warning(f"⚠️ Erreur création alertes santé après sync: {e}")
         except Exception as e:
             error_msg = f"Erreur génération métriques unifiées: {str(e)}"
             sync_summary["errors"].append(error_msg)
@@ -325,20 +334,36 @@ class HealthSyncManager:
                 "total_calories": sum(d.calories_burned or 0 for d in activity_data),
                 "total_distance": sum(d.distance_meters or 0 for d in activity_data),
                 "avg_heart_rate": self._calculate_average_heart_rate(activity_data),
+                "avg_daily_steps": (
+                    sum(d.steps or 0 for d in activity_data) / days_back
+                    if days_back > 0
+                    else 0
+                ),
                 "data_points": len(activity_data),
             },
             "sleep": {
                 "avg_duration_minutes": self._calculate_average_sleep_duration(
                     sleep_data
                 ),
+                "avg_duration_hours": (
+                    (avg_dur_min / 60.0)
+                    if (
+                        avg_dur_min := self._calculate_average_sleep_duration(
+                            sleep_data
+                        )
+                    )
+                    else None
+                ),
                 "avg_quality_score": self._calculate_average_sleep_quality(sleep_data),
                 "total_awakenings": sum(d.awakenings_count or 0 for d in sleep_data),
                 "data_points": len(sleep_data),
+                "trend": self._calculate_sleep_trend(sleep_data),
             },
             "stress": {
                 "avg_stress_level": self._calculate_average_stress_level(stress_data),
                 "avg_hrv": self._calculate_average_hrv(stress_data),
                 "data_points": len(stress_data),
+                "trend": self._calculate_stress_trend(stress_data),
             },
             "sources": list(
                 {d.source for d in activity_data + sleep_data + stress_data}
@@ -396,6 +421,72 @@ class HealthSyncManager:
             if d.heart_rate_variability is not None
         ]
         return round(sum(hrv_values) / len(hrv_values), 1) if hrv_values else None
+
+    def _calculate_sleep_trend(self, sleep_data: list[SleepData]) -> str | None:
+        """
+        Calcule la tendance du sommeil (increasing, decreasing, stable).
+
+        Args:
+            sleep_data: Liste des données de sommeil
+
+        Returns:
+            "increasing", "decreasing", "stable" ou None
+        """
+        if len(sleep_data) < 7:  # Besoin d'au moins 7 jours pour une tendance
+            return None
+
+        # Trier par date (utiliser sleep_start)
+        sorted_data = sorted(sleep_data, key=lambda x: x.sleep_start)
+
+        # Diviser en deux périodes
+        mid_point = len(sorted_data) // 2
+        first_half = sorted_data[:mid_point]
+        second_half = sorted_data[mid_point:]
+
+        avg_first = sum(d.duration_minutes for d in first_half) / len(first_half)
+        avg_second = sum(d.duration_minutes for d in second_half) / len(second_half)
+
+        # Seuil de 5% pour considérer une tendance
+        threshold = avg_first * 0.05
+        if avg_second > avg_first + threshold:
+            return "increasing"
+        elif avg_second < avg_first - threshold:
+            return "decreasing"
+        else:
+            return "stable"
+
+    def _calculate_stress_trend(self, stress_data: list[StressData]) -> str | None:
+        """
+        Calcule la tendance du stress (increasing, decreasing, stable).
+
+        Args:
+            stress_data: Liste des données de stress
+
+        Returns:
+            "increasing", "decreasing", "stable" ou None
+        """
+        if len(stress_data) < 7:  # Besoin d'au moins 7 jours pour une tendance
+            return None
+
+        # Trier par date
+        sorted_data = sorted(stress_data, key=lambda x: x.timestamp or datetime.min)
+
+        # Diviser en deux périodes
+        mid_point = len(sorted_data) // 2
+        first_half = sorted_data[:mid_point]
+        second_half = sorted_data[mid_point:]
+
+        avg_first = sum(d.stress_level for d in first_half) / len(first_half)
+        avg_second = sum(d.stress_level for d in second_half) / len(second_half)
+
+        # Seuil de 5% pour considérer une tendance
+        threshold = avg_first * 0.05
+        if avg_second > avg_first + threshold:
+            return "increasing"
+        elif avg_second < avg_first - threshold:
+            return "decreasing"
+        else:
+            return "stable"
 
     # Méthodes de sauvegarde
     async def _save_sync_history(self, sync_summary: dict[str, Any]) -> None:
@@ -546,7 +637,18 @@ class HealthSyncManager:
             pass
 
     def _create_health_alerts(self, metrics: dict[str, Any]) -> None:
-        """Crée des alertes basées sur les données de santé synchronisées."""
+        """
+        Crée des alertes basées sur les données de santé synchronisées.
+
+        Vérifie :
+        - Sommeil insuffisant (seuil et tendance)
+        - Stress élevé (seuil et tendance)
+        - Fréquence cardiaque anormale
+        - Activité physique insuffisante
+        - Qualité de sommeil faible
+
+        Évite les doublons en vérifiant les alertes existantes.
+        """
         from core import get_logger
 
         logger = get_logger("health_sync")
@@ -555,50 +657,196 @@ class HealthSyncManager:
 
             alerts_system = ARIA_AlertsSystem()
 
+            # Récupérer les alertes existantes pour éviter les doublons
+            existing_alerts = alerts_system.get_alerts(
+                limit=100, alert_type=AlertType.HEALTH_SYNC, unread_only=False
+            )
+            existing_alert_keys = set()
+            for alert in existing_alerts.get("alerts", []):
+                alert_data = alert.get("data", {})
+                if isinstance(alert_data, str):
+                    import json
+
+                    try:
+                        alert_data = json.loads(alert_data)
+                    except Exception:
+                        continue
+                if isinstance(alert_data, dict):
+                    alert_key = alert_data.get("alert_key")
+                    if alert_key:
+                        existing_alert_keys.add(alert_key)
+
+            created_count = 0
+
             # Vérifier sommeil insuffisant
-            sleep_duration = metrics.get("sleep", {}).get("avg_duration_hours")
-            if sleep_duration and sleep_duration < 6:
-                alerts_system.create_alert(
-                    AlertType.HEALTH_SYNC,
-                    AlertSeverity.WARNING,
-                    "Sommeil Insuffisant",
-                    f"Votre durée moyenne de sommeil est de {sleep_duration:.1f}h, ce qui est inférieur à la recommandation (7-9h).",
-                    {"sleep_duration": sleep_duration, "recommended_min": 7},
-                )
+            sleep_metrics = metrics.get("sleep", {})
+            sleep_duration_hours = sleep_metrics.get("avg_duration_hours")
+            sleep_duration_minutes = sleep_metrics.get("avg_duration_minutes")
+            if sleep_duration_hours is None and sleep_duration_minutes:
+                sleep_duration_hours = sleep_duration_minutes / 60.0
 
-            # Vérifier stress élevé
-            stress_level = metrics.get("stress", {}).get("avg_stress_level")
-            if stress_level and stress_level > 70:
-                alerts_system.create_alert(
-                    AlertType.HEALTH_SYNC,
-                    AlertSeverity.WARNING,
-                    "Niveau de Stress Élevé",
-                    f"Votre niveau de stress moyen est de {stress_level:.1f}/100, ce qui est élevé. Considérez des techniques de relaxation.",
-                    {"stress_level": stress_level, "threshold": 70},
-                )
-
-            # Vérifier fréquence cardiaque anormale
-            heart_rate = metrics.get("activity", {}).get("avg_heart_rate")
-            if heart_rate:
-                if heart_rate > 100:
+            if sleep_duration_hours and sleep_duration_hours < 6:
+                alert_key = f"sleep_insufficient_{int(sleep_duration_hours)}"
+                if alert_key not in existing_alert_keys:
                     alerts_system.create_alert(
                         AlertType.HEALTH_SYNC,
                         AlertSeverity.WARNING,
-                        "Fréquence Cardiaque Élevée",
-                        f"Votre fréquence cardiaque moyenne est de {heart_rate:.0f} bpm, ce qui est élevé. Consultez un médecin si cela persiste.",
-                        {"heart_rate": heart_rate, "threshold": 100},
+                        "Sommeil Insuffisant",
+                        f"Votre durée moyenne de sommeil est de {sleep_duration_hours:.1f}h, "
+                        f"ce qui est inférieur à la recommandation (7-9h).",
+                        {
+                            "alert_key": alert_key,
+                            "sleep_duration_hours": sleep_duration_hours,
+                            "recommended_min": 7,
+                            "threshold": 6,
+                        },
                     )
-                elif heart_rate < 50:
+                    created_count += 1
+
+            # Vérifier qualité de sommeil faible
+            sleep_quality = sleep_metrics.get("avg_quality_score")
+            if sleep_quality is not None and sleep_quality < 3.0:  # Sur échelle 1-5
+                alert_key = f"sleep_quality_low_{int(sleep_quality * 10)}"
+                if alert_key not in existing_alert_keys:
                     alerts_system.create_alert(
                         AlertType.HEALTH_SYNC,
                         AlertSeverity.INFO,
-                        "Fréquence Cardiaque Basse",
-                        f"Votre fréquence cardiaque moyenne est de {heart_rate:.0f} bpm. Si vous êtes sportif, c'est normal. Sinon, consultez un médecin.",
-                        {"heart_rate": heart_rate, "threshold": 50},
+                        "Qualité de Sommeil Faible",
+                        f"Votre qualité de sommeil moyenne est de {sleep_quality:.1f}/5, "
+                        f"ce qui est faible. Essayez d'améliorer votre hygiène de sommeil.",
+                        {
+                            "alert_key": alert_key,
+                            "sleep_quality": sleep_quality,
+                            "threshold": 3.0,
+                        },
                     )
+                    created_count += 1
+
+            # Vérifier stress élevé
+            stress_metrics = metrics.get("stress", {})
+            stress_level = stress_metrics.get("avg_stress_level")
+            if stress_level and stress_level > 70:
+                alert_key = f"stress_high_{int(stress_level)}"
+                if alert_key not in existing_alert_keys:
+                    alerts_system.create_alert(
+                        AlertType.HEALTH_SYNC,
+                        AlertSeverity.WARNING,
+                        "Niveau de Stress Élevé",
+                        f"Votre niveau de stress moyen est de {stress_level:.1f}/100, "
+                        f"ce qui est élevé. Considérez des techniques de relaxation.",
+                        {
+                            "alert_key": alert_key,
+                            "stress_level": stress_level,
+                            "threshold": 70,
+                        },
+                    )
+                    created_count += 1
+
+            # Vérifier fréquence cardiaque anormale
+            activity_metrics = metrics.get("activity", {})
+            heart_rate = activity_metrics.get("avg_heart_rate")
+            if heart_rate:
+                if heart_rate > 100:
+                    alert_key = f"heart_rate_high_{int(heart_rate)}"
+                    if alert_key not in existing_alert_keys:
+                        alerts_system.create_alert(
+                            AlertType.HEALTH_SYNC,
+                            AlertSeverity.WARNING,
+                            "Fréquence Cardiaque Élevée",
+                            f"Votre fréquence cardiaque moyenne est de {heart_rate:.0f} bpm, "
+                            f"ce qui est élevé. Consultez un médecin si cela persiste.",
+                            {
+                                "alert_key": alert_key,
+                                "heart_rate": heart_rate,
+                                "threshold": 100,
+                            },
+                        )
+                        created_count += 1
+                elif heart_rate < 50:
+                    alert_key = f"heart_rate_low_{int(heart_rate)}"
+                    if alert_key not in existing_alert_keys:
+                        alerts_system.create_alert(
+                            AlertType.HEALTH_SYNC,
+                            AlertSeverity.INFO,
+                            "Fréquence Cardiaque Basse",
+                            f"Votre fréquence cardiaque moyenne est de {heart_rate:.0f} bpm. "
+                            f"Si vous êtes sportif, c'est normal. Sinon, consultez un médecin.",
+                            {
+                                "alert_key": alert_key,
+                                "heart_rate": heart_rate,
+                                "threshold": 50,
+                            },
+                        )
+                        created_count += 1
+
+            # Vérifier tendances (sommeil en baisse, stress en hausse)
+            sleep_trend = sleep_metrics.get("trend")
+            if (
+                sleep_trend == "decreasing"
+                and sleep_duration_hours
+                and sleep_duration_hours < 7
+            ):
+                alert_key = "sleep_trend_decreasing"
+                if alert_key not in existing_alert_keys:
+                    alerts_system.create_alert(
+                        AlertType.HEALTH_SYNC,
+                        AlertSeverity.WARNING,
+                        "Tendance Sommeil en Baisse",
+                        f"Votre durée de sommeil est en baisse et actuellement à "
+                        f"{sleep_duration_hours:.1f}h. Essayez d'améliorer votre hygiène de sommeil.",
+                        {
+                            "alert_key": alert_key,
+                            "sleep_duration_hours": sleep_duration_hours,
+                            "trend": "decreasing",
+                        },
+                    )
+                    created_count += 1
+
+            stress_trend = stress_metrics.get("trend")
+            if stress_trend == "increasing" and stress_level and stress_level > 60:
+                alert_key = "stress_trend_increasing"
+                if alert_key not in existing_alert_keys:
+                    alerts_system.create_alert(
+                        AlertType.HEALTH_SYNC,
+                        AlertSeverity.WARNING,
+                        "Tendance Stress en Hausse",
+                        f"Votre niveau de stress est en hausse et actuellement à "
+                        f"{stress_level:.1f}/100. Prenez du temps pour vous détendre.",
+                        {
+                            "alert_key": alert_key,
+                            "stress_level": stress_level,
+                            "trend": "increasing",
+                        },
+                    )
+                    created_count += 1
+
+            # Vérifier activité physique insuffisante
+            daily_steps = activity_metrics.get("avg_daily_steps")
+            if daily_steps and daily_steps < 5000:
+                alert_key = f"activity_low_{int(daily_steps / 1000)}k"
+                if alert_key not in existing_alert_keys:
+                    alerts_system.create_alert(
+                        AlertType.HEALTH_SYNC,
+                        AlertSeverity.INFO,
+                        "Activité Physique Insuffisante",
+                        f"Votre nombre moyen de pas quotidiens est de {daily_steps:.0f}, "
+                        f"ce qui est inférieur à la recommandation (10 000 pas/jour).",
+                        {
+                            "alert_key": alert_key,
+                            "daily_steps": daily_steps,
+                            "recommended": 10000,
+                        },
+                    )
+                    created_count += 1
+
+            if created_count > 0:
+                logger.info(
+                    f"✅ {created_count} alerte(s) santé créée(s) après synchronisation"
+                )
 
         except ImportError:
             # Module alerts non disponible, ignorer
+            logger.debug("Module alerts non disponible")
             pass
         except Exception as e:
             logger.warning(f"⚠️ Erreur création alertes santé: {e}")

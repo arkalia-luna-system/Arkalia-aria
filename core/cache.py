@@ -260,3 +260,244 @@ class CacheManager:
     def __contains__(self, key: str) -> bool:
         """Vérifie si une clé existe dans le cache et n'a pas expiré."""
         return self.get(key) is not None
+
+
+class RedisCacheManager(CacheManager):
+    """
+    Gestionnaire de cache avec support Redis optionnel.
+
+    Utilise Redis si disponible, sinon fallback sur cache mémoire.
+    """
+
+    def __init__(
+        self,
+        default_ttl: int = 300,
+        max_size: int = 1000,
+        redis_url: str | None = None,
+        redis_enabled: bool = True,
+    ) -> None:
+        """
+        Initialise le gestionnaire de cache avec support Redis.
+
+        Args:
+            default_ttl: TTL par défaut en secondes
+            max_size: Taille maximale du cache mémoire (fallback)
+            redis_url: URL Redis (ex: redis://localhost:6379/0)
+            redis_enabled: Activer Redis si disponible
+        """
+        # Initialiser le cache mémoire comme fallback
+        super().__init__(default_ttl, max_size)
+
+        self.redis_enabled = redis_enabled
+        self.redis_url = redis_url or "redis://localhost:6379/0"
+        self._redis_client = None
+        self._redis_available = False
+
+        # Essayer de se connecter à Redis si activé
+        if self.redis_enabled:
+            self._init_redis()
+
+    def _init_redis(self) -> None:
+        """Initialise la connexion Redis."""
+        try:
+            import redis
+
+            # Parser l'URL Redis
+            self._redis_client = redis.from_url(
+                self.redis_url, decode_responses=False, socket_connect_timeout=2
+            )
+
+            # Tester la connexion
+            self._redis_client.ping()
+            self._redis_available = True
+            logger.info(f"✅ Redis connecté: {self.redis_url}")
+        except ImportError:
+            logger.debug("Redis non installé (pip install redis)")
+            self._redis_available = False
+        except Exception as e:
+            logger.warning(f"⚠️ Redis indisponible, utilisation cache mémoire: {e}")
+            self._redis_available = False
+            if self._redis_client:
+                try:
+                    self._redis_client.close()
+                except Exception:
+                    pass
+                self._redis_client = None
+
+    def _serialize_value(self, value: Any) -> bytes:
+        """Sérialise une valeur pour Redis."""
+        import json
+        import pickle
+
+        try:
+            # Essayer JSON d'abord (plus rapide pour types simples)
+            return json.dumps(value).encode("utf-8")
+        except (TypeError, ValueError):
+            # Fallback sur pickle pour types complexes
+            return pickle.dumps(value)
+
+    def _deserialize_value(self, data: bytes) -> Any:
+        """Désérialise une valeur depuis Redis."""
+        import json
+        import pickle
+
+        try:
+            # Essayer JSON d'abord
+            return json.loads(data.decode("utf-8"))
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            # Fallback sur pickle
+            return pickle.loads(data)
+
+    def get(self, key: str) -> Any | None:
+        """
+        Récupère une valeur du cache (Redis ou mémoire).
+
+        Args:
+            key: Clé de la valeur
+
+        Returns:
+            Valeur mise en cache ou None si non trouvée/expirée
+        """
+        # Essayer Redis d'abord
+        if self._redis_available and self._redis_client:
+            try:
+                data = self._redis_client.get(key)
+                if data is not None:
+                    value = self._deserialize_value(data)
+                    logger.debug(f"📥 Redis cache hit: {key}")
+                    # Mettre aussi en cache mémoire pour accès rapide
+                    super().set(key, value, ttl=self.default_ttl)
+                    return value
+            except Exception as e:
+                logger.debug(f"Erreur Redis get, fallback mémoire: {e}")
+                self._redis_available = False
+
+        # Fallback sur cache mémoire
+        return super().get(key)
+
+    def set(self, key: str, value: Any, ttl: int | None = None) -> None:
+        """
+        Définit une valeur dans le cache (Redis et mémoire).
+
+        Args:
+            key: Clé de la valeur
+            value: Valeur à mettre en cache
+            ttl: TTL en secondes (utilise le TTL par défaut si None)
+        """
+        ttl_to_use = ttl if ttl is not None else self.default_ttl
+
+        # Mettre en cache mémoire (toujours)
+        super().set(key, value, ttl=ttl_to_use)
+
+        # Mettre aussi en Redis si disponible
+        if self._redis_available and self._redis_client:
+            try:
+                serialized = self._serialize_value(value)
+                if ttl_to_use and ttl_to_use > 0:
+                    self._redis_client.setex(key, ttl_to_use, serialized)
+                else:
+                    self._redis_client.set(key, serialized)
+                logger.debug(f"📤 Redis cache set: {key} (TTL: {ttl_to_use}s)")
+            except Exception as e:
+                logger.debug(f"Erreur Redis set, fallback mémoire: {e}")
+                self._redis_available = False
+
+    def delete(self, key: str) -> bool:
+        """
+        Supprime une entrée du cache (Redis et mémoire).
+
+        Args:
+            key: Clé à supprimer
+
+        Returns:
+            True si l'entrée existait et a été supprimée
+        """
+        deleted_memory = super().delete(key)
+
+        # Supprimer aussi de Redis si disponible
+        if self._redis_available and self._redis_client:
+            try:
+                deleted_redis = self._redis_client.delete(key) > 0
+                return deleted_memory or deleted_redis
+            except Exception as e:
+                logger.debug(f"Erreur Redis delete: {e}")
+                return deleted_memory
+
+        return deleted_memory
+
+    def clear(self) -> None:
+        """Vide complètement le cache (Redis et mémoire)."""
+        super().clear()
+
+        # Vider aussi Redis si disponible
+        if self._redis_available and self._redis_client:
+            try:
+                self._redis_client.flushdb()
+                logger.info("🧹 Redis cache vidé")
+            except Exception as e:
+                logger.warning(f"Erreur vidage Redis: {e}")
+
+    def invalidate_pattern(self, pattern: str) -> int:
+        """
+        Invalide toutes les entrées correspondant à un pattern (Redis et mémoire).
+
+        Args:
+            pattern: Pattern à rechercher dans les clés
+
+        Returns:
+            Nombre d'entrées invalidées
+        """
+        count_memory = super().invalidate_pattern(pattern)
+
+        # Invalider aussi dans Redis si disponible
+        if self._redis_available and self._redis_client:
+            try:
+                # Utiliser SCAN pour trouver les clés correspondant au pattern
+                count_redis = 0
+                cursor = 0
+                while True:
+                    cursor, keys = self._redis_client.scan(
+                        cursor=cursor, match=f"*{pattern}*", count=100
+                    )
+                    if keys:
+                        count_redis += self._redis_client.delete(*keys)
+                    if cursor == 0:
+                        break
+                logger.debug(
+                    f"🔄 Redis invalidation pattern '{pattern}': {count_redis} entrées"
+                )
+                return count_memory + count_redis
+            except Exception as e:
+                logger.debug(f"Erreur Redis invalidate_pattern: {e}")
+                return count_memory
+
+        return count_memory
+
+    def get_stats(self) -> dict[str, Any]:
+        """
+        Retourne les statistiques du cache (Redis et mémoire).
+
+        Returns:
+            Dictionnaire contenant les statistiques
+        """
+        stats = super().get_stats()
+        stats["redis_enabled"] = self.redis_enabled
+        stats["redis_available"] = self._redis_available
+
+        if self._redis_available and self._redis_client:
+            try:
+                info = self._redis_client.info("memory")
+                stats["redis_memory_used"] = info.get("used_memory_human", "N/A")
+                stats["redis_keys"] = self._redis_client.dbsize()
+            except Exception as e:
+                logger.debug(f"Erreur stats Redis: {e}")
+
+        return stats
+
+    def __del__(self) -> None:
+        """Ferme la connexion Redis à la destruction."""
+        if self._redis_client:
+            try:
+                self._redis_client.close()
+            except Exception:
+                pass

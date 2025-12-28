@@ -514,10 +514,16 @@ class HealthSyncManager:
     def start_auto_sync(self) -> bool:
         """
         Démarre la synchronisation automatique périodique.
+        
+        Démarre aussi les exports automatiques si configuré.
 
         Returns:
             True si le démarrage a réussi, False si déjà en cours
         """
+        from core import get_logger
+
+        logger = get_logger("health_sync")
+
         if not self.config.auto_sync_enabled:
             return False
 
@@ -527,21 +533,51 @@ class HealthSyncManager:
         self.is_running = True
         self.sync_thread = threading.Thread(target=self._sync_loop, daemon=True)
         self.sync_thread.start()
+
+        # Démarrer exports automatiques si activé
+        try:
+            from health_connectors.auto_export import get_auto_exporter
+
+            auto_exporter = get_auto_exporter()
+            if not auto_exporter.is_running:
+                auto_exporter.start_auto_exports()
+                logger.info("✅ Exports automatiques démarrés avec sync")
+        except Exception as e:
+            logger.debug(f"Exports automatiques non disponibles: {e}")
+
         return True
 
     def stop_auto_sync(self) -> bool:
         """
         Arrête la synchronisation automatique.
+        
+        Arrête aussi les exports automatiques.
 
         Returns:
             True si l'arrêt a réussi
         """
+        from core import get_logger
+
+        logger = get_logger("health_sync")
+
         if not self.is_running:
             return False
 
         self.is_running = False
         if self.sync_thread and self.sync_thread.is_alive():
             self.sync_thread.join(timeout=5.0)
+
+        # Arrêter exports automatiques
+        try:
+            from health_connectors.auto_export import get_auto_exporter
+
+            auto_exporter = get_auto_exporter()
+            if auto_exporter.is_running:
+                auto_exporter.stop_auto_exports()
+                logger.info("⏹️ Exports automatiques arrêtés avec sync")
+        except Exception as e:
+            logger.debug(f"Exports automatiques non disponibles: {e}")
+
         return True
 
     def _sync_loop(self) -> None:

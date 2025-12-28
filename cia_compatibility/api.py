@@ -12,7 +12,7 @@ Endpoints de compatibilité :
 - POST /api/pain/entries -> POST /api/pain/entry
 """
 
-from typing import Any
+from typing import Any, cast
 
 from fastapi import APIRouter, HTTPException, Query, Request
 from httpx import ASGITransport, AsyncClient
@@ -31,7 +31,7 @@ def _get_app_client() -> AsyncClient:
     # Utiliser ASGITransport pour appeler l'application directement
     # sans passer par HTTP (plus efficace et évite les problèmes de port)
     # FastAPI est une application ASGI valide (hérite de Starlette)
-    transport = ASGITransport(app=app)  # type: ignore[arg-type]
+    transport = ASGITransport(app=cast(Any, app))
     return AsyncClient(transport=transport, base_url="http://testserver")
 
 

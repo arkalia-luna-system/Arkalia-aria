@@ -21,10 +21,15 @@ class TestRedisCacheManager:
 
     def test_redis_cache_init_redis_unavailable(self):
         """Test initialisation avec Redis indisponible (fallback mémoire)."""
-        with patch("redis.from_url") as mock_redis:
-            mock_client = MagicMock()
-            mock_client.ping.side_effect = Exception("Connection refused")
-            mock_redis.return_value = mock_client
+        # Simuler Redis indisponible en patchant l'import dans _init_redis
+        with patch("builtins.__import__") as mock_import:
+            # Simuler ImportError lors de l'import de redis
+            def side_effect(name, *args, **kwargs):
+                if name == "redis":
+                    raise ImportError("No module named 'redis'")
+                return __import__(name, *args, **kwargs)
+
+            mock_import.side_effect = side_effect
 
             cache = RedisCacheManager(redis_enabled=True)
             assert cache.redis_enabled is True
@@ -94,15 +99,16 @@ class TestRedisCacheManager:
 
         assert "total_entries" in stats
         assert "redis_enabled" in stats
-        assert stats["redis_enabled"] is True
+        assert stats["redis_enabled"] is False  # Désactivé explicitement
         assert stats["redis_available"] is False
 
-    @pytest.mark.skipif(
-        not pytest.importorskip("redis", reason="Redis non installé"),
-        reason="Redis non disponible",
-    )
     def test_redis_cache_with_redis_available(self):
         """Test avec Redis disponible (nécessite Redis installé et démarré)."""
+        try:
+            import redis  # noqa: F401
+        except ImportError:
+            pytest.skip("Redis non installé (pip install redis)")
+
         try:
             cache = RedisCacheManager(
                 redis_enabled=True, redis_url="redis://localhost:6379/0"

@@ -2,9 +2,15 @@ name: 📚 Deploy Documentation - GitHub Pages
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
   pull_request:
-    branches: [main, develop]
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
   workflow_dispatch:
 
 permissions:
@@ -111,7 +117,7 @@ jobs:
       - name: 📤 Upload GitHub Pages artifact
         if: always()
         continue-on-error: true
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           path: site/
 
@@ -119,73 +125,12 @@ jobs:
     name: 🚀 Deploy to GitHub Pages
     runs-on: ubuntu-latest
     needs: [build-docs]
-    if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: always() && ((github.ref == 'refs/heads/main' && github.event_name == 'push') || github.event_name == 'workflow_dispatch')
     timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: 🧹 Nettoyage final agressif avant déploiement
-        run: |
-          if [ ! -d "site" ]; then
-            echo "❌ ERREUR: Répertoire site introuvable après traitement"
-            exit 1
-          fi
-
-          echo "🔍 Nettoyage final agressif avant déploiement..."
-
-          # Créer une copie complète sans aucun lien
-          echo "📦 Création d'une copie finale sans liens..."
-          rm -rf site_final
-          mkdir -p site_final
-
-          # Copier en suivant tous les liens symboliques (les convertir en copies)
-          cp -rL site/* site_final/ 2>/dev/null || cp -r site/* site_final/ 2>/dev/null || true
-
-          # Supprimer l'ancien et utiliser le nouveau
-          rm -rf site
-          mv site_final site
-
-          # Suppression finale de tout lien restant
-          find site -type l -delete 2>/dev/null || true
-
-          # Vérifier les liens symboliques
-          SYMLINKS=$(find site -type l 2>/dev/null | wc -l)
-          if [ "$SYMLINKS" -gt 0 ]; then
-            echo "❌ ERREUR: $SYMLINKS liens symboliques encore présents après nettoyage"
-            find site -type l -ls
-            exit 1
-          fi
-
-          # Vérifier les liens physiques
-          HARD_LINKS=$(find site -type f -links +1 2>/dev/null | wc -l)
-          if [ "$HARD_LINKS" -gt 0 ]; then
-            echo "⚠️ $HARD_LINKS fichiers avec liens physiques - conversion finale..."
-            find site -type f -links +1 -exec sh -c 'cp "$1" "$1.tmp" && mv "$1.tmp" "$1"' _ {} \;
-          fi
-
-          # Vérification finale
-          FINAL_SYMLINKS=$(find site -type l 2>/dev/null | wc -l)
-          FINAL_HARD_LINKS=$(find site -type f -links +1 2>/dev/null | wc -l)
-
-          if [ "$FINAL_SYMLINKS" -gt 0 ] || [ "$FINAL_HARD_LINKS" -gt 0 ]; then
-            echo "❌ ERREUR: Liens encore présents après nettoyage final"
-            echo "   Symboliques: $FINAL_SYMLINKS"
-            echo "   Physiques: $FINAL_HARD_LINKS"
-            exit 1
-          fi
-
-          # Vérifier la taille
-          SIZE=$(du -sh site | cut -f1)
-          SIZE_BYTES=$(du -sb site | cut -f1)
-          echo "📊 Taille finale: $SIZE ($SIZE_BYTES bytes)"
-          if [ "$SIZE_BYTES" -gt 10737418240 ]; then
-            echo "❌ ERREUR: Taille supérieure à 10GB"
-            exit 1
-          fi
-
-          echo "✅ Vérification terminée - Aucun lien restant, prêt pour déploiement"
-
       - name: ⚠️ Vérification GitHub Pages
         run: |
           echo "⚠️ Si cette étape échoue avec une erreur 404, GitHub Pages n'est pas activé."
@@ -193,25 +138,6 @@ jobs:
           echo "   https://github.com/arkalia-luna-system/Arkalia-aria/settings/pages"
           echo "   → Source: 'GitHub Actions'"
           echo ""
-
-      - name: 🔍 Vérification finale avant déploiement
-        run: |
-          echo "🔍 Vérification finale du répertoire site..."
-          if [ ! -d "site" ]; then
-            echo "❌ ERREUR: Répertoire site introuvable"
-            exit 1
-          fi
-          echo "📊 Structure du répertoire site:"
-          ls -la site/ | head -20
-          echo ""
-          echo "📊 Vérification des fichiers essentiels:"
-          [ -f "site/index.html" ] && echo "✅ index.html présent" || echo "❌ index.html manquant"
-          [ -d "site/assets" ] && echo "✅ assets/ présent" || echo "⚠️ assets/ manquant"
-          echo ""
-          echo "📊 Taille totale:"
-          du -sh site
-          echo ""
-          echo "✅ Répertoire site prêt pour déploiement"
 
       - name: 🚀 Deploy to GitHub Pages
         id: deployment

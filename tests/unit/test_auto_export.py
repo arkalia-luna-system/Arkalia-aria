@@ -27,7 +27,7 @@ class TestAutoExporter:
         success = auto_exporter.start_weekly_export()
         assert success is True
         assert auto_exporter.is_running is True
-        assert auto_exporter.export_thread is not None
+        assert auto_exporter.weekly_thread is not None
 
         # Arrêter
         auto_exporter.stop_weekly_export()

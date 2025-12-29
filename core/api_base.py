@@ -13,7 +13,8 @@ from typing import Any
 
 from fastapi import APIRouter, HTTPException
 
-from .cache import CacheManager
+from .cache import CacheManager, RedisCacheManager
+from .config import Config
 from .database import DatabaseManager
 from .logging import get_logger
 
@@ -44,7 +45,22 @@ class BaseAPI:
 
         # Composants communs
         self.db = DatabaseManager()
-        self.cache = CacheManager()
+
+        # Initialiser le cache (Redis si activé, sinon mémoire)
+        config = Config()
+        if config.get("redis_enabled", False):
+            self.cache: CacheManager = RedisCacheManager(
+                default_ttl=config.get("cache_ttl", 300),
+                max_size=config.get("cache_max_size", 1000),
+                redis_url=config.get("redis_url", "redis://localhost:6379/0"),
+                redis_enabled=True,
+            )
+        else:
+            self.cache = CacheManager(
+                default_ttl=config.get("cache_ttl", 300),
+                max_size=config.get("cache_max_size", 1000),
+            )
+
         self.logger = get_logger(f"api.{prefix.replace('/api/', '')}")
 
         # Router FastAPI

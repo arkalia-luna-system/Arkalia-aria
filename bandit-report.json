@@ -1,6 +1,63 @@
 {
-  "errors": [],
-  "generated_at": "2025-12-29T14:55:17Z",
+  "errors": [
+    {
+      "filename": "./cia_sync/._auto_sync.py",
+      "reason": "syntax error while parsing AST from file"
+    },
+    {
+      "filename": "./core/._alerts.py",
+      "reason": "syntax error while parsing AST from file"
+    },
+    {
+      "filename": "./core/._cache.py",
+      "reason": "syntax error while parsing AST from file"
+    },
+    {
+      "filename": "./core/._database.py",
+      "reason": "syntax error while parsing AST from file"
+    },
+    {
+      "filename": "./health_connectors/._sync_manager.py",
+      "reason": "syntax error while parsing AST from file"
+    },
+    {
+      "filename": "./pain_tracking/._api.py",
+      "reason": "syntax error while parsing AST from file"
+    },
+    {
+      "filename": "./pattern_analysis/._correlation_analyzer.py",
+      "reason": "syntax error while parsing AST from file"
+    },
+    {
+      "filename": "./prediction_engine/._api.py",
+      "reason": "syntax error while parsing AST from file"
+    },
+    {
+      "filename": "./tests/._test_health_connectors.py",
+      "reason": "syntax error while parsing AST from file"
+    },
+    {
+      "filename": "./tests/._test_improvements.py",
+      "reason": "syntax error while parsing AST from file"
+    },
+    {
+      "filename": "./tests/._test_integration.py",
+      "reason": "syntax error while parsing AST from file"
+    },
+    {
+      "filename": "./tests/integration/._test_aria_systems.py",
+      "reason": "syntax error while parsing AST from file"
+    },
+    {
+      "filename": "./tests/unit/._test_metrics_collector_api.py",
+      "reason": "syntax error while parsing AST from file"
+    },
+    {
+      "filename": "./tests/unit/._test_metrics_collector_cli.py",
+      "reason": "syntax error while parsing AST from file"
+    }
+  ],
+  "generated_at": "2025-12-29T18:01:51Z",
   "metrics": {
     "./alerts/__init__.py": {
       "CONFIDENCE.HIGH": 0,
@@ -77,6 +134,11 @@
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
       "loc": 126,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./cia_sync/._auto_sync.py": {
+      "loc": 1,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -171,6 +233,21 @@
       "nosec": 0,
       "skipped_tests": 0
     },
+    "./core/._alerts.py": {
+      "loc": 1,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./core/._cache.py": {
+      "loc": 1,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./core/._database.py": {
+      "loc": 1,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
     "./core/__init__.py": {
       "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
@@ -245,7 +322,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 190,
+      "loc": 200,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -430,6 +507,11 @@
       "loc": 435,
       "nosec": 0,
       "skipped_tests": 1
+    },
+    "./health_connectors/._sync_manager.py": {
+      "loc": 1,
+      "nosec": 0,
+      "skipped_tests": 0
     },
     "./health_connectors/__init__.py": {
       "CONFIDENCE.HIGH": 0,
@@ -756,6 +838,11 @@
       "nosec": 0,
       "skipped_tests": 0
     },
+    "./pain_tracking/._api.py": {
+      "loc": 1,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
     "./pain_tracking/__init__.py": {
       "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
@@ -778,7 +865,12 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 639,
+      "loc": 657,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./pattern_analysis/._correlation_analyzer.py": {
+      "loc": 1,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -831,6 +923,11 @@
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
       "loc": 318,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./prediction_engine/._api.py": {
+      "loc": 1,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -912,6 +1009,21 @@
       "nosec": 0,
       "skipped_tests": 0
     },
+    "./tests/._test_health_connectors.py": {
+      "loc": 1,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./tests/._test_improvements.py": {
+      "loc": 1,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./tests/._test_integration.py": {
+      "loc": 1,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
     "./tests/__init__.py": {
       "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
@@ -922,6 +1034,11 @@
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
       "loc": 3,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./tests/integration/._test_aria_systems.py": {
+      "loc": 1,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1130,6 +1247,16 @@
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
       "loc": 310,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./tests/unit/._test_metrics_collector_api.py": {
+      "loc": 1,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./tests/unit/._test_metrics_collector_cli.py": {
+      "loc": 1,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1389,7 +1516,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 259,
+      "loc": 263,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1402,7 +1529,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 161,
+      "loc": 163,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1480,7 +1607,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 22790,
+      "loc": 22838,
       "nosec": 0,
       "skipped_tests": 52
     }

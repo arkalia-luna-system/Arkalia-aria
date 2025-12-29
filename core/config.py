@@ -43,6 +43,10 @@ class Config:
         # Configuration de cache
         self._config["cache_ttl"] = int(os.getenv("ARIA_CACHE_TTL", "300"))
         self._config["cache_max_size"] = int(os.getenv("ARIA_CACHE_MAX_SIZE", "1000"))
+        self._config["redis_enabled"] = os.getenv("ARIA_REDIS_ENABLED", "0") == "1"
+        self._config["redis_url"] = os.getenv(
+            "ARIA_REDIS_URL", "redis://localhost:6379/0"
+        )
 
         # Configuration de logging
         self._config["log_level"] = os.getenv("ARIA_LOG_LEVEL", "INFO")

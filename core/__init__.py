@@ -12,7 +12,7 @@ Module central contenant les abstractions communes :
 
 from .alerts import AlertSeverity, AlertType, ARIA_AlertsSystem, get_alerts_system
 from .api_base import BaseAPI
-from .cache import CacheManager
+from .cache import CacheManager, RedisCacheManager
 from .config import Config
 from .database import DatabaseManager
 from .exceptions import APIError, ARIABaseException, DatabaseError
@@ -29,6 +29,7 @@ __all__ = [
     "setup_logging",
     "get_logger",
     "CacheManager",
+    "RedisCacheManager",
     "ARIABaseException",
     "DatabaseError",
     "APIError",

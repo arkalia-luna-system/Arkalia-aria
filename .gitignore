@@ -118,6 +118,10 @@ uploads/
 # Security Reports
 reports/
 *.report.json
+bandit-report*.json
+
+# Type checking cache
+.mypy_cache/
 
 # Flutter/Dart
 mobile_app/.dart_tool/

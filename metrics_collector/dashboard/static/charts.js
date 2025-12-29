@@ -662,6 +662,130 @@ function initializeDashboardCharts() {
 }
 
 /**
+ * Crée un heatmap de corrélations entre différentes variables
+ * @param {string} canvasId - ID du canvas
+ * @param {Object} correlationData - Données de corrélations
+ * @param {Object} options - Options de configuration
+ */
+function createCorrelationHeatmap(canvasId, correlationData, options = {}) {
+    const ctx = document.getElementById(canvasId).getContext('2d');
+
+    // Matrice de corrélations par défaut
+    const defaultMatrix = correlationData.matrix || [
+        [1.0, 0.5, 0.3, 0.7],  // Douleur vs [Douleur, Sommeil, Stress, Activité]
+        [0.5, 1.0, 0.4, 0.6],  // Sommeil vs [Douleur, Sommeil, Stress, Activité]
+        [0.3, 0.4, 1.0, 0.2],  // Stress vs [Douleur, Sommeil, Stress, Activité]
+        [0.7, 0.6, 0.2, 1.0]   // Activité vs [Douleur, Sommeil, Stress, Activité]
+    ];
+
+    const labels = correlationData.labels || ['Douleur', 'Sommeil', 'Stress', 'Activité'];
+    const matrix = defaultMatrix;
+
+    // Convertir la matrice en format Chart.js (heatmap avec barres)
+    const datasets = [];
+    const colors = [];
+
+    // Créer un dataset pour chaque ligne de la matrice
+    matrix.forEach((row, rowIndex) => {
+        const data = row.map((value, colIndex) => ({
+            x: colIndex,
+            y: rowIndex,
+            v: value
+        }));
+
+        // Couleur basée sur la valeur de corrélation
+        const colorScale = (value) => {
+            if (value >= 0.7) return 'rgba(220, 53, 69, 0.8)'; // Rouge fort
+            if (value >= 0.4) return 'rgba(255, 193, 7, 0.8)'; // Jaune moyen
+            if (value >= 0.1) return 'rgba(40, 167, 69, 0.8)';  // Vert faible
+            return 'rgba(108, 117, 125, 0.5)'; // Gris très faible
+        };
+
+        datasets.push({
+            label: labels[rowIndex],
+            data: data,
+            backgroundColor: row.map(v => colorScale(v)),
+            borderColor: row.map(v => colorScale(v).replace('0.8', '1')),
+            borderWidth: 1
+        });
+    });
+
+    // Créer un graphique en barres groupées pour simuler un heatmap
+    return new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: datasets.map((dataset, index) => ({
+                label: labels[index],
+                data: dataset.data.map(d => d.v),
+                backgroundColor: dataset.backgroundColor,
+                borderColor: dataset.borderColor,
+                borderWidth: dataset.borderWidth
+            }))
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            const value = context.parsed.y;
+                            const rowLabel = labels[context.datasetIndex];
+                            const colLabel = labels[context.dataIndex];
+                            const correlation = value.toFixed(3);
+                            let interpretation = '';
+
+                            if (Math.abs(value) >= 0.7) {
+                                interpretation = 'Corrélation forte';
+                            } else if (Math.abs(value) >= 0.4) {
+                                interpretation = 'Corrélation modérée';
+                            } else if (Math.abs(value) >= 0.1) {
+                                interpretation = 'Corrélation faible';
+                            } else {
+                                interpretation = 'Pas de corrélation';
+                            }
+
+                            return `${rowLabel} ↔ ${colLabel}: ${correlation} (${interpretation})`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Variables'
+                    },
+                    grid: {
+                        display: false
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Coefficient de corrélation'
+                    },
+                    min: -1,
+                    max: 1,
+                    grid: {
+                        color: function (context) {
+                            if (context.tick.value === 0) {
+                                return 'rgba(0, 0, 0, 0.3)';
+                            }
+                            return 'rgba(0, 0, 0, 0.1)';
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+/**
  * Fonction utilitaire pour formater les données de l'API
  */
 function formatApiDataForChart(apiData, xField, yField, label = 'Données') {
@@ -692,6 +816,7 @@ window.ARIACharts = {
     createDoughnutChart,
     createAreaChart,
     createCorrelationChart,
+    createCorrelationHeatmap,
     createTrendChart,
     createComparisonChart,
     generateSampleData,
@@ -704,3 +829,6 @@ window.ARIACharts = {
     formatApiDataForChart,
     COLORS: ARIA_COLORS
 };
+
+// Exporter aussi globalement pour compatibilité
+window.createCorrelationHeatmap = createCorrelationHeatmap;

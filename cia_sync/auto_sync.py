@@ -555,8 +555,9 @@ class AutoSyncManager:
 
                                 try:
                                     alert_data = json.loads(alert_data)
-                                except Exception:
-                                    pass
+                                except Exception as e:
+                                    # Ignorer les erreurs de parsing JSON pour alert_data
+                                    logger.debug(f"Erreur parsing JSON alert_data: {e}")
                             if (
                                 isinstance(alert_data, dict)
                                 and alert_data.get("appointment_id") == appointment_id
@@ -614,8 +615,9 @@ class AutoSyncManager:
 
                                 try:
                                     alert_data = json.loads(alert_data)
-                                except Exception:
-                                    pass
+                                except Exception as e:
+                                    # Ignorer les erreurs de parsing JSON pour alert_data
+                                    logger.debug(f"Erreur parsing JSON alert_data: {e}")
                             if (
                                 isinstance(alert_data, dict)
                                 and alert_data.get("appointment_id") == appointment_id

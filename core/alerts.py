@@ -79,8 +79,9 @@ class ARIA_AlertsSystem:
                 self.db.execute_update(
                     "CREATE INDEX IF NOT EXISTS idx_alerts_read ON alerts(is_read)"
                 )
-            except Exception:
-                pass
+            except Exception as e:
+                # Ignorer les erreurs de création d'index (peut déjà exister)
+                logger.debug(f"Index idx_alerts_read peut déjà exister: {e}")
             logger.info("✅ Table alerts initialisée")
         except Exception as e:
             logger.error(f"❌ Erreur initialisation table alerts: {e}")
@@ -314,8 +315,9 @@ class ARIA_AlertsSystem:
                 if alert_dict.get("data"):
                     try:
                         alert_dict["data"] = json.loads(alert_dict["data"])
-                    except Exception:
-                        pass
+                    except Exception as e:
+                        # Ignorer les erreurs de parsing JSON pour alert data
+                        logger.debug(f"Erreur parsing JSON alert data: {e}")
                 alerts.append(alert_dict)
 
             return {

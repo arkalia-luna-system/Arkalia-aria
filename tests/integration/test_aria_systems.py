@@ -196,7 +196,9 @@ def test_new_pain_endpoints():
                             asyncio.gather(*pending, return_exceptions=True)
                         )
                     loop.close()
-                except Exception:
+                except (
+                    Exception
+                ):  # nosec B110 - Ignorer les erreurs de nettoyage dans les tests
                     pass  # Ignorer les erreurs de nettoyage
     except Exception as e:
         import traceback
@@ -275,7 +277,9 @@ def test_audio_voice_endpoints():
                             asyncio.gather(*pending, return_exceptions=True)
                         )
                     loop.close()
-                except Exception:
+                except (
+                    Exception
+                ):  # nosec B110 - Ignorer les erreurs de nettoyage dans les tests
                     pass  # Ignorer les erreurs de nettoyage
     except Exception as e:
         import traceback

@@ -12,6 +12,8 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 
+from core.logging import get_logger
+
 from .base_connector import BaseHealthConnector
 from .config import HealthConnectorConfig
 from .data_models import (
@@ -23,6 +25,8 @@ from .data_models import (
 from .google_fit_connector import GoogleFitConnector
 from .ios_health_connector import IOSHealthConnector
 from .samsung_health_connector import SamsungHealthConnector
+
+logger = get_logger("health_sync")
 
 
 class HealthSyncManager:
@@ -667,10 +671,10 @@ class HealthSyncManager:
             analyzer.get_comprehensive_analysis(days_back=30)
         except ImportError:
             # Module non disponible, ignorer
-            pass
-        except Exception:
+            logger.debug("Module non disponible pour l'export")
+        except Exception as e:
             # Erreur non critique, ignorer
-            pass
+            logger.debug(f"Erreur non critique lors de l'export: {e}")
 
     def _create_health_alerts(self, metrics: dict[str, Any]) -> None:
         """
@@ -705,7 +709,9 @@ class HealthSyncManager:
 
                     try:
                         alert_data = json.loads(alert_data)
-                    except Exception:
+                    except Exception as e:
+                        # Ignorer les erreurs de parsing JSON et continuer
+                        logger.debug(f"Erreur parsing JSON alert_data: {e}")
                         continue
                 if isinstance(alert_data, dict):
                     alert_key = alert_data.get("alert_key")

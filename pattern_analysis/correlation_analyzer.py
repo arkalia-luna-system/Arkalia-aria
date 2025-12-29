@@ -506,8 +506,9 @@ class CorrelationAnalyzer:
                     if dt:
                         day_name = dt.strftime("%A")
                         day_patterns[day_name] += 1
-                except Exception:
-                    pass
+                except Exception as e:
+                    # Ignorer les erreurs de parsing de date
+                    logger.debug(f"Erreur parsing date pour pattern jour: {e}")
 
         # Filtrer les déclencheurs récurrents
         recurrent_physical = [

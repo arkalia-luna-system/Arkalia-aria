@@ -156,6 +156,16 @@
   - **Action** : Cache avec TTL (5 minutes) et mécanisme d'invalidation
   - **Date** : 28 décembre 2025
 
+- [x] **Cache prédictions** ✅ **FAIT** (28 DEC 25)
+  - **Où** : `prediction_engine/api.py`
+  - **Action** : Cache pour `/predictions/current` (TTL 5 min) et `/analytics` (TTL 10 min)
+  - **Date** : 28 décembre 2025
+
+- [x] **Cache pain tracking** ✅ **FAIT** (28 DEC 25)
+  - **Où** : `pain_tracking/api.py`
+  - **Action** : Cache pour `/entries/recent` (TTL 2 min) et `/suggestions` (TTL 5 min)
+  - **Date** : 28 décembre 2025
+
 - [x] **Cache Redis local** ✅ **FAIT** (28 DEC 25)
   - **Où** : `core/cache.py` (RedisCacheManager existe déjà)
   - **Action** : Intégration dans Config et BaseAPI, export dans core/__init__.py
@@ -183,10 +193,16 @@
 - **Temps** : 2-3 semaines
 
 ### 3. Visualisations Avancées
-- [ ] Heatmaps (corrélations)
+- [x] Heatmaps (corrélations) ✅ **FAIT** (28 DEC 25)
+  - **Où** : `metrics_collector/dashboard/static/charts.js` et `pain_analytics.html`
+  - **Action** : Heatmap de corrélations ajouté avec Chart.js
+  - **Date** : 28 décembre 2025
 - [ ] Graphiques 3D (tendances)
-- [ ] Graphiques interactifs (D3.js)
-- **Temps** : 1-2 semaines
+- [x] Graphiques interactifs (D3.js) ✅ **FAIT** (28 DEC 25)
+  - **Où** : `metrics_collector/dashboard/templates/pain_analytics.html`
+  - **Action** : Timeline interactive avec zoom, hover, et tooltips
+  - **Date** : 28 décembre 2025
+- **Temps restant** : 1-2 semaines
 
 ### 4. Application Mobile
 - [ ] Écrans UI complets
@@ -283,5 +299,6 @@
 **Date** : 28 décembre 2025  
 **Dernière mise à jour** : 28 décembre 2025  
 **Statut** : ✅ **Toutes les tâches Priorité 1 et 2 terminées** (100%)  
-**Prochaine révision** : Fonctionnalités long terme (Priorité 3)
+**Visualisations avancées** : ✅ **2/3 terminées** (Heatmaps + D3.js)  
+**Prochaine révision** : Graphiques 3D (optionnel, long terme)
 

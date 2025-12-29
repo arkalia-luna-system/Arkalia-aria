@@ -10,7 +10,10 @@ import logging
 import threading
 import time
 from collections.abc import Callable
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    import redis
 
 from .exceptions import CacheError
 
@@ -290,7 +293,7 @@ class RedisCacheManager(CacheManager):
 
         self.redis_enabled = redis_enabled
         self.redis_url = redis_url or "redis://localhost:6379/0"
-        self._redis_client = None
+        self._redis_client: redis.Redis[bytes] | None = None
         self._redis_available = False
 
         # Essayer de se connecter à Redis si activé
@@ -308,21 +311,25 @@ class RedisCacheManager(CacheManager):
             )
 
             # Tester la connexion
-            self._redis_client.ping()
-            self._redis_available = True
-            logger.info(f"✅ Redis connecté: {self.redis_url}")
+            if self._redis_client is not None:
+                self._redis_client.ping()
+                self._redis_available = True
+                logger.info(f"✅ Redis connecté: {self.redis_url}")
+            else:
+                self._redis_available = False
         except ImportError:
             logger.debug("Redis non installé (pip install redis)")
             self._redis_available = False
+            self._redis_client = None
         except Exception as e:
             logger.warning(f"⚠️ Redis indisponible, utilisation cache mémoire: {e}")
             self._redis_available = False
-            if self._redis_client:
+            if self._redis_client is not None:
                 try:
                     self._redis_client.close()
                 except Exception:
                     pass
-                self._redis_client = None
+            self._redis_client = None
 
     def _serialize_value(self, value: Any) -> bytes:
         """Sérialise une valeur pour Redis."""
@@ -359,7 +366,7 @@ class RedisCacheManager(CacheManager):
             Valeur mise en cache ou None si non trouvée/expirée
         """
         # Essayer Redis d'abord
-        if self._redis_available and self._redis_client:
+        if self._redis_available and self._redis_client is not None:
             try:
                 data = self._redis_client.get(key)
                 if data is not None:
@@ -390,7 +397,7 @@ class RedisCacheManager(CacheManager):
         super().set(key, value, ttl=ttl_to_use)
 
         # Mettre aussi en Redis si disponible
-        if self._redis_available and self._redis_client:
+        if self._redis_available and self._redis_client is not None:
             try:
                 serialized = self._serialize_value(value)
                 if ttl_to_use and ttl_to_use > 0:
@@ -415,7 +422,7 @@ class RedisCacheManager(CacheManager):
         deleted_memory = super().delete(key)
 
         # Supprimer aussi de Redis si disponible
-        if self._redis_available and self._redis_client:
+        if self._redis_available and self._redis_client is not None:
             try:
                 deleted_redis = self._redis_client.delete(key) > 0
                 return deleted_memory or deleted_redis
@@ -430,7 +437,7 @@ class RedisCacheManager(CacheManager):
         super().clear()
 
         # Vider aussi Redis si disponible
-        if self._redis_available and self._redis_client:
+        if self._redis_available and self._redis_client is not None:
             try:
                 self._redis_client.flushdb()
                 logger.info("🧹 Redis cache vidé")
@@ -450,7 +457,7 @@ class RedisCacheManager(CacheManager):
         count_memory = super().invalidate_pattern(pattern)
 
         # Invalider aussi dans Redis si disponible
-        if self._redis_available and self._redis_client:
+        if self._redis_available and self._redis_client is not None:
             try:
                 # Utiliser SCAN pour trouver les clés correspondant au pattern
                 count_redis = 0
@@ -484,7 +491,7 @@ class RedisCacheManager(CacheManager):
         stats["redis_enabled"] = self.redis_enabled
         stats["redis_available"] = self._redis_available
 
-        if self._redis_available and self._redis_client:
+        if self._redis_available and self._redis_client is not None:
             try:
                 info = self._redis_client.info("memory")
                 stats["redis_memory_used"] = info.get("used_memory_human", "N/A")
@@ -496,7 +503,7 @@ class RedisCacheManager(CacheManager):
 
     def __del__(self) -> None:
         """Ferme la connexion Redis à la destruction."""
-        if self._redis_client:
+        if self._redis_client is not None:
             try:
                 self._redis_client.close()
             except Exception:

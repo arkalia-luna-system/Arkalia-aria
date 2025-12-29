@@ -8,14 +8,25 @@ from typing import Any
 
 from fastapi import APIRouter, HTTPException, Query
 
+from core.cache import CacheManager
+from core.config import Config
+from core.logging import get_logger
 from pattern_analysis.correlation_analyzer import CorrelationAnalyzer
 from prediction_engine.ml_analyzer import ARIAMLAnalyzer
 
 router = APIRouter()
+logger = get_logger("prediction_engine")
 
 # Instances globales (singleton pattern)
 _ml_analyzer: ARIAMLAnalyzer | None = None
 _correlation_analyzer: CorrelationAnalyzer | None = None
+
+# Cache pour les prédictions (TTL 5 minutes)
+_config = Config()
+_cache = CacheManager(
+    default_ttl=_config.get("cache_ttl", 300),
+    max_size=_config.get("cache_max_size", 1000),
+)
 
 
 def get_ml_analyzer() -> ARIAMLAnalyzer:
@@ -78,6 +89,13 @@ async def get_current_predictions(
     - Contexte actuel (heure, jour, facteurs)
     """
     try:
+        # Vérifier le cache (clé basée sur include_correlations)
+        cache_key = f"predictions_current_{include_correlations}"
+        cached_result = _cache.get(cache_key)
+        if cached_result is not None:
+            logger.debug("📦 Prédiction depuis cache")
+            return cached_result
+
         ml_analyzer = get_ml_analyzer()
 
         # Contexte actuel (simplifié - à améliorer avec données santé réelles)
@@ -135,12 +153,16 @@ async def get_current_predictions(
         else:
             risk_level = "very_low"
 
-        return {
+        result = {
             "risk_level": risk_level,
             "predictions": [prediction],
             "confidence": prediction.get("confidence", 0.0),
             "timestamp": datetime.now().isoformat(),
         }
+
+        # Mettre en cache (TTL 5 minutes)
+        _cache.set(cache_key, result, ttl=300)
+        return result
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"Erreur lors de la prédiction: {str(e)}"
@@ -179,8 +201,9 @@ async def predict_pain_episode(context: dict[str, Any]) -> dict:
                     "sleep_correlation": sleep_corr.get("correlation", 0.0),
                     "stress_correlation": stress_corr.get("correlation", 0.0),
                 }
-            except Exception:
-                pass
+            except Exception as e:
+                # Ignorer les erreurs de calcul de corrélation (données manquantes)
+                logger.debug(f"Erreur calcul corrélation prédiction: {e}")
 
         return prediction
     except Exception as e:
@@ -193,8 +216,18 @@ async def predict_pain_episode(context: dict[str, Any]) -> dict:
 async def get_analytics() -> dict:
     """Retourne les analytics du moteur de prédiction."""
     try:
+        # Vérifier le cache
+        cache_key = "prediction_analytics"
+        cached_result = _cache.get(cache_key)
+        if cached_result is not None:
+            logger.debug("📦 Analytics depuis cache")
+            return cached_result
+
         ml_analyzer = get_ml_analyzer()
         analytics = ml_analyzer.get_analytics_summary()
+
+        # Mettre en cache (TTL 10 minutes car analytics changent moins souvent)
+        _cache.set(cache_key, analytics, ttl=600)
         return analytics
     except Exception as e:
         raise HTTPException(
@@ -218,6 +251,10 @@ async def train_model(data: dict[str, Any]) -> dict:
 
         # Réanalyser les patterns pour "entraîner"
         patterns = ml_analyzer.analyze_pain_patterns(days=days)
+
+        # Invalider le cache après entraînement
+        _cache.invalidate_pattern("prediction_")
+        _cache.invalidate_pattern("predictions_")
 
         return {
             "message": "Analyse des patterns effectuée",

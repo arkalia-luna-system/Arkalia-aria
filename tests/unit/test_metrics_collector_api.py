@@ -114,54 +114,78 @@ class TestARIA_MetricsAPI:
     @patch("metrics_collector.api.ARIA_MetricsExporter")
     def test_export_metrics_json(self, mock_exporter_class, mock_collector_class):
         """Test GET /metrics/export/json"""
+        import tempfile
+
         mock_collector = MagicMock()
         mock_collector.collect_all_metrics.return_value = {"test": "data"}
         mock_collector_class.return_value = mock_collector
 
+        # Utiliser un fichier temporaire sécurisé au lieu de /tmp/test.json
+        with tempfile.NamedTemporaryFile(
+            mode="w", suffix=".json", delete=False
+        ) as tmp_file:
+            tmp_path = Path(tmp_file.name)
+
         mock_exporter = MagicMock()
-        mock_exporter.export_json.return_value = Path("/tmp/test.json")
+        mock_exporter.export_json.return_value = tmp_path
         mock_exporter_class.return_value = mock_exporter
 
-        api = ARIA_MetricsAPI(".")
-        router = api.get_router()
+        try:
+            api = ARIA_MetricsAPI(".")
+            router = api.get_router()
 
-        from fastapi import FastAPI
+            from fastapi import FastAPI
 
-        test_app = FastAPI()
-        test_app.include_router(router)
-        client = TestClient(test_app)
+            test_app = FastAPI()
+            test_app.include_router(router)
+            client = TestClient(test_app)
 
-        response = client.get("/metrics/export/json")
-        assert response.status_code == 200
-        data = response.json()
-        assert data["status"] == "success"
-        assert "file_path" in data
+            response = client.get("/metrics/export/json")
+            assert response.status_code == 200
+            data = response.json()
+            assert data["status"] == "success"
+            assert "file_path" in data
+        finally:
+            # Nettoyer le fichier temporaire
+            tmp_path.unlink(missing_ok=True)
 
     @patch("metrics_collector.api.ARIA_MetricsCollector")
     @patch("metrics_collector.api.ARIA_MetricsExporter")
     def test_export_metrics_markdown(self, mock_exporter_class, mock_collector_class):
         """Test GET /metrics/export/markdown"""
+        import tempfile
+
         mock_collector = MagicMock()
         mock_collector.collect_all_metrics.return_value = {"test": "data"}
         mock_collector_class.return_value = mock_collector
 
+        # Utiliser un fichier temporaire sécurisé au lieu de /tmp/test.md
+        with tempfile.NamedTemporaryFile(
+            mode="w", suffix=".md", delete=False
+        ) as tmp_file:
+            tmp_path = Path(tmp_file.name)
+
         mock_exporter = MagicMock()
-        mock_exporter.export_markdown.return_value = Path("/tmp/test.md")
+        mock_exporter.export_markdown.return_value = tmp_path
         mock_exporter_class.return_value = mock_exporter
 
-        api = ARIA_MetricsAPI(".")
-        router = api.get_router()
+        try:
+            api = ARIA_MetricsAPI(".")
+            router = api.get_router()
 
-        from fastapi import FastAPI
+            from fastapi import FastAPI
 
-        test_app = FastAPI()
-        test_app.include_router(router)
-        client = TestClient(test_app)
+            test_app = FastAPI()
+            test_app.include_router(router)
+            client = TestClient(test_app)
 
-        response = client.get("/metrics/export/markdown")
-        assert response.status_code == 200
-        data = response.json()
-        assert data["status"] == "success"
+            response = client.get("/metrics/export/markdown")
+            assert response.status_code == 200
+            data = response.json()
+            assert data["status"] == "success"
+        finally:
+            # Nettoyer le fichier temporaire
+            tmp_path.unlink(missing_ok=True)
 
     @patch("metrics_collector.api.ARIA_MetricsCollector")
     def test_export_metrics_invalid_format(self, mock_collector_class):

@@ -327,33 +327,54 @@ class RedisCacheManager(CacheManager):
             if self._redis_client is not None:
                 try:
                     self._redis_client.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    # Ignorer les erreurs de fermeture lors de l'initialisation
+                    logger.debug(f"Erreur lors de la fermeture Redis: {e}")
             self._redis_client = None
 
     def _serialize_value(self, value: Any) -> bytes:
         """Sérialise une valeur pour Redis."""
         import json
-        import pickle
 
         try:
             # Essayer JSON d'abord (plus rapide pour types simples)
             return json.dumps(value).encode("utf-8")
         except (TypeError, ValueError):
-            # Fallback sur pickle pour types complexes
-            return pickle.dumps(value)
+            # Essayer msgpack si disponible (plus sécurisé que pickle)
+            try:
+                import msgpack
+
+                return msgpack.packb(value, use_bin_type=True)
+            except ImportError:
+                # Si msgpack n'est pas disponible, lever une exception
+                # plutôt que d'utiliser pickle qui est dangereux
+                raise CacheError(
+                    "Impossible de sérialiser la valeur. "
+                    "Installez msgpack (pip install msgpack) pour supporter les types complexes, "
+                    "ou utilisez uniquement des types JSON-sérialisables."
+                ) from None
 
     def _deserialize_value(self, data: bytes) -> Any:
         """Désérialise une valeur depuis Redis."""
         import json
-        import pickle
 
         try:
             # Essayer JSON d'abord
             return json.loads(data.decode("utf-8"))
         except (json.JSONDecodeError, UnicodeDecodeError):
-            # Fallback sur pickle
-            return pickle.loads(data)
+            # Essayer msgpack si disponible (plus sécurisé que pickle)
+            try:
+                import msgpack
+
+                return msgpack.unpackb(data, raw=False)
+            except ImportError:
+                # Si msgpack n'est pas disponible, lever une exception
+                # plutôt que d'utiliser pickle qui est dangereux
+                raise CacheError(
+                    "Impossible de désérialiser la valeur. "
+                    "Les données semblent avoir été sérialisées avec msgpack. "
+                    "Installez msgpack (pip install msgpack) pour les désérialiser."
+                ) from None
 
     def get(self, key: str) -> Any | None:
         """
@@ -506,5 +527,6 @@ class RedisCacheManager(CacheManager):
         if self._redis_client is not None:
             try:
                 self._redis_client.close()
-            except Exception:
-                pass
+            except Exception as e:
+                # Ignorer les erreurs de fermeture lors de la destruction
+                logger.debug(f"Erreur lors de la fermeture Redis: {e}")

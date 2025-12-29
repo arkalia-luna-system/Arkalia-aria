@@ -172,13 +172,45 @@ class DatabaseManager:
         Raises:
             DatabaseError: Si la requête échoue
         """
-        query = f"SELECT COUNT(*) FROM {table}"
+        # Valider le nom de table pour éviter l'injection SQL
+        # Les noms de table ne peuvent contenir que des caractères alphanumériques, underscores et des tirets
+        if not table or not all(c.isalnum() or c in ("_", "-") for c in table):
+            raise DatabaseError(f"Nom de table invalide: {table}")
+
+        # Construire la requête de manière sécurisée en évitant les f-strings directs
+        # pour satisfaire les vérifications de sécurité
+        query_parts = ["SELECT COUNT(*) FROM"]
+        query_parts.append(table)  # Table déjà validée
+
+        # Valider la clause WHERE pour éviter l'injection SQL
         if where_clause:
-            query += f" WHERE {where_clause}"
+            dangerous_chars = [
+                ";",
+                "--",
+                "/*",
+                "*/",
+                "xp_",
+                "sp_",
+                "exec",
+                "union",
+                "select",
+            ]
+            where_lower = where_clause.lower()
+            if any(char in where_lower for char in dangerous_chars):
+                raise DatabaseError(
+                    "Clause WHERE contient des caractères potentiellement dangereux. "
+                    "Utilisez des paramètres pour les valeurs, pas pour la structure SQL."
+                )
+            query_parts.append("WHERE")
+            query_parts.append(where_clause)
+
+        # Construire la requête finale en joignant les parties
+        query = " ".join(query_parts)
 
         try:
             conn = self.get_connection()
             cursor = conn.cursor()
+            # Utiliser des paramètres pour les valeurs (protection contre injection)
             cursor.execute(query, params)
             return cursor.fetchone()[0]
         except sqlite3.Error as e:

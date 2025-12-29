@@ -85,25 +85,33 @@ class TestARIA_MetricsCLI:
     @patch("metrics_collector.cli.ARIA_MetricsCollector")
     def test_run_export_json(self, mock_collector_class, mock_exporter_class):
         """Test la commande export avec format JSON"""
+        import tempfile
+
+        # Utiliser un fichier temporaire sécurisé au lieu de /tmp/test.json
+        with tempfile.NamedTemporaryFile(
+            mode="w", suffix=".json", delete=False
+        ) as tmp_file:
+            tmp_path = Path(tmp_file.name)
+
         mock_exporter = MagicMock()
-        mock_exporter.export_json.return_value = Path("/tmp/test.json")
+        mock_exporter.export_json.return_value = tmp_path
         mock_exporter_class.return_value = mock_exporter
 
-        mock_collector = MagicMock()
-        mock_collector.collect_all_metrics.return_value = {"test": "data"}
-        mock_collector_class.return_value = mock_collector
+        try:
+            mock_collector = MagicMock()
+            mock_collector.collect_all_metrics.return_value = {"test": "data"}
+            mock_collector_class.return_value = mock_collector
 
-        cli = ARIA_MetricsCLI()
-        cli.exporter = mock_exporter
-        cli.collector = mock_collector
+            cli = ARIA_MetricsCLI()
+            cli.exporter = mock_exporter
+            cli.collector = mock_collector
 
-        mock_collector = MagicMock()
-        mock_collector.collect_all_metrics.return_value = {"test": "data"}
-        cli.collector = mock_collector
-
-        result = cli.run(["export", "--format", "json", "--project-root", "."])
-        assert result == 0
-        mock_collector.collect_all_metrics.assert_called_once()
+            result = cli.run(["export", "--format", "json", "--project-root", "."])
+            assert result == 0
+            mock_collector.collect_all_metrics.assert_called_once()
+        finally:
+            # Nettoyer le fichier temporaire
+            tmp_path.unlink(missing_ok=True)
 
     @patch("metrics_collector.cli.ARIA_MetricsDashboard")
     @patch("metrics_collector.cli.ARIA_MetricsCollector")

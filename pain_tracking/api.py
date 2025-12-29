@@ -56,7 +56,8 @@ def _init_tables() -> None:
             table_exists = db.table_exists("pain_entries")
             if table_exists:
                 existing_columns = [
-                    row[1] for row in db.execute_query("PRAGMA table_info(pain_entries)")
+                    row[1]
+                    for row in db.execute_query("PRAGMA table_info(pain_entries)")
                 ]
                 new_columns = {
                     "who_present": "TEXT",
@@ -75,10 +76,15 @@ def _init_tables() -> None:
                         except Exception as e:
                             error_msg = str(e).lower()
                             # Ignorer seulement les erreurs de colonne déjà existante
-                            if "duplicate column" in error_msg or "already exists" in error_msg:
+                            if (
+                                "duplicate column" in error_msg
+                                or "already exists" in error_msg
+                            ):
                                 logger.debug(f"Colonne {col_name} existe déjà, ignoré")
                             else:
-                                logger.warning(f"Erreur lors de l'ajout de la colonne {col_name}: {e}")
+                                logger.warning(
+                                    f"Erreur lors de l'ajout de la colonne {col_name}: {e}"
+                                )
         except Exception as e:
             # Si la table n'existe pas encore, c'est OK (sera créée par CREATE TABLE IF NOT EXISTS)
             logger.debug(f"Vérification colonnes: {e}")

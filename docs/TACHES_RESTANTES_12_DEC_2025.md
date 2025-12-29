@@ -156,10 +156,11 @@
   - **Action** : Cache avec TTL (5 minutes) et mécanisme d'invalidation
   - **Date** : 28 décembre 2025
 
-- [ ] **Cache Redis local** (optionnel)
-  - **Où** : Nouveau module ou extension `core/cache.py`
-  - **Action** : Ajouter support Redis en plus du cache mémoire
-  - **Temps** : 3-4 heures
+- [x] **Cache Redis local** ✅ **FAIT** (28 DEC 25)
+  - **Où** : `core/cache.py` (RedisCacheManager existe déjà)
+  - **Action** : Intégration dans Config et BaseAPI, export dans core/__init__.py
+  - **Date** : 28 décembre 2025
+  - **Note** : Utilise Redis si `ARIA_REDIS_ENABLED=1`, sinon fallback sur cache mémoire
 
 **Impact** : +40% vitesse  
 **Temps total estimé** : 6-9 heures (2-3 jours)  
@@ -271,15 +272,16 @@
 | 🟡 2 | Cache corrélations | 1-2h | +15% | ✅ FAIT |
 | 🟡 2 | Cache patterns | 1-2h | +10% | ✅ FAIT |
 | 🟡 2 | Cache métriques | 1h | +5% | ✅ FAIT (28 DEC 25) |
+| 🟡 2 | Cache Redis | 3-4h | +15% | ✅ FAIT (28 DEC 25) |
 
-**Total Priorité 1** : 21-30 heures (1-2 semaines)  
-**Total Priorité 2** : 3-5 heures (1 jour)  
+**Total Priorité 1** : 21-30 heures (1-2 semaines) ✅ **100% TERMINÉ**  
+**Total Priorité 2** : 4-5 heures (1 jour) ✅ **100% TERMINÉ**  
 **Impact total** : +35% utilisation, +30% performance
 
 ---
 
 **Date** : 28 décembre 2025  
 **Dernière mise à jour** : 28 décembre 2025  
-**Statut** : ✅ **Toutes les tâches Priorité 1 terminées** (100%)  
-**Prochaine révision** : Optimisations optionnelles (Redis cache)
+**Statut** : ✅ **Toutes les tâches Priorité 1 et 2 terminées** (100%)  
+**Prochaine révision** : Fonctionnalités long terme (Priorité 3)
 

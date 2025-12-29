@@ -210,6 +210,9 @@ exclude = [
     "venv/",
     "arkalia_aria_venv/",
 ]
+[[tool.mypy.overrides]]
+module = ["yaml", "requests"]
+ignore_missing_imports = true
 
 [tool.isort]
 profile = "black"

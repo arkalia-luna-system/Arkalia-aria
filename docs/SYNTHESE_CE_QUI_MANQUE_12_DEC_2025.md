@@ -257,11 +257,11 @@
 | Tâche | Statut | Temps | Impact |
 |-------|--------|-------|--------|
 | Cache métriques | ✅ **FAIT** (28 DEC 25) | 1h | +5% |
-| Cache Redis | ❌ Non fait | 3-4h | +15% |
+| Cache Redis | ✅ **FAIT** (28 DEC 25) | 3-4h | +15% |
 
 **Total Priorité 2** : 4-5 heures (1 jour)  
 **Impact total** : +20% vitesse  
-**Statut** : ✅ **1/2 tâches terminées** (50%)
+**Statut** : ✅ **2/2 tâches terminées** (100%)
 
 ---
 
@@ -319,5 +319,6 @@
 
 **Date** : 28 décembre 2025  
 **Dernière mise à jour** : 28 décembre 2025  
-**Prochaine révision** : Après implémentation export amélioré
+**Statut** : ✅ **Toutes les tâches Priorité 1 et 2 terminées** (100%)  
+**Prochaine révision** : Fonctionnalités long terme (Priorité 3)
 

@@ -48,34 +48,40 @@ def _init_tables() -> None:
                 created_at TEXT NOT NULL DEFAULT (DATETIME('now'))
             )
             """)
-        # Migration: ajouter les nouveaux champs si la table existe déjà
+
+        # Migration: ajouter les nouveaux champs seulement si la table existe déjà SANS ces colonnes
+        # Vérifier si les colonnes existent avant de les ajouter
         try:
-            db.execute_update("ALTER TABLE pain_entries ADD COLUMN who_present TEXT")
+            # Vérifier si la table existe
+            table_exists = db.table_exists("pain_entries")
+            if table_exists:
+                existing_columns = [
+                    row[1] for row in db.execute_query("PRAGMA table_info(pain_entries)")
+                ]
+                new_columns = {
+                    "who_present": "TEXT",
+                    "interactions": "TEXT",
+                    "emotions": "TEXT",
+                    "thoughts": "TEXT",
+                    "physical_symptoms": "TEXT",
+                }
+                for col_name, col_type in new_columns.items():
+                    if col_name not in existing_columns:
+                        try:
+                            db.execute_update(
+                                f"ALTER TABLE pain_entries ADD COLUMN {col_name} {col_type}"
+                            )
+                            logger.debug(f"✅ Colonne {col_name} ajoutée")
+                        except Exception as e:
+                            error_msg = str(e).lower()
+                            # Ignorer seulement les erreurs de colonne déjà existante
+                            if "duplicate column" in error_msg or "already exists" in error_msg:
+                                logger.debug(f"Colonne {col_name} existe déjà, ignoré")
+                            else:
+                                logger.warning(f"Erreur lors de l'ajout de la colonne {col_name}: {e}")
         except Exception as e:
-            # Colonne déjà existante, ignorer
-            api.logger.debug(f"Colonne who_present peut déjà exister: {e}")
-        try:
-            db.execute_update("ALTER TABLE pain_entries ADD COLUMN interactions TEXT")
-        except Exception as e:
-            # Colonne déjà existante, ignorer
-            logger.debug(f"Colonne interactions peut déjà exister: {e}")
-        try:
-            db.execute_update("ALTER TABLE pain_entries ADD COLUMN emotions TEXT")
-        except Exception as e:
-            # Colonne déjà existante, ignorer
-            logger.debug(f"Colonne emotions peut déjà exister: {e}")
-        try:
-            db.execute_update("ALTER TABLE pain_entries ADD COLUMN thoughts TEXT")
-        except Exception as e:
-            # Colonne déjà existante, ignorer
-            logger.debug(f"Colonne thoughts peut déjà exister: {e}")
-        try:
-            db.execute_update(
-                "ALTER TABLE pain_entries ADD COLUMN physical_symptoms TEXT"
-            )
-        except Exception as e:
-            # Colonne déjà existante, ignorer
-            logger.debug(f"Colonne physical_symptoms peut déjà exister: {e}")
+            # Si la table n'existe pas encore, c'est OK (sera créée par CREATE TABLE IF NOT EXISTS)
+            logger.debug(f"Vérification colonnes: {e}")
 
         # Créer les index pour optimiser les requêtes
         try:

@@ -129,7 +129,13 @@ class DatabaseManager:
             return cursor.rowcount
         except sqlite3.Error as e:
             conn.rollback()
-            logger.error(f"Erreur requête UPDATE: {e}")
+            error_msg = str(e).lower()
+            # Ne pas logger comme erreur critique les erreurs de colonnes dupliquées
+            # (gérées par la logique de migration)
+            if "duplicate column" in error_msg or "already exists" in error_msg:
+                logger.debug(f"Erreur requête UPDATE (ignorée): {e}")
+            else:
+                logger.error(f"Erreur requête UPDATE: {e}")
             raise DatabaseError(f"Erreur lors de l'exécution de la requête: {e}") from e
 
     def execute_many(self, query: str, params_list: list[tuple]) -> int:

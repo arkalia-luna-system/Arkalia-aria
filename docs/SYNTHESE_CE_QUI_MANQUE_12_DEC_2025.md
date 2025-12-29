@@ -242,24 +242,26 @@
 ### 🔴 Priorité 1 (Critique)
 | Tâche | Statut | Temps | Impact |
 |-------|--------|-------|--------|
-| Graphiques corrélations | ❌ Non fait | 3-4h | +5% |
-| Export amélioré | ⚠️ Partiel | 1-2h | +3% |
-| Rapports auto | ❌ Non fait | 3-4h | +5% |
-| Export auto | ❌ Non fait | 2-3h | +3% |
-| Alertes santé | ❌ Non fait | 2-3h | +3% |
-| Alertes RDV | ❌ Non fait | 3-4h | +2% |
+| Graphiques corrélations | ✅ **FAIT** | 3-4h | +5% |
+| Export amélioré | ✅ **FAIT** (28 DEC 25) | 1-2h | +3% |
+| Rapports auto | ✅ **FAIT** (28 DEC 25) | 3-4h | +5% |
+| Export auto | ✅ **FAIT** (28 DEC 25) | 2-3h | +3% |
+| Alertes santé | ✅ **FAIT** (28 DEC 25) | 2-3h | +3% |
+| Alertes RDV | ✅ **FAIT** (28 DEC 25) | 3-4h | +2% |
 
 **Total Priorité 1** : 14-20 heures (2-3 jours)  
-**Impact total** : +21% utilisation
+**Impact total** : +21% utilisation  
+**Statut** : ✅ **6/6 tâches terminées** (100%)
 
 ### 🟡 Priorité 2 (Optimisations)
 | Tâche | Statut | Temps | Impact |
 |-------|--------|-------|--------|
-| Cache métriques | ⚠️ Partiel | 1h | +5% |
+| Cache métriques | ✅ **FAIT** (28 DEC 25) | 1h | +5% |
 | Cache Redis | ❌ Non fait | 3-4h | +15% |
 
 **Total Priorité 2** : 4-5 heures (1 jour)  
-**Impact total** : +20% vitesse
+**Impact total** : +20% vitesse  
+**Statut** : ✅ **1/2 tâches terminées** (50%)
 
 ---
 
@@ -315,6 +317,7 @@
 
 ---
 
-**Date** : 12 décembre 2025  
-**Prochaine révision** : Après implémentation première tâche
+**Date** : 28 décembre 2025  
+**Dernière mise à jour** : 28 décembre 2025  
+**Prochaine révision** : Après implémentation export amélioré
 

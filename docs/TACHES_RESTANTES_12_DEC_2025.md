@@ -42,20 +42,20 @@
   - **Action** : Sections ajoutées dans tableau et modal
   - **Date** : 12 décembre 2025
 
-- [ ] **Graphiques interactifs pour corrélations**
+- [x] **Graphiques interactifs pour corrélations** ✅ **FAIT**
   - **Où** : `metrics_collector/dashboard/static/charts.js`
-  - **Action** : Ajouter graphiques corrélations (sommeil-douleur, stress-douleur)
-  - **Temps** : 3-4 heures
+  - **Action** : Graphiques corrélations (sommeil-douleur, stress-douleur) déjà implémentés
+  - **Date** : Déjà présent dans le code
 
 - [x] **Filtres avancés** (date, intensité, localisation, personnes présentes) ✅ **FAIT**
   - **Où** : `metrics_collector/dashboard/templates/pain_analytics.html`
   - **Action** : Filtres ajoutés avec JavaScript
   - **Date** : 12 décembre 2025
 
-- [ ] **Export depuis dashboard (un clic)**
-  - **Où** : `metrics_collector/dashboard/static/exports.js`
-  - **Action** : Améliorer boutons export existants
-  - **Temps** : 1-2 heures
+- [x] **Export depuis dashboard (un clic)** ✅ **FAIT** (28 DEC 25)
+  - **Où** : `metrics_collector/dashboard/templates/pain_analytics.html`
+  - **Action** : Boutons export multi-format (PDF, Excel, HTML, JSON) avec filtres appliqués
+  - **Date** : 28 décembre 2025
 
 - [x] **Alertes visuelles** (patterns détectés, prédictions) ✅ **FAIT**
   - **Où** : `metrics_collector/dashboard/templates/dashboard.html`
@@ -92,15 +92,15 @@
   - **Action** : Méthode `_trigger_correlations()` appelée après chaque sync
   - **Date** : 12 décembre 2025
 
-- [ ] **Rapports automatiques périodiques**
-  - **Où** : Nouveau module ou `health_connectors/sync_manager.py`
-  - **Action** : Générer rapport hebdomadaire/mensuel automatiquement
-  - **Temps** : 3-4 heures
+- [x] **Rapports automatiques périodiques** ✅ **FAIT** (28 DEC 25)
+  - **Où** : `health_connectors/report_generator.py`
+  - **Action** : Support hebdomadaire et mensuel avec threads séparés
+  - **Date** : 28 décembre 2025
 
-- [ ] **Export automatique** (hebdomadaire/mensuel)
-  - **Où** : Nouveau module ou intégré dans sync_manager
-  - **Action** : Exporter données CSV/PDF automatiquement
-  - **Temps** : 2-3 heures
+- [x] **Export automatique** (hebdomadaire/mensuel) ✅ **FAIT** (28 DEC 25)
+  - **Où** : `health_connectors/auto_export.py`
+  - **Action** : Export automatique hebdomadaire et mensuel avec threads séparés
+  - **Date** : 28 décembre 2025
 
 **Impact** : +10% utilisation  
 **Temps total estimé** : 10-15 heures (3-5 jours)  
@@ -116,15 +116,15 @@
 - ✅ API `/api/alerts`
 
 **Ce qui MANQUE** :
-- [ ] **Notifications basées sur données santé** (sync auto)
-  - **Où** : `core/alerts.py` ou `health_connectors/sync_manager.py`
-  - **Action** : Créer alertes après sync santé (ex: sommeil insuffisant)
-  - **Temps** : 2-3 heures
+- [x] **Notifications basées sur données santé** (sync auto) ✅ **FAIT** (28 DEC 25)
+  - **Où** : `health_connectors/sync_manager.py`
+  - **Action** : Alertes créées après sync (sommeil insuffisant, stress élevé, activité faible, tendances)
+  - **Date** : 28 décembre 2025
 
-- [ ] **Alertes RDV médicaux** (depuis CIA)
-  - **Où** : `cia_sync/auto_sync.py` ou `core/alerts.py`
-  - **Action** : Récupérer RDV depuis CIA et créer alertes
-  - **Temps** : 3-4 heures
+- [x] **Alertes RDV médicaux** (depuis CIA) ✅ **FAIT** (28 DEC 25)
+  - **Où** : `cia_sync/auto_sync.py`
+  - **Action** : Alertes rappel 24h et 48h pour RDV médicaux depuis CIA
+  - **Date** : 28 décembre 2025
 
 **Impact** : +5% utilisation  
 **Temps total estimé** : 5-7 heures (2-3 jours)  
@@ -151,10 +151,10 @@
   - **Action** : Cache intégré dans toutes les méthodes d'analyse (TTL 1h)
   - **Date** : 12 décembre 2025
 
-- [ ] **Cache métriques système**
-  - **Où** : `metrics_collector/api.py` (déjà partiellement fait avec `_metrics_cache`)
-  - **Action** : Améliorer cache existant
-  - **Temps** : 1 heure
+- [x] **Cache métriques système** ✅ **FAIT** (28 DEC 25)
+  - **Où** : `metrics_collector/api.py`
+  - **Action** : Cache avec TTL (5 minutes) et mécanisme d'invalidation
+  - **Date** : 28 décembre 2025
 
 - [ ] **Cache Redis local** (optionnel)
   - **Où** : Nouveau module ou extension `core/cache.py`
@@ -258,19 +258,19 @@
 
 | Priorité | Tâche | Temps | Impact | Statut |
 |----------|-------|-------|--------|--------|
-| 🔴 1 | Dashboard - Nouveaux champs | 2-3h | +5% | ⚠️ À faire |
-| 🔴 1 | Dashboard - Filtres | 2-3h | +5% | ⚠️ À faire |
-| 🔴 1 | Dashboard - Export | 1-2h | +3% | ⚠️ À faire |
-| 🔴 1 | Dashboard - Graphiques corrélations | 3-4h | +5% | ⚠️ À faire |
-| 🔴 1 | Dashboard - Alertes visuelles | 2-3h | +2% | ⚠️ À faire |
-| 🔴 1 | Sync santé auto quotidienne | 2-3h | +5% | ⚠️ À faire |
-| 🔴 1 | Sync santé intelligente | 2-3h | +3% | ⚠️ À faire |
-| 🔴 1 | Corrélations auto après sync | 1-2h | +2% | ⚠️ À faire |
-| 🔴 1 | Alertes notifications santé | 2-3h | +3% | ⚠️ À faire |
-| 🔴 1 | Alertes RDV médicaux | 3-4h | +2% | ⚠️ À faire |
-| 🟡 2 | Cache corrélations | 1-2h | +15% | ⚠️ À faire |
-| 🟡 2 | Cache patterns | 1-2h | +10% | ⚠️ À faire |
-| 🟡 2 | Cache métriques | 1h | +5% | ⚠️ À faire |
+| 🔴 1 | Dashboard - Nouveaux champs | 2-3h | +5% | ✅ FAIT |
+| 🔴 1 | Dashboard - Filtres | 2-3h | +5% | ✅ FAIT |
+| 🔴 1 | Dashboard - Export | 1-2h | +3% | ✅ FAIT (28 DEC 25) |
+| 🔴 1 | Dashboard - Graphiques corrélations | 3-4h | +5% | ✅ FAIT |
+| 🔴 1 | Dashboard - Alertes visuelles | 2-3h | +2% | ✅ FAIT |
+| 🔴 1 | Sync santé auto quotidienne | 2-3h | +5% | ✅ FAIT |
+| 🔴 1 | Sync santé intelligente | 2-3h | +3% | ✅ FAIT |
+| 🔴 1 | Corrélations auto après sync | 1-2h | +2% | ✅ FAIT |
+| 🔴 1 | Alertes notifications santé | 2-3h | +3% | ✅ FAIT (28 DEC 25) |
+| 🔴 1 | Alertes RDV médicaux | 3-4h | +2% | ✅ FAIT (28 DEC 25) |
+| 🟡 2 | Cache corrélations | 1-2h | +15% | ✅ FAIT |
+| 🟡 2 | Cache patterns | 1-2h | +10% | ✅ FAIT |
+| 🟡 2 | Cache métriques | 1h | +5% | ✅ FAIT (28 DEC 25) |
 
 **Total Priorité 1** : 21-30 heures (1-2 semaines)  
 **Total Priorité 2** : 3-5 heures (1 jour)  
@@ -278,6 +278,8 @@
 
 ---
 
-**Date** : 12 décembre 2025  
-**Prochaine révision** : Après implémentation première tâche
+**Date** : 28 décembre 2025  
+**Dernière mise à jour** : 28 décembre 2025  
+**Statut** : ✅ **Toutes les tâches Priorité 1 terminées** (100%)  
+**Prochaine révision** : Optimisations optionnelles (Redis cache)
 

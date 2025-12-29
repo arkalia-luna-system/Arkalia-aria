@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/static/dashboard.js"></script>
     <script src="/static/charts.js"></script>
+    <script src="/static/exports.js"></script>
 </head>
 
 <body>
@@ -312,9 +313,24 @@
                     <div class="card-header">
                         <h3><i class="fas fa-table"></i> Entrées de Douleur</h3>
                         <div class="table-controls">
-                            <button class="btn btn-secondary" onclick="exportPainData()">
-                                <i class="fas fa-download"></i> Exporter
-                            </button>
+                            <div class="export-buttons">
+                                <button class="btn btn-secondary" onclick="exportPainData('excel')"
+                                    title="Exporter en Excel">
+                                    <i class="fas fa-file-excel"></i> Excel
+                                </button>
+                                <button class="btn btn-secondary" onclick="exportPainData('pdf')"
+                                    title="Exporter en PDF">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </button>
+                                <button class="btn btn-secondary" onclick="exportPainData('html')"
+                                    title="Exporter en HTML">
+                                    <i class="fas fa-file-code"></i> HTML
+                                </button>
+                                <button class="btn btn-secondary" onclick="exportPainData('json')"
+                                    title="Exporter en JSON">
+                                    <i class="fas fa-file-code"></i> JSON
+                                </button>
+                            </div>
                             <button class="btn btn-primary" onclick="addPainEntry()">
                                 <i class="fas fa-plus"></i> Nouvelle Entrée
                             </button>
@@ -706,6 +722,9 @@
             const tbody = document.getElementById('pain-entries-body');
             tbody.innerHTML = '';
 
+            // Stocker les données pour l'export
+            filteredPainEntries = data;
+
             if (data.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="14" class="no-data">Aucune entrée de douleur</td></tr>';
                 return;
@@ -797,6 +816,7 @@
 
         let sleepPainChart = null;
         let stressPainChart = null;
+        let filteredPainEntries = []; // Stocke les données filtrées pour l'export
 
         function loadCorrelationCharts() {
             const days = document.getElementById('correlation-period')?.value || 30;
@@ -911,30 +931,83 @@
             `;
         }
 
-        function exportPainData() {
-            showLoading();
-            fetch('/dashboard/export/excel', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ data_type: 'pain' })
-            })
-                .then(response => response.blob())
-                .then(blob => {
-                    hideLoading();
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `aria-pain-data-${new Date().toISOString().split('T')[0]}.xlsx`;
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                })
-                .catch(error => {
-                    hideLoading();
-                    showNotification('Erreur d\'export', 'error');
-                    console.error('Error:', error);
-                });
+        /**
+         * Exporte les données de douleur dans le format spécifié
+         * Utilise les filtres actuels appliqués
+         */
+        async function exportPainData(format = 'excel') {
+            try {
+                // S'assurer que ARIAExports est disponible
+                if (!window.ARIAExports) {
+                    showNotification('Erreur: Module d\'export non chargé', 'error');
+                    return;
+                }
+
+                // Récupérer les données filtrées ou toutes les données
+                let dataToExport = filteredPainEntries.length > 0 ? filteredPainEntries : [];
+
+                // Si pas de données filtrées, charger toutes les données
+                if (dataToExport.length === 0) {
+                    const response = await fetch('/api/pain/entries/recent?limit=1000');
+                    const allData = await response.json();
+                    dataToExport = allData;
+                }
+
+                // Préparer les données pour l'export
+                const exportData = {
+                    timestamp: new Date().toISOString(),
+                    title: 'Données de Douleur ARKALIA ARIA',
+                    pain: dataToExport,
+                    filters: {
+                        date_start: document.getElementById('pain-filter-date-start')?.value || null,
+                        date_end: document.getElementById('pain-filter-date-end')?.value || null,
+                        intensity: document.getElementById('pain-filter-intensity')?.value || null,
+                        location: document.getElementById('pain-filter-location')?.value || null,
+                        trigger: document.getElementById('pain-filter-trigger')?.value || null,
+                        who_present: document.getElementById('pain-filter-who-present')?.value || null
+                    },
+                    summary: {
+                        total_entries: dataToExport.length,
+                        date_range: dataToExport.length > 0 ? {
+                            start: dataToExport[dataToExport.length - 1]?.timestamp,
+                            end: dataToExport[0]?.timestamp
+                        } : null
+                    }
+                };
+
+                // Options d'export selon le format
+                const options = {
+                    filename: `aria-pain-data-${new Date().toISOString().split('T')[0]}.${format}`,
+                    includeCharts: false,
+                    includeInsights: true,
+                    includeRecommendations: false
+                };
+
+                // Exporter selon le format
+                switch (format.toLowerCase()) {
+                    case 'excel':
+                        await window.ARIAExports.exportToExcel(exportData, options);
+                        break;
+                    case 'pdf':
+                        await window.ARIAExports.exportToPDF(exportData, options);
+                        break;
+                    case 'html':
+                        await window.ARIAExports.exportToHTML(exportData, options);
+                        break;
+                    case 'json':
+                        await window.ARIAExports.exportToJSON(exportData, options);
+                        break;
+                    default:
+                        showNotification(`Format non supporté: ${format}`, 'error');
+                        return;
+                }
+
+                showNotification(`Export ${format.toUpperCase()} réussi`, 'success');
+
+            } catch (error) {
+                showNotification('Erreur d\'export: ' + error.message, 'error');
+                console.error('Error exporting pain data:', error);
+            }
         }
 
         function filterPainEntries() {
@@ -982,6 +1055,8 @@
                         filtered = filtered.filter(entry => new Date(entry.timestamp) <= new Date(dateEnd + 'T23:59:59'));
                     }
 
+                    // Stocker les données filtrées pour l'export
+                    filteredPainEntries = filtered;
                     updatePainEntriesTable(filtered);
                 })
                 .catch(error => {

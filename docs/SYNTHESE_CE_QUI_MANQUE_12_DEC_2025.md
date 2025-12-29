@@ -223,11 +223,11 @@
 - [ ] Chatbot santé conversationnel
 - **Temps** : 2-3 semaines
 
-### 3. Visualisations Avancées ❌
-- [ ] Heatmaps (corrélations)
+### 3. Visualisations Avancées ⚠️ **EN COURS**
+- [x] Heatmaps (corrélations) ✅ **FAIT** (28 DEC 25)
 - [ ] Graphiques 3D (tendances)
-- [ ] Graphiques interactifs (D3.js)
-- **Temps** : 1-2 semaines
+- [x] Graphiques interactifs (D3.js) ✅ **FAIT** (28 DEC 25)
+- **Temps restant** : 1-2 semaines
 
 ### 4. Application Mobile ❌
 - [ ] Écrans UI complets
@@ -258,10 +258,12 @@
 |-------|--------|-------|--------|
 | Cache métriques | ✅ **FAIT** (28 DEC 25) | 1h | +5% |
 | Cache Redis | ✅ **FAIT** (28 DEC 25) | 3-4h | +15% |
+| Cache prédictions | ✅ **FAIT** (28 DEC 25) | 0.5h | +3% |
+| Cache pain tracking | ✅ **FAIT** (28 DEC 25) | 0.5h | +2% |
 
-**Total Priorité 2** : 4-5 heures (1 jour)  
-**Impact total** : +20% vitesse  
-**Statut** : ✅ **2/2 tâches terminées** (100%)
+**Total Priorité 2** : 5-6 heures (1 jour)  
+**Impact total** : +25% vitesse  
+**Statut** : ✅ **4/4 tâches terminées** (100%)
 
 ---
 
@@ -320,5 +322,6 @@
 **Date** : 28 décembre 2025  
 **Dernière mise à jour** : 28 décembre 2025  
 **Statut** : ✅ **Toutes les tâches Priorité 1 et 2 terminées** (100%)  
-**Prochaine révision** : Fonctionnalités long terme (Priorité 3)
+**Visualisations avancées** : ✅ **2/3 terminées** (Heatmaps + D3.js)  
+**Prochaine révision** : Graphiques 3D (optionnel, long terme)
 

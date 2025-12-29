@@ -38,7 +38,9 @@ class TestSystemIntegration:
         # Nettoyage : TestClient se nettoie automatiquement, mais on peut forcer
         try:
             client.close()
-        except Exception:
+        except (
+            Exception
+        ):  # nosec B110 - Ignorer les erreurs de nettoyage dans les tests
             pass  # Ignorer les erreurs de nettoyage
 
     @pytest.fixture
@@ -63,7 +65,9 @@ class TestSystemIntegration:
                     if hasattr(connector, "is_connected") and connector.is_connected:
                         try:
                             await connector.disconnect()
-                        except Exception:
+                        except (
+                            Exception
+                        ):  # nosec B110 - Ignorer les erreurs de déconnexion dans les tests
                             pass  # Ignorer les erreurs de déconnexion
 
             if loop.is_running():
@@ -72,7 +76,9 @@ class TestSystemIntegration:
             else:
                 loop.run_until_complete(cleanup())
                 loop.close()
-        except Exception:
+        except (
+            Exception
+        ):  # nosec B110 - Ignorer les erreurs de nettoyage dans les tests
             pass  # Ignorer les erreurs de nettoyage
 
     @pytest.fixture
@@ -655,7 +661,9 @@ class TestEndToEndWorkflow:
         # Nettoyage : TestClient se nettoie automatiquement, mais on peut forcer
         try:
             client.close()
-        except Exception:
+        except (
+            Exception
+        ):  # nosec B110 - Ignorer les erreurs de nettoyage dans les tests
             pass  # Ignorer les erreurs de nettoyage
 
     def test_complete_health_tracking_workflow(self, client):

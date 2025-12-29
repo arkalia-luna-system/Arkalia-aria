@@ -200,7 +200,9 @@ class TestSamsungHealthConnector:
                         loop.run_until_complete(connector.disconnect())
                 except RuntimeError:
                     asyncio.run(connector.disconnect())
-        except Exception:
+        except (
+            Exception
+        ):  # nosec B110 - Ignorer les erreurs de déconnexion dans les tests
             pass  # Ignorer les erreurs de déconnexion
 
     def test_connector_initialization(self, connector):
@@ -299,7 +301,9 @@ class TestGoogleFitConnector:
                         loop.run_until_complete(connector.disconnect())
                 except RuntimeError:
                     asyncio.run(connector.disconnect())
-        except Exception:
+        except (
+            Exception
+        ):  # nosec B110 - Ignorer les erreurs de déconnexion dans les tests
             pass  # Ignorer les erreurs de déconnexion
 
     def test_connector_initialization(self, connector):
@@ -390,7 +394,9 @@ class TestHealthSyncManager:
                     if hasattr(connector, "is_connected") and connector.is_connected:
                         try:
                             await connector.disconnect()
-                        except Exception:
+                        except (
+                            Exception
+                        ):  # nosec B110 - Ignorer les erreurs de déconnexion dans les tests
                             pass
 
             try:
@@ -401,7 +407,9 @@ class TestHealthSyncManager:
                     loop.run_until_complete(cleanup())
             except RuntimeError:
                 asyncio.run(cleanup())
-        except Exception:
+        except (
+            Exception
+        ):  # nosec B110 - Ignorer les erreurs de nettoyage dans les tests
             pass  # Ignorer les erreurs de nettoyage
 
     def test_sync_manager_initialization(self, sync_manager):

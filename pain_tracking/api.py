@@ -51,52 +51,63 @@ def _init_tables() -> None:
         # Migration: ajouter les nouveaux champs si la table existe déjà
         try:
             db.execute_update("ALTER TABLE pain_entries ADD COLUMN who_present TEXT")
-        except Exception:
-            pass  # Colonne déjà existante
+        except Exception as e:
+            # Colonne déjà existante, ignorer
+            api.logger.debug(f"Colonne who_present peut déjà exister: {e}")
         try:
             db.execute_update("ALTER TABLE pain_entries ADD COLUMN interactions TEXT")
-        except Exception:
-            pass  # Colonne déjà existante
+        except Exception as e:
+            # Colonne déjà existante, ignorer
+            logger.debug(f"Colonne interactions peut déjà exister: {e}")
         try:
             db.execute_update("ALTER TABLE pain_entries ADD COLUMN emotions TEXT")
-        except Exception:
-            pass  # Colonne déjà existante
+        except Exception as e:
+            # Colonne déjà existante, ignorer
+            logger.debug(f"Colonne emotions peut déjà exister: {e}")
         try:
             db.execute_update("ALTER TABLE pain_entries ADD COLUMN thoughts TEXT")
-        except Exception:
-            pass  # Colonne déjà existante
+        except Exception as e:
+            # Colonne déjà existante, ignorer
+            logger.debug(f"Colonne thoughts peut déjà exister: {e}")
         try:
             db.execute_update(
                 "ALTER TABLE pain_entries ADD COLUMN physical_symptoms TEXT"
             )
-        except Exception:
-            pass  # Colonne déjà existante
+        except Exception as e:
+            # Colonne déjà existante, ignorer
+            logger.debug(f"Colonne physical_symptoms peut déjà exister: {e}")
 
         # Créer les index pour optimiser les requêtes
         try:
             db.execute_update(
                 "CREATE INDEX IF NOT EXISTS idx_pain_entries_timestamp ON pain_entries(timestamp)"
             )
-        except Exception:
-            pass
+        except Exception as e:
+            # Index peut déjà exister, ignorer
+            api.logger.debug(f"Index idx_pain_entries_timestamp peut déjà exister: {e}")
         try:
             db.execute_update(
                 "CREATE INDEX IF NOT EXISTS idx_pain_entries_intensity ON pain_entries(intensity)"
             )
-        except Exception:
-            pass
+        except Exception as e:
+            # Index peut déjà exister, ignorer
+            api.logger.debug(f"Index idx_pain_entries_intensity peut déjà exister: {e}")
         try:
             db.execute_update(
                 "CREATE INDEX IF NOT EXISTS idx_pain_entries_location ON pain_entries(location)"
             )
-        except Exception:
-            pass
+        except Exception as e:
+            # Index peut déjà exister, ignorer
+            api.logger.debug(f"Index idx_pain_entries_location peut déjà exister: {e}")
         try:
             db.execute_update(
                 "CREATE INDEX IF NOT EXISTS idx_pain_entries_timestamp_intensity ON pain_entries(timestamp, intensity)"
             )
-        except Exception:
-            pass
+        except Exception as e:
+            # Index peut déjà exister, ignorer
+            api.logger.debug(
+                f"Index idx_pain_entries_timestamp_intensity peut déjà exister: {e}"
+            )
         logger.info("✅ Tables pain_entries initialisées avec index")
     except Exception as e:
         logger.error(f"❌ Erreur initialisation tables: {e}")
@@ -267,6 +278,9 @@ async def pain_tracking_status() -> dict:
 @router.post("/quick-entry", response_model=PainEntryOut)
 async def create_quick_entry(entry: QuickEntry) -> PainEntryOut:
     """Saisie ultra-rapide - 3 questions seulement"""
+    # Invalider le cache après création d'entrée
+    api.cache.invalidate_pattern("pain_entries_")
+    api.cache.invalidate_pattern("pain_suggestions_")
     _init_tables()
     ts = datetime.now().isoformat()
 
@@ -305,6 +319,9 @@ async def create_quick_entry(entry: QuickEntry) -> PainEntryOut:
 @router.post("/entry", response_model=PainEntryOut)
 async def create_pain_entry(entry: PainEntryIn) -> PainEntryOut:
     """Création d'une entrée détaillée"""
+    # Invalider le cache après création d'entrée
+    api.cache.invalidate_pattern("pain_entries_")
+    api.cache.invalidate_pattern("pain_suggestions_")
     _init_tables()
     ts = entry.timestamp or datetime.now().isoformat()
 
@@ -403,12 +420,23 @@ async def list_recent(limit: int = 20) -> list[PainEntryOut]:
     """Liste les entrées récentes"""
     _init_tables()
     try:
+        # Vérifier le cache (clé basée sur limit)
+        cache_key = f"pain_entries_recent_{limit}"
+        cached_result = api.cache.get(cache_key)
+        if cached_result is not None:
+            logger.debug(f"📦 Entrées récentes depuis cache (limit={limit})")
+            return cached_result
+
         rows = db.execute_query(
             "SELECT * FROM pain_entries ORDER BY timestamp DESC, id DESC LIMIT ?",
             (limit,),
         )
+        result = [PainEntryOut(**dict(row)) for row in rows]
         logger.info(f"📋 {len(rows)} entrées récentes récupérées")
-        return [PainEntryOut(**dict(row)) for row in rows]
+
+        # Mettre en cache (TTL 2 minutes car données récentes)
+        api.cache.set(cache_key, result, ttl=120)
+        return result
     except Exception as e:
         logger.error(f"❌ Erreur récupération entrées récentes: {e}")
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}") from e
@@ -572,6 +600,13 @@ async def pain_suggestions(window: int = 30) -> dict[str, Any]:
 
     window: nombre de jours récents à analyser (non strict ici, heuristique simple).
     """
+    # Vérifier le cache (clé basée sur window)
+    cache_key = f"pain_suggestions_{window}"
+    cached_result = api.cache.get(cache_key)
+    if cached_result is not None:
+        logger.debug(f"📦 Suggestions depuis cache (window={window})")
+        return cached_result
+
     rows = _fetch_all_entries()
     stats = _compute_basic_stats(rows)
 
@@ -613,13 +648,17 @@ async def pain_suggestions(window: int = 30) -> dict[str, Any]:
             "Quelles actions avez-vous essayées et avec quel effet (0-10) ?"
         )
 
-    return {
+    result = {
         "window_days": window,
         "summary": stats,
         "suggestions": suggestions,
         "follow_up_questions": questions_precision,
         "generated_at": datetime.now().isoformat(),
     }
+
+    # Mettre en cache (TTL 5 minutes car calcul coûteux)
+    api.cache.set(cache_key, result, ttl=300)
+    return result
 
 
 @router.get("/export/csv")

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/static/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="/static/dashboard.js"></script>
     <script src="/static/charts.js"></script>
     <script src="/static/exports.js"></script>
@@ -104,6 +105,30 @@
                                     <div class="metric-label">Efficacité Traitements</div>
                                     <div class="metric-unit">%</div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Timeline Interactive D3.js -->
+            <section class="timeline-section">
+                <div class="chart-container full-width">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-timeline"></i> Timeline Interactive des Douleurs</h3>
+                            <div class="chart-controls">
+                                <button class="btn btn-sm btn-secondary" onclick="resetTimelineZoom()">
+                                    <i class="fas fa-search-minus"></i> Réinitialiser Zoom
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="timeline-container" style="width: 100%; height: 300px; position: relative;">
+                                <svg id="timeline-svg" style="width: 100%; height: 100%;"></svg>
+                            </div>
+                            <div id="timeline-tooltip"
+                                style="position: absolute; background: rgba(0,0,0,0.8); color: white; padding: 10px; border-radius: 5px; display: none; pointer-events: none; z-index: 1000;">
                             </div>
                         </div>
                     </div>
@@ -300,6 +325,15 @@
                                     <div class="chart-info" id="stressPainCorrelationInfo">
                                         <p>Chargement des données...</p>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-container full-width" style="margin-top: 20px;">
+                            <div class="chart-wrapper">
+                                <h4><i class="fas fa-th"></i> Heatmap des Corrélations</h4>
+                                <canvas id="correlationHeatmapChart" style="max-height: 400px;"></canvas>
+                                <div class="chart-info" id="correlationHeatmapInfo">
+                                    <p>Chargement des données...</p>
                                 </div>
                             </div>
                         </div>
@@ -533,6 +567,7 @@
             loadPainEntries();
             loadCorrelationCharts();
             analyzePatterns();
+            initializeTimeline();
         });
 
         function loadPainData() {
@@ -816,7 +851,9 @@
 
         let sleepPainChart = null;
         let stressPainChart = null;
+        let correlationHeatmapChart = null;
         let filteredPainEntries = []; // Stocke les données filtrées pour l'export
+        let timelineZoom = null; // Zoom D3 pour la timeline
 
         function loadCorrelationCharts() {
             const days = document.getElementById('correlation-period')?.value || 30;
@@ -894,6 +931,45 @@
                     const info = document.getElementById('stressPainCorrelationInfo');
                     if (info) {
                         info.innerHTML = '<p>Erreur lors du chargement des données</p>';
+                    }
+                });
+
+            // Charger heatmap des corrélations
+            Promise.all([
+                fetch(`/api/patterns/correlations/sleep-pain?days=${days}`).then(r => r.json()),
+                fetch(`/api/patterns/correlations/stress-pain?days=${days}`).then(r => r.json())
+            ])
+                .then(([sleepData, stressData]) => {
+                    const canvas = document.getElementById('correlationHeatmapChart');
+                    if (canvas && window.createCorrelationHeatmap) {
+                        if (correlationHeatmapChart) {
+                            correlationHeatmapChart.destroy();
+                        }
+
+                        // Construire la matrice de corrélations
+                        const matrix = [
+                            [1.0, sleepData.correlation || 0, stressData.correlation || 0, 0.0], // Douleur
+                            [sleepData.correlation || 0, 1.0, 0.0, 0.0], // Sommeil
+                            [stressData.correlation || 0, 0.0, 1.0, 0.0], // Stress
+                            [0.0, 0.0, 0.0, 1.0] // Activité (placeholder)
+                        ];
+
+                        correlationHeatmapChart = createCorrelationHeatmap('correlationHeatmapChart', {
+                            matrix: matrix,
+                            labels: ['Douleur', 'Sommeil', 'Stress', 'Activité']
+                        });
+
+                        const info = document.getElementById('correlationHeatmapInfo');
+                        if (info) {
+                            info.innerHTML = '<p><strong>Heatmap des corrélations</strong> - Les valeurs proches de 1 indiquent une corrélation forte</p>';
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading correlation heatmap:', error);
+                    const info = document.getElementById('correlationHeatmapInfo');
+                    if (info) {
+                        info.innerHTML = '<p>Erreur lors du chargement du heatmap</p>';
                     }
                 });
         }
@@ -1062,6 +1138,190 @@
                 .catch(error => {
                     console.error('Error filtering pain entries:', error);
                 });
+        }
+
+        /**
+         * Initialise la timeline interactive D3.js
+         */
+        function initializeTimeline() {
+            fetch('/api/pain/entries/recent?limit=1000')
+                .then(response => response.json())
+                .then(data => {
+                    createInteractiveTimeline(data);
+                })
+                .catch(error => {
+                    console.error('Error loading timeline data:', error);
+                });
+        }
+
+        /**
+         * Crée une timeline interactive avec D3.js
+         */
+        function createInteractiveTimeline(data) {
+            if (!data || data.length === 0) {
+                return;
+            }
+
+            // Nettoyer le SVG précédent
+            d3.select('#timeline-svg').selectAll('*').remove();
+
+            const margin = { top: 20, right: 30, bottom: 40, left: 50 };
+            const container = document.getElementById('timeline-container');
+            if (!container) return;
+
+            const width = container.clientWidth - margin.left - margin.right;
+            const height = 300 - margin.top - margin.bottom;
+
+            // Parser les dates
+            const parseDate = d3.timeParse('%Y-%m-%dT%H:%M:%S');
+            data.forEach(d => {
+                d.date = parseDate(d.timestamp) || new Date(d.timestamp);
+                d.intensity = +d.intensity || 0;
+            });
+
+            // Trier par date
+            data.sort((a, b) => a.date - b.date);
+
+            // Échelles
+            const xScale = d3.scaleTime()
+                .domain(d3.extent(data, d => d.date))
+                .range([0, width]);
+
+            const yScale = d3.scaleLinear()
+                .domain([0, 10])
+                .range([height, 0]);
+
+            // Zoom
+            const zoom = d3.zoom()
+                .scaleExtent([0.5, 10])
+                .extent([[0, 0], [width, height]])
+                .on('zoom', (event) => {
+                    const newXScale = event.transform.rescaleX(xScale);
+                    xAxisGroup.call(xAxis.scale(newXScale));
+                    updateTimelinePoints(newXScale, yScale, data);
+                });
+
+            // SVG
+            const svg = d3.select('#timeline-svg')
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom);
+
+            const g = svg.append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            // Axes
+            const xAxis = d3.axisBottom(xScale)
+                .ticks(d3.timeDay.every(1))
+                .tickFormat(d3.timeFormat('%d/%m'));
+
+            const yAxis = d3.axisLeft(yScale)
+                .ticks(10);
+
+            const xAxisGroup = g.append('g')
+                .attr('transform', `translate(0,${height})`)
+                .call(xAxis);
+
+            g.append('g')
+                .call(yAxis);
+
+            // Ligne de tendance
+            const line = d3.line()
+                .x(d => xScale(d.date))
+                .y(d => yScale(d.intensity))
+                .curve(d3.curveMonotoneX);
+
+            g.append('path')
+                .datum(data)
+                .attr('fill', 'none')
+                .attr('stroke', '#e74c3c')
+                .attr('stroke-width', 2)
+                .attr('d', line);
+
+            // Points interactifs
+            const points = g.selectAll('.pain-point')
+                .data(data)
+                .enter()
+                .append('circle')
+                .attr('class', 'pain-point')
+                .attr('cx', d => xScale(d.date))
+                .attr('cy', d => yScale(d.intensity))
+                .attr('r', 4)
+                .attr('fill', d => {
+                    if (d.intensity >= 7) return '#e74c3c';
+                    if (d.intensity >= 4) return '#f39c12';
+                    return '#2ecc71';
+                })
+                .attr('stroke', '#fff')
+                .attr('stroke-width', 1)
+                .style('cursor', 'pointer')
+                .on('mouseover', function (event, d) {
+                    d3.select(this).attr('r', 6);
+                    showTimelineTooltip(event, d);
+                })
+                .on('mouseout', function () {
+                    d3.select(this).attr('r', 4);
+                    hideTimelineTooltip();
+                })
+                .on('click', function (event, d) {
+                    console.log('Pain entry clicked:', d);
+                });
+
+            // Appliquer le zoom
+            g.call(zoom);
+
+            // Stocker le zoom pour réinitialisation
+            timelineZoom = zoom;
+
+            // Fonction pour mettre à jour les points lors du zoom
+            function updateTimelinePoints(xScale, yScale, data) {
+                points
+                    .attr('cx', d => xScale(d.date))
+                    .attr('cy', d => yScale(d.intensity));
+
+                g.select('path')
+                    .attr('d', line.x(d => xScale(d.date)).y(d => yScale(d.intensity)));
+            }
+        }
+
+        /**
+         * Affiche le tooltip de la timeline
+         */
+        function showTimelineTooltip(event, data) {
+            const tooltip = document.getElementById('timeline-tooltip');
+            if (!tooltip) return;
+            const date = new Date(data.timestamp).toLocaleString('fr-FR');
+            tooltip.innerHTML = `
+                <strong>${date}</strong><br>
+                Intensité: ${data.intensity}/10<br>
+                ${data.location ? `Localisation: ${data.location}<br>` : ''}
+                ${data.physical_trigger ? `Déclencheur: ${data.physical_trigger}` : ''}
+            `;
+            tooltip.style.display = 'block';
+            tooltip.style.left = (event.pageX + 10) + 'px';
+            tooltip.style.top = (event.pageY - 10) + 'px';
+        }
+
+        /**
+         * Cache le tooltip de la timeline
+         */
+        function hideTimelineTooltip() {
+            const tooltip = document.getElementById('timeline-tooltip');
+            if (tooltip) {
+                tooltip.style.display = 'none';
+            }
+        }
+
+        /**
+         * Réinitialise le zoom de la timeline
+         */
+        function resetTimelineZoom() {
+            if (timelineZoom) {
+                d3.select('#timeline-svg g').transition().call(
+                    timelineZoom.transform,
+                    d3.zoomIdentity
+                );
+            }
+            initializeTimeline();
         }
     </script>
 </body>

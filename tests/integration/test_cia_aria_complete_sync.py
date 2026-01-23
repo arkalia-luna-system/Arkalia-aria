@@ -8,8 +8,6 @@ Tests bout-en-bout pour valider la synchronisation complète entre CIA et ARIA.
 
 from unittest.mock import Mock, patch
 
-import pytest
-
 
 class TestCIAARIACompleteSync:
     """Tests de synchronisation complète CIA ↔ ARIA"""

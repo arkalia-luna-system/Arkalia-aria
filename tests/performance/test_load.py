@@ -8,8 +8,6 @@ Tests pour valider les performances avec de grandes quantités de données.
 
 import time
 
-import pytest
-
 
 class TestLoadPerformance:
     """Tests de charge"""

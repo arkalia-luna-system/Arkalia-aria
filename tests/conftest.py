@@ -109,7 +109,6 @@ def mock_external_apis():
 @pytest.fixture(scope="function", autouse=True)
 def clear_cache():
     """Nettoie le cache avant et après chaque test."""
-    from core.cache import CacheManager
 
     # Nettoyer avant le test
     try:

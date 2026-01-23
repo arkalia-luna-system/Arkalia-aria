@@ -4,17 +4,13 @@ Tests d'intégration pour CIA Sync API
 
 from unittest.mock import Mock, patch
 
-from fastapi.testclient import TestClient
-
-from main import app
-
-client = TestClient(app)
+import pytest
 
 
 class TestCIASyncEndpoints:
     """Tests pour les endpoints de synchronisation CIA"""
 
-    def test_get_sync_status(self):
+    def test_get_sync_status(self, client):
         """Test GET /api/sync/status"""
         response = client.get("/api/sync/status")
         assert response.status_code == 200
@@ -22,7 +18,7 @@ class TestCIASyncEndpoints:
         # Le format peut varier selon l'implémentation BaseAPI
         assert "status" in data or "module" in data
 
-    def test_get_connection(self):
+    def test_get_connection(self, client):
         """Test GET /api/sync/connection"""
         response = client.get("/api/sync/connection")
         assert response.status_code == 200
@@ -31,7 +27,7 @@ class TestCIASyncEndpoints:
         assert "cia_url" in data
 
     @patch("cia_sync.api._check_cia_connection")
-    def test_pull_from_cia_all(self, mock_check):
+    def test_pull_from_cia_all(self, mock_check, client):
         """Test POST /api/sync/pull-from-cia avec data_type=all"""
         mock_check.return_value = True
 

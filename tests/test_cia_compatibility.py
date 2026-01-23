@@ -2,17 +2,13 @@
 Tests pour les endpoints de compatibilité CIA
 """
 
-from fastapi.testclient import TestClient
-
-from main import app
-
-client = TestClient(app)
+import pytest
 
 
 class TestCIACompatibility:
     """Tests pour les endpoints de compatibilité CIA"""
 
-    def test_pain_records_compat(self):
+    def test_pain_records_compat(self, client):
         """Test GET /api/pain-records (compatibilité CIA)"""
         response = client.get("/api/pain-records?limit=10&offset=0")
         assert response.status_code == 200
@@ -20,21 +16,21 @@ class TestCIACompatibility:
         assert "entries" in data or isinstance(data, list)
         assert "total" in data or len(data) >= 0
 
-    def test_pain_records_compat_pagination(self):
+    def test_pain_records_compat_pagination(self, client):
         """Test GET /api/pain-records avec pagination"""
         response = client.get("/api/pain-records?limit=5&offset=0")
         assert response.status_code == 200
         data = response.json()
         assert "limit" in data or isinstance(data, list)
 
-    def test_patterns_compat(self):
+    def test_patterns_compat(self, client):
         """Test GET /api/patterns (compatibilité CIA)"""
         response = client.get("/api/patterns?days=30")
         assert response.status_code == 200
         data = response.json()
         assert isinstance(data, dict)
 
-    def test_health_metrics_compat(self):
+    def test_health_metrics_compat(self, client):
         """Test GET /api/health-metrics (compatibilité CIA)"""
         response = client.get("/api/health-metrics")
         # Peut retourner 200 ou 503 si métriques désactivées
@@ -43,7 +39,7 @@ class TestCIACompatibility:
             data = response.json()
             assert isinstance(data, dict)
 
-    def test_pain_entries_post_compat(self):
+    def test_pain_entries_post_compat(self, client):
         """Test POST /api/pain/entries (compatibilité CIA)"""
         entry_data = {
             "intensity": 5,

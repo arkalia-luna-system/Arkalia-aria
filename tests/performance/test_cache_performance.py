@@ -8,8 +8,6 @@ Tests pour valider l'efficacité du système de cache.
 
 import time
 
-import pytest
-
 
 class TestCachePerformance:
     """Tests de performance du cache"""

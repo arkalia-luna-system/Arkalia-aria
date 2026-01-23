@@ -2,7 +2,6 @@
 Tests unitaires pour les endpoints Pattern Analysis API
 """
 
-import pytest
 
 
 class TestPatternsEndpoints:

@@ -2,7 +2,6 @@
 Tests unitaires pour les endpoints Pain Tracking API
 """
 
-import pytest
 
 
 class TestPainEntryEndpoints:

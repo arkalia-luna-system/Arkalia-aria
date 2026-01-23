@@ -2,7 +2,6 @@
 Tests pour l'API Research Tools
 """
 
-import pytest
 
 
 class TestResearchToolsAPI:
@@ -54,7 +53,7 @@ class TestResearchToolsAPI:
         data = response.json()
         assert data["status"] == "pending"
 
-    def test_create_experiment_complex_data(self):
+    def test_create_experiment_complex_data(self, client):
         """Test POST /api/research/experiment/create avec données complexes"""
         complex_data = {
             "name": "Complex Experiment",

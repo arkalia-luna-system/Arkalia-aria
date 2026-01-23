@@ -5,8 +5,6 @@ Tests pour l'API Audio/Voice
 import base64
 from unittest.mock import patch
 
-import pytest
-
 from audio_voice.api import TTSRequest
 
 

@@ -47,7 +47,7 @@ class HealthChatbot:
 
         try:
             # Récupérer données récentes
-            entries = db.execute_query(
+            rows = db.execute_query(
                 """
                 SELECT intensity, location, physical_trigger, timestamp
                 FROM pain_entries
@@ -58,8 +58,11 @@ class HealthChatbot:
                 (start_date,),
             )
 
-            if not entries:
+            if not rows:
                 return "Aucune donnée récente disponible."
+
+            # Convertir Row en dict
+            entries = [dict(row) for row in rows]
 
             context_parts = [
                 f"Épisodes récents ({len(entries)}):",

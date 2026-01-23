@@ -46,7 +46,7 @@ class AIRecommendations:
         start_date = (datetime.now() - timedelta(days=days_back)).isoformat()
 
         try:
-            entries = db.execute_query(
+            rows = db.execute_query(
                 """
                 SELECT intensity, location, physical_trigger, mental_trigger,
                        timestamp, notes
@@ -58,12 +58,15 @@ class AIRecommendations:
                 (start_date,),
             )
 
-            if not entries:
+            if not rows:
                 return {
                     "recommendations": [],
                     "analysis": "Aucune donnée récente à analyser",
                     "days_analyzed": days_back,
                 }
+
+            # Convertir Row en dict
+            entries = [dict(row) for row in rows]
 
             # Préparer un résumé des données
             total_entries = len(entries)
@@ -137,7 +140,7 @@ Format: Liste numérotée, courtes et actionnables."""
         """
         try:
             # Récupérer les corrélations récentes
-            correlations = db.execute_query("""
+            rows = db.execute_query("""
                 SELECT correlation_type, strength, description
                 FROM correlations
                 WHERE strength > 0.5
@@ -145,11 +148,14 @@ Format: Liste numérotée, courtes et actionnables."""
                 LIMIT 10
                 """)
 
-            if not correlations:
+            if not rows:
                 return {
                     "insights": [],
                     "message": "Aucune corrélation forte détectée",
                 }
+
+            # Convertir Row en dict
+            correlations = [dict(row) for row in rows]
 
             # Créer un prompt pour Ollama
             correlations_text = "\n".join(

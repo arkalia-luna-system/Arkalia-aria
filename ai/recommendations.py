@@ -71,8 +71,8 @@ class AIRecommendations:
             # Préparer un résumé des données
             total_entries = len(entries)
             avg_intensity = sum(e.get("intensity", 0) for e in entries) / total_entries
-            locations = {}
-            triggers = {}
+            locations: dict[str, int] = {}
+            triggers: dict[str, int] = {}
 
             for entry in entries:
                 loc = entry.get("location")

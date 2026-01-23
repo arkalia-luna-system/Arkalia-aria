@@ -73,7 +73,7 @@ class TestPainEntryEndpoints:
         response = client.post("/api/pain/quick-entry", json=entry_data)
         assert response.status_code == 422  # Validation error
 
-    def test_get_entries_empty(self):
+    def test_get_entries_empty(self, client):
         """Test GET /api/pain/entries avec base vide"""
         # Supprimer toutes les entrées pour test
         client.delete("/api/pain/entries")

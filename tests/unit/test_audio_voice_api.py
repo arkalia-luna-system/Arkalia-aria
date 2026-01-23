@@ -5,18 +5,15 @@ Tests pour l'API Audio/Voice
 import base64
 from unittest.mock import patch
 
-from fastapi.testclient import TestClient
+import pytest
 
 from audio_voice.api import TTSRequest
-from main import app
-
-client = TestClient(app)
 
 
 class TestAudioVoiceAPI:
     """Tests pour l'API Audio/Voice"""
 
-    def test_audio_status(self):
+    def test_audio_status(self, client):
         """Test GET /api/audio/status"""
         response = client.get("/api/audio/status")
         assert response.status_code == 200
@@ -26,7 +23,7 @@ class TestAudioVoiceAPI:
         assert "timestamp" in data
         assert "api_name" in data
 
-    def test_synthesize_speech_success(self):
+    def test_synthesize_speech_success(self, client):
         """Test POST /api/audio/tts avec texte valide"""
         request_data = {"text": "Bonjour, ceci est un test", "voice": "amelie"}
         response = client.post("/api/audio/tts", json=request_data)
@@ -37,7 +34,7 @@ class TestAudioVoiceAPI:
         assert data["text"] == "Bonjour, ceci est un test"
         assert "message" in data
 
-    def test_synthesize_speech_default_voice(self):
+    def test_synthesize_speech_default_voice(self, client):
         """Test POST /api/audio/tts sans spécifier de voix"""
         request_data = {"text": "Test sans voix spécifiée"}
         response = client.post("/api/audio/tts", json=request_data)
@@ -45,26 +42,26 @@ class TestAudioVoiceAPI:
         data = response.json()
         assert data["voice"] == "amelie"  # Voix par défaut
 
-    def test_synthesize_speech_empty_text(self):
+    def test_synthesize_speech_empty_text(self, client):
         """Test POST /api/audio/tts avec texte vide"""
         request_data = {"text": "   ", "voice": "amelie"}
         response = client.post("/api/audio/tts", json=request_data)
         assert response.status_code == 400
 
-    def test_synthesize_speech_missing_text(self):
+    def test_synthesize_speech_missing_text(self, client):
         """Test POST /api/audio/tts sans texte"""
         request_data = {"voice": "amelie"}
         response = client.post("/api/audio/tts", json=request_data)
         assert response.status_code == 422  # Validation error
 
-    def test_synthesize_speech_text_too_long(self):
+    def test_synthesize_speech_text_too_long(self, client):
         """Test POST /api/audio/tts avec texte trop long"""
         long_text = "a" * 2001  # Plus de 2000 caractères
         request_data = {"text": long_text, "voice": "amelie"}
         response = client.post("/api/audio/tts", json=request_data)
         assert response.status_code == 422  # Validation error
 
-    def test_save_audio_note_success(self):
+    def test_save_audio_note_success(self, client):
         """Test POST /api/audio/note avec audio valide"""
         # Créer un audio factice encodé en base64
         fake_audio = b"fake audio data for testing"
@@ -86,7 +83,7 @@ class TestAudioVoiceAPI:
                 assert data["size_bytes"] == len(fake_audio)
                 assert "timestamp" in data
 
-    def test_save_audio_note_auto_filename(self):
+    def test_save_audio_note_auto_filename(self, client):
         """Test POST /api/audio/note sans nom de fichier (génération automatique)"""
         fake_audio = b"fake audio data"
         encoded_audio = base64.b64encode(fake_audio).decode("utf-8")
@@ -102,7 +99,7 @@ class TestAudioVoiceAPI:
                 assert "file_path" in data
                 assert "audio_note_" in data["file_path"]  # Nom généré automatiquement
 
-    def test_save_audio_note_invalid_base64(self):
+    def test_save_audio_note_invalid_base64(self, client):
         """Test POST /api/audio/note avec base64 invalide"""
         request_data = {
             "filename": "test.wav",
@@ -113,7 +110,7 @@ class TestAudioVoiceAPI:
         assert response.status_code == 400
         assert "base64" in response.json()["detail"].lower()
 
-    def test_save_audio_note_missing_content(self):
+    def test_save_audio_note_missing_content(self, client):
         """Test POST /api/audio/note sans contenu"""
         request_data = {"filename": "test.wav"}
         response = client.post("/api/audio/note", json=request_data)

@@ -45,14 +45,15 @@ class TestCachePerformance:
         assert response.status_code == 200
         entry_id = response.json()["id"]
 
-        # Récupérer l'entrée (peut être en cache)
-        response1 = client.get(f"/api/pain/entries/{entry_id}")
+        # Récupérer l'entrée depuis la liste récente (peut être en cache)
+        response1 = client.get("/api/pain/entries/recent?limit=10")
         assert response1.status_code == 200
+        entries = response1.json()
+        # Vérifier que notre entrée est dans la liste
+        assert any(e["id"] == entry_id for e in entries)
 
-        # Modifier l'entrée (devrait invalider le cache)
-        # Note: Il n'y a pas d'endpoint PUT, donc on teste juste que
-        # les requêtes fonctionnent correctement
-        response2 = client.get(f"/api/pain/entries/{entry_id}")
+        # Faire une deuxième requête (devrait utiliser le cache)
+        response2 = client.get("/api/pain/entries/recent?limit=10")
         assert response2.status_code == 200
 
     def test_cache_memory_usage(self, client):

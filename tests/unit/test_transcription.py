@@ -4,8 +4,7 @@ Tests pour le module de transcription audio
 """
 
 import base64
-from pathlib import Path
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
 from audio_voice.transcription import AudioTranscriber, get_transcriber
 
@@ -26,9 +25,9 @@ class TestAudioTranscriber:
         transcriber = AudioTranscriber()
         # Le fichier n'existe pas, devrait lever FileNotFoundError
         try:
-            result = transcriber.transcribe_file("nonexistent.wav")
+            transcriber.transcribe_file("nonexistent.wav")
             # Si on arrive ici, c'est en mode simulation et le fichier n'existe pas
-            assert False, "Devrait lever FileNotFoundError"
+            raise AssertionError("Devrait lever FileNotFoundError")
         except FileNotFoundError:
             # C'est le comportement attendu
             pass

@@ -2,7 +2,6 @@
 Tests pour les endpoints de compatibilité CIA
 """
 
-import pytest
 
 
 class TestCIACompatibility:
@@ -52,7 +51,7 @@ class TestCIACompatibility:
         assert "id" in data
         assert data["intensity"] == 5
 
-    def test_pain_entries_post_compat_invalid(self):
+    def test_pain_entries_post_compat_invalid(self, client):
         """Test POST /api/pain/entries avec données invalides"""
         entry_data = {
             "intensity": 15,  # Invalide (> 10)

@@ -37,7 +37,7 @@ class TestCachePerformance:
         assert first_time < 2.0
         assert second_time < 2.0
 
-    def test_cache_invalidation(self):
+    def test_cache_invalidation(self, client):
         """Test que le cache est invalidé correctement"""
         # Créer une entrée
         pain_entry = {"intensity": 5, "location": "test"}
@@ -55,7 +55,7 @@ class TestCachePerformance:
         response2 = client.get(f"/api/pain/entries/{entry_id}")
         assert response2.status_code == 200
 
-    def test_cache_memory_usage(self):
+    def test_cache_memory_usage(self, client):
         """Test que le cache n'utilise pas trop de mémoire"""
         # Créer plusieurs entrées
         for i in range(20):

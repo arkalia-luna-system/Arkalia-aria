@@ -87,7 +87,7 @@ class TestLoadPerformance:
             # Pagination doit être rapide (< 1 seconde)
             assert elapsed_time < 1.0
 
-    def test_export_performance(self):
+    def test_export_performance(self, client):
         """Test performance des exports avec beaucoup de données"""
         # Créer des entrées
         for i in range(50):

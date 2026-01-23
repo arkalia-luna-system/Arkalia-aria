@@ -6,7 +6,6 @@ Tests d'intégration pour BBIA (mode simulation)
 Tests pour l'intégration BBIA en mode simulation.
 """
 
-import pytest
 
 
 class TestBBIAIntegration:

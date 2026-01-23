@@ -2,12 +2,9 @@
 Tests pour le système d'alertes ARIA
 """
 
-from fastapi.testclient import TestClient
+import pytest
 
 from core.alerts import AlertSeverity, AlertType, ARIA_AlertsSystem, get_alerts_system
-from main import app
-
-client = TestClient(app)
 
 
 class TestAlertsSystem:
@@ -90,7 +87,7 @@ class TestAlertsSystem:
 class TestAlertsAPI:
     """Tests pour l'API des alertes."""
 
-    def test_alerts_status(self):
+    def test_alerts_status(self, client):
         """Test le statut de l'API alertes."""
         response = client.get("/api/alerts/status")
         assert response.status_code == 200
@@ -99,7 +96,7 @@ class TestAlertsAPI:
         assert "status" in data or "api_name" in data
         assert response.status_code == 200
 
-    def test_get_alerts(self):
+    def test_get_alerts(self, client):
         """Test la récupération des alertes via API."""
         response = client.get("/api/alerts?limit=10&offset=0")
         assert response.status_code == 200
@@ -107,14 +104,14 @@ class TestAlertsAPI:
         assert "alerts" in data
         assert "total" in data
 
-    def test_get_unread_count(self):
+    def test_get_unread_count(self, client):
         """Test le comptage des alertes non lues."""
         response = client.get("/api/alerts/unread/count")
         assert response.status_code == 200
         data = response.json()
         assert "unread_count" in data
 
-    def test_check_alerts(self):
+    def test_check_alerts(self, client):
         """Test la vérification des alertes via API."""
         response = client.post("/api/alerts/check?days_back=30")
         assert response.status_code == 200
@@ -124,7 +121,7 @@ class TestAlertsAPI:
         assert "correlations" in data
         assert "total" in data
 
-    def test_mark_alert_as_read(self):
+    def test_mark_alert_as_read(self, client):
         """Test le marquage d'une alerte comme lue via API."""
         # Créer une alerte d'abord
         alerts_system = get_alerts_system()
@@ -141,7 +138,7 @@ class TestAlertsAPI:
         assert "message" in data
         assert data["alert_id"] == alert_id
 
-    def test_mark_all_alerts_as_read(self):
+    def test_mark_all_alerts_as_read(self, client):
         """Test le marquage de toutes les alertes comme lues via API."""
         response = client.post("/api/alerts/read-all")
         assert response.status_code == 200

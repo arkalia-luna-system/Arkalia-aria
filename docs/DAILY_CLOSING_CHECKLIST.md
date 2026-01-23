@@ -2,7 +2,7 @@
 
 **ARKALIA ARIA** — Routine quotidienne d'excellence
 
-**Dernière mise à jour :** Novembre 2025
+**Dernière mise à jour :** 23 janvier 2026
 
 ---
 

@@ -1,7 +1,7 @@
 # 🔌 Référence API - ARKALIA ARIA
 
 **Version :** 1.0.0
-**Dernière mise à jour :** 12 décembre 2025
+**Dernière mise à jour :** 23 janvier 2026
 
 ## Base URL
 

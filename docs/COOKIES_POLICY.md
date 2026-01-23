@@ -93,4 +93,4 @@ Cette politique peut être modifiée. Les modifications seront publiées sur cet
 
 ---
 
-*Dernière mise à jour :* Novembre 2025
+*Dernière mise à jour :* 23 janvier 2026

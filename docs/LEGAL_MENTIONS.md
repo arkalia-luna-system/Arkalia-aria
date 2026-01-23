@@ -46,7 +46,7 @@ En cas de litige, les tribunaux français seront seuls compétents.
 
 ## Dernière mise à jour
 
-Dernière mise à jour : Novembre 2025
+Dernière mise à jour : 23 janvier 2026
 
 ---
 

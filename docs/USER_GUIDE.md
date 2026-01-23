@@ -3,7 +3,7 @@
 **ARKALIA ARIA** — Guide complet pour psychologues, patients et utilisateurs
 
 **Version :** 1.0.0
-*Dernière mise à jour :* Novembre 2025
+*Dernière mise à jour :* 23 janvier 2026
 
 ---
 
@@ -449,5 +449,5 @@ R : En cas d'urgence, contactez immédiatement les services d'urgence (15 en Fra
 
 ---
 
-*Dernière mise à jour :* Novembre 2025
+*Dernière mise à jour :* 23 janvier 2026
 *Version du guide :* 1.0.0 (aligné avec version ARIA 1.0.0)

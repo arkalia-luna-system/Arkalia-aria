@@ -258,7 +258,7 @@ C'est la fonctionnalité qui aura le plus d'impact utilisateur (+20% utilisation
 ---
 
 **Date** : 12 décembre 2025
-**Dernière mise à jour** : 12 décembre 2025
+**Dernière mise à jour** : 23 janvier 2026
 **Prochaine révision** : Après implémentation dashboard
 
 ---

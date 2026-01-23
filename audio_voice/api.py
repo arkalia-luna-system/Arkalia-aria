@@ -18,6 +18,8 @@ from pydantic import BaseModel, Field
 
 from core import BaseAPI, get_logger
 
+from .transcription import get_transcriber
+
 # Créer l'API avec BaseAPI
 api = BaseAPI("", ["Audio/Voice"])  # Pas de préfixe ici, il sera ajouté dans main.py
 router = api.get_router()
@@ -37,10 +39,13 @@ class AudioNoteRequest(BaseModel):
 @router.get("/status")
 async def audio_status() -> dict:
     logger.info("Statut audio demandé")
+    transcriber = get_transcriber()
+    transcription_status = transcriber.get_status()
     return {
         "module": "audio_voice",
         "status": "ready",
-        "features": ["tts_simulated", "audio_note_store"],
+        "features": ["tts_simulated", "audio_note_store", "transcription"],
+        "transcription": transcription_status,
         "timestamp": datetime.now().isoformat(),
     }
 
@@ -99,3 +104,104 @@ async def save_audio_note(req: AudioNoteRequest) -> dict:
         "size_bytes": len(data),
         "timestamp": datetime.now().isoformat(),
     }
+
+
+class TranscriptionRequest(BaseModel):
+    """Requête pour transcription audio"""
+
+    model_config = {"protected_namespaces": ()}
+
+    audio_path: str | None = Field(
+        None, description="Chemin vers fichier audio (si déjà sauvegardé)"
+    )
+    content_base64: str | None = Field(
+        None, description="Audio encodé base64 (alternative à audio_path)"
+    )
+    whisper_model_size: str | None = Field(
+        default="base",
+        description="Taille modèle Whisper (tiny, base, small, medium, large)",
+    )
+
+
+@router.post("/transcribe")
+async def transcribe_audio(req: TranscriptionRequest) -> dict:
+    """Transcrit un fichier audio en texte utilisant Whisper.
+
+    Args:
+        req: Requête avec audio_path ou content_base64
+
+    Returns:
+        Texte transcrit et métadonnées
+    """
+    transcriber = get_transcriber(model_size=req.whisper_model_size or "base")
+
+    try:
+        if req.audio_path:
+            # Transcription depuis fichier
+            result = transcriber.transcribe_file(req.audio_path)
+        elif req.content_base64:
+            # Transcription depuis base64
+            result = transcriber.transcribe_base64(req.content_base64)
+        else:
+            raise HTTPException(
+                status_code=400,
+                detail="audio_path ou content_base64 requis",
+            )
+
+        logger.info(f"Transcription réussie: {len(result.get('text', ''))} caractères")
+        return {
+            "status": "success",
+            "transcription": result,
+            "timestamp": datetime.now().isoformat(),
+        }
+
+    except FileNotFoundError as e:
+        logger.error(f"Fichier introuvable: {e}")
+        raise HTTPException(status_code=404, detail=f"Fichier introuvable: {e}") from e
+    except Exception as e:
+        logger.error(f"Erreur transcription: {e}")
+        raise HTTPException(status_code=500, detail=f"Erreur transcription: {e}") from e
+
+
+@router.post("/transcribe-note/{note_id}")
+async def transcribe_saved_note(note_id: str) -> dict:
+    """Transcrit une note audio déjà sauvegardée.
+
+    Args:
+        note_id: Nom du fichier ou ID de la note
+
+    Returns:
+        Texte transcrit et métadonnées
+    """
+    transcriber = get_transcriber()
+
+    # Chercher le fichier dans dacc/audio_notes
+    audio_dir = Path("dacc/audio_notes")
+    audio_path = audio_dir / note_id
+
+    if not audio_path.exists():
+        # Essayer avec différents formats
+        for ext in [".wav", ".mp3", ".m4a", ".ogg"]:
+            test_path = audio_dir / f"{note_id}{ext}"
+            if test_path.exists():
+                audio_path = test_path
+                break
+        else:
+            raise HTTPException(
+                status_code=404, detail=f"Note audio introuvable: {note_id}"
+            )
+
+    try:
+        result = transcriber.transcribe_file(audio_path)
+        logger.info(f"Note {note_id} transcrit avec succès")
+
+        return {
+            "status": "success",
+            "note_id": note_id,
+            "transcription": result,
+            "timestamp": datetime.now().isoformat(),
+        }
+
+    except Exception as e:
+        logger.error(f"Erreur transcription note {note_id}: {e}")
+        raise HTTPException(status_code=500, detail=f"Erreur transcription: {e}") from e

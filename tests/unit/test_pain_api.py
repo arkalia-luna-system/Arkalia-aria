@@ -2,17 +2,13 @@
 Tests unitaires pour les endpoints Pain Tracking API
 """
 
-from fastapi.testclient import TestClient
-
-from main import app
-
-client = TestClient(app)
+import pytest
 
 
 class TestPainEntryEndpoints:
     """Tests pour les endpoints de création d'entrées de douleur"""
 
-    def test_post_pain_entry_success(self):
+    def test_post_pain_entry_success(self, client):
         """Test POST /api/pain/entry avec données valides"""
         entry_data = {
             "intensity": 5,
@@ -29,7 +25,7 @@ class TestPainEntryEndpoints:
         assert data["intensity"] == 5
         assert data["physical_trigger"] == "stress"
 
-    def test_post_pain_entry_invalid_intensity_high(self):
+    def test_post_pain_entry_invalid_intensity_high(self, client):
         """Test POST /api/pain/entry avec intensité > 10"""
         entry_data = {
             "intensity": 15,  # Invalide (> 10)
@@ -38,7 +34,7 @@ class TestPainEntryEndpoints:
         response = client.post("/api/pain/entry", json=entry_data)
         assert response.status_code == 422  # Validation error
 
-    def test_post_pain_entry_invalid_intensity_negative(self):
+    def test_post_pain_entry_invalid_intensity_negative(self, client):
         """Test POST /api/pain/entry avec intensité < 0"""
         entry_data = {
             "intensity": -1,  # Invalide (< 0)
@@ -47,7 +43,7 @@ class TestPainEntryEndpoints:
         response = client.post("/api/pain/entry", json=entry_data)
         assert response.status_code == 422  # Validation error
 
-    def test_post_pain_entry_missing_required(self):
+    def test_post_pain_entry_missing_required(self, client):
         """Test POST /api/pain/entry sans champ requis (intensity)"""
         entry_data = {
             "physical_trigger": "stress",
@@ -55,7 +51,7 @@ class TestPainEntryEndpoints:
         response = client.post("/api/pain/entry", json=entry_data)
         assert response.status_code == 422  # Validation error
 
-    def test_post_quick_entry_success(self):
+    def test_post_quick_entry_success(self, client):
         """Test POST /api/pain/quick-entry avec données valides"""
         entry_data = {
             "intensity": 6,
@@ -68,7 +64,7 @@ class TestPainEntryEndpoints:
         assert "id" in data
         assert data["intensity"] == 6
 
-    def test_post_quick_entry_invalid(self):
+    def test_post_quick_entry_invalid(self, client):
         """Test POST /api/pain/quick-entry avec données invalides"""
         entry_data = {
             "intensity": 11,  # Invalide
@@ -89,7 +85,7 @@ class TestPainEntryEndpoints:
         assert "total" in data
         assert data["total"] >= 0
 
-    def test_get_entries_pagination(self):
+    def test_get_entries_pagination(self, client):
         """Test GET /api/pain/entries avec pagination"""
         # Créer quelques entrées
         for _ in range(5):
@@ -108,17 +104,17 @@ class TestPainEntryEndpoints:
         assert len(data["entries"]) <= 2
         assert "has_more" in data
 
-    def test_get_entries_invalid_limit(self):
+    def test_get_entries_invalid_limit(self, client):
         """Test GET /api/pain/entries avec limit invalide"""
         response = client.get("/api/pain/entries?limit=300")  # > 200 max
         assert response.status_code == 422  # Validation error (Pydantic valide le max)
 
-    def test_delete_entry_not_found(self):
+    def test_delete_entry_not_found(self, client):
         """Test DELETE /api/pain/entries/{id} avec ID inexistant"""
         response = client.delete("/api/pain/entries/99999")
         assert response.status_code == 404  # Not found
 
-    def test_delete_entry_success(self):
+    def test_delete_entry_success(self, client):
         """Test DELETE /api/pain/entries/{id} avec ID valide"""
         # Créer une entrée
         create_response = client.post(

@@ -2,48 +2,44 @@
 Tests unitaires pour les endpoints Pattern Analysis API
 """
 
-from fastapi.testclient import TestClient
-
-from main import app
-
-client = TestClient(app)
+import pytest
 
 
 class TestPatternsEndpoints:
     """Tests pour les endpoints d'analyse de patterns"""
 
-    def test_get_patterns_recent_success(self):
+    def test_get_patterns_recent_success(self, client):
         """Test GET /api/patterns/patterns/recent avec paramètres valides"""
         response = client.get("/api/patterns/patterns/recent?days=30")
         assert response.status_code == 200
         data = response.json()
         assert isinstance(data, dict)
 
-    def test_get_patterns_recent_invalid_days(self):
+    def test_get_patterns_recent_invalid_days(self, client):
         """Test GET /api/patterns/patterns/recent avec days invalide"""
         response = client.get("/api/patterns/patterns/recent?days=500")  # > 365 max
         assert response.status_code == 422  # Validation error
 
-    def test_get_patterns_recent_negative_days(self):
+    def test_get_patterns_recent_negative_days(self, client):
         """Test GET /api/patterns/patterns/recent avec days négatif"""
         response = client.get("/api/patterns/patterns/recent?days=-1")
         assert response.status_code == 422  # Validation error
 
-    def test_get_sleep_pain_correlation(self):
+    def test_get_sleep_pain_correlation(self, client):
         """Test GET /api/patterns/correlations/sleep-pain"""
         response = client.get("/api/patterns/correlations/sleep-pain?days=30")
         assert response.status_code == 200
         data = response.json()
         assert isinstance(data, dict)
 
-    def test_get_stress_pain_correlation(self):
+    def test_get_stress_pain_correlation(self, client):
         """Test GET /api/patterns/correlations/stress-pain"""
         response = client.get("/api/patterns/correlations/stress-pain?days=30")
         assert response.status_code == 200
         data = response.json()
         assert isinstance(data, dict)
 
-    def test_get_recurrent_triggers(self):
+    def test_get_recurrent_triggers(self, client):
         """Test GET /api/patterns/triggers/recurrent"""
         response = client.get(
             "/api/patterns/triggers/recurrent?days=30&min_occurrences=3"
@@ -52,7 +48,7 @@ class TestPatternsEndpoints:
         data = response.json()
         assert isinstance(data, dict)
 
-    def test_post_analyze_comprehensive(self):
+    def test_post_analyze_comprehensive(self, client):
         """Test POST /api/patterns/analyze avec type comprehensive"""
         data = {"days_back": 30, "analysis_type": "comprehensive"}
         response = client.post("/api/patterns/analyze", json=data)
@@ -60,7 +56,7 @@ class TestPatternsEndpoints:
         result = response.json()
         assert isinstance(result, dict)
 
-    def test_post_analyze_sleep(self):
+    def test_post_analyze_sleep(self, client):
         """Test POST /api/patterns/analyze avec type sleep"""
         data = {"days_back": 30, "analysis_type": "sleep"}
         response = client.post("/api/patterns/analyze", json=data)
@@ -68,7 +64,7 @@ class TestPatternsEndpoints:
         result = response.json()
         assert isinstance(result, dict)
 
-    def test_post_analyze_stress(self):
+    def test_post_analyze_stress(self, client):
         """Test POST /api/patterns/analyze avec type stress"""
         data = {"days_back": 30, "analysis_type": "stress"}
         response = client.post("/api/patterns/analyze", json=data)
@@ -76,7 +72,7 @@ class TestPatternsEndpoints:
         result = response.json()
         assert isinstance(result, dict)
 
-    def test_post_analyze_triggers(self):
+    def test_post_analyze_triggers(self, client):
         """Test POST /api/patterns/analyze avec type triggers"""
         data = {"days_back": 30, "analysis_type": "triggers"}
         response = client.post("/api/patterns/analyze", json=data)
@@ -84,13 +80,13 @@ class TestPatternsEndpoints:
         result = response.json()
         assert isinstance(result, dict)
 
-    def test_post_analyze_invalid_type(self):
+    def test_post_analyze_invalid_type(self, client):
         """Test POST /api/patterns/analyze avec type invalide"""
         data = {"days_back": 30, "analysis_type": "invalid"}
         response = client.post("/api/patterns/analyze", json=data)
         assert response.status_code == 400  # Bad request
 
-    def test_post_analyze_invalid_days(self):
+    def test_post_analyze_invalid_days(self, client):
         """Test POST /api/patterns/analyze avec days_back invalide"""
         data = {"days_back": -1, "analysis_type": "comprehensive"}
         response = client.post("/api/patterns/analyze", json=data)

@@ -8,17 +8,13 @@ Tests bout-en-bout pour valider la synchronisation complète entre CIA et ARIA.
 
 from unittest.mock import Mock, patch
 
-from fastapi.testclient import TestClient
-
-from main import app
-
-client = TestClient(app)
+import pytest
 
 
 class TestCIAARIACompleteSync:
     """Tests de synchronisation complète CIA ↔ ARIA"""
 
-    def test_sync_complete_workflow(self):
+    def test_sync_complete_workflow(self, client):
         """Test workflow complet de synchronisation bidirectionnelle"""
         # 1. Vérifier connexion CIA
         response = client.get("/api/sync/connection")
@@ -67,7 +63,7 @@ class TestCIAARIACompleteSync:
                 # Peut être 200, 404 ou 503 selon disponibilité CIA
                 assert response.status_code in [200, 404, 503]
 
-    def test_sync_with_new_pain_fields(self):
+    def test_sync_with_new_pain_fields(self, client):
         """Test synchronisation avec nouveaux champs journal douleur"""
         # Créer entrée avec tous les nouveaux champs
         pain_entry = {
@@ -98,7 +94,7 @@ class TestCIAARIACompleteSync:
         assert our_entry["who_present"] == "Seul"
         assert our_entry["interactions"] == "Aucune interaction"
 
-    def test_sync_correlations_automatic(self):
+    def test_sync_correlations_automatic(self, client):
         """Test que les corrélations sont calculées automatiquement après sync"""
         # Créer plusieurs entrées pour avoir des données
         for i in range(3):
@@ -118,7 +114,7 @@ class TestCIAARIACompleteSync:
         response = client.get("/api/patterns/correlations/stress-pain")
         assert response.status_code in [200, 404]
 
-    def test_sync_export_with_new_fields(self):
+    def test_sync_export_with_new_fields(self, client):
         """Test export avec nouveaux champs"""
         # Créer entrée avec nouveaux champs
         pain_entry = {
@@ -145,7 +141,7 @@ class TestCIAARIACompleteSync:
             assert "pdf" in content_type.lower() or "application/json" in content_type
 
     @patch("cia_sync.api._check_cia_connection")
-    def test_sync_cia_unavailable(self, mock_check):
+    def test_sync_cia_unavailable(self, mock_check, client):
         """Test comportement quand CIA est indisponible"""
         mock_check.return_value = False
 

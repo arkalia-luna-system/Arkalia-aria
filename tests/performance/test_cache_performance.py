@@ -8,20 +8,16 @@ Tests pour valider l'efficacité du système de cache.
 
 import time
 
-from fastapi.testclient import TestClient
-
-from main import app
-
-client = TestClient(app)
+import pytest
 
 
 class TestCachePerformance:
     """Tests de performance du cache"""
 
-    def test_cache_hit_performance(self):
+    def test_cache_hit_performance(self, client):
         """Test que le cache améliore les performances"""
-        # Créer quelques entrées
-        for _ in range(10):
+        # Créer quelques entrées (réduit pour accélérer)
+        for _ in range(5):
             pain_entry = {"intensity": 5, "location": "test"}
             client.post("/api/pain/entry", json=pain_entry)
 

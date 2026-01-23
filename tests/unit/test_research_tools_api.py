@@ -2,17 +2,13 @@
 Tests pour l'API Research Tools
 """
 
-from fastapi.testclient import TestClient
-
-from main import app
-
-client = TestClient(app)
+import pytest
 
 
 class TestResearchToolsAPI:
     """Tests pour l'API Research Tools"""
 
-    def test_research_tools_status(self):
+    def test_research_tools_status(self, client):
         """Test GET /api/research/status"""
         response = client.get("/api/research/status")
         assert response.status_code == 200
@@ -25,7 +21,7 @@ class TestResearchToolsAPI:
         assert "data_laboratory" in data["features"]
         assert "controlled_experiments" in data["features"]
 
-    def test_list_experiments(self):
+    def test_list_experiments(self, client):
         """Test GET /api/research/experiments"""
         response = client.get("/api/research/experiments")
         assert response.status_code == 200
@@ -36,7 +32,7 @@ class TestResearchToolsAPI:
         assert isinstance(data["experiments"], list)
         assert data["active_count"] == 0
 
-    def test_create_experiment(self):
+    def test_create_experiment(self, client):
         """Test POST /api/research/experiment/create"""
         experiment_data = {
             "name": "Test Experiment",
@@ -51,7 +47,7 @@ class TestResearchToolsAPI:
         assert "status" in data
         assert data["status"] == "pending"
 
-    def test_create_experiment_empty_data(self):
+    def test_create_experiment_empty_data(self, client):
         """Test POST /api/research/experiment/create avec données vides"""
         response = client.post("/api/research/experiment/create", json={})
         assert response.status_code == 200

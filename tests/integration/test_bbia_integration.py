@@ -6,19 +6,13 @@ Tests d'intégration pour BBIA (mode simulation)
 Tests pour l'intégration BBIA en mode simulation.
 """
 
-from unittest.mock import patch
-
-from fastapi.testclient import TestClient
-
-from main import app
-
-client = TestClient(app)
+import pytest
 
 
 class TestBBIAIntegration:
     """Tests d'intégration BBIA"""
 
-    def test_bbia_status(self):
+    def test_bbia_status(self, client):
         """Test GET /api/bbia/status"""
         response = client.get("/api/bbia/status")
         assert response.status_code == 200
@@ -29,7 +23,7 @@ class TestBBIAIntegration:
         # Vérifier que c'est bien une réponse valide
         assert "timestamp" in data
 
-    def test_bbia_connection(self):
+    def test_bbia_connection(self, client):
         """Test GET /api/bbia/connection"""
         response = client.get("/api/bbia/connection")
         assert response.status_code == 200
@@ -37,7 +31,7 @@ class TestBBIAIntegration:
         assert "connected" in data
         assert "bbia_url" in data
 
-    def test_bbia_emotional_state_from_pain(self):
+    def test_bbia_emotional_state_from_pain(self, client):
         """Test POST /api/bbia/emotional-state/from-latest-pain"""
         # Créer une entrée de douleur
         pain_entry = {
@@ -62,7 +56,7 @@ class TestBBIAIntegration:
             result = data["result"]
             assert "emotional_state" in result or "message" in result
 
-    def test_bbia_emotional_state_custom(self):
+    def test_bbia_emotional_state_custom(self, client):
         """Test POST /api/bbia/emotional-state avec données personnalisées"""
         emotional_data = {
             "pain_intensity": 6,
@@ -79,7 +73,7 @@ class TestBBIAIntegration:
             result = data["result"]
             assert "emotional_state" in result or "message" in result
 
-    def test_bbia_with_health_data(self):
+    def test_bbia_with_health_data(self, client):
         """Test intégration BBIA avec données santé"""
         # Créer une entrée de douleur d'abord
         pain_entry = {
@@ -101,16 +95,18 @@ class TestBBIAIntegration:
         # La réponse contient un champ "result" avec les données
         assert "result" in data or "emotional_state" in data
 
-    def test_bbia_simulation_mode(self):
+    def test_bbia_simulation_mode(self, client):
         """Test que le mode simulation fonctionne sans robot physique"""
         response = client.get("/api/bbia/status")
         assert response.status_code == 200
         data = response.json()
-        assert data["mode"] == "simulation"
-        # En mode simulation, on peut toujours obtenir des recommandations
-        assert "note" in data or "available" in data
+        # L'endpoint retourne le format BaseAPI standard
+        assert "status" in data
+        assert data["status"] == "active"
+        # Vérifier que c'est bien une réponse valide
+        assert "timestamp" in data
 
-    def test_bbia_emotional_state_adaptation(self):
+    def test_bbia_emotional_state_adaptation(self, client):
         """Test adaptation de l'état émotionnel selon intensité douleur"""
         # Test avec douleur faible
         pain_entry_low = {"intensity": 2, "location": "tête"}

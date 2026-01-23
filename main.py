@@ -16,6 +16,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 # Imports des modules
+from ai.api import router as ai_router
 from alerts.api import router as alerts_router
 from audio_voice.api import router as audio_router
 from cia_compatibility.api import router as cia_compat_router
@@ -77,6 +78,7 @@ app.include_router(
 app.include_router(research_router, prefix="/api/research", tags=["Research Tools"])
 app.include_router(sync_router, prefix="/api/sync", tags=["CIA Sync"])
 app.include_router(bbia_router, prefix="/api/bbia", tags=["BBIA Integration"])
+app.include_router(ai_router, prefix="/api/ai", tags=["AI/Local"])
 app.include_router(audio_router, prefix="/api/audio", tags=["Audio/Voice"])
 app.include_router(alerts_router, tags=["Alerts"])
 # Router de compatibilité CIA (endpoints attendus par CIA)

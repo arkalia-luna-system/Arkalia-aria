@@ -77,10 +77,10 @@
 
 #### 1. Transcription Audio (Whisper)
 
-- [ ] Intégration Whisper (modèle open source)
-- [ ] Transcription notes audio
-- [ ] Saisie douleur par voix
-- [ ] Commandes vocales
+- [x] Intégration Whisper (modèle open source) ✅ **FAIT**
+- [x] Transcription notes audio ✅ **FAIT**
+- [x] Saisie douleur par voix ✅ **FAIT**
+- [ ] Commandes vocales (à faire plus tard)
 
 **Fichiers à modifier/créer** :
 - `audio_voice/transcription.py` (nouveau)
@@ -92,10 +92,10 @@
 
 #### 2. IA Locale (Ollama)
 
-- [ ] Intégration Ollama (modèles locaux)
-- [ ] Recommandations IA personnalisées
-- [ ] Chatbot santé conversationnel
-- [ ] Analyse sémantique notes
+- [x] Intégration Ollama (modèles locaux) ✅ **FAIT**
+- [x] Recommandations IA personnalisées ✅ **FAIT**
+- [x] Chatbot santé conversationnel ✅ **FAIT**
+- [x] Analyse sémantique notes ✅ **FAIT**
 
 **Fichiers à créer** :
 - `ai/ollama_integration.py`

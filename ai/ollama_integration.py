@@ -241,7 +241,7 @@ def get_ollama_manager(
     """
     global _ollama_manager
     if _ollama_manager is None:
-        base = base_url or os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-        default_model = model or os.getenv("OLLAMA_MODEL", "llama2")
-        _ollama_manager = OllamaManager(base_url=base, model=default_model)
+        base: str = base_url or os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+        default_model_str: str = model or os.getenv("OLLAMA_MODEL", "llama2")
+        _ollama_manager = OllamaManager(base_url=base, model=default_model_str)
     return _ollama_manager

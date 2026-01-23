@@ -2,6 +2,7 @@
 
 **Date** : 12 décembre 2025
 **Version ARIA** : 1.0.0
+**Dernière mise à jour** : 23 janvier 2026
 **Contexte** : Liste priorisée des corrections à effectuer suite à l'audit du 12 décembre 2025
 
 ---

@@ -3,7 +3,7 @@
 **ARKALIA ARIA** — État actuel, métriques et vue d'ensemble
 
 **Version :** 1.0.0
-**Dernière mise à jour :** 12 décembre 2025
+**Dernière mise à jour :** 23 janvier 2026
 
 ---
 

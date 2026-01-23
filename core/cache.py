@@ -297,7 +297,7 @@ class RedisCacheManager(CacheManager):
 
         self.redis_enabled = redis_enabled
         self.redis_url = redis_url or "redis://localhost:6379/0"
-        self._redis_client: redis.Redis[bytes] | None = None  # type: ignore[type-arg]
+        self._redis_client: redis.Redis[bytes] | None = None
         self._redis_available = False
 
         # Essayer de se connecter à Redis si activé
@@ -395,7 +395,7 @@ class RedisCacheManager(CacheManager):
             try:
                 data = self._redis_client.get(key)
                 if data is not None:
-                    value = self._deserialize_value(data)  # type: ignore[arg-type]
+                    value = self._deserialize_value(data)
                     logger.debug(f"📥 Redis cache hit: {key}")
                     # Mettre aussi en cache mémoire pour accès rapide
                     super().set(key, value, ttl=self.default_ttl)
@@ -449,7 +449,7 @@ class RedisCacheManager(CacheManager):
         # Supprimer aussi de Redis si disponible
         if self._redis_available and self._redis_client is not None:
             try:
-                deleted_redis = self._redis_client.delete(key) > 0  # type: ignore[operator]
+                deleted_redis = self._redis_client.delete(key) > 0
                 return deleted_memory or deleted_redis
             except Exception as e:
                 logger.debug(f"Erreur Redis delete: {e}")
@@ -488,11 +488,11 @@ class RedisCacheManager(CacheManager):
                 count_redis = 0
                 cursor = 0
                 while True:
-                    cursor, keys = self._redis_client.scan(  # type: ignore[misc]
+                    cursor, keys = self._redis_client.scan(
                         cursor=cursor, match=f"*{pattern}*", count=100
                     )
                     if keys:
-                        count_redis += self._redis_client.delete(*keys)  # type: ignore[operator]
+                        count_redis += self._redis_client.delete(*keys)
                     if cursor == 0:
                         break
                 logger.debug(
@@ -519,7 +519,7 @@ class RedisCacheManager(CacheManager):
         if self._redis_available and self._redis_client is not None:
             try:
                 info = self._redis_client.info("memory")
-                stats["redis_memory_used"] = info.get("used_memory_human", "N/A")  # type: ignore[union-attr]
+                stats["redis_memory_used"] = info.get("used_memory_human", "N/A")
                 stats["redis_keys"] = self._redis_client.dbsize()
             except Exception as e:
                 logger.debug(f"Erreur stats Redis: {e}")

@@ -6,7 +6,7 @@
 ## Assistant de recherche santé personnelle
 
 > **Mis à jour régulièrement** — Ce projet est maintenu activement et mis à jour chaque semaine.  
-> **Dernière mise à jour majeure** : 12 décembre 2025 — Audit complet ARIA, corrections compatibilité CIA, documentation mise à jour.  
+> **Dernière mise à jour majeure** : 23 janvier 2026 — Corrections MyPy, mise à jour documentation, 568 tests passent.  
 > **Phase 2 & 3 terminées** : Pattern analysis avancé et synchronisation CIA complète (bidirectionnelle + auto-sync).  
 > **Audit 12 décembre 2025** : Voir [`docs/AUDIT_ARIA_12_DECEMBRE_2025.md`](docs/AUDIT_ARIA_12_DECEMBRE_2025.md) pour le détail complet.
 

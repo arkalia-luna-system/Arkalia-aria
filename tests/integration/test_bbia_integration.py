@@ -7,7 +7,6 @@ Tests pour l'intégration BBIA en mode simulation.
 """
 
 
-
 class TestBBIAIntegration:
     """Tests d'intégration BBIA"""
 

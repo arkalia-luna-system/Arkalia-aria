@@ -3,7 +3,6 @@ Tests pour l'API Research Tools
 """
 
 
-
 class TestResearchToolsAPI:
     """Tests pour l'API Research Tools"""
 

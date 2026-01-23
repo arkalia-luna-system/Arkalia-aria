@@ -3,7 +3,6 @@ Tests pour les endpoints de compatibilité CIA
 """
 
 
-
 class TestCIACompatibility:
     """Tests pour les endpoints de compatibilité CIA"""
 

@@ -2,7 +2,6 @@
 Tests pour le système d'alertes ARIA
 """
 
-
 from core.alerts import AlertSeverity, AlertType, ARIA_AlertsSystem, get_alerts_system
 
 

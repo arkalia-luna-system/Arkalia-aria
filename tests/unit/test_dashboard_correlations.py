@@ -3,7 +3,6 @@ Tests unitaires pour les graphiques de corrélations dans le dashboard
 """
 
 
-
 class TestDashboardCorrelations:
     """Tests pour les graphiques de corrélations interactifs."""
 

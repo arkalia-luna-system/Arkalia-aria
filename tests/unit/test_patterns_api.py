@@ -3,7 +3,6 @@ Tests unitaires pour les endpoints Pattern Analysis API
 """
 
 
-
 class TestPatternsEndpoints:
     """Tests pour les endpoints d'analyse de patterns"""
 

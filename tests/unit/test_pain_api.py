@@ -3,7 +3,6 @@ Tests unitaires pour les endpoints Pain Tracking API
 """
 
 
-
 class TestPainEntryEndpoints:
     """Tests pour les endpoints de création d'entrées de douleur"""
 

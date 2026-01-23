@@ -297,7 +297,9 @@ class RedisCacheManager(CacheManager):
 
         self.redis_enabled = redis_enabled
         self.redis_url = redis_url or "redis://localhost:6379/0"
-        self._redis_client: Any | None = None  # redis.Redis[bytes] | None si redis disponible
+        self._redis_client: Any | None = (
+            None  # redis.Redis[bytes] | None si redis disponible
+        )
         self._redis_available = False
 
         # Essayer de se connecter à Redis si activé

@@ -81,22 +81,25 @@ class TestBBIAIntegration:
 
     def test_bbia_with_health_data(self):
         """Test intégration BBIA avec données santé"""
-        # Simuler des données santé
-        with patch("cia_sync.bbia_integration.get_health_data") as mock_health:
-            mock_health.return_value = {
-                "stress_level": 6,
-                "sleep_quality": 5,
-                "activity_level": 3,
-            }
+        # Créer une entrée de douleur d'abord
+        pain_entry = {
+            "intensity": 7,
+            "location": "dos",
+            "physical_trigger": "stress",
+        }
+        client.post("/api/pain/entry", json=pain_entry)
 
-            emotional_data = {
-                "pain_intensity": 7,
-            }
-            response = client.post("/api/bbia/emotional-state", json=emotional_data)
-            assert response.status_code == 200
-            data = response.json()
-            # La réponse contient un champ "result" avec les données
-            assert "result" in data or "emotional_state" in data
+        # Tester avec données santé explicites
+        emotional_data = {
+            "pain_intensity": 7,
+            "stress_level": 6,
+            "sleep_quality": 5,
+        }
+        response = client.post("/api/bbia/emotional-state", json=emotional_data)
+        assert response.status_code == 200
+        data = response.json()
+        # La réponse contient un champ "result" avec les données
+        assert "result" in data or "emotional_state" in data
 
     def test_bbia_simulation_mode(self):
         """Test que le mode simulation fonctionne sans robot physique"""

@@ -15,7 +15,7 @@ from collections.abc import Callable
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    import redis
+    import redis  # noqa: F401
 
 from .exceptions import CacheError
 
@@ -297,7 +297,7 @@ class RedisCacheManager(CacheManager):
 
         self.redis_enabled = redis_enabled
         self.redis_url = redis_url or "redis://localhost:6379/0"
-        self._redis_client: redis.Redis[bytes] | None = None
+        self._redis_client: Any | None = None  # redis.Redis[bytes] | None si redis disponible
         self._redis_available = False
 
         # Essayer de se connecter à Redis si activé

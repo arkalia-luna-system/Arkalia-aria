@@ -10,6 +10,8 @@ import os
 import sys
 from pathlib import Path
 
+import pytest
+
 # Ajouter le répertoire courant au Python path
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -20,6 +22,7 @@ from devops_automation.quality.aria_quality_assurance import ARIA_QualityAssuran
 from devops_automation.security.aria_security_validator import ARIA_SecurityValidator
 
 
+@pytest.mark.slow
 def test_security_validator():
     """Test le validateur de sécurité."""
     print("🛡️ Test du validateur de sécurité...")
@@ -49,6 +52,7 @@ def test_security_validator():
     return True
 
 
+@pytest.mark.slow
 def test_cicd_manager():
     """Test le gestionnaire CI/CD."""
     print("\n🚀 Test du gestionnaire CI/CD...")
@@ -76,6 +80,7 @@ def test_cicd_manager():
     return True
 
 
+@pytest.mark.slow
 def test_quality_assurance():
     """Test l'assurance qualité."""
     print("\n🔍 Test de l'assurance qualité...")
@@ -107,6 +112,7 @@ def test_quality_assurance():
     return True
 
 
+@pytest.mark.slow
 def test_deployment_manager():
     """Test le gestionnaire de déploiement."""
     print("\n🚀 Test du gestionnaire de déploiement...")
@@ -126,6 +132,7 @@ def test_deployment_manager():
     return True
 
 
+@pytest.mark.slow
 def test_monitoring_system():
     """Test le système de monitoring."""
     print("\n📊 Test du système de monitoring...")
@@ -155,6 +162,7 @@ def test_monitoring_system():
     return True
 
 
+@pytest.mark.slow
 def test_integration():
     """Test l'intégration complète."""
     print("\n🔗 Test d'intégration complète...")

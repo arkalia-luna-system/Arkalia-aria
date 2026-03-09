@@ -9,10 +9,13 @@ Test minimal qui ne charge que les composants essentiels.
 import sys
 from pathlib import Path
 
+import pytest
+
 # Ajouter le répertoire courant au Python path
 sys.path.insert(0, str(Path(__file__).parent))
 
 
+@pytest.mark.slow
 def test_security_basic():
     """Test basique du validateur de sécurité."""
     print("🛡️ Test sécurité basique...")
@@ -34,6 +37,7 @@ def test_security_basic():
         return False
 
 
+@pytest.mark.slow
 def test_cicd_basic():
     """Test basique du CI/CD."""
     print("🚀 Test CI/CD basique...")
@@ -54,6 +58,7 @@ def test_cicd_basic():
         return False
 
 
+@pytest.mark.slow
 def test_quality_basic():
     """Test basique de l'assurance qualité."""
     print("🔍 Test qualité basique...")
@@ -74,6 +79,7 @@ def test_quality_basic():
         return False
 
 
+@pytest.mark.slow
 def test_deployment_basic():
     """Test basique du déploiement."""
     print("🚀 Test déploiement basique...")
@@ -94,6 +100,7 @@ def test_deployment_basic():
         return False
 
 
+@pytest.mark.slow
 def test_monitoring_basic():
     """Test basique du monitoring."""
     print("📊 Test monitoring basique...")

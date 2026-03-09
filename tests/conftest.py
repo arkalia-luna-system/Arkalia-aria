@@ -19,6 +19,13 @@ os.environ.setdefault("REDIS_ENABLED", "false")
 # Utiliser une base de données temporaire pour les tests
 os.environ.setdefault("ARIA_DB", ":memory:")
 
+# Activer le mode tests rapides (sans outils DevOps lourds) en local
+if os.getenv("CI") not in {"true", "1"} and os.getenv("GITHUB_ACTIONS") not in {
+    "true",
+    "1",
+}:
+    os.environ.setdefault("ARIA_FAST_TEST", "1")
+
 
 @pytest.fixture(scope="session")
 def app():

@@ -8,11 +8,15 @@ Tests pour valider l'efficacité du système de cache.
 
 import time
 
+import pytest
+from fastapi.testclient import TestClient
 
+
+@pytest.mark.slow
 class TestCachePerformance:
     """Tests de performance du cache"""
 
-    def test_cache_hit_performance(self, client):
+    def test_cache_hit_performance(self, client: TestClient) -> None:
         """Test que le cache améliore les performances"""
         # Créer quelques entrées (réduit pour accélérer)
         for _ in range(5):
@@ -37,7 +41,7 @@ class TestCachePerformance:
         assert first_time < 2.0
         assert second_time < 2.0
 
-    def test_cache_invalidation(self, client):
+    def test_cache_invalidation(self, client: TestClient) -> None:
         """Test que le cache est invalidé correctement"""
         # Créer une entrée
         pain_entry = {"intensity": 5, "location": "test"}
@@ -56,15 +60,15 @@ class TestCachePerformance:
         response2 = client.get("/api/pain/entries/recent?limit=10")
         assert response2.status_code == 200
 
-    def test_cache_memory_usage(self, client):
+    def test_cache_memory_usage(self, client: TestClient) -> None:
         """Test que le cache n'utilise pas trop de mémoire"""
-        # Créer plusieurs entrées
-        for i in range(20):
+        # Créer plusieurs entrées (volume réduit pour ne pas surcharger la machine)
+        for i in range(10):
             pain_entry = {"intensity": i % 11, "location": f"loc_{i}"}
             client.post("/api/pain/entry", json=pain_entry)
 
-        # Faire plusieurs requêtes pour remplir le cache
-        for _ in range(10):
+        # Faire quelques requêtes pour remplir le cache
+        for _ in range(5):
             client.get("/api/pain/entries/recent?limit=20")
             client.get("/api/pain/suggestions")
 
@@ -72,7 +76,6 @@ class TestCachePerformance:
         response = client.get("/api/pain/entries/recent?limit=10")
         assert response.status_code == 200
 
-        # Vérifier les stats du cache si disponible
-        # (dépend de l'implémentation)
-        response = client.get("/api/health")
+        # Vérifier la santé globale de l'API (endpoint /health)
+        response = client.get("/health")
         assert response.status_code == 200

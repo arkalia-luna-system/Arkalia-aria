@@ -8,11 +8,15 @@ Tests pour valider les performances avec de grandes quantités de données.
 
 import time
 
+import pytest
+from fastapi.testclient import TestClient
 
+
+@pytest.mark.slow
 class TestLoadPerformance:
     """Tests de charge"""
 
-    def test_create_many_pain_entries(self, client):
+    def test_create_many_pain_entries(self, client: TestClient) -> None:
         """Test création de 1000+ entrées de douleur"""
         start_time = time.time()
 
@@ -40,9 +44,16 @@ class TestLoadPerformance:
         response = client.get("/api/pain/entries/recent?limit=50")
         assert response.status_code == 200
         data = response.json()
-        assert len(data.get("entries", [])) <= 50
+        # L'endpoint retourne une liste d'entrées; on gère aussi le cas dict par sécurité
+        if isinstance(data, list):
+            entries = data
+        elif isinstance(data, dict):
+            entries = data.get("entries", [])  # type: ignore[assignment]
+        else:
+            entries = []
+        assert len(entries) <= 50
 
-    def test_query_performance_with_many_entries(self, client):
+    def test_query_performance_with_many_entries(self, client: TestClient) -> None:
         """Test performance des requêtes avec beaucoup d'entrées"""
         # Créer quelques entrées pour avoir des données (réduit pour accélérer)
         for i in range(20):
@@ -70,7 +81,7 @@ class TestLoadPerformance:
             # Et doivent retourner un code valide
             assert response.status_code in [200, 404]
 
-    def test_pagination_performance(self, client):
+    def test_pagination_performance(self, client: TestClient) -> None:
         """Test performance de la pagination avec grandes quantités"""
         # Créer des entrées (réduit pour accélérer)
         for _ in range(20):
@@ -87,7 +98,7 @@ class TestLoadPerformance:
             # Pagination doit être rapide (< 1 seconde)
             assert elapsed_time < 1.0
 
-    def test_export_performance(self, client):
+    def test_export_performance(self, client: TestClient) -> None:
         """Test performance des exports avec beaucoup de données"""
         # Créer des entrées
         for i in range(50):

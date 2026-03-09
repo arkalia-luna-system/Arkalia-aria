@@ -1,64 +1,97 @@
 {
   "errors": [
     {
-      "filename": "./cia_sync/._auto_sync.py",
+      "filename": "./tests/._conftest.py",
       "reason": "syntax error while parsing AST from file"
     },
     {
-      "filename": "./core/._alerts.py",
+      "filename": "./tests/integration/._test_devops_light.py",
       "reason": "syntax error while parsing AST from file"
     },
     {
-      "filename": "./core/._cache.py",
+      "filename": "./tests/integration/._test_devops_simple.py",
       "reason": "syntax error while parsing AST from file"
     },
     {
-      "filename": "./core/._database.py",
+      "filename": "./tests/integration/._test_devops_system.py",
       "reason": "syntax error while parsing AST from file"
     },
     {
-      "filename": "./health_connectors/._sync_manager.py",
+      "filename": "./tests/performance/._test_cache_performance.py",
       "reason": "syntax error while parsing AST from file"
     },
     {
-      "filename": "./pain_tracking/._api.py",
-      "reason": "syntax error while parsing AST from file"
-    },
-    {
-      "filename": "./pattern_analysis/._correlation_analyzer.py",
-      "reason": "syntax error while parsing AST from file"
-    },
-    {
-      "filename": "./prediction_engine/._api.py",
-      "reason": "syntax error while parsing AST from file"
-    },
-    {
-      "filename": "./tests/._test_health_connectors.py",
-      "reason": "syntax error while parsing AST from file"
-    },
-    {
-      "filename": "./tests/._test_improvements.py",
-      "reason": "syntax error while parsing AST from file"
-    },
-    {
-      "filename": "./tests/._test_integration.py",
-      "reason": "syntax error while parsing AST from file"
-    },
-    {
-      "filename": "./tests/integration/._test_aria_systems.py",
-      "reason": "syntax error while parsing AST from file"
-    },
-    {
-      "filename": "./tests/unit/._test_metrics_collector_api.py",
-      "reason": "syntax error while parsing AST from file"
-    },
-    {
-      "filename": "./tests/unit/._test_metrics_collector_cli.py",
+      "filename": "./tests/performance/._test_load.py",
       "reason": "syntax error while parsing AST from file"
     }
   ],
-  "generated_at": "2025-12-29T18:01:51Z",
+  "generated_at": "2026-03-09T18:24:45Z",
   "metrics": {
+    "./ai/__init__.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 7,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./ai/api.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 154,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./ai/chatbot.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 128,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./ai/ollama_integration.py": {
+      "CONFIDENCE.HIGH": 1,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 1,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 206,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./ai/recommendations.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 177,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
     "./alerts/__init__.py": {
       "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
@@ -107,7 +140,20 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 78,
+      "loc": 159,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./audio_voice/transcription.py": {
+      "CONFIDENCE.HIGH": 1,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 1,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 144,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -134,11 +180,6 @@
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
       "loc": 126,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "./cia_sync/._auto_sync.py": {
-      "loc": 1,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -203,7 +244,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 200,
+      "loc": 201,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -230,21 +271,6 @@
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
       "loc": 305,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "./core/._alerts.py": {
-      "loc": 1,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "./core/._cache.py": {
-      "loc": 1,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "./core/._database.py": {
-      "loc": 1,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -296,7 +322,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 406,
+      "loc": 411,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -322,7 +348,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 200,
+      "loc": 204,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -508,11 +534,6 @@
       "nosec": 0,
       "skipped_tests": 1
     },
-    "./health_connectors/._sync_manager.py": {
-      "loc": 1,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
     "./health_connectors/__init__.py": {
       "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
@@ -602,7 +623,7 @@
       "SEVERITY.UNDEFINED": 0,
       "loc": 267,
       "nosec": 0,
-      "skipped_tests": 12
+      "skipped_tests": 0
     },
     "./health_connectors/ios_health_connector.py": {
       "CONFIDENCE.HIGH": 0,
@@ -615,7 +636,7 @@
       "SEVERITY.UNDEFINED": 0,
       "loc": 270,
       "nosec": 0,
-      "skipped_tests": 13
+      "skipped_tests": 0
     },
     "./health_connectors/report_generator.py": {
       "CONFIDENCE.HIGH": 0,
@@ -641,7 +662,7 @@
       "SEVERITY.UNDEFINED": 0,
       "loc": 250,
       "nosec": 0,
-      "skipped_tests": 11
+      "skipped_tests": 0
     },
     "./health_connectors/sync_manager.py": {
       "CONFIDENCE.HIGH": 0,
@@ -665,7 +686,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 185,
+      "loc": 187,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -730,7 +751,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 424,
+      "loc": 439,
       "nosec": 0,
       "skipped_tests": 1
     },
@@ -838,11 +859,6 @@
       "nosec": 0,
       "skipped_tests": 0
     },
-    "./pain_tracking/._api.py": {
-      "loc": 1,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
     "./pain_tracking/__init__.py": {
       "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
@@ -865,12 +881,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 657,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "./pattern_analysis/._correlation_analyzer.py": {
-      "loc": 1,
+      "loc": 669,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -923,11 +934,6 @@
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
       "loc": 318,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "./prediction_engine/._api.py": {
-      "loc": 1,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1009,17 +1015,7 @@
       "nosec": 0,
       "skipped_tests": 0
     },
-    "./tests/._test_health_connectors.py": {
-      "loc": 1,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "./tests/._test_improvements.py": {
-      "loc": 1,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "./tests/._test_integration.py": {
+    "./tests/._conftest.py": {
       "loc": 1,
       "nosec": 0,
       "skipped_tests": 0
@@ -1037,7 +1033,30 @@
       "nosec": 0,
       "skipped_tests": 0
     },
-    "./tests/integration/._test_aria_systems.py": {
+    "./tests/conftest.py": {
+      "CONFIDENCE.HIGH": 4,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 4,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 91,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./tests/integration/._test_devops_light.py": {
+      "loc": 1,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./tests/integration/._test_devops_simple.py": {
+      "loc": 1,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./tests/integration/._test_devops_system.py": {
       "loc": 1,
       "nosec": 0,
       "skipped_tests": 0
@@ -1068,6 +1087,32 @@
       "nosec": 0,
       "skipped_tests": 2
     },
+    "./tests/integration/test_bbia_integration.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 104,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./tests/integration/test_cia_aria_complete_sync.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 113,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
     "./tests/integration/test_cia_aria_integration.py": {
       "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
@@ -1090,7 +1135,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 90,
+      "loc": 87,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1103,7 +1148,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 101,
+      "loc": 107,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1116,7 +1161,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 172,
+      "loc": 179,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1129,7 +1174,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 154,
+      "loc": 179,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1146,6 +1191,55 @@
       "nosec": 0,
       "skipped_tests": 0
     },
+    "./tests/performance/._test_cache_performance.py": {
+      "loc": 1,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./tests/performance/._test_load.py": {
+      "loc": 1,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./tests/performance/__init__.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 4,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./tests/performance/test_cache_performance.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 50,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./tests/performance/test_load.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 81,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
     "./tests/test_alerts.py": {
       "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
@@ -1155,7 +1249,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 121,
+      "loc": 118,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1168,7 +1262,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 54,
+      "loc": 51,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1250,16 +1344,6 @@
       "nosec": 0,
       "skipped_tests": 0
     },
-    "./tests/unit/._test_metrics_collector_api.py": {
-      "loc": 1,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "./tests/unit/._test_metrics_collector_cli.py": {
-      "loc": 1,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
     "./tests/unit/__init__.py": {
       "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
@@ -1270,6 +1354,32 @@
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
       "loc": 5,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./tests/unit/test_ai_chatbot.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 29,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./tests/unit/test_ai_recommendations.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 27,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1386,7 +1496,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 116,
+      "loc": 113,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1451,7 +1561,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 29,
+      "loc": 26,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1546,6 +1656,19 @@
       "nosec": 0,
       "skipped_tests": 0
     },
+    "./tests/unit/test_ollama_integration.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 38,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
     "./tests/unit/test_pain_api.py": {
       "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
@@ -1555,7 +1678,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 110,
+      "loc": 107,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1568,7 +1691,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 110,
+      "loc": 107,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1594,11 +1717,11 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 67,
+      "loc": 64,
       "nosec": 0,
       "skipped_tests": 0
     },
-    "_totals": {
+    "./tests/unit/test_transcription.py": {
       "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
       "CONFIDENCE.MEDIUM": 0,
@@ -1607,10 +1730,150 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 22838,
+      "loc": 36,
       "nosec": 0,
-      "skipped_tests": 52
+      "skipped_tests": 0
+    },
+    "_totals": {
+      "CONFIDENCE.HIGH": 6,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 6,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 24353,
+      "nosec": 0,
+      "skipped_tests": 16
     }
   },
-  "results": []
+  "results": [
+    {
+      "code": "207                 models = [model.get(\"name\", \"\") for model in response.get(\"models\", [])]\n208             except Exception:\n209                 pass\n210 \n",
+      "col_offset": 12,
+      "end_col_offset": 20,
+      "filename": "./ai/ollama_integration.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 703,
+        "link": "https://cwe.mitre.org/data/definitions/703.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Try, Except, Pass detected.",
+      "line_number": 208,
+      "line_range": [
+        208,
+        209
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.8.6/plugins/b110_try_except_pass.html",
+      "test_id": "B110",
+      "test_name": "try_except_pass"
+    },
+    {
+      "code": "147                     os.unlink(tmp_path)\n148                 except Exception:\n149                     pass\n150 \n",
+      "col_offset": 16,
+      "end_col_offset": 24,
+      "filename": "./audio_voice/transcription.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 703,
+        "link": "https://cwe.mitre.org/data/definitions/703.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Try, Except, Pass detected.",
+      "line_number": 148,
+      "line_range": [
+        148,
+        149
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.8.6/plugins/b110_try_except_pass.html",
+      "test_id": "B110",
+      "test_name": "try_except_pass"
+    },
+    {
+      "code": "45         client.close()\n46     except Exception:\n47         pass\n48 \n",
+      "col_offset": 4,
+      "end_col_offset": 12,
+      "filename": "./tests/conftest.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 703,
+        "link": "https://cwe.mitre.org/data/definitions/703.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Try, Except, Pass detected.",
+      "line_number": 46,
+      "line_range": [
+        46,
+        47
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.8.6/plugins/b110_try_except_pass.html",
+      "test_id": "B110",
+      "test_name": "try_except_pass"
+    },
+    {
+      "code": "111             patch_obj.stop()\n112         except Exception:\n113             pass\n114 \n",
+      "col_offset": 8,
+      "end_col_offset": 16,
+      "filename": "./tests/conftest.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 703,
+        "link": "https://cwe.mitre.org/data/definitions/703.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Try, Except, Pass detected.",
+      "line_number": 112,
+      "line_range": [
+        112,
+        113
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.8.6/plugins/b110_try_except_pass.html",
+      "test_id": "B110",
+      "test_name": "try_except_pass"
+    },
+    {
+      "code": "123         pass\n124     except Exception:\n125         pass\n126 \n",
+      "col_offset": 4,
+      "end_col_offset": 12,
+      "filename": "./tests/conftest.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 703,
+        "link": "https://cwe.mitre.org/data/definitions/703.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Try, Except, Pass detected.",
+      "line_number": 124,
+      "line_range": [
+        124,
+        125
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.8.6/plugins/b110_try_except_pass.html",
+      "test_id": "B110",
+      "test_name": "try_except_pass"
+    },
+    {
+      "code": "131         pass\n132     except Exception:\n133         pass\n",
+      "col_offset": 4,
+      "end_col_offset": 12,
+      "filename": "./tests/conftest.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 703,
+        "link": "https://cwe.mitre.org/data/definitions/703.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Try, Except, Pass detected.",
+      "line_number": 132,
+      "line_range": [
+        132,
+        133
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.8.6/plugins/b110_try_except_pass.html",
+      "test_id": "B110",
+      "test_name": "try_except_pass"
+    }
+  ]
 }

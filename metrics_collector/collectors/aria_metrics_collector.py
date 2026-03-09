@@ -282,14 +282,31 @@ class ARIA_MetricsCollector:
                 "error": "psutil not available",
             }
 
-        data = {
-            "memory_usage_mb": psutil.virtual_memory().used / 1024 / 1024,
-            # interval=0.0 utilise la dernière mesure sans blocage
-            "cpu_percent": psutil.cpu_percent(interval=0.0),
-            "disk_usage_percent": psutil.disk_usage("/").percent,
-            # len(psutil.pids()) peut être coûteux; on le met en cache via TTL
-            "process_count": len(psutil.pids()),
+        # Construction robuste des métriques, en gérant les permissions limitées
+        memory_usage_mb = psutil.virtual_memory().used / 1024 / 1024
+        cpu_percent = psutil.cpu_percent(interval=0.0)  # utilise la dernière mesure
+        disk_usage_percent = psutil.disk_usage("/").percent
+
+        process_count = 0
+        process_error: str | None = None
+        try:
+            # len(psutil.pids()) peut être coûteux et peut lever PermissionError
+            process_count = len(psutil.pids())
+        except PermissionError as e:
+            process_error = "permission_denied"
+            logger.warning(f"Impossible de lire le nombre de processus: {e}")
+        except Exception as e:  # pragma: no cover - cas rare
+            process_error = "unknown_error"
+            logger.warning(f"Erreur lors de la collecte du nombre de processus: {e}")
+
+        data: dict[str, Any] = {
+            "memory_usage_mb": memory_usage_mb,
+            "cpu_percent": cpu_percent,
+            "disk_usage_percent": disk_usage_percent,
+            "process_count": process_count,
         }
+        if process_error is not None:
+            data["process_count_error"] = process_error
 
         self._perf_cache = {"ts": now, "data": data}
         return data

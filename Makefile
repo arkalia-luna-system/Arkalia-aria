@@ -22,16 +22,16 @@ help: ## Afficher l'aide
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(YELLOW)%-20s$(NC) %s\n", $$1, $$2}'
 
 install: ## Installer les dépendances de base
-    @echo "$(GREEN)Installation des dépendances de base...$(NC)"
-    $(PIP_VENV) install -r requirements.txt
-    $(PIP_VENV) install -e .
+	@echo "$(GREEN)Installation des dépendances de base...$(NC)"
+	$(PIP_VENV) install -r requirements.txt
+	$(PIP_VENV) install -e .
 
 install-dev: ## Installer les dépendances de développement
-    @echo "$(GREEN)Installation des dépendances de développement...$(NC)"
-    $(PIP_VENV) install -r requirements.txt
-    $(PIP_VENV) install -e ".[dev]"
-    $(PIP_VENV) install pre-commit
-    pre-commit install
+	@echo "$(GREEN)Installation des dépendances de développement...$(NC)"
+	$(PIP_VENV) install -r requirements.txt
+	$(PIP_VENV) install -e ".[dev]"
+	$(PIP_VENV) install pre-commit
+	pre-commit install
 
 test: ## Lancer les tests
 	@echo "$(GREEN)Lancement des tests...$(NC)"
@@ -51,9 +51,9 @@ lint: ## Lancer le linting
 	mypy . --ignore-missing-imports || true
 
 format: ## Formater le code
-    @echo "$(GREEN)Formatage du code...$(NC)"
-    ruff check . --fix
-    black .
+	@echo "$(GREEN)Formatage du code...$(NC)"
+	ruff check . --fix
+	black .
 
 format-check: ## Vérifier le formatage sans modifier
 	@echo "$(GREEN)Vérification du formatage...$(NC)"

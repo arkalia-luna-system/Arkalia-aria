@@ -191,6 +191,8 @@ class BBIAIntegration:
                     "success": False,
                     "mode": "error",
                     "error": f"Erreur BBIA: {response.status_code}",
+                    # Toujours renvoyer l'état émotionnel utilisé, même en cas d'erreur HTTP
+                    "emotional_state": emotional_state,
                 }
         except Exception as e:
             logger.warning(f"⚠️ Erreur communication BBIA: {e}")

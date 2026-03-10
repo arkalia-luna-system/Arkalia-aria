@@ -145,8 +145,15 @@ class AudioTranscriber:
                 # Nettoyer fichier temporaire
                 try:
                     os.unlink(tmp_path)
-                except Exception:
+                except FileNotFoundError:
+                    # Le fichier a déjà été supprimé, on peut ignorer
                     pass
+                except OSError as exc:
+                    logger.warning(
+                        "Impossible de supprimer le fichier temporaire %s: %s",
+                        tmp_path,
+                        exc,
+                    )
 
         except Exception as e:
             logger.error(f"Erreur transcription base64: {e}")

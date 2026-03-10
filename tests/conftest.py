@@ -6,6 +6,7 @@ Configuration partagée pour tous les tests
 Fixtures et configurations communes pour optimiser les performances des tests.
 """
 
+import logging
 import os
 import tempfile
 from pathlib import Path
@@ -43,8 +44,8 @@ def client(app):
     # Nettoyage automatique
     try:
         client.close()
-    except Exception:
-        pass
+    except Exception as exc:
+        logging.debug("Erreur lors de la fermeture du client de test: %s", exc)
 
 
 @pytest.fixture(scope="function")
@@ -115,25 +116,14 @@ def mock_external_apis():
     for patch_obj in patches:
         try:
             patch_obj.stop()
-        except Exception:
-            pass
+        except Exception as exc:
+            logging.debug("Erreur lors de l'arrêt d'un patch de test: %s", exc)
 
 
 @pytest.fixture(scope="function", autouse=True)
 def clear_cache():
     """Nettoie le cache avant et après chaque test."""
 
-    # Nettoyer avant le test
-    try:
-        # Si un cache global existe, le nettoyer
-        pass
-    except Exception:
-        pass
-
+    # Nettoyer avant le test (placeholder pour logique future)
     yield
-
-    # Nettoyer après le test
-    try:
-        pass
-    except Exception:
-        pass
+    # Nettoyer après le test (placeholder pour logique future)

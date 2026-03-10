@@ -1,6 +1,14 @@
 {
   "errors": [
     {
+      "filename": "./ai/._ollama_integration.py",
+      "reason": "syntax error while parsing AST from file"
+    },
+    {
+      "filename": "./audio_voice/._transcription.py",
+      "reason": "syntax error while parsing AST from file"
+    },
+    {
       "filename": "./tests/._conftest.py",
       "reason": "syntax error while parsing AST from file"
     },
@@ -25,8 +33,13 @@
       "reason": "syntax error while parsing AST from file"
     }
   ],
-  "generated_at": "2026-03-09T18:24:45Z",
+  "generated_at": "2026-03-10T15:22:22Z",
   "metrics": {
+    "./ai/._ollama_integration.py": {
+      "loc": 1,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
     "./ai/__init__.py": {
       "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
@@ -67,15 +80,15 @@
       "skipped_tests": 0
     },
     "./ai/ollama_integration.py": {
-      "CONFIDENCE.HIGH": 1,
+      "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
       "CONFIDENCE.MEDIUM": 0,
       "CONFIDENCE.UNDEFINED": 0,
       "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 1,
+      "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 206,
+      "loc": 208,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -118,6 +131,11 @@
       "nosec": 0,
       "skipped_tests": 0
     },
+    "./audio_voice/._transcription.py": {
+      "loc": 1,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
     "./audio_voice/__init__.py": {
       "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
@@ -145,15 +163,15 @@
       "skipped_tests": 0
     },
     "./audio_voice/transcription.py": {
-      "CONFIDENCE.HIGH": 1,
+      "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
       "CONFIDENCE.MEDIUM": 0,
       "CONFIDENCE.UNDEFINED": 0,
       "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 1,
+      "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 144,
+      "loc": 150,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1034,15 +1052,15 @@
       "skipped_tests": 0
     },
     "./tests/conftest.py": {
-      "CONFIDENCE.HIGH": 4,
+      "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
       "CONFIDENCE.MEDIUM": 0,
       "CONFIDENCE.UNDEFINED": 0,
       "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 4,
+      "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 91,
+      "loc": 88,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1236,7 +1254,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 81,
+      "loc": 86,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -1735,145 +1753,18 @@
       "skipped_tests": 0
     },
     "_totals": {
-      "CONFIDENCE.HIGH": 6,
+      "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
       "CONFIDENCE.MEDIUM": 0,
       "CONFIDENCE.UNDEFINED": 0,
       "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 6,
+      "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 24353,
+      "loc": 24365,
       "nosec": 0,
       "skipped_tests": 16
     }
   },
-  "results": [
-    {
-      "code": "207                 models = [model.get(\"name\", \"\") for model in response.get(\"models\", [])]\n208             except Exception:\n209                 pass\n210 \n",
-      "col_offset": 12,
-      "end_col_offset": 20,
-      "filename": "./ai/ollama_integration.py",
-      "issue_confidence": "HIGH",
-      "issue_cwe": {
-        "id": 703,
-        "link": "https://cwe.mitre.org/data/definitions/703.html"
-      },
-      "issue_severity": "LOW",
-      "issue_text": "Try, Except, Pass detected.",
-      "line_number": 208,
-      "line_range": [
-        208,
-        209
-      ],
-      "more_info": "https://bandit.readthedocs.io/en/1.8.6/plugins/b110_try_except_pass.html",
-      "test_id": "B110",
-      "test_name": "try_except_pass"
-    },
-    {
-      "code": "147                     os.unlink(tmp_path)\n148                 except Exception:\n149                     pass\n150 \n",
-      "col_offset": 16,
-      "end_col_offset": 24,
-      "filename": "./audio_voice/transcription.py",
-      "issue_confidence": "HIGH",
-      "issue_cwe": {
-        "id": 703,
-        "link": "https://cwe.mitre.org/data/definitions/703.html"
-      },
-      "issue_severity": "LOW",
-      "issue_text": "Try, Except, Pass detected.",
-      "line_number": 148,
-      "line_range": [
-        148,
-        149
-      ],
-      "more_info": "https://bandit.readthedocs.io/en/1.8.6/plugins/b110_try_except_pass.html",
-      "test_id": "B110",
-      "test_name": "try_except_pass"
-    },
-    {
-      "code": "45         client.close()\n46     except Exception:\n47         pass\n48 \n",
-      "col_offset": 4,
-      "end_col_offset": 12,
-      "filename": "./tests/conftest.py",
-      "issue_confidence": "HIGH",
-      "issue_cwe": {
-        "id": 703,
-        "link": "https://cwe.mitre.org/data/definitions/703.html"
-      },
-      "issue_severity": "LOW",
-      "issue_text": "Try, Except, Pass detected.",
-      "line_number": 46,
-      "line_range": [
-        46,
-        47
-      ],
-      "more_info": "https://bandit.readthedocs.io/en/1.8.6/plugins/b110_try_except_pass.html",
-      "test_id": "B110",
-      "test_name": "try_except_pass"
-    },
-    {
-      "code": "111             patch_obj.stop()\n112         except Exception:\n113             pass\n114 \n",
-      "col_offset": 8,
-      "end_col_offset": 16,
-      "filename": "./tests/conftest.py",
-      "issue_confidence": "HIGH",
-      "issue_cwe": {
-        "id": 703,
-        "link": "https://cwe.mitre.org/data/definitions/703.html"
-      },
-      "issue_severity": "LOW",
-      "issue_text": "Try, Except, Pass detected.",
-      "line_number": 112,
-      "line_range": [
-        112,
-        113
-      ],
-      "more_info": "https://bandit.readthedocs.io/en/1.8.6/plugins/b110_try_except_pass.html",
-      "test_id": "B110",
-      "test_name": "try_except_pass"
-    },
-    {
-      "code": "123         pass\n124     except Exception:\n125         pass\n126 \n",
-      "col_offset": 4,
-      "end_col_offset": 12,
-      "filename": "./tests/conftest.py",
-      "issue_confidence": "HIGH",
-      "issue_cwe": {
-        "id": 703,
-        "link": "https://cwe.mitre.org/data/definitions/703.html"
-      },
-      "issue_severity": "LOW",
-      "issue_text": "Try, Except, Pass detected.",
-      "line_number": 124,
-      "line_range": [
-        124,
-        125
-      ],
-      "more_info": "https://bandit.readthedocs.io/en/1.8.6/plugins/b110_try_except_pass.html",
-      "test_id": "B110",
-      "test_name": "try_except_pass"
-    },
-    {
-      "code": "131         pass\n132     except Exception:\n133         pass\n",
-      "col_offset": 4,
-      "end_col_offset": 12,
-      "filename": "./tests/conftest.py",
-      "issue_confidence": "HIGH",
-      "issue_cwe": {
-        "id": 703,
-        "link": "https://cwe.mitre.org/data/definitions/703.html"
-      },
-      "issue_severity": "LOW",
-      "issue_text": "Try, Except, Pass detected.",
-      "line_number": 132,
-      "line_range": [
-        132,
-        133
-      ],
-      "more_info": "https://bandit.readthedocs.io/en/1.8.6/plugins/b110_try_except_pass.html",
-      "test_id": "B110",
-      "test_name": "try_except_pass"
-    }
-  ]
+  "results": []
 }

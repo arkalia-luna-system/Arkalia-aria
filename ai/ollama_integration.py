@@ -200,13 +200,15 @@ class OllamaManager:
         Returns:
             Dictionnaire avec statut et informations
         """
-        models = []
+        models: list[str] = []
         if self.ollama_available and self.is_connected:
             try:
                 response = ollama.list()
                 models = [model.get("name", "") for model in response.get("models", [])]
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.debug(
+                    "Impossible de récupérer la liste des modèles Ollama: %s", exc
+                )
 
         return {
             "ollama_available": self.ollama_available,

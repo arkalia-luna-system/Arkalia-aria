@@ -61,7 +61,13 @@ def mock_redis():
     """Mock Redis pour tous les tests (désactivé par défaut)."""
     from unittest.mock import patch
 
-    # Désactiver Redis pour tous les tests pour éviter les connexions réseau
+    # Laisser les tests unitaires de RedisCacheManager gérer eux-mêmes le comportement
+    current_test = os.getenv("PYTEST_CURRENT_TEST", "")
+    if "test_redis_cache" in current_test:
+        yield None
+        return
+
+    # Désactiver Redis pour tous les autres tests pour éviter les connexions réseau
     with patch("core.cache.RedisCacheManager._init_redis") as mock:
         # Ne pas initialiser Redis
         def noop_init(self):

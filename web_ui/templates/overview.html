@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-header">
+    <h2>Vue d'ensemble</h2>
+    <p>Résumé rapide de votre journal de douleur : intensité moyenne, déclencheurs fréquents et actions les plus efficaces.</p>
+</section>
+
+<section class="three-columns">
+    <div class="card">
+        <h3><i class="fas fa-signal"></i> Statistiques générales</h3>
+        <ul class="stats-list" id="stats-basic">
+            <li class="muted">Chargement…</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3><i class="fas fa-bullseye"></i> Déclencheurs principaux</h3>
+        <ul class="stats-list" id="stats-triggers">
+            <li class="muted">Chargement…</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3><i class="fas fa-hand-holding-heart"></i> Actions les plus efficaces</h3>
+        <ul class="stats-list" id="stats-actions">
+            <li class="muted">Chargement…</li>
+        </ul>
+    </div>
+</section>
+
+<section class="card">
+    <h3><i class="fas fa-clock"></i> Pics horaires de douleur</h3>
+    <p class="muted">Heures où la douleur apparaît le plus souvent.</p>
+    <canvas id="hoursChart" height="120"></canvas>
+</section>
+
+<section class="card">
+    <h3><i class="fas fa-wave-square"></i> Intensité récente (30 dernières entrées)</h3>
+    <p class="muted">Vue rapide de l’évolution récente de votre douleur.</p>
+    <canvas id="recentChart" height="160"></canvas>
+</section>
+
+<script>
+async function loadOverview() {
+    const basicEl = document.getElementById('stats-basic');
+    const trigEl = document.getElementById('stats-triggers');
+    const actEl = document.getElementById('stats-actions');
+    try {
+        const resp = await fetch('/api/pain/summary');
+        if (!resp.ok) {
+            const msg = '<li class="error">Impossible de charger le résumé.</li>';
+            basicEl.innerHTML = trigEl.innerHTML = actEl.innerHTML = msg;
+            return;
+        }
+        const data = await resp.json();
+        const stats = data.stats || data || {};
+
+        basicEl.innerHTML = '';
+        basicEl.insertAdjacentHTML('beforeend',
+            `<li><strong>${stats.entries_count ?? 0}</strong> entrées enregistrées</li>`);
+        basicEl.insertAdjacentHTML('beforeend',
+            `<li>Intensité moyenne : <strong>${stats.avg_intensity ?? 0}</strong> / 10</li>`);
+
+        trigEl.innerHTML = '';
+        if (stats.top_triggers && stats.top_triggers.length) {
+            stats.top_triggers.forEach(t => {
+                trigEl.insertAdjacentHTML('beforeend',
+                    `<li>${t.trigger} <span class="pill">${t.count}×</span></li>`);
+            });
+        } else {
+            trigEl.innerHTML = '<li class="muted">Pas encore assez de données.</li>';
+        }
+
+        actEl.innerHTML = '';
+        if (stats.best_actions && stats.best_actions.length) {
+            stats.best_actions.forEach(a => {
+                actEl.insertAdjacentHTML('beforeend',
+                    `<li>${a.action} <span class="pill">effet ${a.avg_effectiveness}/10 • ${a.samples} essais</span></li>`);
+            });
+        } else {
+            actEl.innerHTML = '<li class="muted">Pas encore assez de données.</li>';
+        }
+
+        // Graphe des pics horaires
+        const hoursCtx = document.getElementById('hoursChart').getContext('2d');
+        const hours = (stats.time_peaks || []).map(h => `${h.hour}h`);
+        const counts = (stats.time_peaks || []).map(h => h.count);
+        if (window.hoursChart) {
+            window.hoursChart.destroy();
+        }
+        window.hoursChart = new Chart(hoursCtx, {
+            type: 'bar',
+            data: {
+                labels: hours,
+                datasets: [{
+                    label: 'Nombre d’entrées',
+                    data: counts,
+                    backgroundColor: 'rgba(56,189,248,0.35)',
+                    borderColor: 'rgba(56,189,248,1)',
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { beginAtZero: true, ticks: { precision: 0 } }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+    } catch (err) {
+        const msg = '<li class="error">Erreur réseau lors du chargement.</li>';
+        basicEl.innerHTML = trigEl.innerHTML = actEl.innerHTML = msg;
+    }
+}
+
+async function loadRecentChart() {
+    const ctx = document.getElementById('recentChart').getContext('2d');
+    try {
+        const resp = await fetch('/api/pain/entries/recent?limit=30');
+        if (!resp.ok) {
+            return;
+        }
+        const entries = await resp.json();
+        if (!Array.isArray(entries) || !entries.length) {
+            return;
+        }
+        const labels = entries.map(e => (e.timestamp || '').split('T')[0]).reverse();
+        const data = entries.map(e => e.intensity).reverse();
+        if (window.recentChart) {
+            window.recentChart.destroy();
+        }
+        window.recentChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Intensité',
+                    data,
+                    borderColor: 'rgba(56,189,248,1)',
+                    backgroundColor: 'rgba(56,189,248,0.15)',
+                    tension: 0.25,
+                    fill: true,
+                    pointRadius: 2,
+                    pointHoverRadius: 4
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        suggestedMax: 10
+                    }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+    } catch (err) {
+        // silencieux : le reste de la page reste utile
+    }
+}
+
+// Charger les données
+loadOverview();
+loadRecentChart();
+</script>
+{% endblock %}
+

@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-header">
+    <h2>Journal de douleur</h2>
+    <p>3 questions essentielles pour capturer un épisode de douleur en moins de 30 secondes.</p>
+</section>
+
+<section class="two-columns">
+    <div class="column">
+        <form id="journal-form" class="form-card">
+            <div class="form-group">
+                <label for="intensity">Intensité (0–10)</label>
+                <input type="number" id="intensity" name="intensity" min="0" max="10" required value="5">
+            </div>
+
+            <div class="form-group">
+                <label for="location">Localisation</label>
+                <input type="text" id="location" name="location" placeholder="Tête, dos, genou…">
+            </div>
+
+            <div class="form-group">
+                <label for="physical_trigger">Déclencheur principal</label>
+                <input type="text" id="physical_trigger" name="physical_trigger" placeholder="Stress, manque de sommeil, posture…">
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Notes (facultatif)</label>
+                <textarea id="notes" name="notes" rows="3" placeholder="Détails importants, contexte, ce que vous ressentez…"></textarea>
+            </div>
+
+            <button type="submit" class="btn primary full-width">
+                <i class="fas fa-save"></i>
+                Enregistrer l'entrée
+            </button>
+
+            <p id="journal-message" class="form-message"></p>
+        </form>
+    </div>
+
+    <div class="column">
+        <div class="card">
+            <h3>Dernières entrées</h3>
+            <p class="muted">Les 5 dernières entrées enregistrées.</p>
+            <div id="recent-entries" class="entries-list">
+                <p class="muted">Chargement…</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+async function loadRecentEntries() {
+    const container = document.getElementById('recent-entries');
+    try {
+        const resp = await fetch('/api/pain/entries?limit=5');
+        if (!resp.ok) {
+            container.innerHTML = '<p class="error">Impossible de charger les entrées.</p>';
+            return;
+        }
+        const data = await resp.json();
+        if (!data.entries || !data.entries.length) {
+            container.innerHTML = '<p class="muted">Aucune entrée pour le moment.</p>';
+            return;
+        }
+        container.innerHTML = '';
+        data.entries.forEach(e => {
+            const div = document.createElement('div');
+            div.className = 'entry-item';
+            const date = e.timestamp?.split('T')[0] ?? '';
+            div.innerHTML = `
+                <div class="entry-header">
+                    <span class="entry-date">${date}</span>
+                    <span class="entry-intensity">Intensité ${e.intensity}</span>
+                </div>
+                <div class="entry-body">
+                    <div>${e.location || 'Localisation inconnue'}</div>
+                    <div class="muted">${e.physical_trigger || ''}</div>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    } catch (err) {
+        container.innerHTML = '<p class="error">Erreur réseau lors du chargement.</p>';
+    }
+}
+
+document.getElementById('journal-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = document.getElementById('journal-message');
+    msg.textContent = '';
+    const payload = {
+        intensity: Number(document.getElementById('intensity').value),
+        location: document.getElementById('location').value || null,
+        physical_trigger: document.getElementById('physical_trigger').value || null,
+        mental_trigger: null,
+        activity: null,
+        action_taken: null,
+        effectiveness: null,
+        notes: document.getElementById('notes').value || null,
+        who_present: null,
+        interactions: null,
+        emotions: null,
+        thoughts: null,
+        physical_symptoms: null,
+        timestamp: null
+    };
+    try {
+        const resp = await fetch('/api/pain/entries', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+        });
+        if (!resp.ok) {
+            msg.textContent = "Erreur lors de l'enregistrement.";
+            msg.className = 'form-message error';
+            return;
+        }
+        msg.textContent = "Entrée enregistrée avec succès.";
+        msg.className = 'form-message success';
+        document.getElementById('notes').value = '';
+        loadRecentEntries();
+    } catch (err) {
+        msg.textContent = "Erreur réseau lors de l'enregistrement.";
+        msg.className = 'form-message error';
+    }
+});
+
+loadRecentEntries();
+</script>
+{% endblock %}
+

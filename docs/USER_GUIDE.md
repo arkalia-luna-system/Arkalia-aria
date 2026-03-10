@@ -45,11 +45,18 @@ ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intell
 
 ### Installation Web
 
-1. Clonez le repository : `git clone <https://github.com/arkalia-luna-system/arkalia-aria.git`>
-2. Installez les dépendances : `pip install -r requirements.txt`
-3. Lancez l'application : `python main.py`
-4. Accédez à <http://localhost:8000/dashboard>
-5. Configurez vos connecteurs de santé
+1. Clonez le repository : `git clone https://github.com/arkalia-luna-system/arkalia-aria.git`
+2. (Recommandé) Créez un environnement virtuel dédié à ARIA :
+
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # sous Windows: .venv\Scripts\activate
+   ```
+
+3. Installez les dépendances : `pip install -r requirements.txt`
+4. Lancez l'application : `./start_aria.sh` (ou `python main.py` pour un démarrage manuel)
+5. Accédez à l'interface patient : <http://127.0.0.1:8001/app>
+6. (Optionnel) Accédez au dashboard métriques avancé si activé : <http://127.0.0.1:8001/dashboard>
 
 ### Installation Mobile
 
@@ -71,15 +78,24 @@ ARKALIA ARIA est une plateforme complète de recherche et d'assistance en intell
 
 ## Interface Utilisateur
 
-### Dashboard Web
+### Interface Web (patient)
 
-#### Navigation Principale
+#### Navigation Principale (`/app`)
 
-- **Accueil** : Vue d'ensemble des métriques
+- **Accueil** : Présentation générale et accès rapide aux actions principales
+- **Journal** : Saisie rapide des épisodes de douleur
+- **Vue d'ensemble** : Statistiques de base (intensité moyenne, déclencheurs, actions efficaces, pics horaires)
+- **Consultation** : Aide à la préparation de rendez-vous (génération de rapport)
+
+### Dashboard Web (métriques avancées)
+
+#### Navigation Principale (si activé)
+
+- **Accueil** : Vue d'ensemble des métriques du projet
 - **Santé** : Données de santé détaillées
 - **Douleur** : Suivi et analyse de la douleur
 - **Patterns** : Visualisation des tendances
-- **Rapports** : Génération de rapports
+- **Rapports** : Génération de rapports techniques
 
 #### Fonctionnalités Clés
 

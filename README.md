@@ -492,28 +492,33 @@ ARIA fait partie de l'écosystème **Arkalia Luna System**, un ensemble de proje
 
 ## Démarrage rapide
 
-### ⚡ **5 minutes pour tester ARIA**
+### ⚡ **5 minutes pour tester ARIA (recommandé)**
 
 ```bash
 # 1. Cloner le projet
 git clone https://github.com/arkalia-luna-system/arkalia-aria.git
 cd arkalia-aria
 
-# 2. Installer les dépendances
-pip install -r requirements.txt
+# 2. (Optionnel mais recommandé) Créer un environnement virtuel
+python -m venv .venv
+source .venv/bin/activate  # sous Windows: .venv\Scripts\activate
 
-# 3. Lancer ARIA
-python main.py
+# 3. Lancer ARIA via le script simple
+./start_aria.sh
 ```
 
-L'application démarre sur `http://localhost:8000`
+L'application démarre sur `http://127.0.0.1:8001/app`.
+
+> **Note** : si vous avez déjà d'autres projets Python installés (par ex. `mobile-base-sdk`, `reachy-mini`),  
+> `pip` peut afficher des **avertissements de conflit de dépendances**.  
+> Avec un environnement virtuel dédié à ARIA, ces conflits disparaissent et n'impactent pas ARIA.
 
 ### Premiers pas
 
-1. **Ouvrir votre navigateur** : `http://localhost:8000`
-2. **Noter votre première douleur** : Cliquer sur "Saisie rapide" (3 questions, 30 secondes)
-3. **Explorer le dashboard** : Observer vos données s'afficher en temps réel
-4. **Activer le mode sombre** : Cliquer sur l'icône lune 🌙 dans l'en-tête
+1. **Ouvrir votre navigateur** : `http://127.0.0.1:8001/app`
+2. **Noter votre première douleur** : Ouvrir l'onglet `Journal` (3 questions, 30 secondes)
+3. **Explorer vos patterns** : Ouvrir la page `Vue d'ensemble`
+4. **Préparer une consultation** : Ouvrir la page `Consultation` et générer un rapport
 
 ### Installation complète
 

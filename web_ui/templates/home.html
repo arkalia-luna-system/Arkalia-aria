@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-main">
+        <h2>Bienvenue dans votre laboratoire personnel de recherche santé</h2>
+        <p class="hero-text">
+            Suivez votre douleur, vos déclencheurs et vos patterns au quotidien.
+            Toutes vos données restent locales, sous votre contrôle.
+        </p>
+        <div class="hero-actions">
+            <a href="/app/journal" class="btn primary">
+                <i class="fas fa-pen"></i>
+                Noter une douleur (30 secondes)
+            </a>
+            <a href="/app/overview" class="btn secondary">
+                <i class="fas fa-chart-line"></i>
+                Voir mes patterns
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="cards-grid">
+    <article class="card">
+        <h3><i class="fas fa-book-medical"></i> Journal de douleur</h3>
+        <p>Enregistrez rapidement vos épisodes de douleur avec intensité, localisation, déclencheurs et notes.</p>
+        <a href="/app/journal" class="card-link">Ouvrir le journal</a>
+    </article>
+
+    <article class="card">
+        <h3><i class="fas fa-brain"></i> Patterns & corrélations</h3>
+        <p>Identifiez vos déclencheurs récurrents et les actions qui fonctionnent le mieux pour vous.</p>
+        <a href="/app/overview" class="card-link">Explorer mes patterns</a>
+    </article>
+
+    <article class="card">
+        <h3><i class="fas fa-file-medical-alt"></i> Préparer une consultation</h3>
+        <p>Générez rapidement un rapport structuré pour votre médecin ou psychologue.</p>
+        <a href="/app/exports" class="card-link">Préparer un rapport</a>
+    </article>
+</section>
+{% endblock %}
+

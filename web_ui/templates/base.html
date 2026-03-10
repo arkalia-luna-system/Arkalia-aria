@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - ARKALIA ARIA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/web-static/webui.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="aria-header">
+        <div class="aria-header-left">
+            <h1 class="aria-logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>ARKALIA ARIA</span>
+            </h1>
+            <span class="aria-tagline">Laboratoire personnel de recherche santé</span>
+        </div>
+        <nav class="aria-nav">
+            <a href="/app" class="nav-link">Accueil</a>
+            <a href="/app/journal" class="nav-link">Journal</a>
+            <a href="/app/overview" class="nav-link">Vue d'ensemble</a>
+            <a href="/app/exports" class="nav-link">Consultation</a>
+        </nav>
+    </header>
+
+    <main class="aria-main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="aria-footer">
+        <span>ARKALIA ARIA • 100% local • Données sous votre contrôle</span>
+    </footer>
+
+    <script>
+        // Marquage simple du lien actif
+        (function () {
+            const links = document.querySelectorAll('.aria-nav .nav-link');
+            const path = window.location.pathname;
+            links.forEach(link => {
+                if (path === '/' && link.getAttribute('href') === '/app') {
+                    link.classList.add('active');
+                } else if (path.startsWith(link.getAttribute('href'))) {
+                    link.classList.add('active');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
+

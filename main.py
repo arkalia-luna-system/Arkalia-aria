@@ -14,6 +14,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 # Imports des modules
 from ai.api import router as ai_router
@@ -29,6 +30,7 @@ from pain_tracking.api import router as pain_router
 from pattern_analysis.api import router as pattern_router
 from prediction_engine.api import router as prediction_router
 from research_tools.api import router as research_router
+from web_ui.router import router as webui_router
 
 # Configuration du logger
 logger = logging.getLogger(__name__)
@@ -69,7 +71,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Montage des routers
+# Montage des routers API
 app.include_router(pain_router, prefix="/api/pain", tags=["Pain Tracking"])
 app.include_router(pattern_router, prefix="/api/patterns", tags=["Pattern Analysis"])
 app.include_router(
@@ -84,6 +86,14 @@ app.include_router(alerts_router, tags=["Alerts"])
 # Router de compatibilité CIA (endpoints attendus par CIA)
 app.include_router(cia_compat_router, tags=["CIA Compatibility"])
 # watch_router supprimé - doublon de health_connectors
+
+# Interface web minimale centrée patient
+app.include_router(webui_router)
+
+# Fichiers statiques pour le Web UI (CSS) - chemin dédié pour éviter les conflits
+static_dir = Path(__file__).parent / "web_ui" / "static"
+if static_dir.exists():
+    app.mount("/web-static", StaticFiles(directory=str(static_dir)), name="web_static")
 
 # Intégration des connecteurs santé
 try:
@@ -104,13 +114,16 @@ if os.getenv("ARIA_ENABLE_METRICS", "false").lower() == "true":
 else:
     logger.info("ℹ️ Système de métriques désactivé (ARIA_ENABLE_METRICS=false)")
 
-# Intégration du système DevOps
-try:
-    devops_api = ARIA_DevOpsAPI(".")
-    devops_api.integrate_with_app(app)
-    logger.info("✅ Système DevOps intégré")
-except Exception as e:
-    logger.warning(f"⚠️ DevOps désactivé: {e}")
+# Intégration du système DevOps (désactivé par défaut pour la sécurité)
+if os.getenv("ARIA_ENABLE_DEVOPS", "false").lower() == "true":
+    try:
+        devops_api = ARIA_DevOpsAPI(".")
+        devops_api.integrate_with_app(app)
+        logger.info("✅ Système DevOps intégré")
+    except Exception as e:
+        logger.warning(f"⚠️ DevOps désactivé: {e}")
+else:
+    logger.info("ℹ️ Système DevOps désactivé (ARIA_ENABLE_DEVOPS=false)")
 
 # Activation automatique de la synchronisation CIA si configurée
 if os.getenv("ARIA_CIA_SYNC_ENABLED", "0").lower() in ("1", "true"):

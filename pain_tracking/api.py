@@ -287,6 +287,17 @@ async def pain_tracking_status() -> dict:
     }
 
 
+@router.get("/summary")
+async def pain_summary() -> dict[str, Any]:
+    """Résumé agrégé des entrées de douleur pour la Vue d'ensemble."""
+    rows = _fetch_all_entries()
+    stats = _compute_basic_stats(rows)
+    return {
+        "stats": stats,
+        "generated_at": datetime.now().isoformat(),
+    }
+
+
 @router.post("/quick-entry", response_model=PainEntryOut)
 async def create_quick_entry(entry: QuickEntry) -> PainEntryOut:
     """Saisie ultra-rapide - 3 questions seulement"""
@@ -517,14 +528,88 @@ async def export_psy_report() -> dict[str, Any]:
   <meta charset=utf-8>
   <title>Rapport Psychologue - ARIA</title>
   <style>
-    body {{ font-family: -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; }}
-    h1, h2 {{ margin: 0 0 8px 0; }}
-    .muted {{ color: #666 }}
-    .grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }}
-    table {{ width: 100%; border-collapse: collapse; margin-top: 12px; }}
-    th, td {{ border: 1px solid #ddd; padding: 6px 8px; font-size: 13px; }}
-    th {{ background: #fafafa; text-align: left; }}
-    ul {{ padding-left: 18px; }}
+    * {{
+      box-sizing: border-box;
+    }}
+    body {{
+      font-family: -apple-system, system-ui, Segoe UI, Roboto, sans-serif;
+      margin: 24px;
+      background: #0b1120;
+      color: #e5e7eb;
+    }}
+    h1, h2, h3 {{
+      margin: 0 0 8px 0;
+      font-weight: 500;
+    }}
+    h1 {{
+      font-size: 22px;
+    }}
+    h2 {{
+      font-size: 16px;
+      margin-top: 16px;
+    }}
+    .muted {{
+      color: #9ca3af;
+      font-size: 13px;
+    }}
+    .grid {{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 8px;
+    }}
+    .card {{
+      border-radius: 12px;
+      border: 1px solid #1e293b;
+      padding: 12px 14px;
+      background: #020617;
+    }}
+    .badge {{
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #1e293b;
+      font-size: 11px;
+      color: #e5e7eb;
+    }}
+    table {{
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 12px;
+    }}
+    th, td {{
+      border: 1px solid #1f2937;
+      padding: 4px 6px;
+      vertical-align: top;
+    }}
+    th {{
+      background: #020617;
+      text-align: left;
+      font-weight: 500;
+      white-space: nowrap;
+    }}
+    ul {{
+      padding-left: 18px;
+      margin: 4px 0 0;
+      font-size: 13px;
+    }}
+    .section {{
+      margin-top: 12px;
+    }}
+    @media print {{
+      body {{
+        background: #ffffff;
+        color: #111827;
+      }}
+      .card {{
+        background: #ffffff;
+        border-color: #d1d5db;
+      }}
+      th, td {{
+        border-color: #d1d5db;
+      }}
+    }}
   </style>
   <meta name=viewport content="width=device-width, initial-scale=1">
   <meta name=generator content="ARIA">
@@ -562,26 +647,31 @@ async def export_psy_report() -> dict[str, Any]:
   <h1>Rapport Psychologue</h1>
   <div class=muted>Généré par ARIA — {datetime.now().strftime('%Y-%m-%d %H:%M')}</div>
 
-  <h2>1. Synthèse</h2>
-  <ul>
-    {li_kv('Nombre d’entrées', str(stats['entries_count']))}
-    {li_kv('Intensité moyenne', str(stats['avg_intensity']))}
-  </ul>
+  <div class="section card">
+    <h2>1. Synthèse clinique</h2>
+    <ul>
+      {li_kv('Nombre d’entrées analysées', str(stats['entries_count']))}
+      {li_kv('Intensité moyenne', str(stats['avg_intensity']))}
+    </ul>
+  </div>
 
-  <div class=grid>
-    <div>
-      <h2>2. Top déclencheurs</h2>
-      <ul>{top_triggers_html or '<li>Aucun</li>'}</ul>
+  <div class="section grid">
+    <div class="card">
+      <h2>2. Déclencheurs principaux</h2>
+      <ul>{top_triggers_html or '<li>Aucun déclencheur clair identifié.</li>'}</ul>
     </div>
-    <div>
+    <div class="card">
       <h2>3. Actions les plus efficaces</h2>
-      <ul>{best_actions_html or '<li>Aucune</li>'}</ul>
+      <ul>{best_actions_html or '<li>Aucune action clairement efficace identifiée.</li>'}</ul>
     </div>
   </div>
 
-  <h2>4. Pics horaires</h2>
-  <ul>{time_peaks_html or '<li>Aucun</li>'}</ul>
+  <div class="section card">
+    <h2>4. Pics horaires</h2>
+    <ul>{time_peaks_html or '<li>Aucun pic horaire net.</li>'}</ul>
+  </div>
 
+  <div class="section">
   <h2>5. Historique détaillé (dern. 200)</h2>
   <table>
     <thead>
@@ -595,6 +685,7 @@ async def export_psy_report() -> dict[str, Any]:
       {''.join(rows_html)}
     </tbody>
   </table>
+  </div>
 </body>
 </html>
 """
@@ -602,6 +693,73 @@ async def export_psy_report() -> dict[str, Any]:
     return {
         "html": html,
         "filename": f"psy_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html",
+        "entries_count": stats["entries_count"],
+    }
+
+
+@router.get("/export/patient-summary")
+async def export_patient_summary() -> dict[str, Any]:
+    """Résumé patient simple (HTML) : intensité moyenne, déclencheurs, actions efficaces."""
+    rows = _fetch_all_entries()
+    stats = _compute_basic_stats(rows)
+
+    def html_escape(s: str) -> str:
+        return (
+            s.replace("&", "&amp;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace('"', "&quot;")
+            .replace("'", "&#39;")
+        )
+
+    top_trigger = stats["top_triggers"][0] if stats["top_triggers"] else None
+    best_action = stats["best_actions"][0] if stats["best_actions"] else None
+
+    summary_lines: list[str] = []
+    summary_lines.append(
+        f"Sur la période analysée, {stats['entries_count']} entrée(s) de douleur ont été enregistrées."
+    )
+    summary_lines.append(
+        f"L'intensité moyenne des épisodes est de {stats['avg_intensity']} / 10."
+    )
+    if top_trigger:
+        summary_lines.append(
+            f"Le déclencheur le plus fréquent est « {top_trigger['trigger']} » "
+            f"({top_trigger['count']} occurrence(s))."
+        )
+    if best_action:
+        summary_lines.append(
+            f"L'action la plus souvent efficace est « {best_action['action']} » "
+            f"(efficacité moyenne {best_action['avg_effectiveness']}/10, "
+            f"{best_action['samples']} essai(s))."
+        )
+
+    html_lines = "".join(f"<p>{html_escape(line)}</p>" for line in summary_lines)
+
+    html = f"""
+<!doctype html>
+<html lang=fr>
+<head>
+  <meta charset=utf-8>
+  <title>Résumé Patient - ARIA</title>
+  <style>
+    body {{ font-family: -apple-system, system-ui, sans-serif; margin: 24px; }}
+    h1 {{ font-size: 22px; margin-bottom: 8px; }}
+    .muted {{ color: #666; font-size: 13px; margin-bottom: 16px; }}
+    p {{ margin: 6px 0; font-size: 14px; }}
+  </style>
+</head>
+<body>
+  <h1>Résumé Patient</h1>
+  <div class="muted">Généré par ARIA — {datetime.now().strftime('%Y-%m-%d %H:%M')}</div>
+  {html_lines}
+</body>
+</html>
+"""
+
+    return {
+        "html": html,
+        "filename": f"patient_summary_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html",
         "entries_count": stats["entries_count"],
     }
 

@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-header">
+    <h2>Préparer une consultation</h2>
+    <p>Générez un rapport structuré à partager avec votre médecin ou psychologue, basé directement sur vos données ARIA.</p>
+</section>
+
+<section class="two-columns">
+    <div class="column">
+        <form id="export-form" class="form-card">
+            <div class="form-group">
+                <label for="type">Type de rapport</label>
+                <select id="type" name="type">
+                    <option value="psy">Rapport psychologue (HTML imprimable)</option>
+                    <option value="summary">Résumé patient (lecture personnelle)</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn primary full-width">
+                <i class="fas fa-file-export"></i>
+                Générer le rapport
+            </button>
+
+            <p id="export-message" class="form-message"></p>
+        </form>
+    </div>
+
+    <div class="column">
+        <div class="card">
+            <h3><i class="fas fa-info-circle"></i> Conseils pour la consultation</h3>
+            <ul class="tips-list">
+                <li>Apportez un rapport couvrant au moins 30 jours de données.</li>
+                <li>Notez vos questions principales à l'avance.</li>
+                <li>Utilisez les sections "déclencheurs" et "actions efficaces" pendant l'échange.</li>
+            </ul>
+            <div id="export-link" class="export-link"></div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.getElementById('export-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = document.getElementById('export-message');
+    const linkContainer = document.getElementById('export-link');
+    msg.textContent = '';
+    linkContainer.innerHTML = '';
+    const type = document.getElementById('type').value;
+    try {
+        if (type === 'psy') {
+            const resp = await fetch('/api/pain/export/psy-report');
+            if (!resp.ok) {
+                msg.textContent = "Impossible de générer le rapport psychologue.";
+                msg.className = 'form-message error';
+                return;
+            }
+            const data = await resp.json();
+            if (!data.html) {
+                msg.textContent = "Réponse invalide de l'API.";
+                msg.className = 'form-message error';
+                return;
+            }
+            const blob = new Blob([data.html], { type: 'text/html;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            const filename = data.filename || 'rapport-psy-aria.html';
+            a.href = url;
+            a.download = filename;
+            a.textContent = "Télécharger le rapport psychologue";
+            a.className = "btn secondary";
+            linkContainer.appendChild(a);
+            msg.textContent = `Rapport psychologue généré (${data.entries_count ?? 0} entrées).`;
+            msg.className = 'form-message success';
+        } else {
+            const resp = await fetch('/api/pain/export/patient-summary');
+            if (!resp.ok) {
+                msg.textContent = "Impossible de générer le résumé patient.";
+                msg.className = 'form-message error';
+                return;
+            }
+            const data = await resp.json();
+            if (!data.html) {
+                msg.textContent = "Réponse invalide de l'API.";
+                msg.className = 'form-message error';
+                return;
+            }
+            const blob = new Blob([data.html], { type: 'text/html;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            const filename = data.filename || 'resume-patient-aria.html';
+            a.href = url;
+            a.download = filename;
+            a.textContent = "Télécharger le résumé patient";
+            a.className = "btn secondary";
+            linkContainer.appendChild(a);
+            msg.textContent = `Résumé patient généré (${data.entries_count ?? 0} entrées).`;
+            msg.className = 'form-message success';
+        }
+    } catch (err) {
+        msg.textContent = "Erreur réseau lors de la génération.";
+        msg.className = 'form-message error';
+    }
+});
+</script>
+{% endblock %}
+

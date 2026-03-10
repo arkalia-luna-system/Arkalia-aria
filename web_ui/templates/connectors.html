@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <h2>Connecteurs Santé</h2>
+        <p>État de la connexion avec Samsung Health, Google Fit et iOS Health, et dernières synchronisations.</p>
+    </div>
+</section>
+
+<section class="three-columns">
+    <div class="card">
+        <h3><i class="fas fa-mobile-alt"></i> Samsung Health</h3>
+        <p class="muted" id="samsung-status-text">Chargement…</p>
+        <ul class="stats-list" id="samsung-errors"></ul>
+        <button class="btn secondary full-width" onclick="syncConnector('samsung_health')">
+            <i class="fas fa-sync"></i> Synchroniser
+        </button>
+    </div>
+    <div class="card">
+        <h3><i class="fab fa-google"></i> Google Fit</h3>
+        <p class="muted" id="google-status-text">Chargement…</p>
+        <ul class="stats-list" id="google-errors"></ul>
+        <button class="btn secondary full-width" onclick="syncConnector('google_fit')">
+            <i class="fas fa-sync"></i> Synchroniser
+        </button>
+    </div>
+    <div class="card">
+        <h3><i class="fab fa-apple"></i> Apple Health</h3>
+        <p class="muted" id="ios-status-text">Chargement…</p>
+        <ul class="stats-list" id="ios-errors"></ul>
+        <button class="btn secondary full-width" onclick="syncConnector('ios_health')">
+            <i class="fas fa-sync"></i> Synchroniser
+        </button>
+    </div>
+</section>
+
+<section class="card">
+    <h3><i class="fas fa-heartbeat"></i> Résumé santé récent (30 jours)</h3>
+    <p class="muted">Moyennes approximatives basées sur les données synchronisées.</p>
+    <ul class="stats-list" id="health-metrics-list">
+        <li class="muted">Chargement…</li>
+    </ul>
+</section>
+
+<script>
+async function loadConnectorsStatus() {
+    try {
+        const resp = await fetch('/health/connectors/status');
+        if (!resp.ok) {
+            const msg = 'Impossible de charger le statut des connecteurs.';
+            document.getElementById('samsung-status-text').textContent = msg;
+            document.getElementById('google-status-text').textContent = msg;
+            document.getElementById('ios-status-text').textContent = msg;
+            return;
+        }
+        const status = await resp.json();
+        updateConnectorCard('samsung_health', status['samsung_health'], 'samsung');
+        updateConnectorCard('google_fit', status['google_fit'], 'google');
+        updateConnectorCard('ios_health', status['ios_health'], 'ios');
+    } catch (err) {
+        const msg = 'Erreur réseau lors du chargement du statut.';
+        document.getElementById('samsung-status-text').textContent = msg;
+        document.getElementById('google-status-text').textContent = msg;
+        document.getElementById('ios-status-text').textContent = msg;
+    }
+}
+
+function updateConnectorCard(name, data, prefix) {
+    const statusEl = document.getElementById(prefix + '-status-text');
+    const errorsEl = document.getElementById(prefix + '-errors');
+    if (!data) {
+        statusEl.textContent = 'Connecteur non configuré.';
+        errorsEl.innerHTML = '';
+        return;
+    }
+    const lastSync = data.last_sync || 'jamais';
+    const statusLabel = data.status || (data.is_connected ? 'connecté' : 'déconnecté');
+    statusEl.textContent = `Statut : ${statusLabel} • Dernière sync : ${lastSync}`;
+    errorsEl.innerHTML = '';
+    if (data.sync_errors && data.sync_errors.length) {
+        data.sync_errors.forEach(e => {
+            errorsEl.insertAdjacentHTML('beforeend', `<li class="error">${e}</li>`);
+        });
+    }
+}
+
+async function syncConnector(name) {
+    const mapping = {
+        'samsung_health': '/health/samsung/sync',
+        'google_fit': '/health/google/sync',
+        'ios_health': '/health/ios/sync',
+    };
+    const url = mapping[name];
+    if (!url) return;
+    try {
+        const resp = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ days_back: 30 })
+        });
+        if (!resp.ok) {
+            alert("Erreur lors de la synchronisation.");
+            return;
+        }
+        const data = await resp.json();
+        alert(data.message || 'Synchronisation effectuée.');
+        loadConnectorsStatus();
+        loadHealthMetrics();
+    } catch (err) {
+        alert("Erreur réseau lors de la synchronisation.");
+    }
+}
+
+async function loadHealthMetrics() {
+    const listEl = document.getElementById('health-metrics-list');
+    try {
+        const [sleepResp, stressResp, activityResp] = await Promise.all([
+            fetch('/health/data/sleep?days_back=30'),
+            fetch('/health/data/stress?days_back=30'),
+            fetch('/health/data/activity?days_back=30'),
+        ]);
+        if (!sleepResp.ok || !stressResp.ok || !activityResp.ok) {
+            listEl.innerHTML = '<li class="error">Impossible de charger les métriques santé.</li>';
+            return;
+        }
+        const sleep = await sleepResp.json();
+        const stress = await stressResp.json();
+        const activity = await activityResp.json();
+
+        let avgSleep = 0;
+        if (Array.isArray(sleep) && sleep.length) {
+            const total = sleep.reduce((acc, s) => acc + (s.duration_hours || 0), 0);
+            avgSleep = total / sleep.length;
+        }
+        let avgStress = 0;
+        if (Array.isArray(stress) && stress.length) {
+            const total = stress.reduce((acc, s) => acc + (s.stress_level || 0), 0);
+            avgStress = total / stress.length;
+        }
+        let avgSteps = 0;
+        if (Array.isArray(activity) && activity.length) {
+            const total = activity.reduce((acc, a) => acc + (a.steps || 0), 0);
+            avgSteps = total / activity.length;
+        }
+
+        listEl.innerHTML = '';
+        listEl.insertAdjacentHTML('beforeend',
+            `<li>Sommeil moyen : <strong>${avgSleep.toFixed(1)} h/nuit</strong></li>`);
+        listEl.insertAdjacentHTML('beforeend',
+            `<li>Niveau de stress moyen : <strong>${avgStress.toFixed(1)} / 10</strong></li>`);
+        listEl.insertAdjacentHTML('beforeend',
+            `<li>Pas moyens par jour : <strong>${Math.round(avgSteps)}</strong></li>`);
+    } catch (err) {
+        listEl.innerHTML = '<li class="error">Erreur réseau lors du chargement des métriques.</li>';
+    }
+}
+
+loadConnectorsStatus();
+loadHealthMetrics();
+</script>
+{% endblock %}
+

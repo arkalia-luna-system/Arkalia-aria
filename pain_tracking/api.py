@@ -4,7 +4,7 @@ Pain Tracking API - Module de suivi de la douleur ARIA
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Any, TypedDict
 
 from fastapi import HTTPException, Query
@@ -137,6 +137,27 @@ def _fetch_all_entries() -> list[dict]:
         return [dict(row) for row in rows]
     except Exception as e:
         logger.error(f"❌ Erreur récupération entrées: {e}")
+        raise
+
+
+def _fetch_entries_since(days: int) -> list[dict]:
+    """Récupère les entrées depuis N jours (inclus)."""
+    _init_tables()
+    try:
+        cutoff = datetime.now() - timedelta(days=max(days, 1))
+        cutoff_iso = cutoff.isoformat()
+        rows = db.execute_query(
+            """
+            SELECT * FROM pain_entries
+            WHERE timestamp >= ?
+            ORDER BY timestamp DESC, id DESC
+            LIMIT 10000
+            """,
+            (cutoff_iso,),
+        )
+        return [dict(row) for row in rows]
+    except Exception as e:
+        logger.error(f"❌ Erreur récupération entrées (window={days}): {e}")
         raise
 
 
@@ -288,13 +309,18 @@ async def pain_tracking_status() -> dict:
 
 
 @router.get("/summary")
-async def pain_summary() -> dict[str, Any]:
-    """Résumé agrégé des entrées de douleur pour la Vue d'ensemble."""
-    rows = _fetch_all_entries()
+async def pain_summary(window: int = 30) -> dict[str, Any]:
+    """Résumé agrégé des entrées de douleur pour la Vue d'ensemble.
+
+    Args:
+        window: nombre de jours récents à analyser (défaut: 30).
+    """
+    rows = _fetch_entries_since(window)
     stats = _compute_basic_stats(rows)
     return {
         "stats": stats,
         "generated_at": datetime.now().isoformat(),
+        "window_days": window,
     }
 
 
@@ -768,7 +794,8 @@ async def export_patient_summary() -> dict[str, Any]:
 async def pain_suggestions(window: int = 30) -> dict[str, Any]:
     """Génère des suggestions intelligentes basées sur des règles simples.
 
-    window: nombre de jours récents à analyser (non strict ici, heuristique simple).
+    Args:
+        window: nombre de jours récents à analyser (défaut: 30).
     """
     # Vérifier le cache (clé basée sur window)
     cache_key = f"pain_suggestions_{window}"
@@ -777,7 +804,7 @@ async def pain_suggestions(window: int = 30) -> dict[str, Any]:
         logger.debug(f"📦 Suggestions depuis cache (window={window})")
         return cached_result
 
-    rows = _fetch_all_entries()
+    rows = _fetch_entries_since(window)
     stats = _compute_basic_stats(rows)
 
     suggestions: list[str] = []

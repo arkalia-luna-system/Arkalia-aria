@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  aria-desktop:
+    build: .
+    container_name: aria-desktop
+    environment:
+      - ARIA_ENV=desktop
+      - ARIA_ENABLE_METRICS=false
+      - ARIA_ENABLE_DEVOPS=false
+      - ARIA_CIA_SYNC_ENABLED=false
+      - ARIA_HEALTH_AUTO_SYNC_ENABLED=false
+      - ARIA_AUTO_REPORTS_ENABLED=false
+      - ARIA_AUTO_EXPORT_ENABLED=false
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    command: >
+      uvicorn main:app --host 0.0.0.0 --port 8001
+    restart: unless-stopped
+

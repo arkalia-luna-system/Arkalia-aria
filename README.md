@@ -513,12 +513,34 @@ L'application démarre sur `http://127.0.0.1:8001/app`.
 > `pip` peut afficher des **avertissements de conflit de dépendances**.  
 > Avec un environnement virtuel dédié à ARIA, ces conflits disparaissent et n'impactent pas ARIA.
 
+#### Windows (PowerShell / CMD)
+
+```bat
+start_aria.bat
+```
+
+L'application démarre également sur `http://127.0.0.1:8001/app`.
+
 ### Premiers pas
 
 1. **Ouvrir votre navigateur** : `http://127.0.0.1:8001/app`
-2. **Noter votre première douleur** : Ouvrir l'onglet `Journal` (3 questions, 30 secondes)
-3. **Explorer vos patterns** : Ouvrir la page `Vue d'ensemble`
-4. **Préparer une consultation** : Ouvrir la page `Consultation` et générer un rapport
+2. (Optionnel) **Si ARIA_WEBUI_PASSWORD est défini** : saisissez votre mot de passe local.
+3. **Noter votre première douleur** : Ouvrir l'onglet `Journal` (3 questions, 30 secondes)
+4. **Explorer vos patterns** : Ouvrir la page `Vue d'ensemble`
+5. **Préparer une consultation** : Ouvrir la page `Consultation` et générer un rapport
+
+#### Option Docker Desktop (ARIA Desktop)
+
+Si vous préférez utiliser Docker Desktop :
+
+```bash
+git clone https://github.com/arkalia-luna-system/arkalia-aria.git
+cd arkalia-aria
+docker compose -f docker-compose.desktop.yml up --build
+```
+
+Puis ouvrez `http://localhost:8001/app`.  
+Cette configuration démarre uniquement ARIA (sans DevOps ni métriques lourdes) et monte vos données dans `./data`.
 
 ### Installation complète
 

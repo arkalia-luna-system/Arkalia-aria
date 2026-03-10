@@ -2,8 +2,18 @@
 
 {% block content %}
 <section class="page-header">
-    <h2>Vue d'ensemble</h2>
-    <p>Résumé rapide de votre journal de douleur : intensité moyenne, déclencheurs fréquents et actions les plus efficaces.</p>
+    <div>
+        <h2>Vue d'ensemble</h2>
+        <p>Résumé rapide de votre journal de douleur : intensité moyenne, déclencheurs fréquents et actions les plus efficaces.</p>
+    </div>
+    <div class="page-controls">
+        <label for="window-select" class="muted">Période</label>
+        <select id="window-select" class="window-select">
+            <option value="7">7 jours</option>
+            <option value="30" selected>30 jours</option>
+            <option value="90">90 jours</option>
+        </select>
+    </div>
 </section>
 
 <section class="three-columns">
@@ -29,6 +39,23 @@
     </div>
 </section>
 
+<section class="three-columns">
+    <div class="card">
+        <h3><i class="fas fa-heartbeat"></i> Risque de crise aujourd'hui</h3>
+        <p class="muted" id="risk-text">Calcul en cours…</p>
+    </div>
+    <div class="card">
+        <h3><i class="fas fa-bed"></i> Santé récente (30 jours)</h3>
+        <ul class="stats-list" id="health-stats">
+            <li class="muted">Chargement…</li>
+        </ul>
+    </div>
+    <div class="card">
+        <h3><i class="fas fa-brain"></i> Coach ARIA</h3>
+        <p class="muted" id="coach-text">Analyse en cours…</p>
+    </div>
+</section>
+
 <section class="card">
     <h3><i class="fas fa-clock"></i> Pics horaires de douleur</h3>
     <p class="muted">Heures où la douleur apparaît le plus souvent.</p>
@@ -37,17 +64,20 @@
 
 <section class="card">
     <h3><i class="fas fa-wave-square"></i> Intensité récente (30 dernières entrées)</h3>
-    <p class="muted">Vue rapide de l’évolution récente de votre douleur.</p>
+    <p class="muted">Vue rapide de l'évolution récente de votre douleur.</p>
     <canvas id="recentChart" height="160"></canvas>
 </section>
 
 <script>
-async function loadOverview() {
+var overviewStats = null;
+let currentWindow = 30;
+
+async function loadOverview(windowDays) {
     const basicEl = document.getElementById('stats-basic');
     const trigEl = document.getElementById('stats-triggers');
     const actEl = document.getElementById('stats-actions');
     try {
-        const resp = await fetch('/api/pain/summary');
+        const resp = await fetch(`/api/pain/summary?window=${encodeURIComponent(windowDays)}`);
         if (!resp.ok) {
             const msg = '<li class="error">Impossible de charger le résumé.</li>';
             basicEl.innerHTML = trigEl.innerHTML = actEl.innerHTML = msg;
@@ -55,10 +85,11 @@ async function loadOverview() {
         }
         const data = await resp.json();
         const stats = data.stats || data || {};
+        overviewStats = stats;
 
         basicEl.innerHTML = '';
         basicEl.insertAdjacentHTML('beforeend',
-            `<li><strong>${stats.entries_count ?? 0}</strong> entrées enregistrées</li>`);
+            `<li><strong>${stats.entries_count ?? 0}</strong> entrées enregistrées sur ${windowDays} jour(s)</li>`);
         basicEl.insertAdjacentHTML('beforeend',
             `<li>Intensité moyenne : <strong>${stats.avg_intensity ?? 0}</strong> / 10</li>`);
 
@@ -81,11 +112,18 @@ async function loadOverview() {
         } else {
             actEl.innerHTML = '<li class="muted">Pas encore assez de données.</li>';
         }
+    } catch (err) {
+        const msg = '<li class="error">Erreur réseau lors du chargement.</li>';
+        basicEl.innerHTML = trigEl.innerHTML = actEl.innerHTML = msg;
+        return;
+    }
 
-        // Graphe des pics horaires
-        const hoursCtx = document.getElementById('hoursChart').getContext('2d');
+    // Graphe des pics horaires — séparé pour ne pas masquer les erreurs API
+    try {
+        const stats = overviewStats || {};
         const hours = (stats.time_peaks || []).map(h => `${h.hour}h`);
         const counts = (stats.time_peaks || []).map(h => h.count);
+        const hoursCtx = document.getElementById('hoursChart').getContext('2d');
         if (window.hoursChart) {
             window.hoursChart.destroy();
         }
@@ -94,7 +132,7 @@ async function loadOverview() {
             data: {
                 labels: hours,
                 datasets: [{
-                    label: 'Nombre d’entrées',
+                    label: "Nombre d'entrées",
                     data: counts,
                     backgroundColor: 'rgba(56,189,248,0.35)',
                     borderColor: 'rgba(56,189,248,1)',
@@ -110,9 +148,8 @@ async function loadOverview() {
                 plugins: { legend: { display: false } }
             }
         });
-    } catch (err) {
-        const msg = '<li class="error">Erreur réseau lors du chargement.</li>';
-        basicEl.innerHTML = trigEl.innerHTML = actEl.innerHTML = msg;
+    } catch (chartErr) {
+        console.warn('Graphe pics horaires non disponible:', chartErr);
     }
 }
 
@@ -137,7 +174,7 @@ async function loadRecentChart() {
             data: {
                 labels,
                 datasets: [{
-                    label: 'Intensité',
+                    label: 'Intensite',
                     data,
                     borderColor: 'rgba(56,189,248,1)',
                     backgroundColor: 'rgba(56,189,248,0.15)',
@@ -158,13 +195,151 @@ async function loadRecentChart() {
             }
         });
     } catch (err) {
-        // silencieux : le reste de la page reste utile
+        console.warn('Graphe intensité récente non disponible:', err);
     }
 }
 
+async function loadSuggestions(windowDays) {
+    const listEl = document.getElementById('suggestions-list');
+    const questionsEl = document.getElementById('questions-list');
+    if (!listEl || !questionsEl) return;
+    try {
+        const resp = await fetch(`/api/pain/suggestions?window=${encodeURIComponent(windowDays)}`);
+        if (!resp.ok) {
+            listEl.innerHTML = '<li class="error">Impossible de charger les suggestions.</li>';
+            questionsEl.textContent = '';
+            return;
+        }
+        const data = await resp.json();
+        const suggestions = data.suggestions || [];
+        const followUps = data.follow_up_questions || [];
+        listEl.innerHTML = '';
+        if (suggestions.length) {
+            suggestions.forEach(text => {
+                listEl.insertAdjacentHTML('beforeend', `<li>${text}</li>`);
+            });
+        } else {
+            listEl.innerHTML = '<li class="muted">Pas encore de suggestions – ajoutez quelques entrées de douleur.</li>';
+        }
+        if (followUps.length) {
+            questionsEl.textContent = 'Questions utiles à discuter : ' + followUps.join(' ');
+        } else {
+            questionsEl.textContent = '';
+        }
+    } catch (err) {
+        listEl.innerHTML = '<li class="error">Erreur réseau lors du chargement des suggestions.</li>';
+        questionsEl.textContent = '';
+    }
+}
+
+async function loadRisk() {
+    const el = document.getElementById('risk-text');
+    if (!el) return;
+    try {
+        const resp = await fetch('/api/predictions/current');
+        if (!resp.ok) {
+            el.textContent = "Impossible de calculer le risque pour le moment.";
+            return;
+        }
+        const data = await resp.json();
+        const level = data.risk_level || 'unknown';
+        const confidence = data.confidence ?? 0;
+        let label = '';
+        if (level === 'high') label = 'élevé';
+        else if (level === 'medium') label = 'modéré';
+        else if (level === 'low') label = 'faible';
+        else if (level === 'very_low') label = 'très faible';
+        else label = 'inconnu';
+        el.textContent = `Risque estimé : ${label} (confiance ${(confidence * 100).toFixed(0)}%).`;
+    } catch (err) {
+        el.textContent = "Erreur lors de la récupération du risque.";
+    }
+}
+
+async function loadHealthStats() {
+    const el = document.getElementById('health-stats');
+    if (!el) return;
+    try {
+        const [sleepResp, stressResp, activityResp] = await Promise.all([
+            fetch('/health/data/sleep?days_back=30'),
+            fetch('/health/data/stress?days_back=30'),
+            fetch('/health/data/activity?days_back=30'),
+        ]);
+        if (!sleepResp.ok || !stressResp.ok || !activityResp.ok) {
+            el.innerHTML = '<li class="muted">Métriques santé indisponibles (connecteurs non configurés ?).</li>';
+            return;
+        }
+        const sleep = await sleepResp.json();
+        const stress = await stressResp.json();
+        const activity = await activityResp.json();
+
+        let avgSleep = 0;
+        if (Array.isArray(sleep) && sleep.length) {
+            const total = sleep.reduce((acc, s) => acc + (s.duration_hours || 0), 0);
+            avgSleep = total / sleep.length;
+        }
+        let avgStress = 0;
+        if (Array.isArray(stress) && stress.length) {
+            const total = stress.reduce((acc, s) => acc + (s.stress_level || 0), 0);
+            avgStress = total / stress.length;
+        }
+        let avgSteps = 0;
+        if (Array.isArray(activity) && activity.length) {
+            const total = activity.reduce((acc, a) => acc + (a.steps || 0), 0);
+            avgSteps = total / activity.length;
+        }
+
+        el.innerHTML = '';
+        el.insertAdjacentHTML('beforeend',
+            `<li>Sommeil moyen : <strong>${avgSleep.toFixed(1)} h/nuit</strong></li>`);
+        el.insertAdjacentHTML('beforeend',
+            `<li>Niveau de stress moyen : <strong>${avgStress.toFixed(1)} / 10</strong></li>`);
+        el.insertAdjacentHTML('beforeend',
+            `<li>Pas moyens par jour : <strong>${Math.round(avgSteps)}</strong></li>`);
+    } catch (err) {
+        el.innerHTML = '<li class="error">Erreur lors du chargement des données santé.</li>';
+    }
+}
+
+async function loadCoach(windowDays) {
+    const el = document.getElementById('coach-text');
+    if (!el) return;
+    try {
+        const resp = await fetch(`/api/pain/suggestions?window=${encodeURIComponent(windowDays)}`);
+        if (!resp.ok) {
+            el.textContent = "Impossible de générer des conseils pour le moment.";
+            return;
+        }
+        const data = await resp.json();
+        const suggestions = data.suggestions || [];
+        if (!suggestions.length) {
+            el.textContent = "Ajoutez quelques entrées de douleur pour que ARIA puisse proposer des pistes.";
+            return;
+        }
+        const shortList = suggestions.slice(0, 2);
+        el.textContent = shortList.join(' ');
+    } catch (err) {
+        el.textContent = "Erreur lors du chargement des conseils.";
+    }
+}
+
+const windowSelect = document.getElementById('window-select');
+if (windowSelect) {
+    currentWindow = parseInt(windowSelect.value, 10) || 30;
+    windowSelect.addEventListener('change', () => {
+        currentWindow = parseInt(windowSelect.value, 10) || 30;
+        loadOverview(currentWindow);
+        loadSuggestions(currentWindow);
+        loadCoach(currentWindow);
+    });
+}
+
 // Charger les données
-loadOverview();
+loadOverview(currentWindow);
 loadRecentChart();
+loadSuggestions(currentWindow);
+loadRisk();
+loadHealthStats();
+loadCoach(currentWindow);
 </script>
 {% endblock %}
-

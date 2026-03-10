@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - ARKALIA ARIA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/web-static/webui.css">
+</head>
+<body>
+    <main class="aria-main" style="max-width: 420px;">
+        <section class="card">
+            <h2 style="margin-bottom: 8px;"><i class="fas fa-lock"></i> Connexion ARIA</h2>
+            <p class="muted">Cette interface est protégée par un mot de passe local.</p>
+            <form method="post" action="/app/login" class="form-card" style="margin-top: 10px;">
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" name="password" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="btn primary full-width">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Se connecter
+                </button>
+                {% if error %}
+                <p class="form-message error">{{ error }}</p>
+                {% endif %}
+            </form>
+            <p class="muted" style="margin-top: 8px; font-size: 12px;">
+                Configurer la variable d'environnement <code>ARIA_WEBUI_PASSWORD</code>
+                pour définir ou modifier ce mot de passe.
+            </p>
+        </section>
+    </main>
+</body>
+</html>
+

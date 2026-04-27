@@ -88,46 +88,16 @@ GET /health
 GET /health/connectors/status
 ```
 
-**Réponse :**
+**Remarque importante** : dans ARIA tel qu'il est aujourd'hui, les connecteurs santé sont **simulés** côté backend (données de test réalistes).  
+Ce endpoint reflète donc l'état du connecteur interne, pas une connexion directe à votre compte Samsung / Google / Apple.
 
-```json
-{
-  "samsung": {
-    "status": "connected",
-    "last_sync": "2024-12-24T17:30:00Z",
-    "data_count": 1250
-  },
-  "google": {
-    "status": "connected",
-    "last_sync": "2024-12-24T17:25:00Z",
-    "data_count": 890
-  },
-  "ios": {
-    "status": "disconnected",
-    "last_sync": null,
-    "data_count": 0
-  }
-}
-
-```
-
-### 🔄 **Synchronisation Samsung Health**
+### 🔄 **Synchronisation Samsung Health (simulée)**
 
 ```http
 POST /health/samsung/sync
 ```
 
-**Réponse :**
-
-```json
-{
-  "success": true,
-  "message": "Synchronisation Samsung Health réussie",
-  "data_synced": 45,
-  "timestamp": "2024-12-24T18:00:00Z"
-}
-
-```
+Dans la version actuelle, cet appel déclenche une **synchronisation simulée** (génération de données réalistes) utilisée pour le développement et la démo.
 
 ### 🔄 **Synchronisation Google Fit**
 

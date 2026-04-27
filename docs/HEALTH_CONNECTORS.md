@@ -23,22 +23,23 @@ Les connecteurs santé d'ARKALIA ARIA permettent la synchronisation des données
 
 - **Appareil** : Montres Samsung (Galaxy Watch)
 - **Données** : Activité, sommeil, fréquence cardiaque
-- **API** : Samsung Health SDK
-- **Statut** : ✅ Implémenté
+- **API ciblée** : Samsung Health SDK
+- **Statut** : ⚠️ **Simulé côté ARIA** – le connecteur génère aujourd'hui des données de test réalistes.  
+  Une intégration réelle nécessite une app compagnon Android qui lit Samsung Health et envoie les données à ARIA.
 
 ### Google Fit
 
 - **Appareil** : Android (S24)
 - **Données** : Activité, calories, distance
-- **API** : Google Fit API
-- **Statut** : ✅ Implémenté
+- **API ciblée** : Google Fit API
+- **Statut** : ⚠️ **Simulé côté ARIA** – même modèle que Samsung : le connecteur est prêt mais ne parle pas encore à l'API réelle.
 
 ### iOS Health
 
-- **Appareil** : iPad
+- **Appareil** : iPad / iPhone
 - **Données** : Santé, activité, sommeil
-- **API** : HealthKit
-- **Statut** : ✅ Implémenté
+- **API ciblée** : HealthKit
+- **Statut** : ⚠️ **Simulé côté ARIA** – intégration réelle à prévoir via une app compagnon iOS.
 
 ---
 

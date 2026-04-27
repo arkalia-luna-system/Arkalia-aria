@@ -27,6 +27,8 @@ ARIA_MAX_REQUEST_SIZE=10485760
 ARIA_CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
 ARIA_REDIS_URL=redis://localhost:6379
 ARIA_SECRET_KEY=your-secret-key-here
+ARIA_WEBUI_PASSWORD=changeme          # Mot de passe local pour l'interface /app (optionnel)
+ARIA_MOBILE_API_KEY=changeme-mobile   # Clé API pour l'app mobile/companion (optionnel)
 
 ```
 
@@ -63,9 +65,11 @@ export ARIA_MAX_REQUEST_SIZE=10485760
 export ARIA_CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
 export ARIA_REDIS_URL=redis://localhost:6379
 export ARIA_SECRET_KEY=dev-secret-key
+export ARIA_WEBUI_PASSWORD=dev-password
+export ARIA_MOBILE_API_KEY=dev-mobile-key
 
 # Lancer en mode développement
-python main.py
+./start_aria.sh
 
 ```
 
